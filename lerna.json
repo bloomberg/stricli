@@ -1,0 +1,13 @@
+{
+    "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+    "packages": ["packages/*"],
+    "ignoreChanges": ["packages/*/tests/**"],
+    "command": {
+        "version": {
+            "message": "chore(release): publish",
+            "exact": true,
+            "conventionalCommits": true,
+            "createRelease": "github"
+        }
+    }
+}

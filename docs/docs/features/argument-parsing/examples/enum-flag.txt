@@ -1,0 +1,26 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  level: "info" | "warn" | "error";
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { level }: Flags) {
+    this.process.stdout.write(`Set logging level to ${level}`);
+  },
+  parameters: {
+    flags: {
+      level: {
+        kind: "enum",
+        values: ["info", "warn", "error"],
+        brief: "Logging severity level",
+      },
+    },
+    aliases: {
+      l: "level",
+    },
+  },
+  docs: {
+    brief: ""
+  },
+});

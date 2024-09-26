@@ -1,0 +1,29 @@
+import { buildCommand, numberParser, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  limit?: number;
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { limit }: Flags) {
+    this.process.stdout.write(limit ? `Set limit to ${limit}` : "No limit");
+  },
+  parameters: {
+    flags: {
+      limit: {
+        kind: "parsed",
+        parse: numberParser,
+        brief: "Upper limit on number of items",
+        optional: true,
+      },
+    },
+  },
+  docs: {
+    brief: "",
+    customUsage: [
+      "",
+      "--limit 1000",
+      "--noQuiet",
+    ],
+  },
+});

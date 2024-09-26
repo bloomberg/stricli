@@ -1,0 +1,69 @@
+---
+sidebar_position: 2
+---
+
+import StricliPlayground from "@site/src/components/StricliPlayground";
+
+# Positional Arguments
+
+All non-flag arguments passed to the CLI are considered in order, parsed, and then passed to the rest arguments of the command. While flags can be parsed or additionally support a variety of [built-in types](flags.mdx#types), all positional arguments must be parsed from strings with a provided parser. These support any strings, but by default any inputs starting with `-` or `--` will be interpreted as [flags](./flags) instead. To escape this behavior, consider using the [argument escape sequence](../configuration#argument-escape-sequence).
+
+## Variadic Limits
+
+Stricli reserves the first argument in the implementation function for [Flags](./flags.mdx) and considers the rest as positional arguments. While it is possible to have overloads or other complex function signatures, Stricli only supports cases where the arguments are either all explicitly specified `(flags, a, b, c) => {}` or a single rest array where all of the elements are the same type `(flags, ...args: T[]) = {}`.
+
+### Tuples
+
+When the function arguments are individually specified, Stricli will infer the types of the parameter definitions.
+
+import TupleArgumentCode from "./examples/tuple-argument.txt";
+
+<StricliPlayground filename="tuple-argument" rootExport="root" appName="run" defaultInput="a b">
+    {TupleArgumentCode}
+</StricliPlayground>
+
+### Homogenous Arrays
+
+The only other supported pattern for command functions matches the flags as the first argument and then the rest of the arguments as a single array with a single type. This element type of the array could be a more complex type depending on the parse function provided.
+
+import ArrayArgumentCode from "./examples/array-argument.txt";
+
+<StricliPlayground filename="array-argument" rootExport="root" appName="run" defaultInput="a b c">
+    {ArrayArgumentCode}
+</StricliPlayground>
+
+#### Bounds
+
+In general TypeScript, it is possible to use a tuple type as the type of a rest parameter. This allows for more complex function signatures to be represented. These [are not supported](#variadic-limits), but Stricli does provide some additional features for homogenous arrays.
+
+The `minimum` and `maximum` bounds can be provided to a parameter, and then Stricli will ensure that any encountered arguments fall within those bounds.
+
+import BoundedArrayArgumentCode from "./examples/bounded-array-argument.txt";
+
+<StricliPlayground filename="bounded-array-argument" rootExport="root" appName="run" defaultInput="12 34 56">
+    {BoundedArrayArgumentCode}
+</StricliPlayground>
+
+## Variants
+
+Most positional arguments support variants, some of which are enforced through type checking.
+
+### Optional
+
+If an argument is optional, or is otherwise possibly `undefined` then it must have `optional: true` in its configuration. This is enforced by TypeScript based on the type of the corresponding property.
+
+import OptionalTupleArgumentCode from "./examples/optional-tuple-argument.txt";
+
+<StricliPlayground filename="optional-tuple-argument" rootExport="root" appName="run" defaultInput="Your Name">
+    {OptionalTupleArgumentCode}
+</StricliPlayground>
+
+### Default
+
+Any argument can specify a default value as a string. This string will be parsed before being passed to the implementation.
+
+import DefaultTupleArgumentCode from "./examples/default-tuple-argument.txt";
+
+<StricliPlayground filename="default-tuple-argument" rootExport="root" appName="run" defaultInput="">
+    {DefaultTupleArgumentCode}
+</StricliPlayground>

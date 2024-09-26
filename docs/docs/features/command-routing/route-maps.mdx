@@ -1,0 +1,218 @@
+---
+sidebar_position: 3
+---
+
+# Route Maps
+
+For CLI applications with more than one command, route maps are the way to organize and nest these commands so that they are accessible to users. In order to create a new route map, call the `buildRouteMap` function with a mapping of route names to targets. The argument object for the builder accepts the following properties.
+
+## Routes
+
+The `routes` object is a simple mapping from route names to targets. The route names specified here are affected by the [scanner case style config](../configuration.mdx#scanner-case-style) when provided at runtime.
+
+```ts
+// output-next-line
+/// commands.ts
+const primaryCommand = ...
+const altCommand = ...
+
+buildRouteMap({
+  routes: {
+    primary: primaryCommand,
+    alt: altCommand,
+  },
+  ...
+});
+```
+
+When defining routes, a target can be any command or even another route map. When a route map is specified the usage line that is generated for the help text will list out the names of the sub-routes for that map as options.
+
+```ts
+// output-next-line
+/// commands.ts
+const itemActionsRouteMap = buildRouteMap({
+  routes: {
+    create: createItemCommand,
+    rename: renameItemCommand,
+    delete: deleteItemCommand,
+  },
+  ...
+});
+
+const root = buildRouteMap({
+  routes: {
+    login: loginCommand,
+    item: itemActionsRouteMap,
+  },
+  ...
+});
+```
+
+The route map configuration above will produce a command with the following behavior:
+
+```sh
+run --help
+// output-start
+USAGE
+  run login
+  run item create|rename|delete
+  run --help
+
+COMMANDS
+  login  Login with auth credentials
+  item   Actions that manipulate items
+// output-end
+run item --help
+// output-start
+USAGE
+  run item create
+  run item rename
+  run item delete
+  run item --help
+
+Actions that manipulate items
+
+COMMANDS
+  create  Create a brand new item
+  rename  Rename an existing item
+  delete  Delete an item
+// output-end
+```
+
+### Default Command
+
+In some situations, particularly migrations, it can be useful to turn a single command into multiple commands. When a set of inputs resolve to a route map, the default behavior is to print the help text and discard any other inputs. With the `defaultCommand` configuration, all inputs that resolve to a route map instead invoke this default command. The default command must be registered as a route in that route map. This prevents the case where it becomes impossible to invoke a command with an argument that matches the name of another route.
+
+Note that this means that all inputs that were considered invalid routes will now be passed as inputs to the default command.
+
+```ts
+buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: buildRouteMap({
+            routes: {
+                old: oldBarCommand,
+                new: newBarCommand,
+            },
+            defaultCommand: "old",
+        }),
+    },
+});
+```
+
+The route map configuration above will produce a command with the following behavior:
+
+```sh
+run --help
+// output-start
+USAGE
+  run foo
+  run bar
+  run --help
+// output-end
+run bar --help
+// output-start
+USAGE
+  run bar old
+  run bar new
+  run bar --help
+// output-end
+run bar old
+// output-start
+OLD BAR COMMAND
+// output-end
+run bar new
+// output-start
+NEW BAR COMMAND
+// output-end
+run bar
+// output-start
+OLD BAR COMMAND
+// output-end
+```
+
+### Aliases
+
+For one reason or another, it may make sense to expose the same command multiple times under different names. Since the routes are defined by the route map, it is easy to just re-use the same target in multiple places. However, this option exists as an alternative that makes it easier to add aliases for a given route.
+
+```ts
+// output-next-line
+/// commands.ts
+buildRouteMap({
+  routes: {
+    open: openCommand,
+    close: closeCommand,
+  },
+  aliases: {
+    reopen: "open",
+  },
+  ...
+});
+```
+
+The route map configuration above will produce a command with the following behavior:
+
+```sh
+run --help
+// output-start
+USAGE
+  run open
+  run close
+  run --help
+
+COMMANDS
+  open   Open the connection
+  close  Close the connection
+// output-end
+run open --help
+// output-start
+USAGE
+  run open
+  run open --help
+
+Open the connection
+
+ALIASES
+  run reopen
+// output-end
+```
+
+## Documentation
+
+A base level of documentation is required, and more is always appreciated. All route maps must specify a value for `brief` that contains a short line of text to be used when referring to this route throughout the help text of the application.
+
+Optionally, you can further customize the help text for this specific command by including `fullDescription`. This will override `brief` in the command's help text and can contain multiple lines of text rather than just one. There is also an additional `hideRoute` object that allows you to hide certain routes from showing up in documentation.
+
+```ts
+// output-next-line
+/// commands.ts
+buildRouteMap({
+  docs: {
+    brief: "This is a brief description of the routes",
+    fullDescription: [
+      "This is the full description of the routes.",
+      "It should include all of the necessary details about the subcommands within.",
+      "It will only be displayed to the user in the help text for this route.",
+    ].join("\n"),
+    hideRoute: {
+      secret: true,
+    },
+  },
+  ...
+});
+```
+
+The command configuration above will produce a command with the following behavior:
+
+```sh
+run --help
+// output-start
+USAGE
+  run subcommand1|subcommand2
+  run --help
+
+This is the full description of the routes.
+It should include all of the necessary details about the subcommands within.
+It will only be displayed to the user in the help text for this route.
+// output-end
+```

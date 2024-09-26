@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        // Emit
+        "noEmit": true,
+        "stripInternal": true,
+        // Modules
+        "rootDir": ".",
+        "types": [],
+        // Language and Environment
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": ["esnext"],
+        // Completeness
+        "skipLibCheck": true,
+        // Type Checking
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "exclude": [],
+    "include": ["**/*"]
+}

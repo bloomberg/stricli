@@ -1,0 +1,53 @@
+---
+sidebar_position: 6
+---
+
+# Out of Scope
+
+Stricli has a lot of features (see [Features](../category/features)) but it was not designed to solve every problem. It was deliberately created to have a limited feature set and then excel at those. The following features were all determined to be out-of-scope and are better solved manually or with an existing library.
+
+## Cross-Argument Validation
+
+Stricli derives the command line arguments from the functional arguments defined in the implementation. It was decided that the `flags` argument must be an object with static keys. This means that there are some flag types that can be represented in TypeScript but are not supported by Stricli.
+
+```ts
+export default function(flags: { alpha: number } | { beta: number; bravo: number }) { ...
+```
+
+This function accepts _either_ `{ alpha: number }` or `{ beta: number; bravo: number }` but not both simultaneously. There are some other CLI frameworks that support defining this kind of validation, but Stricli **does not** provide built-in support for this use case. Despite that, it is still possible to perform this validation manually. This may be a good use case for a third party runtime validation library like [`zod`](https://zod.dev/) or [`typanion`](https://mael.dev/typanion/).
+
+```ts
+import { z } from "zod";
+
+const MyFlags = z.union([z.object({ alpha: z.number() }), z.object({ beta: z.number(), bravo: z.number() })]);
+
+export default function (rawFlags: { alpha?: number; beta?: number; bravo?: number }) {
+    const flags = MyFlags.parse(rawFlags);
+}
+```
+
+## Local System Access
+
+Command functions passed to Stricli can contain any sort of implementation. This means that an implementation can directly access any globals of the environment it is running in (ex: Node/Deno) as well as import other modules. While this is perfectly valid, the recommended best practice is to write command implementations with dependency injection via the [context](isolated-context.mdx) (bound to `this`) so that they are portable and testable.
+
+As such, the local dependencies of a given command/application are not defined by Stricli and it is up to the application developer to define and supply them.
+
+## Logging
+
+Stricli has a very limited set of situations that rely in output printed to the console. As such, Stricli directly writes to stdout and stderr depending on the use case.
+
+A fully featured logging solution is not simple to implement. Given that Stricli has no need for a logging solution directly, it does not provide one. However, developers are more than welcome to "bring your own" with any logging solution. As well, the `stdout` and `stderr` streams can be implemented indirectly by a logger if the intention is to capture all console output by the logger. Just provide alternative streams in the `context` object when invoking `run` and Stricli will write to those streams.
+
+### Enhanced Formatting
+
+For similar reasons to the lack of first-party logging support, Stricli does not provide enhanced formatting utilities. Consider the following third-party libraries if enhanced formatting is necessary for your application:
+
+-   [`chalk`](https://github.com/chalk/chalk) - Terminal string styling done right
+-   [`treeify`](https://github.com/notatestuser/treeify) - _treeify_ converts a JS object into a nice, visible depth-indented tree for console printing
+-   [`ervy`](https://github.com/chunqiuyiyu/ervy) - Bring charts to terminal
+
+## Prompting and `stdin`
+
+The only end user input processed by Stricli is the `inputs` array of strings (derived from `argv` in Node). Many commands have no need for interactivity and the best method to achieve it is highly dependant on the environment. This is why `stdin` is not defined on the default context.
+
+For end user interactivity during command execution, we would recommend [`enquirer`](https://github.com/enquirer/enquirer) for basic prompts.

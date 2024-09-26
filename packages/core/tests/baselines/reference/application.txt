@@ -1,0 +1,1469 @@
+:::: Application / generateHelpTextForAllCommands / command at root
+:: cli
+USAGE
+  cli
+  cli --help
+  cli --version
+
+command brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:::: Application / generateHelpTextForAllCommands / command at root, with alternate locale
+:: cli
+USAGE
+  cli
+  cli -h
+
+command brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / generateHelpTextForAllCommands / command at root, with usage config
+:: cli
+USAGE
+  cli
+  cli -h
+  cli -v
+
+command brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:::: Application / generateHelpTextForAllCommands / multiple commands at different levels
+:: cli sub command
+USAGE
+  cli sub command
+  cli sub command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: cli command
+USAGE
+  cli command
+  cli command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / generateHelpTextForAllCommands / nested command, with aliases
+:: cli sub
+USAGE
+  cli sub
+  cli sub --help
+
+basic command
+
+ALIASES
+  cli alias1
+  cli alias2
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / generateHelpTextForAllCommands / nested commands
+:: cli sub1
+USAGE
+  cli sub1
+  cli sub1 --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: cli sub2
+USAGE
+  cli sub2
+  cli sub2 --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / generateHelpTextForAllCommands / nested commands, with aliases
+:: cli sub1
+USAGE
+  cli sub1
+  cli sub1 --help
+
+basic command
+
+ALIASES
+  cli alias1
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: cli sub2
+USAGE
+  cli sub2
+  cli sub2 --help
+
+basic command
+
+ALIASES
+  cli alias2
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / generateHelpTextForAllCommands / nested route map
+:: cli sub command
+USAGE
+  cli sub command
+  cli sub command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / generateHelpTextForAllCommands / nested route map skips hidden routes
+:::: Application / generateHelpTextForAllCommands / route map at root
+:: cli command
+USAGE
+  cli command
+  cli command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Application / run / basic command at root / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic command at root / display help text for root (with flag alias)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic command at root / display help text for root, color depth < 4
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: STDERR
+
+:::: Application / run / basic command at root / display help text for root, color depth > 4
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic command at root / display help text for root, no color depth
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: STDERR
+
+:::: Application / run / basic command at root / with current version (as async callback) / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic command at root / with current version (as async callback) / request current version (with flag alias)
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic command at root / with current version (as static string) / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic command at root / with current version (as static string) / request current version (with flag alias)
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic command at root / with custom usage / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli custom usage 1
+  cli custom usage 2
+  cli custom usage 3
+  cli --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic command at root / with full description / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+
+This is a full description
+of this command's behavior.
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic command at root / with missing latest version info / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic command at root / with missing latest version info / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic command at root / with outdated version info (as async callback) / display help text for root, warn on outdated version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic command at root / with outdated version info (as async callback) / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic command at root / with outdated version info (as static string) / display help text for root, warn on outdated version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic command at root / with outdated version info (as static string) / display help text for root, warn on outdated version, ansi color with env var set to 0
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+:::: Application / run / basic command at root / with outdated version info (as static string) / display help text for root, warn on outdated version, no ansi color with env var
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+:::: Application / run / basic command at root / with outdated version info (as static string) / display help text for root, warn on outdated version, with no ansi color
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+:::: Application / run / basic command at root / with outdated version info (as static string) / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic command at root / with up-to-date version info / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic route map at root / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+
+root
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+
+root
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / display help text for root (with flag alias)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+
+root
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / displays help text for subcommand
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli command --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / displays help text for subcommand (with flag alias)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli command --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / basic route map at root / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / basic route map at root / fails for undefined route, proposes similar alternative
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `commandx`, did you mean `command`?[39m[22m
+
+:::: Application / run / basic route map at root / fails for undefined route, with no ansi color
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+No command registered for `undefined`
+
+:::: Application / run / basic route map at root / runs subcommand directly with no arguments
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with allow-kebab-for-camel / fails for undefined route, proposes similar alternative
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `commandxyz`[39m[22m
+
+:::: Application / run / basic route map at root / with current version as async callback / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with current version as async callback / request current version (with flag alias)
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with current version as static string / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with current version as static string / request current version (with flag alias)
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with custom distance threshold / fails for undefined route, proposes similar alternative
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `commandxyz`, did you mean `command`?[39m[22m
+
+:::: Application / run / basic route map at root / with full description / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+
+This is a full description
+of this route map's behavior.
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with outdated version info / and upgrade command / display help text for root, warn on outdated version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+  cli --version
+
+root
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
+
+:::: Application / run / basic route map at root / with outdated version info / and upgrade command / display help text for subcommand, warn on outdated version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli command --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
+
+:::: Application / run / basic route map at root / with outdated version info / and upgrade command / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
+
+:::: Application / run / basic route map at root / with outdated version info / display help text for root, do not skip check with env var set to 0
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+:::: Application / run / basic route map at root / with outdated version info / display help text for root, skip check with env var defined
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with outdated version info / display help text for root, warn on outdated version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+  cli --version
+
+root
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic route map at root / with outdated version info / display help text for subcommand, warn on outdated version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli command --help
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic route map at root / with outdated version info / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+:::: Application / run / basic route map at root / with up-to-date version info / display help text for root, no warning
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+  cli --version
+
+root
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / basic route map at root / with up-to-date version info / request current version
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+:::: Application / run / fails when context.forCommand throws error
+ExitCode=ContextLoadError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to load command context, Error: This function purposefully throws an error
+    at Object.forCommand (#/tests/application.spec.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application.spec.ts:?:?)
+    at Context.<anonymous> (#/tests/application.spec.ts:?:?)
+:::: Application / run / fails when context.forCommand throws error (without stack)
+ExitCode=ContextLoadError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to load command context, Error: This function purposefully throws an error[39m[22m
+:::: Application / run / fails when context.forCommand throws error, with no ansi color
+ExitCode=ContextLoadError
+:: STDOUT
+
+:: STDERR
+Unable to load command context, Error: This function purposefully throws an error
+    at Object.forCommand (#/tests/application.spec.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application.spec.ts:?:?)
+    at Context.<anonymous> (#/tests/application.spec.ts:?:?)
+:::: Application / run / fails when context.forCommand throws non-error
+ExitCode=ContextLoadError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to load command context, This function purposefully throws an error[39m[22m
+:::: Application / run / loads text for context locale
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Application / run / nested basic route map at root / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map at root / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map at root / displays help text for nested route map
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command
+  cli sub --help
+
+sub
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map at root / displays help text for nested route map (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command
+  cli sub --help
+
+sub
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map at root / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / nested basic route map at root / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / displays help text for nested route map via route alias
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli aliasFoo command
+  cli aliasFoo --help
+
+sub
+
+[1mALIASES[22m
+  cli sub
+  cli alias-bar
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / displays help text for nested route map via route alias (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli aliasFoo command
+  cli aliasFoo --help
+
+sub
+
+[1mALIASES[22m
+  cli sub
+  cli alias-bar
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / displays help text for nested route map via route alias kebab-case version
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli alias-foo command
+  cli alias-foo --help
+
+sub
+
+[1mALIASES[22m
+  cli sub
+  cli alias-bar
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / displays help text for nested route map via route alias kebab-case version (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli alias-foo command
+  cli alias-foo --help
+
+sub
+
+[1mALIASES[22m
+  cli sub
+  cli alias-bar
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / displays help text for nested route map with route alias
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command
+  cli sub --help
+
+sub
+
+[1mALIASES[22m
+  cli alias-foo
+  cli alias-bar
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / fails for alias-adjacent route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `aliasX`, did you mean `aliasBar` or `aliasFoo`?[39m[22m
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / nested basic route map with camelCase route aliases at root / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / nested basic route map with hidden routes / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes / display help text for root including hidden
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli subHidden command ...
+  cli --help
+  cli --helpAll
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [90m-H[39m [90m--helpAll[39m  [90mPrint help information (including hidden commands/flags) and exit[39m
+
+[1mCOMMANDS[22m
+  [97msub[39m        [03msub[23m
+  [90msubHidden[39m  [90msubHidden[39m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes / displays help text for nested hidden route map
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli subHidden command
+  cli subHidden --help
+
+subHidden
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes / displays help text for nested hidden route map (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli subHidden command
+  cli subHidden --help
+
+subHidden
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / nested basic route map with hidden routes / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+  cli --helpAll
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+  cli --helpAll
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / display help text for root including hidden
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli subHidden command ...
+  cli --help
+  cli --helpAll
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m        [03msub[23m
+  [90msubHidden[39m  [90msubHidden[39m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / displays help text for nested hidden route map
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli subHidden command
+  cli subHidden --help
+  cli subHidden --helpAll
+
+subHidden
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / displays help text for nested hidden route map (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli subHidden command
+  cli subHidden --help
+  cli subHidden --helpAll
+
+subHidden
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / nested basic route map with route alias at root / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with route alias at root / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with route alias at root / displays help text for nested route map via route alias
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli alias command
+  cli alias --help
+
+sub
+
+[1mALIASES[22m
+  cli sub
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with route alias at root / displays help text for nested route map via route alias (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli alias command
+  cli alias --help
+
+sub
+
+[1mALIASES[22m
+  cli sub
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with route alias at root / displays help text for nested route map with route alias
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command
+  cli sub --help
+
+sub
+
+[1mALIASES[22m
+  cli alias
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with route alias at root / fails for alias-adjacent route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `aliasX`, did you mean `alias`?[39m[22m
+
+:::: Application / run / nested basic route map with route alias at root / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / nested basic route map with route alias at root / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / route map with default command at root / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli default
+  cli alternate
+  cli --help
+
+route map with default command brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mdefault[39m    [03mbasic command[23m
+  [97malternate[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / route map with default command at root / display help text for root (with flag alias)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli default
+  cli alternate
+  cli --help
+
+route map with default command brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mdefault[39m    [03mbasic command[23m
+  [97malternate[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / route map with default command at root / displays help text for default command
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli default
+  cli default --help
+
+basic command
+
+[1mALIASES[22m
+  cli 
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / route map with default command at root / displays help text for default command (with flag alias)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli default
+  cli default --help
+
+basic command
+
+[1mALIASES[22m
+  cli 
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:: STDERR
+
+:::: Application / run / route map with default command at root / passes similar route as argument to default command
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mToo many arguments, expected 0 but encountered "commandx"[39m[22m
+
+:::: Application / run / route map with default command at root / passes undefined flag to default command
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --undefined[39m[22m
+
+:::: Application / run / route map with default command at root / passes undefined route as argument to default command
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mToo many arguments, expected 0 but encountered "undefined"[39m[22m
+
+:::: Application / run / route map with default command at root / runs default command (implicit)
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Application / run / route map with default command at root / runs subcommand directly with alternate route name as argument
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mToo many arguments, expected 0 but encountered "alternate"[39m[22m
+
+:::: Application / run / route map with default command at root / runs subcommand directly with default route name as argument
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mToo many arguments, expected 0 but encountered "default"[39m[22m
+
+:::: Application / run / route map with default command at root / runs subcommand directly with no arguments
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Application / run / route map with default command at root / with full description / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli command
+  cli --help
+
+This is a full description
+of this route map's behavior.
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / runs command with original context
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Application / run / uses default text when no text loaded for unsupported context locale
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+[1m[33mApplication does not support "other" locale, defaulting to "en"[39m[22m
+
+:::: Application / run / uses default text when no text loaded for unsupported context locale, with no ansi color
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+Application does not support "other" locale, defaulting to "en"

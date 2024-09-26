@@ -1,0 +1,33 @@
+---
+sidebar_position: 2
+---
+
+# Guiding Principles
+
+Much of this work was inspired by and built upon the incredible [Command Line Interface Guidelines](https://clig.dev). They are a set of open-source rules and recommendations for developing command line interfaces. This framework adheres to these guidelines, but it does not implement _all_ of them. Some features were considered [out-of-scope](../features/out-of-scope.mdx) for this framework, and are already solved by existing packages in the ecosystem.
+
+The following are principles that were found to be common traits of frameworks with good design.
+
+## Commands Are Just Functions
+
+> **tl;dr** - Every command that is exposed by a CLI should just be a function underneath.
+
+Command line interfaces exist to provide functionality to users without needing to write code against a programmatic API. To put this another way, a CLI is merely a means for a user to invoke a certain function with specific arguments. These arguments are provided on the command line as text input and should translate directly to function arguments.
+
+It is rare that an advanced CLI application exposes only a single function, so the framework should be able to support a nested set of commands that are all reachable from certain routes.
+
+To support the natural syntax of functions, an application should simultaneously understand both named, unordered flags as well as positional arguments. Check out [clig.dev section on `Arguments and flags`](https://clig.dev/#arguments-and-flags) for specific guidelines on how these different input types should be formatted/interpreted.
+
+## When Parsing, Form Follows Function
+
+> **tl;dr** - If function and command line arguments are linked, then function arguments should define command line parsing.
+
+Given a set of arguments for a function, the corresponding parser should type check against them completely. The arguments for the function are the source of truth, not the other way around. Invalid arguments should be caught by the framework before the command is executed. This includes missing arguments, extraneous arguments, and any arguments that are otherwise incorrectly formatted or structured.
+
+When inputs are parsed without an intended end state, it then falls to the individual functions to define which inputs are valid. The application logic for a CLI should not be directly responsible for validating user input, [within reason](../features/out-of-scope.mdx#cross-argument-validation).
+
+## No "Magic" Features or Patterns
+
+> **tl;dr** - Developers should be able to understand and debug a framework using native tools for the language of that framework.
+
+While too much code can hinder readability, not enough code can completely kill it. "Don't Repeat Yourself" is an important principle in itself, but that does not always justify replacing code with custom conventions. When a framework has too much "magic" and relies on systems external to the code, it reduces portability and locks developers into certain patterns or tools. It is better to rely on the existing features of a language or environment, and if they don't exist that can be an opportunity to standardize rather than circumvent.

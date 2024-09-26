@@ -1,0 +1,27 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  quiet: boolean;
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { quiet }: Flags) {
+    this.process.stdout.write(quiet ? "LOUD LOGGING" : "quiet logging");
+  },
+  parameters: {
+    flags: {
+      quiet: {
+        kind: "boolean",
+        brief: "Lowers logging level",
+      },
+    },
+  },
+  docs: {
+    brief: "",
+    customUsage: [
+      "--quiet",
+      "--quiet=yes",
+      "--noQuiet",
+    ],
+  },
+});

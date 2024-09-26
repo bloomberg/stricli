@@ -1,0 +1,33 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  visible?: boolean;
+  hidden?: boolean;
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { visible, hidden }: Flags) {
+    this.process.stdout.write(visible ? "Visible flag active" : "Visible flag inactive");
+    if (hidden) {
+      this.process.stdout.write("Hidden flag active");
+    }
+  },
+  parameters: {
+    flags: {
+      visible: {
+        kind: "boolean",
+        brief: "Visible flag",
+        optional: true,
+      },
+      hidden: {
+        kind: "boolean",
+        brief: "Hidden flag",
+        optional: true,
+        hidden: true,
+      },
+    },
+  },
+  docs: {
+    brief: ""
+  },
+});

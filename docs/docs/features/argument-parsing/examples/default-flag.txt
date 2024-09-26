@@ -1,0 +1,24 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  lineEnding: "lf" | "crlf";
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { lineEnding }: Flags) {
+    this.process.stdout.write(`Switched line ending to ${lineEnding}`);
+  },
+  parameters: {
+    flags: {
+      lineEnding: {
+        kind: "enum",
+        values: ["lf", "crlf"],
+        brief: "Line ending characters",
+        default: "lf",
+      },
+    },
+  },
+  docs: {
+    brief: "",
+  },
+});

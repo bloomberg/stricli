@@ -1,0 +1,127 @@
+---
+sidebar_position: 2
+toc_max_heading_level: 4
+---
+
+# Tutorial
+
+This tutorial will get you started with a new, empty Stricli application and show you how to modify it to suit your needs.
+
+## Generate a New Node Application
+
+If you have issues with this generator, please open an issue on [its source repo here](https://github.com/bloomberg/stricli/tree/main/packages/create-app).
+
+### Step 1: `@stricli/create-app`
+
+Run the following command.
+
+```
+npx @stricli/create-app@latest my-app
+```
+
+This command will create a new directory `my-app` and populate it with the boilerplate for a Stricli application. You can also pass the following options if you wish to customize the generated application.
+
+```
+FLAGS
+     [--type]                              Package type, controls output format of JS files [commonjs|module, default = module]
+     [--template]                          Application template to generate                 [single|multi, default = multi]
+     [--auto-complete/--no-auto-complete]  Include auto complete postinstall script         [default = true]
+  -n [--name]                              Package name, if different from directory
+     [--command]                           Intended bin command, if different from name
+  -d [--description]                       Package description                              [default = Stricli command line application]
+     [--license]                           Package license                                  [default = MIT]
+     [--author]                            Package author                                   [default = ""]
+  -h  --help                               Print help information and exit
+  -v  --version                            Print version information and exit
+
+ARGUMENTS
+  path  Target path of new package directory
+```
+
+### Step 2: Install dependencies
+
+The generated application will only contain `package.json`. To actually install the declared dependencies, `cd` to that directory and run `npm install --ignore-scripts`. The ignore is needed when using `--auto-complete` (enabled by default) as it adds a `postinstall` script to install the auto complete functionality.
+
+### Step 3: Build application
+
+The boilerplate includes a `build` script that invokes [`tsup`](https://tsup.egoist.dev/). Note that this tool uses [`esbuild`](https://esbuild.github.io/) to compile the project to a single output file and it [will not perform type checking by default](https://tsup.egoist.dev/#what-about-type-checking).
+
+### Step 4: Test the output
+
+Stricli applications can be executed directly in source, or in a separate script. This template generates a `src/bin/cli.ts` file to invoke `run` so that the rest of the source only contains exports without side-effects. Try running your new app by calling the compiled bin script at `dist/cli.js` with `--help`.
+
+```sh
+dist/cli.js --help
+// output-start
+USAGE
+  my-app subdir
+  my-app nested foo|bar ...
+  my-app --help
+  my-app --version
+
+Stricli command line application
+
+FLAGS
+  -h --help     Print this help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  subdir  Command in subdirectory
+  nested  Nested commands
+// output-end
+dist/cli.js nested --help
+// output-start
+USAGE
+  my-app nested foo
+  my-app nested bar
+  my-app nested --help
+
+Nested commands
+
+FLAGS
+  -h --help  Print this help information and exit
+
+COMMANDS
+  foo  Nested foo command
+  bar  Nested bar command
+// output-end
+```
+
+You should see this exact output if you generated a multi-command app. Since Stricli applications are all defined in code, you can keep this file layout or move the files/declarations around as you want. Just be aware that everything except the `impl.ts` files will be loaded synchronously on app load, so be mindful of what you import and where.
+
+#### Single Command
+
+You can optionally choose to run `npx @stricli/create-app@latest --command-type single` to generate a single command app.
+
+If you generated a single command app, your initial output should look like this:
+
+```sh
+dist/cli.js --help
+// output-start
+USAGE
+  my-app --count value arg1
+  my-app --help
+  my-app --version
+
+Stricli command line application
+
+FLAGS
+     --count    Number of times to say hello
+  -h --help     Print this help information and exit
+  -v --version  Print version information and exit
+
+ARGUMENTS
+  arg1  Your name
+// output-end
+```
+
+If you see that output, you have successfully generated a new Stricli application!
+
+```sh
+dist/cli.js World --count 3
+// output-start
+Hello World!
+Hello World!
+Hello World!
+// output-end
+```

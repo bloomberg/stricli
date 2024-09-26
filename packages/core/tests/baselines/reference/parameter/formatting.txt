@@ -1,0 +1,48 @@
+:::: formatUsageLineForParameters / flags / boolean / optional boolean flag
+cli [--optionalBoolean]
+:::: formatUsageLineForParameters / flags / boolean / required boolean flag
+cli (--requiredBoolean)
+:::: formatUsageLineForParameters / flags / boolean / required boolean flag with default
+cli [--requiredBoolean]
+:::: formatUsageLineForParameters / flags / enum / optional enum flag
+cli [--optionalEnum a|b|c]
+:::: formatUsageLineForParameters / flags / enum / optional enum flag with default
+cli [--optionalEnum a|b|c]
+:::: formatUsageLineForParameters / flags / enum / required enum flag
+cli (--requiredEnum a|b|c)
+:::: formatUsageLineForParameters / flags / enum / required enum flag with default
+cli [--requiredEnum a|b|c]
+:::: formatUsageLineForParameters / flags / parsed / optional parsed flag
+cli [--optionalParsed value]
+:::: formatUsageLineForParameters / flags / parsed / optional parsed flag [hidden]
+cli
+:::: formatUsageLineForParameters / flags / parsed / optional parsed flag with placeholder
+cli [--optionalParsed parsed]
+:::: formatUsageLineForParameters / flags / parsed / optional variadic parsed flag
+cli [--optionalVariadicParsed value]...
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag
+cli (--requiredParsed value)
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag with alias
+cli (-p value)
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag with default
+cli [--requiredParsed value]
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag with default [hidden]
+cli
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag with multiple aliases
+cli (--requiredParsed value)
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag with no aliases
+cli (--requiredParsed value)
+:::: formatUsageLineForParameters / flags / parsed / required parsed flag with unused alias
+cli (--requiredParsed value)
+:::: formatUsageLineForParameters / flags / parsed / required variadic parsed flag
+cli (--requiredVariadicParsed value)...
+:::: formatUsageLineForParameters / positional parameters / homogenous array of positional parameters
+cli <parsed>...
+:::: formatUsageLineForParameters / positional parameters / tuple of mixed positional parameters
+cli <parsed> [<parsed>] [<parsed>]
+:::: formatUsageLineForParameters / positional parameters / tuple of one optional positional parameter
+cli [<parsed>]
+:::: formatUsageLineForParameters / positional parameters / tuple of one required positional parameter
+cli <parsed>
+:::: formatUsageLineForParameters / positional parameters / tuple with no positional parameters
+cli

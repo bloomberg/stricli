@@ -1,0 +1,631 @@
+:::: Command / printHelp / mixed parameters
+USAGE
+  prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style
+USAGE
+  prefix (--alpha-flag value) (--bravo-flag value)... [--charlie-flag c] (--delta-flag) <arg1> [<arg2>]
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha-flag                  alpha flag brief
+      --bravo-flag...               bravo flag brief
+     [--charlie-flag]               charlie flag brief
+  -d  --delta-flag/--no-delta-flag  delta flag brief
+  -h  --help                        Print help information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line
+USAGE
+  prefix (--alpha-flag value) (--bravo-flag value)... (--delta-flag) <arg1>
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha-flag                  alpha flag brief
+      --bravo-flag...               bravo flag brief
+     [--charlie-flag]               charlie flag brief
+  -d  --delta-flag/--no-delta-flag  delta flag brief
+  -h  --help                        Print help information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with `original` display case style
+USAGE
+  prefix (--alphaFlag value) (--bravoFlag value)... [--charlieFlag c] (--deltaFlag) <arg1> [<arg2>]
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alphaFlag                alpha flag brief
+      --bravoFlag...             bravo flag brief
+     [--charlieFlag]             charlie flag brief
+  -d  --deltaFlag/--noDeltaFlag  delta flag brief
+  -h  --help                     Print help information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with `original` display case style, only required in usage line
+USAGE
+  prefix (--alphaFlag value) (--bravoFlag value)... (--deltaFlag) <arg1>
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alphaFlag                alpha flag brief
+      --bravoFlag...             bravo flag brief
+     [--charlieFlag]             charlie flag brief
+  -d  --deltaFlag/--noDeltaFlag  delta flag brief
+  -h  --help                     Print help information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with aliases
+USAGE
+  cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  cli route --help
+  cli route --version
+
+brief
+
+ALIASES
+  cli alias1
+  cli alias2
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -v  --version          Print version information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with aliases, ansi color
+[1mUSAGE[22m
+  cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  cli route --help
+  cli route --version
+
+brief
+
+[1mALIASES[22m
+  cli alias1
+  cli alias2
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [97m-v[39m [97m --version[39m          [03mPrint version information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with aliases, only required in usage line
+USAGE
+  cli route (--alpha value) (--bravo value)... (--delta) <arg1>
+  cli route --help
+  cli route --version
+
+brief
+
+ALIASES
+  cli alias1
+  cli alias2
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -v  --version          Print version information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with custom headers
+Usage:
+  cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  cli route --help
+  cli route --version
+
+brief
+
+Aliases:
+  cli alias1
+  cli alias2
+
+Flags:
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -v  --version          Print version information and exit
+
+Arguments:
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with custom headers, only required in usage line
+Usage:
+  cli route (--alpha value) (--bravo value)... (--delta) <arg1>
+  cli route --help
+  cli route --version
+
+brief
+
+Aliases:
+  cli alias1
+  cli alias2
+
+Flags:
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -v  --version          Print version information and exit
+
+Arguments:
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with version available
+USAGE
+  prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  prefix --help
+  prefix --version
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -v  --version          Print version information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters with version available, only required in usage line
+USAGE
+  prefix (--alpha value) (--bravo value)... (--delta) <arg1>
+  prefix --help
+  prefix --version
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -v  --version          Print version information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters, custom usage
+USAGE
+  prefix custom usage line #1
+  prefix custom usage line #2
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / mixed parameters, force include hidden
+USAGE
+  prefix (--alpha value) (--delta) <args>...
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / mixed parameters, full description
+USAGE
+  prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <args>...
+  prefix --help
+
+Longer description of this command's behavior, only printed during --help
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / mixed parameters, full description, only required in usage line
+USAGE
+  prefix (--alpha value) (--bravo value)... (--delta) <args>...
+  prefix --help
+
+Longer description of this command's behavior, only printed during --help
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / mixed parameters, only required in usage line
+USAGE
+  prefix (--alpha value) (--bravo value)... (--delta) <arg1>
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+   arg1   first argument brief
+  [arg2]  second argument brief
+
+:::: Command / printHelp / mixed parameters, skips hidden
+USAGE
+  prefix (--alpha value) (--delta) <args>...
+  prefix --help
+
+brief
+
+FLAGS
+  -a --alpha            alpha flag brief
+  -d --delta/--noDelta  delta flag brief
+  -h --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / multiple boolean flags
+USAGE
+  prefix (--alpha) [--bravo] (--charlie)
+  prefix --help
+
+brief
+
+FLAGS
+      --alpha/--noAlpha      alpha flag brief
+     [--bravo/--noBravo]     bravo flag brief
+  -c  --charlie/--noCharlie  charlie flag brief
+  -h  --help                 Print help information and exit
+
+:::: Command / printHelp / multiple boolean flags, kebab-case
+USAGE
+  prefix (--alpha) [--bravo] (--charlie)
+  prefix --help
+
+brief
+
+FLAGS
+      --alpha/--no-alpha      alpha flag brief
+     [--bravo/--no-bravo]     bravo flag brief
+  -c  --charlie/--no-charlie  charlie flag brief
+  -h  --help                  Print help information and exit
+
+:::: Command / printHelp / multiple boolean flags, kebab-case, only required in usage line
+USAGE
+  prefix (--alpha) (--charlie)
+  prefix --help
+
+brief
+
+FLAGS
+      --alpha/--no-alpha      alpha flag brief
+     [--bravo/--no-bravo]     bravo flag brief
+  -c  --charlie/--no-charlie  charlie flag brief
+  -h  --help                  Print help information and exit
+
+:::: Command / printHelp / multiple boolean flags, only required in usage line
+USAGE
+  prefix (--alpha) (--charlie)
+  prefix --help
+
+brief
+
+FLAGS
+      --alpha/--noAlpha      alpha flag brief
+     [--bravo/--noBravo]     bravo flag brief
+  -c  --charlie/--noCharlie  charlie flag brief
+  -h  --help                 Print help information and exit
+
+:::: Command / printHelp / no parameters
+USAGE
+  prefix
+  prefix --help
+
+brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Command / printHelp / no parameters, dropped empty flag spec
+USAGE
+  prefix
+  prefix --help
+
+brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Command / printHelp / no parameters, dropped empty positional spec
+USAGE
+  prefix
+  prefix --help
+
+brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Command / printHelp / no parameters, dropped empty specs
+USAGE
+  prefix
+  prefix --help
+
+brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+:::: Command / run / command function returns error / with custom exit code
+ExitCode=Unknown(10)
+:: STDOUT
+
+:: STDERR
+This action purposefully throws an error
+
+:::: Command / run / command function returns error / with default exit code
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+This action purposefully throws an error
+
+:::: Command / run / command function returns error / with default exit code, ansi color
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+[1m[31mThis action purposefully throws an error[39m[22m
+
+:::: Command / run / command function throws error / with custom exit code
+ExitCode=Unknown(10)
+:: STDOUT
+
+:: STDERR
+Command failed, Error: This action purposefully throws an error
+
+:::: Command / run / command function throws error / with default exit code
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+Command failed, Error: This action purposefully throws an error
+
+:::: Command / run / command function throws error / with default exit code, ansi color
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+[1m[31mCommand failed, Error: This action purposefully throws an error[39m[22m
+
+:::: Command / run / doNothing (loader returns function) / no inputs
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Command / run / doNothing (loader returns function) / unexpected input argument
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+Too many arguments, expected 0 but encountered "foo"
+
+:::: Command / run / doNothing (loader returns function) / unexpected input flag
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+No flag registered for --foo
+
+:::: Command / run / doNothing / no inputs
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Command / run / doNothing / unexpected input argument
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+Too many arguments, expected 0 but encountered "foo"
+
+:::: Command / run / doNothing / unexpected input argument, with ansi color
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mToo many arguments, expected 0 but encountered "foo"[39m[22m
+
+:::: Command / run / doNothing / unexpected input flag
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+No flag registered for --foo
+
+:::: Command / run / doNothing / unexpected input flag, with ansi color
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --foo[39m[22m
+
+:::: Command / run / echoArguments / multiple input arguments
+ExitCode=Success
+:: STDOUT
+foo
+bar
+:: STDERR
+
+:::: Command / run / echoArguments / no inputs
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+:::: Command / run / echoArguments / single input argument
+ExitCode=Success
+:: STDOUT
+foo
+:: STDERR
+
+:::: Command / run / echoArguments / unexpected error
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+Unable to parse arguments, Error: Unexpected error thrown by input
+    at Object.toString (#/tests/routing/command.spec.ts:?:?)
+    at RegExp.exec (<anonymous>)
+    at findFlagByArgumentWithInput (#/src/parameter/scanner.ts:?:?)
+    at Object.next (#/src/parameter/scanner.ts:?:?)
+    at runCommand (#/src/routing/command/run.ts:?:?)
+    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+
+:::: Command / run / echoArguments / unexpected error, with ansi color
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to parse arguments, Error: Unexpected error thrown by input
+    at Object.toString (#/tests/routing/command.spec.ts:?:?)
+    at RegExp.exec (<anonymous>)
+    at findFlagByArgumentWithInput (#/src/parameter/scanner.ts:?:?)
+    at Object.next (#/src/parameter/scanner.ts:?:?)
+    at runCommand (#/src/routing/command/run.ts:?:?)
+    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+
+:::: Command / run / fails to load command module
+ExitCode=CommandLoadError
+:: STDOUT
+
+:: STDERR
+Unable to load command function, Error: This command load purposefully throws an error
+    at loader (#/tests/routing/command.spec.ts:?:?)
+    at runCommand (#/src/routing/command/run.ts:?:?)
+    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+
+:::: Command / run / fails to load command module, with ansi color
+ExitCode=CommandLoadError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to load command function, Error: This command load purposefully throws an error
+    at loader (#/tests/routing/command.spec.ts:?:?)
+    at runCommand (#/src/routing/command/run.ts:?:?)
+    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+
+:::: Command / run / fails to parse invalid parameter
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+Failed to parse "nope" for arg1: Cannot convert nope to a boolean
+
+:::: Command / run / fails to scan missing flags
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+Expected input for flag --foo
+Expected input for flag --bar
+
+:::: Command / run / fails to scan missing flags, with ansi color
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mExpected input for flag --foo[39m[22m
+[1m[31mExpected input for flag --bar[39m[22m

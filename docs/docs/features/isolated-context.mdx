@@ -1,0 +1,78 @@
+---
+sidebar_position: 2
+---
+
+# Isolated Context
+
+At the simplest level, command line applications require few external dependencies. They need to be able to write to `stdout` for console output and `stderr` for errors. For Stricli, these requirements are encapsulated in the [`CommandContext`](../../packages/core/interfaces/CommandContext) type.
+
+It is a simple object that stores a `process` property that has `stdout`/`stderr` writable streams. This context is required when running the app, and is how Stricli prints help text and error messages to the console.
+
+For Node or Node-compatible applications, this is as simple as passing `{ process }` or `globalThis` to `run`.
+
+## Application Context
+
+This object serves double duty as the context for the command and the application itself. There are some additional options that control the application's behavior. The first is `process.exit()` which allows Stricli to set the exit code of the application once the command finishes (or throws an error). The other is `locale` which is used by the [localization logic](configuration.mdx#localization) to determine which language the text should be in.
+
+## Custom Data
+
+The provided context is bound to `this` on the command's implementation function. You can choose to ignore this context completely and log with `console.log` or `console.error`. However, the context type can be customized which opens up some more options via dependency injection. You can define a custom context to store arbitrary data, which will then get passed through to your command.
+
+```ts
+// output-next-line
+/// types.ts
+interface User {
+  readonly id: number;
+  readonly name: string;
+}
+
+interface CustomContext extends CommandContext {
+  readonly user?: User;
+}
+
+// output-next-line
+/// impl.ts
+export default function(this: CustomContext) {
+  if (this.user) {
+    this.process.stdout.write(`Logged in as ${this.user.name}`);
+  } else {
+    this.process.stdout.write(`Not logged in`);
+  }
+}
+
+// output-next-line
+/// run.ts
+const user = ... // load user
+await run(app, process.argv.slice(2), { process, user });
+```
+
+In this example, imagine that you store user information in the user's local environment. You can fetch that information and store it in the context for use in any/all of your commands.
+
+The _real_ benefit of this pattern is being able to fully test the implementation functions by controlling all of their inputs and dependencies.
+
+```ts
+// output-next-line
+/// command.spec.ts
+import impl from "./impl";
+
+it("runs without user", () => {
+  const testContext: CustomContext = {
+    ...
+  };
+
+  await impl.call(testContext);
+
+  expect(testContext.stdout).includes("Not logged in");
+});
+
+it("runs with user", () => {
+  const testContext: CustomContext = {
+    ...
+    user: { id: 1000, name: "test" },
+  };
+
+  await impl.call(testContext);
+
+  expect(testContext.stdout).includes("Logged in as test");
+});
+```

@@ -1,0 +1,16 @@
+{
+    "extends": "./src/tsconfig.json",
+    "compilerOptions": {
+        // Emit
+        "emitDeclarationOnly": false,
+        "noEmit": true,
+        // Modules
+        "rootDir": ".",
+        "types": ["node", "mocha"],
+        "allowImportingTsExtensions": true,
+        // Interop Constraints
+        "esModuleInterop": true
+    },
+    "exclude": ["dist/**/*", "lib/**/*"],
+    "include": ["src/**/*", "tests/**/*"]
+}

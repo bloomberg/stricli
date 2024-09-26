@@ -1,0 +1,47 @@
+{
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "targetDefaults": {
+        "typecheck": {
+            "dependsOn": ["^build"],
+            "cache": true
+        },
+        "build": {
+            "dependsOn": ["^build"],
+            "outputs": ["{projectRoot}/dist"],
+            "cache": true
+        },
+        "format": {
+            "inputs": ["{workspaceRoot}/.prettierrc"],
+            "cache": false
+        },
+        "format:check": {
+            "inputs": ["{workspaceRoot}/.prettierrc"],
+            "cache": true
+        },
+        "lint": {
+            "dependsOn": ["^build", "typecheck"],
+            "inputs": ["{workspaceRoot}/eslint.config.mjs"],
+            "cache": true
+        },
+        "lint:fix": {
+            "dependsOn": ["^build", "typecheck"],
+            "inputs": ["{workspaceRoot}/eslint.config.mjs"],
+            "cache": false
+        },
+        "test": {
+            "dependsOn": ["^build", "typecheck"],
+            "cache": true
+        },
+        "coverage": {
+            "dependsOn": ["^build", "typecheck"],
+            "outputs": ["{projectRoot}/coverage", "{projectRoot}/.nyc_output"],
+            "cache": true
+        },
+        "build-docs": {
+            "dependsOn": ["^build"],
+            "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"],
+            "cache": true
+        }
+    },
+    "defaultBase": "main"
+}

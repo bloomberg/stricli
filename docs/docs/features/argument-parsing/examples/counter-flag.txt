@@ -1,0 +1,31 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  verbose: number;
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { verbose }: Flags) {
+    this.process.stdout.write(`Logging with verbosity level ${verbose}`);
+  },
+  parameters: {
+    flags: {
+      verbose: {
+        kind: "counter",
+        brief: "Controls how verbose logging should be",
+      },
+    },
+    aliases: {
+      v: "verbose"
+    },
+  },
+  docs: {
+    brief: "",
+    customUsage: [
+      "--verbose",
+      "-v",
+      "-vv",
+      "-vv -v",
+    ],
+  },
+});

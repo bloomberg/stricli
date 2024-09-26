@@ -1,0 +1,170 @@
+---
+sidebar_position: 1
+---
+
+import StricliPlayground from "@site/src/components/StricliPlayground";
+
+# Named Flags
+
+Flags are named, non-positional arguments that are passed to a command. They can be passed in any order, and depending on the type and configuration can be repeated or excluded.
+
+### Case Style
+
+By default, Stricli will ensure that flag names are matched exactly. However, the [`scanner.caseStyle`](../configuration.mdx#scanner-case-style) configuration option allows you to specify `"allow-kebab-for-camel"`. This extends the argument scanner to allow kebab-case versions of camelCase flag names. For example, a flag that is normally passed as `--allowEdits` could also be passed as `--allow-edits`.
+
+There is a separate configuration option [`documentation.caseStyle`](../configuration.mdx#display-case-style) that controls which case style is used when displaying help text and documentation. By default, the documentation option will reflect the scanner option, but this can be manually overridden.
+
+### Aliases
+
+Within Stricli, aliases refer to the alternate, single-character name of an existing flag. These only require a single `-` escape and can be batched together as a single argument `-abc` (equivalent to `-a -b -c`). Any single uppercase or lowercase character can be used as an alias, with the following exceptions:
+
+-   `-h` (reserved for `--help`)
+-   `-H` (reserved for `--helpAll`)
+-   `-v` (reserved for `--version` when [version information](../configuration.mdx#version-information) is provided)
+
+## Types
+
+To be generic and flexible, Stricli supports parsing strings to any specified type. However, Stricli also provides additional support for several built-in types that have extended functionality not available to traditional parsed flags.
+
+### Parsed
+
+The base flag type supported by Stricli is `parsed`. To use a parsed flag, you must provide a function that accepts a string and then returns a type that matches the associated type. Stricli provides some built-in parsers for booleans and numbers, but ultimately how you perform this parsing/validation is up to you. There are some great third party libraries like [`zod`](https://zod.dev/) or [`typanion`](https://mael.dev/typanion/) that are perfect for this, depending on your use case.
+
+import ParsedFlagCode from "./examples/parsed-flag.txt";
+
+<StricliPlayground filename="parsed-flag" rootExport="root" appName="run" defaultInput="--item apple --price 1">
+    {ParsedFlagCode}
+</StricliPlayground>
+
+### Enumerations
+
+Stricli encounters all arguments as strings, and if there is an explicit set of valid string values then the `enum` flag type could be useful.
+
+Given a TypeScript union of string literals (ex: `"a" | "b" | "c"`) the parameter specification can provide a set of all values that should be supported by the flag (ex: `["a", "b", "c"]`). It will then include all values in the help text, and type check a default value if provided. For [auto-complete proposals](../shell-autocomplete), it will automatically suggest any values that match the current partial input.
+
+import EnumFlagCode from "./examples/enum-flag.txt";
+
+<StricliPlayground filename="enum-flag" rootExport="root" appName="run" defaultInput="--level warn">
+    {EnumFlagCode}
+</StricliPlayground>
+
+### Booleans (with Negation)
+
+Instead of parsing a flag value as a raw boolean (`--flag=true/false`), you could instead use the special `boolean` flag type which has a few enhancements.
+
+Since boolean flags can only have two values, the presence of the flag can be used to determine the value instead (`--flag`/`-f`). However, depending on the [default value](#defaults), it may be useful to allow for negation. The framework automatically supports additional flags prefixed with `no` to indicate the opposite value (`--noFlag` or `--no-flag` depending on [case style](#case-style)). This type uses the provided `looseBooleanParser` under the hood to allow for values like `yes`/`y` (for `true`) and `no`/`n` (for `false`).
+
+import BooleanFlagCode from "./examples/boolean-flag.txt";
+
+<StricliPlayground filename="boolean-flag" rootExport="root" appName="run" defaultInput="--noQuiet">
+    {BooleanFlagCode}
+</StricliPlayground>
+
+### Counters
+
+Stricli exposes a `numberParser` to support parsing input strings to numbers. However, instead of parsing the flag value as an integer (`--flag=1`), you could instead use the special `counter` flag type which has a few enhancements.
+
+This type only applies to integers, not all numbers and is best used when counting the number of appearances of a given flag in the arguments. Each appearance of the flag increments the counter by 1.
+
+import CounterFlagCode from "./examples/counter-flag.txt";
+
+<StricliPlayground filename="counter-flag" rootExport="root" appName="run" defaultInput="-vv -v">
+    {CounterFlagCode}
+</StricliPlayground>
+
+## Variants
+
+Most flags support several different variants, some of which are enforced through type checking.
+
+### Optional
+
+If a flag property is optional, or is otherwise possibly `undefined` then it must have `optional: true` in its configuration. This is enforced by TypeScript based on the type of the corresponding property.
+
+import OptionalFlagCode from "./examples/optional-flag.txt";
+
+<StricliPlayground filename="optional-flag" rootExport="root" appName="run" defaultInput="">
+    {OptionalFlagCode}
+</StricliPlayground>
+
+### Empty
+
+It can be valuable to distinguish between `--flag` and `--flag value`. For `parsed` flag types, this behavior is available with the `inferEmpty` attribute. When this is true and the flag is encountered without an input, the input is inferred as the empty string `""` instead.
+
+```ts
+// output-next-line
+/// impl.ts
+export default function(flags: { override?: string }) {
+  console.log(flags.override);
+}
+
+// output-next-line
+/// command.ts
+buildCommand({
+  loader: async () => import("./impl"),
+  parameters: {
+    flags: {
+      override: {
+        kind: "parsed",
+        parse: String,
+        brief: "Should override be applied, or override value",
+        optional: true,
+        // highlight-next-line
+        inferEmpty: true,
+      },
+    },
+    ...
+  },
+  ...
+});
+```
+
+The command configuration above will produce a command with the following behavior:
+
+```sh
+run
+// output-next-line
+undefined
+run --override
+// output-next-line
+""
+run --override foobar
+// output-next-line
+"foobar"
+run --help
+// output-start
+FLAGS
+  --override  (optional) Should override be applied, or override value
+// output-end
+```
+
+### Defaults
+
+Any flag can specify a default value as a string. For `parsed` flag types, this string will be parsed before being passed to the implementation. For `enum` flag types, this value is type checked against the list of possible values.
+
+import DefaultFlagCode from "./examples/default-flag.txt";
+
+<StricliPlayground filename="default-flag" rootExport="root" appName="run" defaultInput="">
+    {DefaultFlagCode}
+</StricliPlayground>
+
+### Variadic
+
+A flag can be variadic when the type it represents is an array of values. In this case, the flag can be specified multiple times and each value is then parsed individually and added to a single array. If the type of a flag is an array it must be set as variadic.
+
+import VariadicFlagCode from "./examples/variadic-flag.txt";
+
+<StricliPlayground filename="variadic-flag" rootExport="root" appName="run" defaultInput="--id 5 -i 10 -i 15">
+    {VariadicFlagCode}
+</StricliPlayground>
+
+### Hidden
+
+If a flag has already been marked optional, then it can also be marked as hidden. This means that the flag will not appear in the default help text, documentation, or auto-complete proposals. Hidden flags should be reserved for features that aren't necessarily user facing, but are advanced or debug-related.
+
+The an additional system flag `--helpAll` (or `--help-all` depending on case style) will always include all flags, even hidden ones.
+
+import HiddenFlagCode from "./examples/hidden-flag.txt";
+
+<StricliPlayground filename="hidden-flag" rootExport="root" appName="run" defaultInput="--help">
+    {HiddenFlagCode}
+</StricliPlayground>

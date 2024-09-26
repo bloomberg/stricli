@@ -1,0 +1,103 @@
+---
+slug: intro
+title: Introducing Stricli
+authors: [mmolisani]
+# tags: [hello]
+---
+
+We are excited to announce the release of Stricli, a new framework for developing command line applications with TypeScript.
+
+{/* truncate */}
+
+Bloomberg maintains several internal CLIs written in TypeScript. Running on Node, these applications used a variety of existing CLI development frameworks or libraries, and we wanted to standardize the developer and user experiences.
+
+## Alternatives Considered
+
+We considered several [available alternatives](../docs/getting-started/alternatives) before ultimately deciding to build our own framework. As a company that supports and encourages TypeScript development, full type support was a critical requirement. This ruled out frameworks that use [patterns](../docs/getting-started/alternatives#method-chaining) or [domain-specific languages](../docs/getting-started/alternatives#custom-dsls) that can't be statically typed.
+
+At this point, we had narrowed our options down to [oclif](https://oclif.io/) and [clipanion](https://mael.dev/clipanion/), two popular frameworks that share some design patterns. They both structure their commands as ECMAScript classes, which provides a strong path for type support. These classes result in a strong coupling of command configuration and command implementation, requiring a full load of all the code (and its dependencies) in an application on a fresh start.
+
+Furthermore, both frameworks recommend structuring applications as a connected web of plugins. This can be beneficial for applications that have a sufficiently wide surface area, or allow users to sideload plugins into their applications. However, without those requirements, this pattern becomes another runtime dependency on the package manager, further complicating efforts to bundle an application or port it to alternate runtimes.
+
+## Guiding Principles
+
+Ultimately, we felt that there was a sufficient gap in the JavaScript ecosystem to develop our own framework. Rather than completely reinvent the wheel, many of our design decisions were instructed by the [Command Line Interface Guidelines](https://clig.dev/). In addition to these guidelines, we agreed on a set of language-agnostic principles to guide our framework design efforts:
+
+-   [Commands Are Just Functions](../docs/getting-started/principles#commands-are-just-functions)
+    -   CLI applications exist to expose some function(s) to users via the command line.
+-   [When Parsing, Form Follows Function](../docs/getting-started/principles#when-parsing-form-follows-function)
+    -   The framework should parse and validate the inputs for the function (not the other way around).
+-   [No "Magic" Features or Patterns](../docs/getting-started/principles#no-magic-features-or-patterns)
+    -   Developers should be able to understand and debug a framework using native tools for that framework's language.
+
+The last point is especially important to us, especially in light of our investment in the ECMAScript specification. The JavaScript language has come a long way in the last decade, and we can take advantage of a lot of its new features.
+
+## Features
+
+Any modern CLI framework must support at least a minimum set of features, and Stricli supports:
+
+-   Positional parameters and named flags
+    -   Can be required, optional, variadic, hidden, or have a default value
+    -   Parsed before passed to function
+    -   Additional support for enum, counter, and pure Boolean flags
+-   Single top-level command or arbitrary nested subcommands
+    -   Built-in "did you mean \_\_\_?" suggestions
+-   Automatic help text generation
+    -   With the option of specifying custom usage
+-   Built-in outdated version warning
+-   Internationalization
+    -   All strings printed by Stricli can be replaced as-desired or configured by locale
+-   Use camelCase in code and accept kebab-case on the command line
+
+Beyond the minimum set of features, there are several additional features that differentiate Stricli from the available alternatives.
+
+### Split Definition From Implementation
+
+import SplitDefinitionFromImplementation from "../static/img/intro/SplitDefinitionFromImplementation.svg";
+
+<SplitDefinitionFromImplementation />
+
+Using the ECMAScript import() syntax, we can directly support asynchronous lazy module loading. The entire tree of commands can be loaded without importing any application-specific runtime dependencies. Only when a command gets executed will that implementation code get imported and evaluated. This automatically provides a runtime performance boost across the entire application.
+
+Some applications may also want to take advantage of module bundling. Since we use the standardized import() syntax, any tool that bundles JavaScript code will support this pattern.
+
+### Type-Checked Parsing via TypeScript
+
+import DeriveParsingFromArgumentsViaTypes from "../static/img/intro/DeriveParsingFromArgumentsViaTypes.svg";
+
+<DeriveParsingFromArgumentsViaTypes />
+
+In addition to the benefits of lazy module loading, TypeScript is fully aware of this ECMAScript import() syntax and allows us to introspect the types. Using this introspection, we can ensure that the types for the parameter parsing match the types of the parameters themselves.
+
+### Command Routing
+
+import ExplicitCommandRouting from "../static/img/intro/ExplicitCommandRouting.svg";
+
+<ExplicitCommandRouting />
+
+In Stricli, commands are just objects, and these can be set up in any kind of structure. To combine multiple commands, you can use a "route map" to expose subcommands for a given route.
+
+Both commands and route maps automatically generate their corresponding help text from the specification. Stricli validates all inputs and will suggest alternate routes in case there is a typo.
+
+### Autocomplete Support
+
+import AutocompleteSupport from "../static/img/intro/AutocompleteSupport.svg";
+
+<AutocompleteSupport />
+
+When using a command line application, autocomplete is a critical component of the user experience. It was important that Stricli support shell autocomplete from the outset. Currently, we only support bash, but support for additional shells is forthcoming.
+
+While autocomplete support certainly isn't unique to Stricli, it differentiates itself from other CLI frameworks by using the JavaScript code at runtime, so it isn't tied to any particular shell. This allows for dynamic autocomplete scenarios where completions can be fetched programmatically by JavaScript code.
+
+### Out of Scope
+
+Stricli was purposefully designed not to subsume every library that a command line application uses. In part, this was meant to reduce the scope of the package, simplifying its adoption. There are also many other great packages that have addressed certain use cases, and we readily recommend their use.
+
+-   [Enquirer](https://github.com/enquirer/enquirer) for interactive (and gorgeous) user prompts
+-   [Chalk](https://github.com/chalk/chalk) for easy terminal output styling
+-   [Treeify](https://github.com/notatestuser/treeify) for simple tree-style object printing
+-   ...and there are far too many logging solutions to recommend just one.
+
+## Available Now!
+
+Check out the full documentation at [bloomberg.github.io/stricli](https://bloomberg.github.io/stricli). Start adding Stricli to your application today by running `npm i -D @stricli/core`, or you can bootstrap a new project with `npx @stricli/create-app@latest`. A step-by-step guide for creating a new application can be found in the [tutorial](../docs/tutorial) included in Stricli's documentation.

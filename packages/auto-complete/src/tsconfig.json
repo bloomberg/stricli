@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": ["node"],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "lib": ["esnext"],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "include": ["**/*"],
+    "exclude": []
+}

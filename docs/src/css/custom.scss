@@ -1,0 +1,327 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Tourney:ital,wdth,wght@0,75..125,100..900;1,75..125,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+/* You can override the default Infima variables here. */
+:root {
+    --ifm-color-primary: hsl(205, 70%, 40%);
+    --ifm-color-primary-dark: hsl(205, 80%, 32%);
+    --ifm-color-primary-darker: hsl(205, 90%, 24%);
+    --ifm-color-primary-darkest: hsl(205, 100%, 16%);
+    --ifm-color-primary-light: hsl(205, 100%, 48%);
+    --ifm-color-primary-lighter: hsl(205, 80%, 56%);
+    --ifm-color-primary-lightest: hsl(205, 60%, 64%);
+    --ifm-font-family-base: "Manrope", sans-serif;
+    --ifm-font-family-monospace: "JetBrains Mono", monospace;
+    --ifm-code-font-size: 75%;
+    --docusaurus-highlighted-code-line-bg: rgba(114, 246, 255, 0.3);
+    --docusaurus-command-line-output-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme="dark"] {
+    --ifm-color-primary: hsl(205, 50%, 56%);
+    --ifm-color-primary-dark: hsl(205, 60%, 48%);
+    --ifm-color-primary-darker: hsl(205, 70%, 40%);
+    --ifm-color-primary-darkest: hsl(205, 80%, 32%);
+    --ifm-color-primary-light: hsl(205, 80%, 48%);
+    --ifm-color-primary-lighter: hsl(205, 60%, 56%);
+    --ifm-color-primary-lightest: hsl(205, 40%, 64%);
+    --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+    --docusaurus-command-line-output-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.hero-font-title {
+    font-family: "Tourney", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 125;
+}
+
+.hero-font-header {
+    font-family: "Tourney", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+.hero-title {
+    @extend .hero-font-title;
+    font-size: 6em;
+    // background: linear-gradient(var(--ifm-hero-text-color), var(--ifm-color-primary));
+    background: linear-gradient(var(--ifm-color-primary), var(--ifm-hero-text-color));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+    @extend .hero-font-header;
+}
+
+a.button {
+    @extend .hero-font-header;
+    text-transform: uppercase;
+    font-variation-settings: "wdth" 125;
+}
+
+.footer__title {
+    @extend .hero-font-header;
+    text-transform: uppercase;
+    font-variation-settings: "wdth" 125;
+}
+
+.navbar__title {
+    @extend .hero-font-header;
+    text-transform: lowercase;
+    font-size: 1.6em;
+    font-variation-settings: "wdth" 125;
+}
+
+.theme-admonition [class^="admonitionHeading"] {
+    @extend .hero-font-header;
+    text-transform: uppercase;
+    font-size: 1.25em;
+}
+
+.code-block-command-line-output {
+    color: #2c344d !important;
+    background-color: var(--docusaurus-command-line-output-line-bg);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
+}
+
+[data-theme="dark"] .code-block-command-line-output {
+    color: #6272a4 !important;
+}
+
+.code-block-command-line-error {
+    color: #4d2c35 !important;
+    background-color: rgba(139, 0, 0, 0.3);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
+}
+
+[data-theme="dark"] .code-block-command-line-error {
+    color: #a46262 !important;
+}
+
+.editor-container {
+    position: relative;
+}
+
+.editor-navbar {
+    z-index: 1;
+    position: absolute;
+    top: 3px;
+    right: 20px;
+}
+
+.editor-navbar > :not(:last-child) {
+    margin-right: 0.25em;
+}
+
+.editor-navbar-button {
+    display: flex;
+    align-items: center;
+    background: var(--ifm-color-info-contrast-background);
+    color: var(--ifm-color-info-contrast-foreground);
+    border: 1px solid var(--ifm-color-info-contrast-foreground);
+    border-radius: var(--ifm-global-radius);
+    padding: 0.3rem;
+    line-height: 0;
+    transition: opacity var(--ifm-transition-fast) ease-in-out;
+    opacity: 0.4;
+}
+
+.editor-navbar-button:hover {
+    opacity: 1 !important;
+}
+
+.terminal-container {
+    position: relative;
+    transition: height var(--ifm-transition-fast) ease-out;
+    margin-bottom: 1.5em;
+}
+
+.terminal-navbar {
+    z-index: 1;
+    position: absolute;
+    bottom: -25px;
+    right: 0;
+}
+
+.terminal-navbar > :not(:last-child) {
+    margin-right: 0.25em;
+}
+
+.terminal-navbar-last-loaded {
+    font-family: "JetBrains Mono", monospace;
+    opacity: 0.25;
+}
+
+.terminal-output {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    overflow-y: scroll;
+    width: 100%;
+    transition: height var(--ifm-transition-fast) ease-out;
+}
+
+.terminal-input {
+    display: flex;
+    background-color: rgba(161, 181, 108, 25%);
+}
+
+.terminal-stdin {
+    background-color: rgba(247, 202, 136, 20%);
+}
+
+.terminal-stdout {
+    background-color: rgba(124, 175, 194, 10%);
+}
+
+.terminal-stderr {
+    background-color: rgba(171, 70, 66, 10%);
+}
+
+.ansi-block {
+    white-space: pre;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    line-height: 1.25em;
+    padding-left: 0.25em;
+}
+
+.ansi-block > input {
+    white-space: pre;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1em;
+    line-height: 1.25em;
+    padding-left: 0;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    width: 100%;
+}
+
+.ansi-bold {
+    font-weight: bold;
+}
+
+.ansi-italic {
+    font-style: italic;
+}
+
+.ansi-black {
+    color: #f8f8f8;
+}
+.ansi-red {
+    color: #ab4642;
+}
+.ansi-green {
+    color: #a1b56c;
+}
+.ansi-yellow {
+    color: #f7ca88;
+}
+.ansi-blue {
+    color: #7cafc2;
+}
+.ansi-magenta {
+    color: #ba8baf;
+}
+.ansi-cyan {
+    color: #86c1b9;
+}
+.ansi-white {
+    color: #383838;
+}
+.ansi-bright-black {
+    color: #b8b8b8;
+}
+.ansi-bright-red {
+    color: #ab4642;
+}
+.ansi-bright-green {
+    color: #a1b56c;
+}
+.ansi-bright-yellow {
+    color: #f7ca88;
+}
+.ansi-bright-blue {
+    color: #7cafc2;
+}
+.ansi-bright-magenta {
+    color: #ba8baf;
+}
+.ansi-bright-cyan {
+    color: #86c1b9;
+}
+.ansi-bright-white {
+    color: #181818;
+}
+
+[data-theme="dark"] .ansi-black {
+    color: #181818;
+}
+[data-theme="dark"] .ansi-red {
+    color: #ab4642;
+}
+[data-theme="dark"] .ansi-green {
+    color: #a1b56c;
+}
+[data-theme="dark"] .ansi-yellow {
+    color: #f7ca88;
+}
+[data-theme="dark"] .ansi-blue {
+    color: #7cafc2;
+}
+[data-theme="dark"] .ansi-magenta {
+    color: #ba8baf;
+}
+[data-theme="dark"] .ansi-cyan {
+    color: #86c1b9;
+}
+[data-theme="dark"] .ansi-white {
+    color: #d8d8d8;
+}
+[data-theme="dark"] .ansi-bright-black {
+    color: #585858;
+}
+[data-theme="dark"] .ansi-bright-red {
+    color: #ab4642;
+}
+[data-theme="dark"] .ansi-bright-green {
+    color: #a1b56c;
+}
+[data-theme="dark"] .ansi-bright-yellow {
+    color: #f7ca88;
+}
+[data-theme="dark"] .ansi-bright-blue {
+    color: #7cafc2;
+}
+[data-theme="dark"] .ansi-bright-magenta {
+    color: #ba8baf;
+}
+[data-theme="dark"] .ansi-bright-cyan {
+    color: #86c1b9;
+}
+[data-theme="dark"] .ansi-bright-white {
+    color: #f8f8f8;
+}
+
+.stricli-playground {
+    padding: 0.25em;
+    border-left: 0.25em solid var(--ifm-color-primary);
+}

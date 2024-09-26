@@ -1,0 +1,32 @@
+import { buildCommand, numberParser, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  id: number[];
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { id }: Flags) {
+    this.process.stdout.write(`Selected following IDs: ${id.join(", ")}`);
+  },
+  parameters: {
+    flags: {
+      id: {
+        kind: "parsed",
+        parse: numberParser,
+        brief: "Set of IDs",
+        variadic: true,
+      },
+    },
+    aliases: {
+      i: "id",
+    },
+  },
+  docs: {
+    brief: "",
+    customUsage: [
+      "--id 10",
+      "--id 10 --id 20 --id 30",
+      "--id 5 -i 10 -i 15",
+    ],
+  },
+});

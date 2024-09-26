@@ -1,0 +1,53 @@
+---
+sidebar_position: 3
+---
+
+# Alternatives Considered
+
+Given the large number of libraries and frameworks in the JavaScript ecosystem already, it makes sense to justify why those were deemed insufficient or otherwise a poor fit especially when floating the notion of creating [yet another library](https://xkcd.com/927/). The reasoning provided here is non-exhaustive and only serves as a summary of why it was not chosen.
+
+## Common Patterns
+
+### Method Chaining
+
+Method chaining is a very popular code pattern in JavaScript. Unfortunately, given the incremental, imperative nature of this pattern it is almost impossible to use static typing end-to-end. As a result, many of these libraries offer runtime type validation, but none of these provide accurate TypeScript types for parsed arguments and flags. This can easily lead to situations where compile/runtime types are out of sync, clashing with the principle of [linked parsing](./principles#when-parsing-form-follows-function).
+
+This eliminated the following packages: [cac](https://github.com/cacjs/cac), [caporal](https://caporal.io/), [commander](https://github.com/tj/commander.js), [gluegun](https://infinitered.github.io/gluegun/#/), [sade](https://github.com/lukeed/sade), [vorpal](http://vorpal.js.org/), [yargs](https://github.com/yargs/yargs)
+
+### Custom DSLs
+
+CLIs have existed long before JavaScript, so many frameworks and libraries rely on a custom DSL that mirrors the intended help text. This makes these frameworks and libraries more user-friendly for non-JavaScript developers, but then they require additional domain knowledge. While there are some agreed-upon patterns, there is no "one true DSL" for CLIs which means that different libraries have different conventions. This goes against our principles for ["magic" patterns](./principles#no-magic-features-or-patterns) and [linked parsing](./principles#when-parsing-form-follows-function).
+
+This eliminated the following packages: [cac](https://github.com/cacjs/cac), [caporal](https://caporal.io/), [commander](https://github.com/tj/commander.js), [docopt](http://docopt.org/), [meow](https://github.com/sindresorhus/meow), [sade](https://github.com/lukeed/sade), [vorpal](http://vorpal.js.org/)
+
+## Popular Libraries
+
+### [`parseargs`](https://github.com/pkgjs/parseargs) (Node.js)
+
+New method added to the core `util` utility library in Node.js. It was introduced in v16.7.0/v18.3.0 and is currently (at time of writing) at stability level 1, experimental. It is purposefully [limited in scope](https://github.com/pkgjs/parseargs#scope) and as such does not provide enough features to be a one-stop shop for a complete CLI framework.
+
+### [`arg`](https://github.com/vercel/arg) (vercel)
+
+Vercel's `arg` is a very popular (20M+ weekly downloads at time of writing) library with no dependencies. It accepts a record of flags to parsers and handles all the parsing in one call. However, similar to `parseargs` it is only an argument parser and does not provide any kind of command routing for multi-command applications. It is most likely to be applicable for single-command apps or one-off scripts.
+
+### [`cliffy`](https://github.com/drew-y/cliffy)
+
+`cliffy` is different from the other solutions listed here as it creates REPL applications. Instead of a single executable that is run with different arguments, `cliffy` creates applications that interactively respond to user input to run multiple commands. It doesn't necessarily aim to satisfy the [clig.dev](https://clig.dev) guidelines as it is a different user experience, but its similarity to the other options warranted its inclusion in this list.
+
+## Popular Frameworks
+
+### [`oclif`](https://oclif.io/) (salesforce)
+
+Salesforce's `oclif` is a popular framework with "only 17 dependencies" and is used by several high-profile CLIs like `heroku` and naturally Salesforce's own CLI.
+
+Commands are defined as subclasses with static properties used to define argument types and customize behavior. These static properties are the source of truth for the types of the arguments and flags, and must be defined using the library's utility functions. Then the parse method must be manually invoked at the start of the command's run logic. This goes against the principle of [Form Follows Function](./principles#when-parsing-form-follows-function) as it inverts the source of truth for argument and flag types. Additionally, forcing the command implementation to be a method limits the kind of lazy evaluation strategies that can be adopted for improving performance.
+
+CLIs that use `oclif` are built as a collection of [plugins](https://oclif.io/docs/plugins) that are dynamically loaded at runtime. As such, command routing is implemented with ["topics"](https://oclif.io/docs/topics) that are derived from the directory layout of each plugin. Every command module must be loaded at runtime to parse the static properties, so a separate [manifest file](https://oclif.io/docs/plugin_loading#manifests-improve-performance) was introduced to improve performance. The plugin system does not mesh well with our principle of [No "Magic" Patterns](./principles#no-magic-features-or-patterns) as it relies on systems outside of the JavaScript runtime (file system access and custom module resolution). As well, it more tightly couples the CLI with that specific runtime (Node) which is less desirable as there are more server-side runtimes available.
+
+### [`clipanion`](https://mael.dev/clipanion/) (yarn)
+
+`clipanion` is the popular framework with no dependencies used by `yarn`.
+
+Commands are defined as subclasses with fields used to define argument types and customize behavior. These fields are the source of truth for the types of the arguments and flags, and must be defined using the library's utility functions. This goes against the principle of [Form Follows Function](./principles#when-parsing-form-follows-function) as it inverts the source of truth for argument and flag types. Additionally, forcing the command implementation to be a method limits the kind of lazy evaluation strategies that can be adopted for improving performance (addressed [here](https://mael.dev/clipanion/docs/tips#lazy-evaluation) in the documentation).
+
+CLIs that use `clipanion` are built as a collection of plugins that are dynamically loaded at runtime or classes that need to be individually registered. Every command defines its own set of paths, so all commands must be loaded at runtime to implement command routing. This system does not mesh well with our principle of [No "Magic" Patterns](./principles#no-magic-features-or-patterns) as it relies on package management outside of the JavaScript runtime. In general, the kind of applications that Stricli targets don't have a need for a plugin-based architecture as that level of user extensibility is not a requirement. As well, it more tightly couples the CLI with that specific runtime (Node) which is less desirable as there are more server-side runtimes available.

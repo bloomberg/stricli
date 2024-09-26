@@ -1,0 +1,164 @@
+:::: RouteMap / printHelp / aliased nested route map with aliases
+USAGE
+  cli alias1 doNothing
+  cli alias1 sub doNothing1|doNothing2 ...
+  cli alias1 --help
+  cli alias1 --version
+
+route map brief
+
+ALIASES
+  cli route
+  cli alias2
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  doNothing  top command brief
+  sub        sub route map brief
+
+:::: RouteMap / printHelp / nested route map
+USAGE
+  prefix doNothing
+  prefix sub doNothing1|doNothing2 ...
+  prefix --help
+
+route map brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+COMMANDS
+  doNothing  top command brief
+  sub        sub route map brief
+
+:::: RouteMap / printHelp / nested route map force include hidden routes
+USAGE
+  prefix doNothing
+  prefix sub doNothing1|doNothing2 ...
+  prefix --help
+  prefix --version
+
+route map brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  doNothing  top command brief
+  sub        sub route map brief
+
+:::: RouteMap / printHelp / nested route map with `convert-camel-to-kebab` display case style
+USAGE
+  prefix do-nothing
+  prefix sub do-nothing1|do-nothing2 ...
+  prefix --help
+  prefix --version
+
+Longer description of this route map's behavior, only printed during --help
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  do-nothing  top command brief
+  sub         sub route map brief
+
+:::: RouteMap / printHelp / nested route map with aliases
+USAGE
+  cli route doNothing
+  cli route sub doNothing1|doNothing2 ...
+  cli route --help
+  cli route --version
+
+route map brief
+
+ALIASES
+  cli alias1
+  cli alias2
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  doNothing  top command brief
+  sub        sub route map brief
+
+:::: RouteMap / printHelp / nested route map with aliases, ansi color
+[1mUSAGE[22m
+  cli route doNothing
+  cli route sub doNothing1|doNothing2 ...
+  cli route --help
+  cli route --version
+
+route map brief
+
+[1mALIASES[22m
+  cli alias1
+  cli alias2
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+[1mCOMMANDS[22m
+  [97mdoNothing[39m  [03mtop command brief[23m
+  [97msub[39m        [03msub route map brief[23m
+
+:::: RouteMap / printHelp / nested route map with hidden routes
+USAGE
+  prefix doNothing
+  prefix --help
+  prefix --version
+
+route map brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  doNothing  top command brief
+
+:::: RouteMap / printHelp / nested route map with version available
+USAGE
+  prefix doNothing
+  prefix sub doNothing1|doNothing2 ...
+  prefix --help
+  prefix --version
+
+Longer description of this route map's behavior, only printed during --help
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  doNothing  top command brief
+  sub        sub route map brief
+
+:::: RouteMap / printHelp / nested route maps with custom header text
+Usage:
+  cli route doNothing
+  cli route sub doNothing1|doNothing2 ...
+  cli route --help
+  cli route --version
+
+route map brief
+
+Aliases:
+  cli alias1
+  cli alias2
+
+Flags:
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+Commands:
+  doNothing  top command brief
+  sub        sub route map brief

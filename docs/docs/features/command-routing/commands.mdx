@@ -1,0 +1,107 @@
+---
+sidebar_position: 2
+---
+
+# Commands
+
+Commands are the true building blocks of any CLI application. In order to create a new command, call the `buildCommand` function with the entire specification for that command's parameters and documentation. The argument object for the builder accepts the following properties.
+
+## Implementation
+
+### Lazy `loader`
+
+The `loader` is a function that asynchronously returns a command module. The module should either be the command's implementation function or a default export of the same.
+
+```ts
+// output-next-line
+/// impl.ts
+export default function(flags: {}) {
+  console.log("This is the primary function");
+}
+
+export function alt(flags: {}) {
+  console.log("This is the alternative function");
+}
+
+// output-next-line
+/// commands.ts
+const primaryCommand = buildCommand({
+  // highlight-next-line
+  loader: async () => import("./impl"),
+  ...
+});
+
+const altCommand = buildCommand({
+  loader: async () => {
+    // highlight-start
+    const { alt } = await import("./impl");
+    return alt;
+    // highlight-end
+  },
+  ...
+});
+```
+
+The asychronous nature of the loader is designed particularly for [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) expressions, so that the command can be defined and referenced when parsing/generating help text without loading the entire implementation. This also means that Stricli works well with bundlers that provide code splitting/async loading, and only the requested command's implementation is loaded at runtime.
+
+### Direct `func`
+
+If lazy loading is not desired, there is an option to co-locate the specification and the implementation into the same object. The `func` property is an alternative to `loader` should just be the implementation of the function.
+
+```ts
+// output-next-line
+/// commands.ts
+const command = buildCommand({
+  // highlight-next-line
+  func(flags: {}) {
+    console.log("This is the inline function");
+  },
+  ...
+});
+```
+
+## Parameters
+
+The parameters object is a specification of all of the parameters (arguments and flags) that the command should accept. For more information about this specification, check out the section on [argument parsing](../argument-parsing).
+
+## Documentation
+
+A base level of documentation is required, and more is always appreciated. All commands must specify a value for `brief` that contains a short line of text to be used when referring to this command throughout the help text of the application.
+
+Optionally, you can further customize the help text for this specific command by including `fullDescription` or `customUsage`. The former will override `brief` in the command's help text and can contain multiple lines of text rather than just one. The `customUsage` property will replace the auto-generated usage lines, and is useful when there's some [additional validation of user inputs](../out-of-scope.mdx#cross-argument-validation) that isn't represented natively by Stricli.
+
+```ts
+// output-next-line
+/// command.ts
+buildCommand({
+  docs: {
+    brief: "This is a brief description of the command",
+    fullDescription: [
+      "This is the full description of the command.",
+      "It should include all of the necessary details about the behavior.",
+      "It will only be displayed to the user in the help text for this command.",
+    ].join("\n"),
+    customUsage: [
+      "-a -b",
+      "-c",
+    ],
+  },
+  ...
+});
+```
+
+The command configuration above will produce a command with the following behavior:
+
+```sh
+run --help
+// output-start
+USAGE
+  run -a -b
+  run -c
+  run --help
+
+This is the full description of the command.
+It should include all of the necessary details about the behavior.
+It will only be displayed to the user in the help text for this command.
+// output-end
+```

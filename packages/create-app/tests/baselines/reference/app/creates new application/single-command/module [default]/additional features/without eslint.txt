@@ -1,0 +1,6 @@
+[STDOUT]
+
+[STDERR]
+No flag registered for --no-eslint
+
+[FILES]
