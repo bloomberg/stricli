@@ -50,5 +50,8 @@
         "git": {
             "commitMessage": "chore(release): {version}"
         }
+    },
+    "namedInputs": {
+        "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
     }
 }
