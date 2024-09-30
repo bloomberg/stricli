@@ -16,7 +16,7 @@ interface ApplicationTestOptions {
 interface ApplicationTestResult {
     readonly stdout: string;
     readonly stderr: string;
-    readonly files: DirectoryJSON;
+    readonly files: DirectoryJSON<string | null>;
 }
 
 const FILE_ENTRY_PREFIX = "::::";
@@ -69,7 +69,14 @@ const ApplicationTestResultFormat: BaselineFormat<ApplicationTestResult> = {
         for (const [path, text] of fileEntries) {
             if (text) {
                 yield `${FILE_ENTRY_PREFIX}${path}`;
-                yield text.toString();
+                if (path.endsWith("package.json")) {
+                    const obj = JSON.parse(text.toString());
+                    const dependencies = Object.entries(obj.dependencies);
+                    obj.dependencies = Object.fromEntries(dependencies.map(([key]) => [key, "<self>"]));
+                    yield JSON.stringify(obj, void 0, 2);
+                } else {
+                    yield text.toString();
+                }
             }
         }
     },

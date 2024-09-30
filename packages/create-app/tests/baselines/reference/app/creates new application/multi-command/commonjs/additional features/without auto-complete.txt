@@ -67,7 +67,7 @@ dist
     "minify": true
   },
   "dependencies": {
-    "@stricli/core": "^1.0.0"
+    "@stricli/core": "<self>"
   },
   "devDependencies": {
     "@types/node": "20.x",

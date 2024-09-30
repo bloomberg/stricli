@@ -70,8 +70,8 @@ dist
     "minify": true
   },
   "dependencies": {
-    "@stricli/core": "^1.0.0",
-    "@stricli/auto-complete": "^1.0.0"
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
   },
   "devDependencies": {
     "@types/node": "20.x",
