@@ -1,5 +1,6 @@
 {
     "name": "stricli-bun-example",
+    "version": "1.0.0",
     "private": true,
     "module": "src/app.ts",
     "type": "module",

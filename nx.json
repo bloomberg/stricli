@@ -43,5 +43,12 @@
             "cache": true
         }
     },
-    "defaultBase": "main"
+    "defaultBase": "main",
+    "release": {
+        "projects": ["@stricli/*", "stricli-*-example"],
+        "releaseTagPattern": "release/{version}",
+        "git": {
+            "commitMessage": "chore(release): {version}"
+        }
+    }
 }
