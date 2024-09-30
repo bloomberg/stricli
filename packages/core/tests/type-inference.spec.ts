@@ -1,8 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 
-/* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access */
-
 // The following tests exist to validate the type inference and type checking of the framework.
 // They do not test any runtime behavior and do not need to be executed as part of the test suite.
 

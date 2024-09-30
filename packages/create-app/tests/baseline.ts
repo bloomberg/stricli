@@ -1,3 +1,5 @@
+// Copyright 2024 Bloomberg Finance L.P.
+// Distributed under the terms of the Apache 2.0 license.
 import { expect } from "chai";
 import assert from "node:assert";
 import fs from "node:fs";
