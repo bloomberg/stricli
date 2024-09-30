@@ -13,3 +13,5 @@ Run the following command to use this package.
 ```
 npx @stricli/create-app@latest
 ```
+
+👉 See **https://bloomberg.github.io/stricli** for documentation on Stricli.
