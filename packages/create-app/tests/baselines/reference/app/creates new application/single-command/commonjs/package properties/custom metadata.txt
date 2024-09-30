@@ -141,7 +141,7 @@ import os from "node:os";
 import path from "node:path";
 
 export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
-  // readonly process: NodeJS.Process;
+  readonly process: NodeJS.Process;
   // ...
 }
 
