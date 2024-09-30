@@ -38,6 +38,7 @@
         "@docusaurus/types": "3.5.2",
         "@stricli/core": "^0.0.1",
         "docusaurus-plugin-typedoc": "^1.0.5",
+        "monaco-editor": "^0.51.0",
         "sass": "^1.79.4",
         "typedoc": "^0.26.7",
         "typedoc-plugin-markdown": "^4.2.8"
