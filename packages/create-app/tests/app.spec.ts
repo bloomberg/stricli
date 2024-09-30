@@ -1,10 +1,13 @@
+// Copyright 2024 Bloomberg Finance L.P.
+// Distributed under the terms of the Apache 2.0 license.
 import { run } from "@stricli/core";
 import { expect } from "chai";
 import { createFsFromVolume, Volume, type DirectoryJSON } from "memfs";
 import nodePath from "node:path";
 import sinon from "sinon";
+import type { PackageJson } from "type-fest";
 import { app } from "../src/app";
-import { type LocalContext } from "../src/context";
+import type { LocalContext } from "../src/context";
 import { compareToBaseline, type BaselineFormat } from "./baseline";
 import { FakeWritableStream } from "./stream";
 import type { DeepPartial } from "./types";
@@ -70,8 +73,8 @@ const ApplicationTestResultFormat: BaselineFormat<ApplicationTestResult> = {
             if (text) {
                 yield `${FILE_ENTRY_PREFIX}${path}`;
                 if (path.endsWith("package.json")) {
-                    const obj = JSON.parse(text.toString());
-                    const dependencies = Object.entries(obj.dependencies);
+                    const obj = JSON.parse(text.toString()) as PackageJson;
+                    const dependencies = Object.entries(obj.dependencies ?? {});
                     obj.dependencies = Object.fromEntries(dependencies.map(([key]) => [key, "<self>"]));
                     yield JSON.stringify(obj, void 0, 2);
                 } else {
