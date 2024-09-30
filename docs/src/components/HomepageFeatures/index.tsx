@@ -16,8 +16,9 @@ const FeatureList: FeatureItem[] = [
         title: "Full TypeScript Support",
         description: (
             <>
-                TypeScript types for command <Link to="docs/features/argument-parsing/flags">named flags</Link> and <Link to="docs/features/argument-parsing/positional">positional arguments</Link> are defined once and then flow through the entire
-                application.
+                TypeScript types for command <Link to="docs/features/argument-parsing/flags">named flags</Link> and{" "}
+                <Link to="docs/features/argument-parsing/positional">positional arguments</Link> are defined once and
+                then flow through the entire application.
             </>
         ),
     },
@@ -50,7 +51,8 @@ const FeatureList: FeatureItem[] = [
         title: "Optional Dependency Injection",
         description: (
             <>
-                All system access is encapsulated in a single <Link to="docs/features/isolated-context">context object</Link> which allows for easier dependency
+                All system access is encapsulated in a single{" "}
+                <Link to="docs/features/isolated-context">context object</Link> which allows for easier dependency
                 injection and mocking for unit tests.
             </>
         ),
@@ -59,8 +61,9 @@ const FeatureList: FeatureItem[] = [
         title: "Dynamic Autocomplete",
         description: (
             <>
-                Stricli has first class support for <Link to="docs/features/shell-autocomplete">shell autocomplete</Link>{" "}
-                that can include custom dynamic suggestions at runtime.
+                Stricli has first class support for{" "}
+                <Link to="docs/features/shell-autocomplete">shell autocomplete</Link> that can include custom dynamic
+                suggestions at runtime.
             </>
         ),
     },
