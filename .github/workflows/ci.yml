@@ -28,5 +28,4 @@ jobs:
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v4
 
-            # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
-            - run: npx nx affected -t format:check lint build coverage
+            - run: npx nx run-many -t format:check lint build coverage
