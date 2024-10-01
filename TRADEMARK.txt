@@ -1,0 +1,70 @@
+STRICLI Trademark Guidelines
+==============================
+
+STRICLI and the STRICLI logos (the “STRICLI Marks”) are trademarks and
+service marks of Bloomberg L.P. (“Bloomberg”) and, as such, are symbols of the
+quality of the products and services that Bloomberg offers. These trademark
+guidelines are essential and must be followed to prevent use of the STRICLI
+Marks that could lead to confusion about our software or our company.
+
+The STRICLI Marks may be used in the following manners or places:
+
+- on your website or in your social media accounts in content related to the
+  STRICLI project;
+
+- in connection with conferences, events or talks related to the STRICLI
+  project;
+
+- in connection with educational services offered related to the STRICLI
+  project; in the title of an article or book (print or digital) related to the
+  STRICLI project;
+
+- in a video (title or content) related to the STRICLI project;
+
+- to indicate that your product is an ecosystem component meant to enhance
+  STRICLI's software, e.g. stricli-[component name].
+
+
+The STRICLI Marks may not be used:
+
+- on merchandise;
+- in or as part of your company name;
+- in conjunction with your or another company’s logo or mark; or
+- to disparage Bloomberg or its goods or services.
+
+By use of the STRICLI Marks, each individual or organization:
+
+- Acknowledges that Bloomberg is the owner of all right, title and interest in
+  and to the STRICLI Marks and the goodwill of the business related thereto
+  and that all use of the STRICLI Marks will inure solely to the benefit of
+  Bloomberg.
+
+- Agrees not to: (i) apply anywhere for trademark or service mark registration
+  of the STRICLI Marks or any mark including the STRICLI Marks; (ii) use
+  the STRICLI Marks in any manner or commit any other act likely to devalue,
+  injure or dilute the goodwill or reputation of Bloomberg or the STRICLI
+  Marks; or (iii) challenge the validity of the STRICLI Marks.
+
+- Acknowledges that Bloomberg will exercise control over the quality of use of
+  the STRICLI Marks and the goods/services provided thereunder and will: (i)
+  use the STRICLI Marks only in connection with goods and services of a level
+  of quality at least equal to the goods and services it has distributed
+  previously and, in no event, at no less than then-current industry standards;
+  (ii) use the STRICLI Marks in strict compliance with all guidelines
+  provided by Bloomberg and with such trademark notices as Bloomberg shall
+  direct; (iii) upon reasonable request provide Bloomberg with specimens of use
+  of the STRICLI Marks; and (iv) cease any use of the STRICLI Marks upon
+  written notice from Bloomberg.
+
+- Agrees only to use the STRICLI logo marks provided in the file located in
+  the 'docs' folder at https://github.com/bloomberg/STRICLI, to maintain
+  aspect ratio and to refrain from modifying the color of the marks.
+
+- Agrees to use the word mark STRICLI only in the format “STRICLI”,
+  “Stricli” or “stricli” in the same font and size as the surrounding text.
+
+- Agrees not to use the BLOOMBERG trademark, service mark or logo mark without
+  permission and understands that any use of the BLOOMBERG trademark, service
+  mark or logo mark may be made only following the grant of a license by
+  Bloomberg. In referring to the STRICLI software, you may use the following
+  text: “STRICLI, developed and published by Bloomberg L.P.”
