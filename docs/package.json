@@ -1,6 +1,6 @@
 {
     "name": "@stricli/docs",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "private": true,
     "scripts": {
         "docusaurus": "docusaurus",
@@ -36,7 +36,7 @@
         "@docusaurus/module-type-aliases": "3.5.2",
         "@docusaurus/tsconfig": "3.5.2",
         "@docusaurus/types": "3.5.2",
-        "@stricli/core": "^0.0.1",
+        "@stricli/core": "^1.0.0",
         "docusaurus-plugin-typedoc": "^1.0.5",
         "monaco-editor": "^0.51.0",
         "sass": "^1.79.4",

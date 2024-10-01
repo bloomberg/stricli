@@ -1,11 +1,11 @@
 {
     "name": "stricli-node-example",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "private": true,
     "type": "module",
     "main": "index.js",
     "dependencies": {
-        "@stricli/core": "^0.0.1"
+        "@stricli/core": "^1.0.0"
     },
     "devDependencies": {
         "@types/node": "^22.1.0",
