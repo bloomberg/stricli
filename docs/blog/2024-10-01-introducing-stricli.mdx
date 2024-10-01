@@ -13,7 +13,7 @@ Bloomberg maintains several internal CLIs written in TypeScript. Running on Node
 
 ## Alternatives Considered
 
-We considered several [available alternatives](../docs/getting-started/alternatives) before ultimately deciding to build our own framework. As a company that supports and encourages TypeScript development, full type support was a critical requirement. This ruled out frameworks that use [patterns](../docs/getting-started/alternatives#method-chaining) or [domain-specific languages](../docs/getting-started/alternatives#custom-dsls) that can't be statically typed.
+We considered several [available alternatives](https://bloomberg.github.io/stricli/docs/getting-started/alternatives) before ultimately deciding to build our own framework. As a company that supports and encourages TypeScript development, full type support was a critical requirement. This ruled out frameworks that use [patterns](https://bloomberg.github.io/stricli/docs/getting-started/alternatives#method-chaining) or [domain-specific languages](https://bloomberg.github.io/stricli/docs/getting-started/alternatives#custom-dsls) that can't be statically typed.
 
 At this point, we had narrowed our options down to [oclif](https://oclif.io/) and [clipanion](https://mael.dev/clipanion/), two popular frameworks that share some design patterns. They both structure their commands as ECMAScript classes, which provides a strong path for type support. These classes result in a strong coupling of command configuration and command implementation, requiring a full load of all the code (and its dependencies) in an application on a fresh start.
 
@@ -23,11 +23,11 @@ Furthermore, both frameworks recommend structuring applications as a connected w
 
 Ultimately, we felt that there was a sufficient gap in the JavaScript ecosystem to develop our own framework. Rather than completely reinvent the wheel, many of our design decisions were instructed by the [Command Line Interface Guidelines](https://clig.dev/). In addition to these guidelines, we agreed on a set of language-agnostic principles to guide our framework design efforts:
 
--   [Commands Are Just Functions](../docs/getting-started/principles#commands-are-just-functions)
+-   [Commands Are Just Functions](https://bloomberg.github.io/stricli/docs/getting-started/principles#commands-are-just-functions)
     -   CLI applications exist to expose some function(s) to users via the command line.
--   [When Parsing, Form Follows Function](../docs/getting-started/principles#when-parsing-form-follows-function)
+-   [When Parsing, Form Follows Function](https://bloomberg.github.io/stricli/docs/getting-started/principles#when-parsing-form-follows-function)
     -   The framework should parse and validate the inputs for the function (not the other way around).
--   [No "Magic" Features or Patterns](../docs/getting-started/principles#no-magic-features-or-patterns)
+-   [No "Magic" Features or Patterns](https://bloomberg.github.io/stricli/docs/getting-started/principles#no-magic-features-or-patterns)
     -   Developers should be able to understand and debug a framework using native tools for that framework's language.
 
 The last point is especially important to us, especially in light of our investment in the ECMAScript specification. The JavaScript language has come a long way in the last decade, and we can take advantage of a lot of its new features.
@@ -100,4 +100,4 @@ Stricli was purposefully designed not to subsume every library that a command li
 
 ## Available Now!
 
-Check out the full documentation at [bloomberg.github.io/stricli](https://bloomberg.github.io/stricli). Start adding Stricli to your application today by running `npm i -P @stricli/core`, or you can bootstrap a new project with `npx @stricli/create-app@latest`. A step-by-step guide for creating a new application can be found in the [tutorial](../docs/tutorial) included in Stricli's documentation.
+Check out the full documentation at [bloomberg.github.io/stricli](https://bloomberg.github.io/stricli). Start adding Stricli to your application today by running `npm i -P @stricli/core`, or you can bootstrap a new project with `npx @stricli/create-app@latest`. A step-by-step guide for creating a new application can be found in the [tutorial](https://bloomberg.github.io/stricli/docs/tutorial) included in Stricli's documentation.
