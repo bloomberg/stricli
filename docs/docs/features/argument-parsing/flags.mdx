@@ -40,7 +40,7 @@ import ParsedFlagCode from "./examples/parsed-flag.txt";
 
 Stricli encounters all arguments as strings, and if there is an explicit set of valid string values then the `enum` flag type could be useful.
 
-Given a TypeScript union of string literals (ex: `"a" | "b" | "c"`) the parameter specification can provide a set of all values that should be supported by the flag (ex: `["a", "b", "c"]`). It will then include all values in the help text, and type check a default value if provided. For [auto-complete proposals](../shell-autocomplete), it will automatically suggest any values that match the current partial input.
+Given a TypeScript union of string literals (ex: `"a" | "b" | "c"`) the parameter specification can provide a set of all values that should be supported by the flag (ex: `["a", "b", "c"]`). It will then include all values in the help text, and type check a default value if provided. For [auto-complete proposals](../shell-autocomplete.mdx), it will automatically suggest any values that match the current partial input.
 
 import EnumFlagCode from "./examples/enum-flag.txt";
 
