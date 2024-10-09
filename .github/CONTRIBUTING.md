@@ -9,11 +9,11 @@ answered as quickly as we can.
 
 ## Contribution Licensing
 
-Since this project is distributed under the terms of an [open source license](LICENSE), contributions that you make
+Since this project is distributed under the terms of an [open source license](../LICENSE), contributions that you make
 are licensed under the same terms. In order for us to be able to accept your contributions,
 we will need explicit confirmation from you that you are able and willing to provide them under
 these terms, and the mechanism we use to do this is called a Developer's Certificate of Origin
-[(DCO)](DCO.md). This is very similar to the process used by the Linux(R) kernel, Samba, and many
+[(DCO)](https://github.com/bloomberg/.github/blob/main/DCO.md). This is very similar to the process used by the Linux(R) kernel, Samba, and many
 other major open source projects.
 
 To participate under these terms, all that you must do is include a line like the following as the
@@ -38,7 +38,7 @@ Please see the project's README to get started.
 
 ## Code of Conduct
 
-This project has adopted a [Code of Conduct](CODE_OF_CONDUCT.md). If you have any concerns about the Code, or behavior
+This project has adopted a [Code of Conduct](https://github.com/bloomberg/.github/blob/main/CODE_OF_CONDUCT.md). If you have any concerns about the Code, or behavior
 which you have experienced in the project, please contact us at opensource@bloomberg.net.
 
 ## Security Vulnerability Reporting
