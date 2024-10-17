@@ -34,14 +34,14 @@ export const localContextText = `\
 import type { CommandContext } from "@stricli/core";
 
 export interface LocalContext extends CommandContext {
-  readonly process: NodeJS.Process;
-  // ...
+    readonly process: NodeJS.Process;
+    // ...
 }
 
 export function buildContext(process: NodeJS.Process): LocalContext {
-  return {
-    process,
-  };
+    return {
+        process,
+    };
 }
 `;
 
@@ -53,17 +53,17 @@ import os from "node:os";
 import path from "node:path";
 
 export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
-  readonly process: NodeJS.Process;
-  // ...
+    readonly process: NodeJS.Process;
+    // ...
 }
 
 export function buildContext(process: NodeJS.Process): LocalContext {
-  return {
-    process,
-    os,
-    fs,
-    path,
-  };
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
 }
 `;
 
@@ -71,11 +71,11 @@ export const singleCommandImplText = `\
 import type { LocalContext } from "./context";
 
 interface CommandFlags {
-  readonly count: number;
+    readonly count: number;
 }
 
 export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
-  this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
 }
 `;
 
@@ -84,35 +84,35 @@ import { buildApplication, buildCommand, numberParser } from "@stricli/core";
 import { name, version, description } from "../package.json";
 
 const command = buildCommand({
-  loader: async () => import("./impl"),
-  parameters: {
-    positional: {
-      kind: "tuple",
-      parameters: [
-        {
-          brief: "Your name",
-          parse: String,
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
         },
-      ],
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
     },
-    flags: {
-      count: {
-        kind: "parsed",
-        brief: "Number of times to say hello",
-        parse: numberParser,
-      },
+    docs: {
+        brief: description,
     },
-  },
-  docs: {
-    brief: description,
-  },
 });
 
 export const app = buildApplication(command, {
-  name,
-  versionInfo: {
-    currentVersion: version,
-  },
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
 });
 `;
 
@@ -120,11 +120,11 @@ export const multiCommandSubdirImplText = `\
 import type { LocalContext } from "../../context";
 
 interface SubdirCommandFlags {
-  // ...
+    // ...
 }
 
 export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
-  // ...
+    // ...
 }
 `;
 
@@ -132,16 +132,16 @@ export const multiCommandSubdirCommandText = `\
 import { buildCommand } from "@stricli/core";
 
 export const subdirCommand = buildCommand({
-  loader: async () => import("./impl"),
-  parameters: {
-    positional: {
-      kind: "tuple",
-      parameters: [],
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
     },
-  },
-  docs: {
-    brief: "Command in subdirectory",
-  },
+    docs: {
+        brief: "Command in subdirectory",
+    },
 });
 `;
 
@@ -149,19 +149,19 @@ export const multiCommandNestedImplText = `\
 import type { LocalContext } from "../../context";
 
 interface FooCommandFlags {
-  // ...
+    // ...
 }
 
 export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
-  // ...
+    // ...
 }
 
 interface BarCommandFlags {
-  // ...
+    // ...
 }
 
 export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
-  // ...
+    // ...
 }
 `;
 
@@ -169,45 +169,45 @@ export const multiCommandNestedCommandsText = `\
 import { buildCommand, buildRouteMap } from "@stricli/core";
 
 export const fooCommand = buildCommand({
-  loader: async () => {
-    const { foo } = await import("./impl");
-    return foo;
-  },
-  parameters: {
-    positional: {
-      kind: "tuple",
-      parameters: [],
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
     },
-  },
-  docs: {
-    brief: "Nested foo command",
-  },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
 });
 
 export const barCommand = buildCommand({
-  loader: async () => {
-    const { bar } = await import("./impl");
-    return bar;
-  },
-  parameters: {
-    positional: {
-      kind: "tuple",
-      parameters: [],
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
     },
-  },
-  docs: {
-    brief: "Nested bar command",
-  },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
 });
 
 export const nestedRoutes = buildRouteMap({
-  routes: {
-    foo: fooCommand,
-    bar: barCommand,
-  },
-  docs: {
-    brief: "Nested commands",
-  },
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
 });
 `;
 
@@ -218,20 +218,20 @@ import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
 
 const routes = buildRouteMap({
-  routes: {
-    subdir: subdirCommand,
-    nested: nestedRoutes,
-  },
-  docs: {
-    brief: description,
-  },
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+    },
+    docs: {
+        brief: description,
+    },
 });
 
 export const app = buildApplication(routes, {
-  name,
-  versionInfo: {
-    currentVersion: version,
-  },
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
 });
 `;
 
@@ -244,26 +244,26 @@ import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
 
 const routes = buildRouteMap({
-  routes: {
-    subdir: subdirCommand,
-    nested: nestedRoutes,
-    install: buildInstallCommand("${command}", { bash: "${autcCommand}" }),
-    uninstall: buildUninstallCommand("${command}", { bash: true }),
-  },
-  docs: {
-    brief: description,
-    hideRoute: {
-      install: true,
-      uninstall: true,
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("${command}", { bash: "${autcCommand}" }),
+        uninstall: buildUninstallCommand("${command}", { bash: true }),
     },
-  },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
 });
 
 export const app = buildApplication(routes, {
-  name,
-  versionInfo: {
-    currentVersion: version,
-  },
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
 });
 `;
 }
@@ -291,9 +291,16 @@ import { buildContext } from "../context";
 import { app } from "../app";
 const inputs = process.argv.slice(3);
 if (process.env["COMP_LINE"]?.endsWith(" ")) {
-  inputs.push("");
+    inputs.push("");
 }
 await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
 `;
 
 export const binBashCompleteScriptText = `\
@@ -303,7 +310,13 @@ import { buildContext } from "../context";
 import { app } from "../app";
 const inputs = process.argv.slice(3);
 if (process.env["COMP_LINE"]?.endsWith(" ")) {
-  inputs.push("");
+    inputs.push("");
 }
-void proposeCompletions(app, inputs, buildContext(process));
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
 `;

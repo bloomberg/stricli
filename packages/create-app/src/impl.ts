@@ -167,7 +167,7 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         await writeFile("src/context.ts", localContextText);
     }
 
-    await writeFile("package.json", JSON.stringify(packageJson, void 0, 2));
+    await writeFile("package.json", JSON.stringify(packageJson, void 0, 4));
 
     await writeFile(".gitignore", gitignoreText);
 
@@ -176,7 +176,7 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         include: srcTsconfig.include,
         exclude: srcTsconfig.exclude,
     };
-    await writeFile("src/tsconfig.json", JSON.stringify(sourceTsconfigJson, void 0, 2));
+    await writeFile("src/tsconfig.json", JSON.stringify(sourceTsconfigJson, void 0, 4));
 
     if (flags.template === "single") {
         await writeFile("src/impl.ts", singleCommandImplText);

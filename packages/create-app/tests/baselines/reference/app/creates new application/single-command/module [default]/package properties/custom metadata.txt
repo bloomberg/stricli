@@ -84,35 +84,35 @@ import { buildApplication, buildCommand, numberParser } from "@stricli/core";
 import { name, version, description } from "../package.json";
 
 const command = buildCommand({
-  loader: async () => import("./impl"),
-  parameters: {
-    positional: {
-      kind: "tuple",
-      parameters: [
-        {
-          brief: "Your name",
-          parse: String,
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
         },
-      ],
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
     },
-    flags: {
-      count: {
-        kind: "parsed",
-        brief: "Number of times to say hello",
-        parse: numberParser,
-      },
+    docs: {
+        brief: description,
     },
-  },
-  docs: {
-    brief: description,
-  },
 });
 
 export const app = buildApplication(command, {
-  name,
-  versionInfo: {
-    currentVersion: version,
-  },
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
 });
 
 ::::/root/test/src/bin/bash-complete.ts
@@ -122,9 +122,16 @@ import { buildContext } from "../context";
 import { app } from "../app";
 const inputs = process.argv.slice(3);
 if (process.env["COMP_LINE"]?.endsWith(" ")) {
-  inputs.push("");
+    inputs.push("");
 }
 await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(`${completion}\n`);
+    }
+} catch {
+    // ignore
+}
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -141,56 +148,56 @@ import os from "node:os";
 import path from "node:path";
 
 export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
-  readonly process: NodeJS.Process;
-  // ...
+    readonly process: NodeJS.Process;
+    // ...
 }
 
 export function buildContext(process: NodeJS.Process): LocalContext {
-  return {
-    process,
-    os,
-    fs,
-    path,
-  };
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
 }
 
 ::::/root/test/src/impl.ts
 import type { LocalContext } from "./context";
 
 interface CommandFlags {
-  readonly count: number;
+    readonly count: number;
 }
 
 export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
-  this.process.stdout.write(`Hello ${name}!\n`.repeat(flags.count));
+    this.process.stdout.write(`Hello ${name}!\n`.repeat(flags.count));
 }
 
 ::::/root/test/src/tsconfig.json
 {
-  "compilerOptions": {
-    "noEmit": true,
-    "rootDir": "..",
-    "types": [
-      "node"
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
     ],
-    "resolveJsonModule": true,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "lib": [
-      "esnext"
-    ],
-    "skipLibCheck": true,
-    "strict": true,
-    "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
-    "verbatimModuleSyntax": true
-  },
-  "include": [
-    "**/*"
-  ],
-  "exclude": []
+    "exclude": []
 }
