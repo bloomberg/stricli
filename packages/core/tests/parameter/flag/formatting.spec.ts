@@ -637,6 +637,61 @@ describe("formatDocumentationForFlagParameters", function () {
             compareToBaseline(this, StringArrayBaselineFormat, lines);
         });
 
+        it("required array parsed flag", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly requiredArrayParsed: string[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    requiredArrayParsed: {
+                        kind: "parsed",
+                        parse: (values) => values.split(","),
+                        brief: "required array parsed flag",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
+        it("optional array parsed flag", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly optionalArrayParsed?: string[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    optionalArrayParsed: {
+                        kind: "parsed",
+                        parse: (values) => values.split(","),
+                        optional: true,
+                        brief: "optional array parsed flag",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(
+                parameters.flags ?? {},
+                parameters.aliases ?? {},
+                defaultArgs,
+            );
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
         it("multiple parsed flags", function () {
             // GIVEN
             type Positional = [];

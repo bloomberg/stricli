@@ -676,6 +676,57 @@ describe("formatUsageLineForParameters", function () {
                 // THEN
                 compareToBaseline(this, StringArrayBaselineFormat, [line]);
             });
+
+            it("required array parsed flag", function () {
+                // GIVEN
+                type Positional = [];
+                type Flags = {
+                    readonly requiredArrayParsed: string[];
+                };
+
+                const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                    flags: {
+                        requiredArrayParsed: {
+                            kind: "parsed",
+                            parse: (values) => values.split(","),
+                            brief: "required array parsed flag",
+                        },
+                    },
+                    positional: { kind: "tuple", parameters: [] },
+                };
+
+                // WHEN
+                const line = formatUsageLineForParameters(parameters, defaultArgs);
+
+                // THEN
+                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            });
+
+            it("optional array parsed flag", function () {
+                // GIVEN
+                type Positional = [];
+                type Flags = {
+                    readonly optionalArrayParsed?: string[];
+                };
+
+                const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                    flags: {
+                        optionalArrayParsed: {
+                            kind: "parsed",
+                            parse: (values) => values.split(","),
+                            optional: true,
+                            brief: "optional array parsed flag",
+                        },
+                    },
+                    positional: { kind: "tuple", parameters: [] },
+                };
+
+                // WHEN
+                const line = formatUsageLineForParameters(parameters, defaultArgs);
+
+                // THEN
+                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            });
         });
     });
 });

@@ -8399,6 +8399,830 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("optional variadic parsed flags", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo?: number[];
+            };
+
+            const numberArrayParser = (values: string) => values.split(",").map((value) => numberParser(value));
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberArrayParser,
+                        optional: true,
+                        brief: "foo",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: void 0 }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100"],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [100] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo", "100"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: [100],
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100,200"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: [100, 200],
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo", "100,200"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: [100, 200],
+                            },
+                        ],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "foo",
+                                },
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100", "--foo"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "foo",
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+
+            it("proposeCompletions", async () => {
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "-",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "--",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "--f",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "-",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "--",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "--b",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo", "100"],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo", "100"],
+                    partial: "-",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo", "100"],
+                    partial: "--",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+            });
+
+            describe("with alias", () => {
+                const parametersWithAlias: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                    ...parameters,
+                    aliases: { f: "foo" },
+                };
+
+                it("parseArguments", async () => {
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: [],
+                        expected: {
+                            success: true,
+                            arguments: [{ foo: void 0 }],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f", "100"],
+                        expected: {
+                            success: true,
+                            arguments: [
+                                {
+                                    foo: [100],
+                                },
+                            ],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f", "100,200"],
+                        expected: {
+                            success: true,
+                            arguments: [
+                                {
+                                    foo: [100, 200],
+                                },
+                            ],
+                        },
+                    });
+
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f", "100", "-f"],
+                        expected: {
+                            success: false,
+                            errors: [
+                                {
+                                    type: "UnsatisfiedFlagError",
+                                    properties: {
+                                        externalFlagName: "foo",
+                                    },
+                                },
+                            ],
+                        },
+                    });
+                });
+
+                it("proposeCompletions", async () => {
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [
+                            { kind: "argument:flag", completion: "--foo", brief: "foo" },
+                            { kind: "argument:flag", completion: "-f", brief: "foo" },
+                        ],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [
+                            { kind: "argument:flag", completion: "--foo", brief: "foo" },
+                            { kind: "argument:flag", completion: "-f", brief: "foo" },
+                        ],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "--b",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "--b",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [],
+                    });
+                });
+            });
+        });
+
+        describe("required array parsed flags", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo: number[];
+            };
+
+            const numberArrayParser = (values: string) => values.split(",").map((value) => numberParser(value));
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberArrayParser,
+                        brief: "foo",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100"],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [100] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100,200"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: [100, 200],
+                            },
+                        ],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "foo",
+                                },
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "foo",
+                                },
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100", "--foo"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "foo",
+                                },
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100", "--foo=200"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnexpectedFlagError",
+                                properties: {
+                                    externalFlagName: "foo",
+                                    input: "200",
+                                    previousInput: "100",
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+
+            it("proposeCompletions", async () => {
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "-",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "--",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: [],
+                    partial: "--f",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                });
+
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "-",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "--",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo"],
+                    partial: "--b",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo", "100"],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo", "100"],
+                    partial: "-",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--foo", "100"],
+                    partial: "--",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [],
+                });
+            });
+
+            describe("with alias", () => {
+                const parametersWithAlias: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                    ...parameters,
+                    aliases: { f: "foo" },
+                };
+
+                it("parseArguments", async () => {
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f", "100"],
+                        expected: {
+                            success: true,
+                            arguments: [
+                                {
+                                    foo: [100],
+                                },
+                            ],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f", "100,200"],
+                        expected: {
+                            success: true,
+                            arguments: [
+                                {
+                                    foo: [100, 200],
+                                },
+                            ],
+                        },
+                    });
+
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: [],
+                        expected: {
+                            success: false,
+                            errors: [
+                                {
+                                    type: "UnsatisfiedFlagError",
+                                    properties: {
+                                        externalFlagName: "foo",
+                                    },
+                                },
+                            ],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f"],
+                        expected: {
+                            success: false,
+                            errors: [
+                                {
+                                    type: "UnsatisfiedFlagError",
+                                    properties: {
+                                        externalFlagName: "foo",
+                                    },
+                                },
+                            ],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-f", "100", "-f"],
+                        expected: {
+                            success: false,
+                            errors: [
+                                {
+                                    type: "UnsatisfiedFlagError",
+                                    properties: {
+                                        externalFlagName: "foo",
+                                    },
+                                },
+                            ],
+                        },
+                    });
+                });
+
+                it("proposeCompletions", async () => {
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [
+                            { kind: "argument:flag", completion: "--foo", brief: "foo" },
+                            { kind: "argument:flag", completion: "-f", brief: "foo" },
+                        ],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [
+                            { kind: "argument:flag", completion: "--foo", brief: "foo" },
+                            { kind: "argument:flag", completion: "-f", brief: "foo" },
+                        ],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: [],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: { ...defaultCompletionConfig, includeAliases: true },
+                        expected: [{ kind: "argument:flag", completion: "--foo", brief: "foo" }],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f"],
+                        partial: "--b",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "-",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                    await testCompletions<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        inputs: ["-f", "100"],
+                        partial: "--",
+                        scannerConfig: defaultScannerConfig,
+                        completionConfig: defaultCompletionConfig,
+                        expected: [],
+                    });
+                });
+            });
+        });
+
         describe("parsed flags with custom completions", () => {
             type Positional = [];
             type Flags = {
