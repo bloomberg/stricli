@@ -298,8 +298,11 @@ interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
 
 type TypedFlagParameter_Optional<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer A)[]]
     ? [A] extends [string]
-        ? OptionalVariadicParsedFlagParameter<A, CONTEXT> | OptionalVariadicEnumFlagParameter<A>
-        : OptionalVariadicParsedFlagParameter<A, CONTEXT>
+        ?
+              | OptionalVariadicParsedFlagParameter<A, CONTEXT>
+              | OptionalParsedFlagParameter<T, CONTEXT>
+              | OptionalVariadicEnumFlagParameter<A>
+        : OptionalVariadicParsedFlagParameter<A, CONTEXT> | OptionalParsedFlagParameter<T, CONTEXT>
     : [T] extends [boolean]
       ? OptionalBooleanFlagParameter | OptionalParsedFlagParameter<boolean, CONTEXT>
       : [T] extends [number]
@@ -312,8 +315,11 @@ type TypedFlagParameter_Optional<T, CONTEXT extends CommandContext> = [T] extend
 
 type TypedFlagParameter_Required<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer A)[]]
     ? [A] extends [string]
-        ? RequiredVariadicParsedFlagParameter<A, CONTEXT> | RequiredVariadicEnumFlagParameter<A>
-        : RequiredVariadicParsedFlagParameter<A, CONTEXT>
+        ?
+              | RequiredVariadicParsedFlagParameter<A, CONTEXT>
+              | RequiredParsedFlagParameter<readonly A[], CONTEXT>
+              | RequiredVariadicEnumFlagParameter<A>
+        : RequiredVariadicParsedFlagParameter<A, CONTEXT> | RequiredParsedFlagParameter<readonly A[], CONTEXT>
     : [T] extends [boolean]
       ? RequiredBooleanFlagParameter | RequiredParsedFlagParameter<boolean, CONTEXT>
       : [T] extends [number]
