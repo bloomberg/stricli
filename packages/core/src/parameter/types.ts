@@ -61,7 +61,7 @@ export type Aliases<T> = Readonly<Partial<Record<AvailableAlias, T>>>;
 
 export type BaseFlags = Readonly<Record<string, unknown>>;
 
-interface TypedCommandFlagParameters<FLAGS extends BaseFlags, CONTEXT extends CommandContext> {
+interface TypedCommandFlagParameters_<FLAGS extends BaseFlags, CONTEXT extends CommandContext> {
     /**
      * Typed definitions for all flag parameters.
      */
@@ -72,21 +72,21 @@ interface TypedCommandFlagParameters<FLAGS extends BaseFlags, CONTEXT extends Co
     readonly aliases?: Aliases<keyof FLAGS & string>;
 }
 
-type TypedCommandFlagParameters_<FLAGS extends BaseFlags, CONTEXT extends CommandContext> =
+export type TypedCommandFlagParameters<FLAGS extends BaseFlags, CONTEXT extends CommandContext> =
     Record<string, never> extends FLAGS
-        ? Partial<TypedCommandFlagParameters<FLAGS, CONTEXT>>
-        : TypedCommandFlagParameters<FLAGS, CONTEXT>;
+        ? Partial<TypedCommandFlagParameters_<FLAGS, CONTEXT>>
+        : TypedCommandFlagParameters_<FLAGS, CONTEXT>;
 
-interface TypedCommandPositionalParameters<ARGS extends BaseArgs, CONTEXT extends CommandContext> {
+interface TypedCommandPositionalParameters_<ARGS extends BaseArgs, CONTEXT extends CommandContext> {
     /**
      * Typed definitions for all positional parameters.
      */
     readonly positional: TypedPositionalParameters<ARGS, CONTEXT>;
 }
 
-type TypedCommandPositionalParameters_<ARGS extends BaseArgs, CONTEXT extends CommandContext> = [] extends ARGS
-    ? Partial<TypedCommandPositionalParameters<ARGS, CONTEXT>>
-    : TypedCommandPositionalParameters<ARGS, CONTEXT>;
+export type TypedCommandPositionalParameters<ARGS extends BaseArgs, CONTEXT extends CommandContext> = [] extends ARGS
+    ? Partial<TypedCommandPositionalParameters_<ARGS, CONTEXT>>
+    : TypedCommandPositionalParameters_<ARGS, CONTEXT>;
 
 /**
  * Definitions for all parameters requested by the corresponding command.
@@ -95,7 +95,7 @@ export type TypedCommandParameters<
     FLAGS extends BaseFlags,
     ARGS extends BaseArgs,
     CONTEXT extends CommandContext,
-> = TypedCommandFlagParameters_<FLAGS, CONTEXT> & TypedCommandPositionalParameters_<ARGS, CONTEXT>;
+> = TypedCommandFlagParameters<FLAGS, CONTEXT> & TypedCommandPositionalParameters<ARGS, CONTEXT>;
 
 /**
  * Definitions for all parameters requested by the corresponding command.
