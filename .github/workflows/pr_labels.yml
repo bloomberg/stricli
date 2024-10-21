@@ -1,0 +1,27 @@
+name: Add labels to PR
+
+on:
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
+
+permissions:
+    actions: read
+    contents: read
+    pull-requests: write
+
+jobs:
+    main:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - run: ./scripts/add_labels_to_pr.sh
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                GH_REPO: ${{ github.repository }}
+                PR_NUMBER: ${{ github.event.pull_request.number }}
