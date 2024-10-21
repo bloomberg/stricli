@@ -48,7 +48,13 @@ export {
     UnsatisfiedPositionalError,
     formatMessageForArgumentScannerError,
 } from "./parameter/scanner";
-export type { InputParser, TypedCommandParameters } from "./parameter/types";
+export type {
+    Aliases,
+    InputParser,
+    TypedCommandFlagParameters,
+    TypedCommandParameters,
+    TypedCommandPositionalParameters,
+} from "./parameter/types";
 export { buildCommand } from "./routing/command/builder";
 export type { CommandBuilderArguments } from "./routing/command/builder";
 export type { Command } from "./routing/command/types";
