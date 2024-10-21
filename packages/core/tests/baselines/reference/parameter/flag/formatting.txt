@@ -50,6 +50,10 @@
 [97m[39m   [97m--required-parsed-with-kebab-case-name[39m  [03mrequired parsed flag with kebab-case name[23m
 [97m-h[39m [97m--help[39m                                  [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / optional array parsed flag
+[97m[39m   [97m[--optionalArrayParsed][39m  [03moptional array parsed flag[23m
+[97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                      [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / parsed / optional parsed flag
 [97m[39m   [97m[--optionalParsed][39m  [03moptional parsed flag[23m
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
@@ -62,6 +66,10 @@
 [97m[39m   [97m[--optionalVariadicParsed]...[39m  [03moptional variadic parsed flag[23m
 [97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                            [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / required array parsed flag
+[97m[39m   [97m--requiredArrayParsed[39m  [03mrequired array parsed flag[23m
+[97m-h[39m [97m--help[39m                 [03mPrint help information and exit[23m
+[97m[39m   [97m--[39m                     [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / parsed / required parsed flag
 [97m[39m   [97m--requiredParsed[39m  [03mrequired parsed flag[23m
 [97m-h[39m [97m--help[39m            [03mPrint help information and exit[23m

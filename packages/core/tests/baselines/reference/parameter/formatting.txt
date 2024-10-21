@@ -12,6 +12,8 @@ cli [--optionalEnum a|b|c]
 cli (--requiredEnum a|b|c)
 :::: formatUsageLineForParameters / flags / enum / required enum flag with default
 cli [--requiredEnum a|b|c]
+:::: formatUsageLineForParameters / flags / parsed / optional array parsed flag
+cli [--optionalArrayParsed value]
 :::: formatUsageLineForParameters / flags / parsed / optional parsed flag
 cli [--optionalParsed value]
 :::: formatUsageLineForParameters / flags / parsed / optional parsed flag [hidden]
@@ -20,6 +22,8 @@ cli
 cli [--optionalParsed parsed]
 :::: formatUsageLineForParameters / flags / parsed / optional variadic parsed flag
 cli [--optionalVariadicParsed value]...
+:::: formatUsageLineForParameters / flags / parsed / required array parsed flag
+cli (--requiredArrayParsed value)
 :::: formatUsageLineForParameters / flags / parsed / required parsed flag
 cli (--requiredParsed value)
 :::: formatUsageLineForParameters / flags / parsed / required parsed flag with alias
