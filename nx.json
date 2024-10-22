@@ -45,8 +45,11 @@
     },
     "defaultBase": "main",
     "release": {
-        "projects": ["@stricli/*", "stricli-*-example"],
+        "projects": ["@stricli/*", "!@stricli/docs"],
         "releaseTagPattern": "release/{version}",
+        "version": {
+            "conventionalCommits": true
+        },
         "git": {
             "commitMessage": "chore(release): {version}"
         }
