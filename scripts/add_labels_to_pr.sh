@@ -1,43 +1,22 @@
 #!/usr/bin/env bash
 
+declare -A path_label_mapping
+
+repo_path="packages/core";           path_label_mapping[$repo_path]="core ⚙"
+repo_path="packages/auto-complete";  path_label_mapping[$repo_path]="auto-complete 🔮"
+repo_path="packages/create-app";     path_label_mapping[$repo_path]="create-app 📂"
+repo_path="docs";                    path_label_mapping[$repo_path]="documentation 📝"
+repo_path=".github/workflows";       path_label_mapping[$repo_path]="ci 🤖"
+
 diff_result=$(git diff --name-only origin/main..HEAD)
 
-if [[ "${diff_result[*]}" =~ packages/core/* ]]; then
-    echo "Change found in packages/core, adding label for core"
-    gh pr edit $PR_NUMBER --add-label "core ⚙"
-else
-    echo "No changes found in packages/core, removing label for core"
-    gh pr edit $PR_NUMBER --remove-label "core ⚙"
-fi
-
-if [[ "${diff_result[*]}" =~ packages/auto-complete/* ]]; then
-    echo "Change found in packages/auto-complete, adding label for auto-complete"
-    gh pr edit $PR_NUMBER --add-label "auto-complete 🔮"
-else
-    echo "No changes found in packages/auto-complete, removing label for auto-complete"
-    gh pr edit $PR_NUMBER --remove-label "auto-complete 🔮"
-fi
-
-if [[ "${diff_result[*]}" =~ packages/create-app/* ]]; then
-    echo "Change found in packages/create-app, adding label for create-app"
-    gh pr edit $PR_NUMBER --add-label "create-app 📂"
-else
-    echo "No changes found in packages/create-app, removing label for create-app"
-    gh pr edit $PR_NUMBER --remove-label "create-app 📂"
-fi
-
-if [[ "${diff_result[*]}" =~ docs/* ]]; then
-    echo "Change found in docs, adding label for documentation"
-    gh pr edit $PR_NUMBER --add-label "documentation 📝"
-else
-    echo "No changes found in docs, removing label for documentation"
-    gh pr edit $PR_NUMBER --remove-label "documentation 📝"
-fi
-
-if [[ "${diff_result[*]}" =~ .github/workflows/* ]]; then
-    echo "Change found in .github/workflows, adding label for ci"
-    gh pr edit $PR_NUMBER --add-label "ci 🤖"
-else
-    echo "No changes found in .github/workflows, removing label for ci"
-    gh pr edit $PR_NUMBER --remove-label "ci 🤖"
-fi
+for repo_path in "${!path_label_mapping[@]}"
+do
+    if [[ "${diff_result[*]}" =~ $repo_path/* ]]; then
+        echo "Change found in $repo_path, adding label ${path_label_mapping[$repo_path]}"
+        gh pr edit $DRONE_PULL_REQUEST --add-label "${path_label_mapping[$repo_path]}"
+    else
+        echo "No changes found in $repo_path, removing label ${path_label_mapping[$repo_path]}"
+        gh pr edit $DRONE_PULL_REQUEST --remove-label "${path_label_mapping[$repo_path]}"
+    fi
+done
