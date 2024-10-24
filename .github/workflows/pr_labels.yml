@@ -13,7 +13,7 @@ permissions:
     pull-requests: write
 
 jobs:
-    main:
+    label:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4

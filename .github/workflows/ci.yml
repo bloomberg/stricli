@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Nx [format:check, lint, build, coverage]
 
 on:
     push:
