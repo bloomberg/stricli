@@ -12,6 +12,7 @@ on:
 permissions:
     actions: read
     contents: write
+    id-token: write
 
 jobs:
     release:
