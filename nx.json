@@ -50,6 +50,11 @@
         "version": {
             "conventionalCommits": true
         },
+        "changelog": {
+            "workspaceChangelog": {
+                "createRelease": "github"
+            }
+        },
         "git": {
             "commitMessage": "chore(release): {version}"
         }
