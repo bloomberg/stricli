@@ -4,6 +4,7 @@ import { buildApplication, buildCommand } from "@stricli/core";
 import packageJson from "../package.json";
 
 const command = buildCommand({
+    /* c8 ignore next */
     loader: async () => import("./impl"),
     parameters: {
         positional: {
