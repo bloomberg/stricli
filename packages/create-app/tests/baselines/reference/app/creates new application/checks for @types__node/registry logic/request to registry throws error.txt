@@ -1,0 +1,7 @@
+[STDOUT]
+
+[STDERR]
+Command failed, Error: Failed to fetch data from REGISTRY
+    at Context.<anonymous> (#/tests/app.spec.ts:?:?)
+
+[FILES]

@@ -1,6 +1,0 @@
-[STDOUT]
-
-[STDERR]
-No flag registered for --no-prettier
-
-[FILES]

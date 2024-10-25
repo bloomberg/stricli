@@ -2,6 +2,7 @@
 // Distributed under the terms of the Apache 2.0 license.
 import type { PackageJson, TsConfigJson } from "type-fest";
 import self from "../package.json";
+import type { LocalContext } from "./context";
 import {
     binBashCompleteModuleText,
     binBashCompleteScriptText,
@@ -19,8 +20,8 @@ import {
     singleCommandAppText,
     singleCommandImplText,
 } from "./files";
+import { calculateAcceptableNodeVersions, type NodeVersions } from "./node";
 import srcTsconfig from "./tsconfig.json";
-import type { LocalContext } from "./context";
 
 interface TsupConfig {
     entry?: string[];
@@ -45,7 +46,7 @@ type PackageJsonTemplateValues = Pick<PackageJson.PackageJsonStandard, "name"> &
 function buildPackageJson(
     values: PackageJsonTemplateValues,
     commandName: string,
-    nodeMajorVersion: number,
+    nodeVersions: NodeVersions,
 ): LocalPackageJson {
     return {
         ...values,
@@ -55,7 +56,7 @@ function buildPackageJson(
             [commandName]: "dist/cli.js",
         },
         engines: {
-            node: `>=${nodeMajorVersion}`,
+            node: nodeVersions.engine,
         },
         scripts: {
             prebuild: "tsc -p src/tsconfig.json",
@@ -74,7 +75,7 @@ function buildPackageJson(
             "@stricli/core": self.dependencies["@stricli/core"],
         },
         devDependencies: {
-            "@types/node": `${nodeMajorVersion}.x`,
+            "@types/node": nodeVersions.types,
             tsup: self.devDependencies.tsup,
             typescript: self.devDependencies.typescript,
         },
@@ -135,8 +136,8 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
 
     const packageName = flags.name ?? path.basename(directoryPath);
     const commandName = flags.command ?? packageName;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const nodeMajorVersion = this.process.versions.node.split(".").map(Number)[0]!;
+
+    const nodeVersions = await calculateAcceptableNodeVersions(this.process);
 
     let packageJson = buildPackageJson(
         {
@@ -147,7 +148,7 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
             type: flags.type,
         },
         commandName,
-        nodeMajorVersion,
+        nodeVersions,
     );
 
     const bashCommandName = calculateBashCompletionCommand(commandName);

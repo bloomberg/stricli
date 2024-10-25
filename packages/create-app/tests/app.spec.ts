@@ -2,8 +2,10 @@
 // Distributed under the terms of the Apache 2.0 license.
 import { run } from "@stricli/core";
 import { expect } from "chai";
+import child_process from "child_process";
 import { createFsFromVolume, Volume, type DirectoryJSON } from "memfs";
 import nodePath from "node:path";
+import url from "node:url";
 import sinon from "sinon";
 import type { PackageJson } from "type-fest";
 import { app } from "../src/app";
@@ -20,6 +22,33 @@ interface ApplicationTestResult {
     readonly stdout: string;
     readonly stderr: string;
     readonly files: DirectoryJSON<string | null>;
+}
+
+const repoRootUrl = new url.URL("..", import.meta.url);
+const repoRootPath = url.fileURLToPath(repoRootUrl);
+const repoRootRegex = new RegExp(repoRootPath.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "ig");
+
+const REPO_ROOT_REPLACEMENT = "#/";
+
+function sanitizeStackTraceReferences(text: string): string {
+    return text
+        .split("\n")
+        .filter((line) => {
+            if (line.startsWith("    at ") && (line.includes("node_modules") || line.includes("node:"))) {
+                return false;
+            }
+            return true;
+        })
+        .map((line) => {
+            if (line.startsWith("    at ")) {
+                line = line.replaceAll(repoRootUrl.href, REPO_ROOT_REPLACEMENT);
+                line = line.replaceAll(repoRootRegex, REPO_ROOT_REPLACEMENT);
+                line = line.replaceAll(nodePath.win32.sep, nodePath.posix.sep);
+                line = line.replaceAll(/:\d+/g, ":?");
+            }
+            return line;
+        })
+        .join("\n");
 }
 
 const FILE_ENTRY_PREFIX = "::::";
@@ -45,8 +74,8 @@ const ApplicationTestResultFormat: BaselineFormat<ApplicationTestResult> = {
         const stdoutStartIdx = lines.indexOf("[STDOUT]");
         const stderrStartIdx = lines.indexOf("[STDERR]");
         const filesStartIdx = lines.indexOf("[FILES]");
-        const stdout = lines.slice(stdoutStartIdx + 1, stderrStartIdx - 1).join("\n");
-        const stderr = lines.slice(stderrStartIdx + 1, filesStartIdx - 1).join("\n");
+        const stdout = lines.slice(stdoutStartIdx + 1, stderrStartIdx).join("\n");
+        const stderr = lines.slice(stderrStartIdx + 1, filesStartIdx).join("\n");
         const filesText = lines.slice(filesStartIdx).join("\n").split(FILE_ENTRY_PREFIX).slice(1);
         const vol = Volume.fromJSON({});
         for (const fileText of filesText) {
@@ -66,7 +95,7 @@ const ApplicationTestResultFormat: BaselineFormat<ApplicationTestResult> = {
         yield "[STDOUT]";
         yield result.stdout;
         yield "[STDERR]";
-        yield result.stderr;
+        yield sanitizeStackTraceReferences(result.stderr);
         yield "[FILES]";
         const fileEntries = Object.entries(result.files).sort((a, b) => a[0].localeCompare(b[0]));
         for (const [path, text] of fileEntries) {
@@ -384,6 +413,521 @@ describe("creates new application", () => {
                     );
                     compareToBaseline(this, ApplicationTestResultFormat, result);
                 });
+            });
+        });
+    });
+
+    describe("checks for @types__node", () => {
+        const currentNodeMajorVersion = Number(process.versions.node.split(".")[0]);
+        const futureLTSNodeMajorVersion = currentNodeMajorVersion + (currentNodeMajorVersion % 2 === 0 ? 10 : 11);
+
+        let sandbox: sinon.SinonSandbox;
+        beforeEach(() => {
+            sandbox = sinon.createSandbox();
+        });
+        afterEach(() => {
+            sandbox.restore();
+        });
+
+        describe("registry logic", () => {
+            it("unable to discover registry from process", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {},
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+            });
+
+            it("no check for safe major version", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(new Response(JSON.stringify({})));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${currentNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(0, "execFileSync called unexpectedly");
+                expect(fetch.callCount).to.equal(0, "fetch called unexpectedly");
+            });
+
+            it("reads registry direct from NPM_CONFIG_REGISTRY", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(new Response(JSON.stringify({})));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(0, "execFileSync called unexpectedly");
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
+            });
+
+            it("reads registry direct from NPM_CONFIG_REGISTRY, URL ends with slash", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(new Response(JSON.stringify({})));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY/",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(0, "execFileSync called unexpectedly");
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
+            });
+
+            it("registry data has no versions", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(
+                    new Response(
+                        JSON.stringify({
+                            versions: null,
+                        }),
+                    ),
+                );
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(0, "execFileSync called unexpectedly");
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
+            });
+
+            it("request to registry throws error", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.rejects(new Error("Failed to fetch data from REGISTRY"));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(0, "execFileSync called unexpectedly");
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
+            });
+
+            it("uses NPM_EXECPATH to get registry config value", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(new Response(JSON.stringify({})));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        execPath: "process.execPath",
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_EXECPATH: "NPM_EXECPATH",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(1, "execFileSync called an unexpected number of times");
+                expect(execFileSync.args[0]).to.deep.equal(
+                    ["process.execPath", ["NPM_EXECPATH", "config", "get", "registry"], { encoding: "utf-8" }],
+                    "fetch called with unexpected argument",
+                );
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal("REGISTRY/@types/node", "fetch called with unexpected argument");
+            });
+
+            it("NPM_EXECPATH throws an error", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.throws(new Error("Failed to execute NPM_EXECPATH"));
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(new Response(JSON.stringify({})));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        execPath: "process.execPath",
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_EXECPATH: "NPM_EXECPATH",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(1, "execFileSync called an unexpected number of times");
+                expect(execFileSync.args[0]).to.deep.equal(
+                    ["process.execPath", ["NPM_EXECPATH", "config", "get", "registry"], { encoding: "utf-8" }],
+                    "fetch called with unexpected argument",
+                );
+                expect(fetch.callCount).to.equal(0, "fetch called unexpectedly");
+            });
+        });
+
+        describe("node version logic", () => {
+            it("exact version exists for types", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(
+                    new Response(
+                        JSON.stringify({
+                            versions: {
+                                [`${futureLTSNodeMajorVersion}.0.0`]: {},
+                            },
+                        }),
+                    ),
+                );
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
+            });
+
+            it("major version exists in registry", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(
+                    new Response(
+                        JSON.stringify({
+                            versions: {
+                                [`${futureLTSNodeMajorVersion}.0.0`]: {},
+                            },
+                        }),
+                    ),
+                );
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.1.1`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
+            });
+
+            it("major version does not exist in registry, picks highest even major", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(
+                    new Response(
+                        JSON.stringify({
+                            versions: {
+                                [`${currentNodeMajorVersion}.0.0`]: {},
+                            },
+                        }),
+                    ),
+                );
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.1.1`,
+                        },
+                        env: {
+                            NPM_CONFIG_REGISTRY: "NPM_CONFIG_REGISTRY",
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(app, ["node-version-test"], context as LocalContext);
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(fetch.callCount).to.equal(1, "fetch called an unexpected number of times");
+                expect(fetch.args[0]?.[0]).to.equal(
+                    "NPM_CONFIG_REGISTRY/@types/node",
+                    "fetch called with unexpected argument",
+                );
             });
         });
     });

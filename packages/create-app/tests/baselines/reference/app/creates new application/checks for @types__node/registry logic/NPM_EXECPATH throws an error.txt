@@ -1,0 +1,7 @@
+[STDOUT]
+
+[STDERR]
+Command failed, Error: Failed to execute NPM_EXECPATH
+    at Context.<anonymous> (#/tests/app.spec.ts:?:?)
+
+[FILES]
