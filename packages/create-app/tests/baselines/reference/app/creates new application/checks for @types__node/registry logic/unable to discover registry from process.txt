@@ -2,7 +2,7 @@
 
 [STDERR]
 Unable to determine version of @types/node for 30.0.0, assuming 30.x
-
+Rerun this command with the hidden flag --node-version to manually specify the Node.js major version
 [FILES]
 ::::/home/node-version-test/.gitignore
 # Logs

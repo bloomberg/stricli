@@ -783,6 +783,48 @@ describe("creates new application", () => {
         });
 
         describe("node version logic", () => {
+            it("version discovery skipped when --node-version is provided", async function () {
+                const stdout = new FakeWritableStream();
+                const stderr = new FakeWritableStream();
+                const cwd = sinon.stub().returns("/home");
+                const vol = Volume.fromJSON({});
+                const memfs = createFsFromVolume(vol);
+
+                const execFileSync = sandbox.stub(child_process, "execFileSync");
+                execFileSync.returns("REGISTRY");
+
+                const fetch = sandbox.stub(globalThis, "fetch");
+                fetch.resolves(new Response(JSON.stringify({})));
+
+                const context: DeepPartial<LocalContext> = {
+                    process: {
+                        stdout,
+                        stderr,
+                        cwd,
+                        versions: {
+                            node: `${futureLTSNodeMajorVersion}.0.0`,
+                        },
+                    },
+                    fs: memfs as any,
+                    path: nodePath,
+                };
+
+                await run(
+                    app,
+                    ["node-version-test", "--node-version", `${futureLTSNodeMajorVersion + 1}`],
+                    context as LocalContext,
+                );
+
+                const result = {
+                    stdout: stdout.text,
+                    stderr: stderr.text,
+                    files: vol.toJSON(),
+                };
+                compareToBaseline(this, ApplicationTestResultFormat, result);
+                expect(execFileSync.callCount).to.equal(0, "execFileSync called unexpectedly");
+                expect(fetch.callCount).to.equal(0, "fetch called unexpectedly");
+            });
+
             it("exact version exists for types", async function () {
                 const stdout = new FakeWritableStream();
                 const stderr = new FakeWritableStream();

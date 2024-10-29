@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { buildApplication, buildCommand } from "@stricli/core";
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
 import packageJson from "../package.json";
 
 const command = buildCommand({
@@ -66,6 +66,13 @@ const command = buildCommand({
                 brief: "Package author",
                 parse: String,
                 default: "",
+            },
+            nodeVersion: {
+                kind: "parsed",
+                brief: "Node.js major version to use for engines.node minimum and @types/node, bypasses version discovery logic",
+                parse: numberParser,
+                optional: true,
+                hidden: true,
             },
         },
         aliases: {
