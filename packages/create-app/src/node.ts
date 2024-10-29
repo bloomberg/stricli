@@ -36,6 +36,9 @@ export async function calculateAcceptableNodeVersions(process: NodeJS.Process): 
                     process.stderr.write(
                         `No version of @types/node found with major ${majorVersion}, falling back to ${typesVersion}\n`,
                     );
+                    process.stderr.write(
+                        `Rerun this command with the hidden flag --node-version to manually specify the Node.js major version`,
+                    );
                 }
             }
         }
@@ -48,6 +51,9 @@ export async function calculateAcceptableNodeVersions(process: NodeJS.Process): 
         // Should only be hit if something went wrong determining registry URL or fetching from registry.
         process.stderr.write(
             `Unable to determine version of @types/node for ${process.versions.node}, assuming ${typesVersion}\n`,
+        );
+        process.stderr.write(
+            `Rerun this command with the hidden flag --node-version to manually specify the Node.js major version`,
         );
     }
 

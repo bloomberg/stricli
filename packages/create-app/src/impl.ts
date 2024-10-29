@@ -115,6 +115,7 @@ export interface CreateProjectFlags extends PackageJsonTemplateValues {
     readonly template: "single" | "multi";
     readonly autoComplete: boolean;
     readonly command?: string;
+    readonly nodeVersion?: number;
 }
 
 export default async function (this: LocalContext, flags: CreateProjectFlags, directoryPath: string): Promise<void> {
@@ -137,7 +138,12 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
     const packageName = flags.name ?? path.basename(directoryPath);
     const commandName = flags.command ?? packageName;
 
-    const nodeVersions = await calculateAcceptableNodeVersions(this.process);
+    let nodeVersions: NodeVersions;
+    if (flags.nodeVersion) {
+        nodeVersions = { engine: `>=${flags.nodeVersion}`, types: `${flags.nodeVersion}.x` };
+    } else {
+        nodeVersions = await calculateAcceptableNodeVersions(this.process);
+    }
 
     let packageJson = buildPackageJson(
         {
