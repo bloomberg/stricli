@@ -17,7 +17,7 @@ export const root = buildCommand({
     },
   },
   docs: {
-    brief: "",
+    brief: "Example for live playground with boolean flag",
     customUsage: [
       "--quiet",
       "--quiet=yes",
