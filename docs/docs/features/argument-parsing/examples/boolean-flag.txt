@@ -19,9 +19,9 @@ export const root = buildCommand({
   docs: {
     brief: "Example for live playground with boolean flag",
     customUsage: [
-      "--quiet",
-      "--quiet=yes",
-      "--noQuiet",
+      { input: "--quiet", brief: "Flag with no value" },
+      { input: "--quiet=yes", brief: "Flag with explicit value" },
+      { input: "--noQuiet", brief: "Negated flag" },
     ],
   },
 });

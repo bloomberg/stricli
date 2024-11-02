@@ -674,7 +674,11 @@ describe("Application", () => {
                     },
                     docs: {
                         brief: "basic command",
-                        customUsage: ["custom usage 1", { input: "custom-two", brief: "enhanced custom usage 2" }, "custom usage 3"],
+                        customUsage: [
+                            "custom usage 1",
+                            { input: "custom-two", brief: "enhanced custom usage 2" },
+                            "custom usage 3",
+                        ],
                     },
                 });
                 const appWithAlternateUsage = buildApplication(commandWithAlternateUsage, {
