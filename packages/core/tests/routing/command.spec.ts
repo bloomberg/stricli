@@ -330,6 +330,32 @@ describe("Command", function () {
             compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
+        it("no parameters, help all, force alias in usage line", function () {
+            // GIVEN
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (flags: {}) => {},
+                    };
+                },
+                parameters: {},
+                docs: { brief: "brief" },
+            });
+
+            // WHEN
+            const helpString = command.formatHelp({
+                ...defaultArgs,
+                includeHelpAllFlag: true,
+                config: {
+                    ...defaultArgs.config,
+                    useAliasInUsageLine: true,
+                },
+            });
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+        });
+
         it("mixed parameters", function () {
             // GIVEN
             const command = buildCommand({
@@ -1201,6 +1227,150 @@ describe("Command", function () {
             compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
+        it("mixed parameters, enhanced custom usage", function () {
+            // GIVEN
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (
+                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
+                            ...args: string[]
+                        ) => {},
+                    };
+                },
+                parameters: {
+                    positional: {
+                        kind: "array",
+                        parameter: {
+                            brief: "string array brief",
+                            parse: (x) => x,
+                        },
+                    },
+                    flags: {
+                        alpha: {
+                            brief: "alpha flag brief",
+                            kind: "parsed",
+                            parse: numberParser,
+                        },
+                        bravo: {
+                            brief: "bravo flag brief",
+                            kind: "parsed",
+                            variadic: true,
+                            parse: numberParser,
+                        },
+                        charlie: {
+                            brief: "charlie flag brief",
+                            placeholder: "c",
+                            kind: "parsed",
+                            optional: true,
+                            parse: numberParser,
+                        },
+                        delta: {
+                            brief: "delta flag brief",
+                            kind: "boolean",
+                        },
+                    },
+                    aliases: {
+                        a: "alpha",
+                        d: "delta",
+                    },
+                },
+                docs: {
+                    brief: "brief",
+                    customUsage: [
+                        {
+                            input: "-a 1",
+                            brief: "enhanced usage line #1",
+                        },
+                        {
+                            input: "-a 2 -d",
+                            brief: "enhanced usage line #2",
+                        },
+                    ],
+                },
+            });
+
+            // WHEN
+            const helpString = command.formatHelp(defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+        });
+
+        it("mixed parameters, mixed custom usage", function () {
+            // GIVEN
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (
+                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
+                            ...args: string[]
+                        ) => {},
+                    };
+                },
+                parameters: {
+                    positional: {
+                        kind: "array",
+                        parameter: {
+                            brief: "string array brief",
+                            parse: (x) => x,
+                        },
+                    },
+                    flags: {
+                        alpha: {
+                            brief: "alpha flag brief",
+                            kind: "parsed",
+                            parse: numberParser,
+                        },
+                        bravo: {
+                            brief: "bravo flag brief",
+                            kind: "parsed",
+                            variadic: true,
+                            parse: numberParser,
+                        },
+                        charlie: {
+                            brief: "charlie flag brief",
+                            placeholder: "c",
+                            kind: "parsed",
+                            optional: true,
+                            parse: numberParser,
+                        },
+                        delta: {
+                            brief: "delta flag brief",
+                            kind: "boolean",
+                        },
+                    },
+                    aliases: {
+                        a: "alpha",
+                        d: "delta",
+                    },
+                },
+                docs: {
+                    brief: "brief",
+                    customUsage: [
+                        {
+                            input: "-a 1",
+                            brief: "enhanced usage line #1",
+                        },
+                        "normal custom usage A",
+                        "normal custom usage B",
+                        {
+                            input: "-a 2 -d",
+                            brief: "enhanced usage line #2",
+                        },
+                        "normal custom usage C",
+                        "normal custom usage D",
+                    ],
+                },
+            });
+
+            // WHEN
+            const helpString = command.formatHelp(defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+        });
+
         it("mixed parameters with `original` display case style", function () {
             // GIVEN
             const command = buildCommand({
@@ -1771,6 +1941,73 @@ describe("Command", function () {
             const helpString = command.formatHelp({
                 ...defaultArgs,
                 includeHidden: true,
+            });
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+        });
+
+        it("mixed parameters, help all, force alias in usage line", function () {
+            // GIVEN
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (
+                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
+                            ...args: string[]
+                        ) => {},
+                    };
+                },
+                parameters: {
+                    positional: {
+                        kind: "array",
+                        parameter: {
+                            brief: "string array brief",
+                            parse: (x) => x,
+                        },
+                    },
+                    flags: {
+                        alpha: {
+                            brief: "alpha flag brief",
+                            kind: "parsed",
+                            parse: numberParser,
+                        },
+                        bravo: {
+                            brief: "bravo flag brief",
+                            kind: "parsed",
+                            variadic: true,
+                            parse: numberParser,
+                        },
+                        charlie: {
+                            brief: "charlie flag brief",
+                            placeholder: "c",
+                            kind: "parsed",
+                            optional: true,
+                            parse: numberParser,
+                        },
+                        delta: {
+                            brief: "delta flag brief",
+                            kind: "boolean",
+                        },
+                    },
+                    aliases: {
+                        a: "alpha",
+                        d: "delta",
+                    },
+                },
+                docs: {
+                    brief: "brief",
+                },
+            });
+
+            // WHEN
+            const helpString = command.formatHelp({
+                ...defaultArgs,
+                includeHelpAllFlag: true,
+                config: {
+                    ...defaultArgs.config,
+                    useAliasInUsageLine: true,
+                },
             });
 
             // THEN
