@@ -245,7 +245,8 @@ ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
   cli custom usage 1
-  cli custom usage 2
+  cli custom-two
+    [3menhanced custom usage 2[23m
   cli custom usage 3
   cli --help
 
@@ -1079,6 +1080,117 @@ ExitCode=UnknownCommand
 [1m[31mNo command registered for `--undefined`[39m[22m
 
 :::: Application / run / nested basic route map with hidden routes / fails for undefined route
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `undefined`[39m[22m
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / display help text for root
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli -h
+  cli -H
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / display help text for root (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli -h
+  cli -H
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / display help text for root including hidden
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli subHidden command ...
+  cli -h
+  cli -H
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m        [03msub[23m
+  [90msubHidden[39m  [90msubHidden[39m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / displays help text for nested hidden route map
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli subHidden command
+  cli subHidden -h
+  cli subHidden -H
+
+subHidden
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / displays help text for nested hidden route map (implicit)
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli subHidden command
+  cli subHidden -h
+  cli subHidden -H
+
+subHidden
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-H[39m [97m--helpAll[39m  [03mPrint help information (including hidden commands/flags) and exit[23m
+
+[1mCOMMANDS[22m
+  [97mcommand[39m  [03mbasic command[23m
+
+:: STDERR
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / fails for undefined flag
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for `--undefined`[39m[22m
+
+:::: Application / run / nested basic route map with hidden routes, always show help-all (alias) / fails for undefined route
 ExitCode=UnknownCommand
 :: STDOUT
 

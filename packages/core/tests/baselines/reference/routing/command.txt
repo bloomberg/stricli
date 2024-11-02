@@ -266,6 +266,26 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
+:::: Command / printHelp / mixed parameters, enhanced custom usage
+USAGE
+  prefix -a 1
+    enhanced usage line #1
+  prefix -a 2 -d
+    enhanced usage line #2
+  prefix --help
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
 :::: Command / printHelp / mixed parameters, force include hidden
 USAGE
   prefix (--alpha value) (--delta) <args>...
@@ -306,6 +326,49 @@ USAGE
   prefix --help
 
 Longer description of this command's behavior, only printed during --help
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / mixed parameters, help all, force alias in usage line
+USAGE
+  prefix (-a value) (--bravo value)... [--charlie c] (-d) <args>...
+  prefix -h
+  prefix -H
+
+brief
+
+FLAGS
+  -a  --alpha            alpha flag brief
+      --bravo...         bravo flag brief
+     [--charlie]         charlie flag brief
+  -d  --delta/--noDelta  delta flag brief
+  -h  --help             Print help information and exit
+  -H  --helpAll          Print help information (including hidden commands/flags) and exit
+
+ARGUMENTS
+  args...  string array brief
+
+:::: Command / printHelp / mixed parameters, mixed custom usage
+USAGE
+  prefix -a 1
+    enhanced usage line #1
+  prefix normal custom usage A
+  prefix normal custom usage B
+  prefix -a 2 -d
+    enhanced usage line #2
+  prefix normal custom usage C
+  prefix normal custom usage D
+  prefix --help
+
+brief
 
 FLAGS
   -a  --alpha            alpha flag brief
@@ -441,6 +504,18 @@ brief
 
 FLAGS
   -h --help  Print help information and exit
+
+:::: Command / printHelp / no parameters, help all, force alias in usage line
+USAGE
+  prefix
+  prefix -h
+  prefix -H
+
+brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -H --helpAll  Print help information (including hidden commands/flags) and exit
 
 :::: Command / run / command function returns error / with custom exit code
 ExitCode=Unknown(10)

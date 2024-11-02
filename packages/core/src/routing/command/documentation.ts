@@ -6,6 +6,11 @@ import { formatDocumentationForPositionalParameters } from "../../parameter/posi
 import type { CommandParameters } from "../../parameter/types";
 import type { HelpFormattingArguments } from "../types";
 
+export interface CustomUsage {
+    readonly input: string;
+    readonly brief: string;
+}
+
 export interface CommandDocumentation {
     /**
      * In-line documentation for this command.
@@ -18,7 +23,7 @@ export interface CommandDocumentation {
     /**
      * Sample usage to replace the generated usage lines.
      */
-    readonly customUsage?: readonly string[];
+    readonly customUsage?: readonly (string | CustomUsage)[];
 }
 
 /**
@@ -34,8 +39,13 @@ export function* generateCommandHelpLines(
     const prefix = args.prefix.join(" ");
     yield args.ansiColor ? `\x1B[1m${headers.usage}\x1B[22m` : headers.usage;
     if (customUsage) {
-        for (const customUsageLine of customUsage) {
-            yield `  ${prefix} ${customUsageLine}`;
+        for (const usage of customUsage) {
+            if (typeof usage === "string") {
+                yield `  ${prefix} ${usage}`;
+            } else {
+                const brief = args.ansiColor ? `\x1B[3m${usage.brief}\x1B[23m` : usage.brief;
+                yield `  ${prefix} ${usage.input}\n    ${brief}`;
+            }
         }
     } else {
         yield `  ${formatUsageLineForParameters(parameters, args)}`;

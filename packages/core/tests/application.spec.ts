@@ -674,7 +674,7 @@ describe("Application", () => {
                     },
                     docs: {
                         brief: "basic command",
-                        customUsage: ["custom usage 1", "custom usage 2", "custom usage 3"],
+                        customUsage: ["custom usage 1", { input: "custom-two", brief: "enhanced custom usage 2" }, "custom usage 3"],
                     },
                 });
                 const appWithAlternateUsage = buildApplication(commandWithAlternateUsage, {
@@ -1487,6 +1487,65 @@ describe("Application", () => {
                 name: "cli",
                 documentation: {
                     alwaysShowHelpAllFlag: true,
+                },
+            });
+
+            // WHEN
+            it("display help text for root (implicit)", async function () {
+                const result = await runWithInputs(app, []);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+
+            it("display help text for root", async function () {
+                const result = await runWithInputs(app, ["--help"]);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+
+            it("display help text for root including hidden", async function () {
+                const result = await runWithInputs(app, ["--help-all"]);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+
+            it("fails for undefined route", async function () {
+                const result = await runWithInputs(app, ["undefined"]);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+
+            it("fails for undefined flag", async function () {
+                const result = await runWithInputs(app, ["--undefined"]);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+
+            it("displays help text for nested hidden route map (implicit)", async function () {
+                const result = await runWithInputs(app, ["subHidden"]);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+
+            it("displays help text for nested hidden route map", async function () {
+                const result = await runWithInputs(app, ["subHidden", "--help"]);
+                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            });
+        });
+
+        describe("nested basic route map with hidden routes, always show help-all (alias)", () => {
+            // GIVEN
+            const rootRouteMap = buildRouteMapForFakeContext({
+                routes: {
+                    sub: buildBasicRouteMap("sub"),
+                    subHidden: buildBasicRouteMap("subHidden"),
+                },
+                docs: {
+                    brief: "root route map",
+                    hideRoute: {
+                        subHidden: true,
+                    },
+                },
+            });
+            const app = buildApplication(rootRouteMap, {
+                name: "cli",
+                documentation: {
+                    alwaysShowHelpAllFlag: true,
+                    useAliasInUsageLine: true,
                 },
             });
 
