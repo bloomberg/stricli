@@ -1,0 +1,27 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+export const root = buildCommand({
+  func(this: CommandContext, _: {}, src: string, dest: string) {
+    this.process.stdout.write(`Copying file from ${src} to ${dest}`);
+  },
+  parameters: {
+    positional: {
+      kind: "tuple",
+      parameters: [
+        {
+          brief: "Source file",
+          parse: String,
+          placeholder: "src",
+        },
+        {
+          brief: "Destination path",
+          parse: String,
+          placeholder: "dest",
+        },
+      ],
+    },
+  },
+  docs: {
+    brief: "Example for live playground with positional arguments labeled by placeholders",
+  },
+});
