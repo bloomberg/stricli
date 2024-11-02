@@ -25,6 +25,6 @@ export const root = buildCommand({
     },
   },
   docs: {
-    brief: "",
+    brief: "Example for live playground with optional positional parameter",
   },
 });

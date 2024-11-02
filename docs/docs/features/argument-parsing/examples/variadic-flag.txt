@@ -22,7 +22,7 @@ export const root = buildCommand({
     },
   },
   docs: {
-    brief: "",
+    brief: "Example for live playground with variadic flag",
     customUsage: [
       "--id 10",
       "--id 10 --id 20 --id 30",

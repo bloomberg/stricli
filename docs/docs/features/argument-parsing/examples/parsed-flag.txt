@@ -24,7 +24,7 @@ export const root = buildCommand({
     },
   },
   docs: {
-    brief: "",
+    brief: "Example for live playground with parsed flags",
     customUsage: [
       "--item apple --price 1",
       "--item orange --price 3.5",
