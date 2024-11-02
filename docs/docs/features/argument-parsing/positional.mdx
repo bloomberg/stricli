@@ -67,3 +67,13 @@ import DefaultTupleArgumentCode from "./examples/default-tuple-argument.txt";
 <StricliPlayground filename="default-tuple-argument" rootExport="root" appName="run" defaultInput="">
     {DefaultTupleArgumentCode}
 </StricliPlayground>
+
+## Placeholder
+
+Positional arguments don't truly have names as a name cannot be included in the input (for named arguments, use [flags](./flags.mdx) instead). However, they still have a semantic meaning and it can be useful to refer to it with a name for simplicity. To avoid confusion with named flags, you can specify a "placeholder" for positional arguments. These placeholders are used in the auto-generated usage lines and in the help text.
+
+import PlaceholderArgumentCode from "./examples/placeholder-argument.txt";
+
+<StricliPlayground filename="placeholder-argument" rootExport="root" appName="run" defaultInput="--help">
+    {PlaceholderArgumentCode}
+</StricliPlayground>
