@@ -33,9 +33,12 @@ jobs:
 
             - run: git config --global user.name "github-actions[bot]"
             - run: git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            - run: cp scripts/dco_commit_msg_hook.sh .git/hooks/prepare-commit-msg
 
             - run: npx nx release --yes ${{ inputs.dry-run && '--dry-run' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
                   NPM_CONFIG_PROVENANCE: true
+                  DCO_NAME: ${{ sender.name }}
+                  DCO_EMAIL: ${{ sender.email }}
