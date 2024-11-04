@@ -1,3 +1,19 @@
+## 1.1.0 (2024-11-04)
+
+
+### 🚀 Features
+
+- new option to display brief with custom usage ([d78fda3](https://github.com/bloomberg/stricli/commit/d78fda3))
+
+### 🩹 Fixes
+
+- verify @types/node version with registry ([1a762b0](https://github.com/bloomberg/stricli/commit/1a762b0))
+- hidden --node-version flag to bypass version discovery ([f237e04](https://github.com/bloomberg/stricli/commit/f237e04))
+
+### ❤️  Thank You
+
+- Michael Molisani
+
 ## 1.0.1 (2024-10-22)
 
 
