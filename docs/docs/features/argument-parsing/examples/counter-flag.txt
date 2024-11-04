@@ -20,7 +20,7 @@ export const root = buildCommand({
     },
   },
   docs: {
-    brief: "",
+    brief: "Example for live playground with counter flag",
     customUsage: [
       "--verbose",
       "-v",

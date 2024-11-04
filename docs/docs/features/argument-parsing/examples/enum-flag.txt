@@ -21,6 +21,6 @@ export const root = buildCommand({
     },
   },
   docs: {
-    brief: ""
+    brief: "Example for live playground with enum flag"
   },
 });
