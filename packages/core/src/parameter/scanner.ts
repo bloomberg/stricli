@@ -439,7 +439,7 @@ function findFlagsByArgument<CONTEXT extends CommandContext>(
     return [];
 }
 
-const FLAG_NAME_VALUE_PATTERN = /^--([a-z][a-z-]+)=(.+)$/i;
+const FLAG_NAME_VALUE_PATTERN = /^--([a-z][a-z-.\d_]+)=(.+)$/i;
 const ALIAS_VALUE_PATTERN = /^-([a-z])=(.+)$/i;
 
 /**

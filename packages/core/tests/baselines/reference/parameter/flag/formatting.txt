@@ -44,6 +44,14 @@
 :::: formatDocumentationForFlagParameters / no flags
 [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / flag with nonstandard character
+[97m[39m   [97m--a.b.c_10[39m  [03mrequired parsed flag[23m
+[97m-h[39m [97m--help[39m      [03mPrint help information and exit[23m
+[97m[39m   [97m--[39m          [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / multipart flag
+[97m[39m   [97m--multi.part[39m  [03mrequired parsed flag[23m
+[97m-h[39m [97m--help[39m        [03mPrint help information and exit[23m
+[97m[39m   [97m--[39m            [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / parsed / multiple parsed flags
 [97m[39m   [97m--requiredParsed[39m                        [03mrequired parsed flag[23m
 [97m[39m   [97m--requiredParsedWithLongerName[39m          [03mrequired parsed flag with longer name[23m

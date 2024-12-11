@@ -728,5 +728,55 @@ describe("formatDocumentationForFlagParameters", function () {
             // THEN
             compareToBaseline(this, StringArrayBaselineFormat, lines);
         });
+
+        it("multipart flag", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly "multi.part": string;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    "multi.part": {
+                        kind: "parsed",
+                        parse: String,
+                        brief: "required parsed flag",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
+        it("flag with nonstandard character", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly "a.b.c_10": string;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    "a.b.c_10": {
+                        kind: "parsed",
+                        parse: String,
+                        brief: "required parsed flag",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
     });
 });
