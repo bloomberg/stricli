@@ -7,11 +7,6 @@ on:
             - reopened
             - synchronize
 
-permissions:
-    actions: read
-    contents: read
-    pull-requests: write
-
 jobs:
     main:
         runs-on: ubuntu-latest
