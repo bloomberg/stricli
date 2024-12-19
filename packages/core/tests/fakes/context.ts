@@ -15,8 +15,7 @@ interface FakeWritable {
 interface FakeProcess extends StricliProcess {
     readonly stdout: FakeWritable;
     readonly stderr: FakeWritable;
-    readonly exit: (code: number) => void;
-    readonly exitCode: number;
+    readonly exitCode: number | string;
 }
 
 export type FakeContext = StricliDynamicCommandContext<CommandContext> & {
@@ -33,7 +32,7 @@ export interface FakeContextOptions {
 
 export function buildFakeContext(options: FakeContextOptions = { forCommand: true, colorDepth: 4 }): FakeContext {
     const colorDepth = options.colorDepth;
-    let exitCode!: number;
+    let exitCode!: number | string;
     const context: FakeContext = {
         process: {
             stdout: {
@@ -57,7 +56,7 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
                     : {}),
             },
             env: options.env,
-            exit: (code) => {
+            set exitCode(code: number | string) {
                 exitCode = code;
             },
             get exitCode() {

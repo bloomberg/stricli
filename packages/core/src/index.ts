@@ -76,5 +76,5 @@ export async function run<CONTEXT extends CommandContext>(
     context: StricliDynamicCommandContext<CONTEXT>,
 ): Promise<void> {
     const exitCode = await runApplication(app, inputs, context);
-    context.process.exit?.(exitCode);
+    context.process.exitCode = exitCode;
 }

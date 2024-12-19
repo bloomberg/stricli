@@ -94,7 +94,7 @@ function buildBasicRouteMap(brief: string) {
 interface ApplicationRunResult {
     readonly stdout: string;
     readonly stderr: string;
-    readonly exitCode: number | undefined;
+    readonly exitCode: number | string | undefined;
 }
 
 async function runWithInputs(
@@ -111,18 +111,21 @@ async function runWithInputs(
     };
 }
 
-function serializeExitCode(exitCode: number | undefined): string {
+function serializeExitCode(exitCode: number | string | undefined): string {
     const knownExitCode = Object.entries(ExitCode).find(([_, value]) => value === exitCode);
     if (knownExitCode) {
         return knownExitCode[0];
     }
     if (typeof exitCode === "number") {
-        return `Unknown(${exitCode})`;
+        return `UnknownNumber(${exitCode})`;
+    }
+    if (typeof exitCode === "string") {
+        return `UnknownString(${exitCode})`;
     }
     return "<<No exit code specified>>";
 }
 
-function parseExitCode(exitCodeText: string | undefined): number | undefined {
+function parseExitCode(exitCodeText: string | undefined): number | string | undefined {
     if (!exitCodeText) {
         return;
     }
@@ -130,8 +133,11 @@ function parseExitCode(exitCodeText: string | undefined): number | undefined {
     if (knownExitCode) {
         return knownExitCode[1];
     }
-    if (exitCodeText.startsWith("Unknown")) {
-        return Number(exitCodeText.substring(8, exitCodeText.length - 1));
+    if (exitCodeText.startsWith("UnknownNumber")) {
+        return Number(exitCodeText.substring(14, exitCodeText.length - 1));
+    }
+    if (exitCodeText.startsWith("UnknownString")) {
+        return exitCodeText.substring(14, exitCodeText.length - 1);
     }
 }
 

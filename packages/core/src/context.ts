@@ -46,9 +46,9 @@ export interface StricliProcess extends WritableStreams {
      */
     readonly env?: Readonly<Partial<Record<string, string>>>;
     /**
-     * Set the exit code and end the current process.
+     * Set the exit code for when the current process ends.
      */
-    readonly exit?: (code: number) => void;
+    exitCode?: number | string;
 }
 
 /**
