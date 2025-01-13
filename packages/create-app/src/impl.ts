@@ -166,7 +166,7 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         } else {
             packageJson = addPostinstallScript(
                 packageJson,
-                `npx @stricli/auto-complete@latest install ${commandName} ${bashCommandName}`,
+                `npx @stricli/auto-complete@latest install ${commandName} --bash ${bashCommandName}`,
             );
         }
         await writeFile("src/context.ts", localContextWithAutoCompleteText);

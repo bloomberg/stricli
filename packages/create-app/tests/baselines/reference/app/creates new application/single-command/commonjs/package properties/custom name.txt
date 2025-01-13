@@ -54,7 +54,7 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli __@org/test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
   },
   "tsup": {
     "entry": [
