@@ -1,3 +1,17 @@
+## 1.1.1 (2025-01-13)
+
+
+### 🩹 Fixes
+
+- loosen character restrictons on flags ([2088ffd](https://github.com/bloomberg/stricli/commit/2088ffd))
+- use exit code ([3ac7278](https://github.com/bloomberg/stricli/commit/3ac7278))
+- use correct flag for postinstall auto-complete command ([b70bd39](https://github.com/bloomberg/stricli/commit/b70bd39))
+
+### ❤️  Thank You
+
+- Marty Jones
+- Michael Molisani
+
 ## 1.1.0 (2024-11-04)
 
 
