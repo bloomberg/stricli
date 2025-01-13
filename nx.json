@@ -56,7 +56,8 @@
             }
         },
         "git": {
-            "commitMessage": "chore(release): {version}"
+            "commitMessage": "chore(release): {version}",
+            "commitArgs": "--signoff"
         }
     },
     "namedInputs": {
