@@ -13,7 +13,7 @@ permissions:
     contents: read
 
 jobs:
-    main:
+    nx:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
