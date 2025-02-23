@@ -21,15 +21,7 @@ This framework was developed by Bloomberg after evaluating the [available altern
 
 ## Quick Start
 
-Check out [the tutorial](https://bloomberg.github.io/stricli/docs/tutorial) to learn how to generate a new Stricli application.
-
-## Building
-
-Run `npm ci` to initialize the repo. We use Nx to manage tasks, so you can run the following to build it:
-
-```
-npx nx@latest run-many -t build
-```
+Check out [the quick start](https://bloomberg.github.io/stricli/docs/quick-start) to learn how to generate a new Stricli application.
 
 ## Installation
 
@@ -37,6 +29,14 @@ The core Stricli framework is available on npmjs.com, and can be installed with 
 
 ```
 npm i -P @stricli/core
+```
+
+## Development
+
+Run `npm ci` to initialize the repo. We use Nx to manage tasks, so you can run the following to build all of the packages at once:
+
+```
+npx nx@latest run-many -t build
 ```
 
 ## Contributions
