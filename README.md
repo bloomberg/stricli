@@ -28,7 +28,7 @@ Check out [the quick start](https://bloomberg.github.io/stricli/docs/quick-start
 The core Stricli framework is available on npmjs.com, and can be installed with the following command:
 
 ```
-npm i -P @stricli/core
+npm i --save-prod @stricli/core
 ```
 
 ## Development
