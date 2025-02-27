@@ -25,6 +25,13 @@ export const installCommand = buildCommand({
                 optional: true,
                 placeholder: "command",
             },
+            fish: {
+                kind: "parsed",
+                brief: "Command executed by fish to generate completion proposals",
+                parse: String,
+                optional: true,
+                placeholder: "command",
+            },
         },
         positional: {
             kind: "tuple",
@@ -65,6 +72,11 @@ export const uninstallCommand = buildCommand({
             bash: {
                 kind: "boolean",
                 brief: "Uninstall autocompletion for bash",
+                optional: true,
+            },
+            fish: {
+                kind: "boolean",
+                brief: "Uninstall autocompletion for fish",
                 optional: true,
             },
         },

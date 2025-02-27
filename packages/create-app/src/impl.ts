@@ -6,6 +6,8 @@ import type { LocalContext } from "./context";
 import {
     binBashCompleteModuleText,
     binBashCompleteScriptText,
+    binFishCompleteModuleText,
+    binFishCompleteScriptText,
     binCliModuleText,
     binCliScriptText,
     buildMultiCommandAppWithAutoCompleteText,
@@ -38,6 +40,10 @@ interface LocalPackageJson extends PackageJson.PackageJsonStandard, PackageJson.
 
 function calculateBashCompletionCommand(command: string): string {
     return `__${command}_bash_complete`;
+}
+
+function calculateFishCompletionCommand(command: string): string {
+    return `__${command}_fish_complete`;
 }
 
 type PackageJsonTemplateValues = Pick<PackageJson.PackageJsonStandard, "name"> &
@@ -82,7 +88,7 @@ function buildPackageJson(
     };
 }
 
-function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandName: string): LocalPackageJson {
+function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandName: string, fishCompleteCommandName: string): LocalPackageJson {
     return {
         ...packageJson,
         dependencies: {
@@ -92,11 +98,12 @@ function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandNa
         bin: {
             ...(packageJson.bin as Record<string, string>),
             [bashCompleteCommandName]: "dist/bash-complete.js",
+            [fishCompleteCommandName]: "dist/fish-complete.js",
         },
         tsup: {
             ...packageJson.tsup,
             /* c8 ignore next */
-            entry: [...(packageJson.tsup?.entry ?? []), "src/bin/bash-complete.ts"],
+            entry: [...(packageJson.tsup?.entry ?? []), "src/bin/bash-complete.ts", "src/bin/fish-complete.ts"],
         },
     };
 }
@@ -158,15 +165,16 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
     );
 
     const bashCommandName = calculateBashCompletionCommand(commandName);
+    const fishCommandName = calculateFishCompletionCommand(commandName);
 
     if (flags.autoComplete) {
-        packageJson = addAutoCompleteBin(packageJson, bashCommandName);
+        packageJson = addAutoCompleteBin(packageJson, bashCommandName, fishCommandName);
         if (flags.template === "multi") {
             packageJson = addPostinstallScript(packageJson, `${commandName} install`);
         } else {
             packageJson = addPostinstallScript(
                 packageJson,
-                `npx @stricli/auto-complete@latest install ${commandName} --bash ${bashCommandName}`,
+                `npx @stricli/auto-complete@latest install ${commandName} --bash ${bashCommandName} --fish ${fishCommandName}`,
             );
         }
         await writeFile("src/context.ts", localContextWithAutoCompleteText);
@@ -208,6 +216,11 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         await writeFile(
             "src/bin/bash-complete.ts",
             flags.type === "module" ? binBashCompleteModuleText : binBashCompleteScriptText,
+        );
+
+        await writeFile(
+            "src/bin/fish-complete.ts",
+            flags.type === "module" ? binFishCompleteModuleText : binFishCompleteScriptText,
         );
     }
 }
