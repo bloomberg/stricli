@@ -34,6 +34,11 @@
         "spec": "tests/**/*.spec.ts"
     },
     "c8": {
+        "exclude": [
+            "src/cli/**/*",
+            "src/util/*",
+            "tests/**/*"
+        ],
         "reporter": [
             "text",
             "lcovonly"

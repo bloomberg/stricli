@@ -3,6 +3,8 @@
 import type { StricliProcess } from "@stricli/core";
 import { stub, type SinonStub } from "sinon";
 import type { StricliAutoCompleteContext } from "../../src";
+// eslint-disable-next-line no-restricted-imports
+import type { SystemDependencies } from "../../src/cli/context";
 
 interface FakeWritable {
     readonly write: SinonStub<[string], void>;
@@ -17,7 +19,7 @@ export type FakeContext = StricliAutoCompleteContext & {
     readonly process: FakeProcess;
 };
 
-export interface FakeContextOptions {
+export interface FakeContextOptions extends Partial<SystemDependencies> {
     readonly forCommand?: boolean | (() => never);
     readonly locale?: string;
     readonly colorDepth?: number;
@@ -54,5 +56,6 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
                 exitCode = code;
             },
         },
+        ...options,
     };
 }
