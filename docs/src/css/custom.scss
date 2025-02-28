@@ -217,6 +217,7 @@ a.button {
 
 .ansi-bold {
     font-weight: bold;
+    filter: drop-shadow(0 0 0.1rem color-mix(in srgb, currentColor 50%, transparent));
 }
 
 .ansi-italic {
