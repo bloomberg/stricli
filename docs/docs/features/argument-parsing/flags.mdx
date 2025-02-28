@@ -32,9 +32,7 @@ The base flag type supported by Stricli is `parsed`. To use a parsed flag, you m
 
 import ParsedFlagCode from "./examples/parsed-flag.txt";
 
-<StricliPlayground filename="parsed-flag" rootExport="root" appName="run" defaultInput="--item apple --price 1">
-    {ParsedFlagCode}
-</StricliPlayground>
+<StricliPlayground>{ParsedFlagCode}</StricliPlayground>
 
 ### Enumerations
 
@@ -44,9 +42,7 @@ Given a TypeScript union of string literals (ex: `"a" | "b" | "c"`) the paramete
 
 import EnumFlagCode from "./examples/enum-flag.txt";
 
-<StricliPlayground filename="enum-flag" rootExport="root" appName="run" defaultInput="--level warn">
-    {EnumFlagCode}
-</StricliPlayground>
+<StricliPlayground>{EnumFlagCode}</StricliPlayground>
 
 ### Booleans (with Negation)
 
@@ -56,9 +52,7 @@ Since boolean flags can only have two values, the presence of the flag can be us
 
 import BooleanFlagCode from "./examples/boolean-flag.txt";
 
-<StricliPlayground filename="boolean-flag" rootExport="root" appName="run" defaultInput="--noQuiet">
-    {BooleanFlagCode}
-</StricliPlayground>
+<StricliPlayground>{BooleanFlagCode}</StricliPlayground>
 
 ### Counters
 
@@ -68,9 +62,7 @@ This type only applies to integers, not all numbers and is best used when counti
 
 import CounterFlagCode from "./examples/counter-flag.txt";
 
-<StricliPlayground filename="counter-flag" rootExport="root" appName="run" defaultInput="-vv -v">
-    {CounterFlagCode}
-</StricliPlayground>
+<StricliPlayground>{CounterFlagCode}</StricliPlayground>
 
 ## Variants
 
@@ -82,60 +74,15 @@ If a flag property is optional, or is otherwise possibly `undefined` then it mus
 
 import OptionalFlagCode from "./examples/optional-flag.txt";
 
-<StricliPlayground filename="optional-flag" rootExport="root" appName="run" defaultInput="">
-    {OptionalFlagCode}
-</StricliPlayground>
+<StricliPlayground>{OptionalFlagCode}</StricliPlayground>
 
 ### Empty
 
 It can be valuable to distinguish between `--flag` and `--flag value`. For `parsed` flag types, this behavior is available with the `inferEmpty` attribute. When this is true and the flag is encountered without an input, the input is inferred as the empty string `""` instead.
 
-```ts
-// output-next-line
-/// impl.ts
-export default function(flags: { override?: string }) {
-  console.log(flags.override);
-}
+import InferEmptyCodeCode from "./examples/infer-empty-flag.txt";
 
-// output-next-line
-/// command.ts
-buildCommand({
-  loader: async () => import("./impl"),
-  parameters: {
-    flags: {
-      override: {
-        kind: "parsed",
-        parse: String,
-        brief: "Should override be applied, or override value",
-        optional: true,
-        // highlight-next-line
-        inferEmpty: true,
-      },
-    },
-    ...
-  },
-  ...
-});
-```
-
-The command configuration above will produce a command with the following behavior:
-
-```sh
-run
-// output-next-line
-undefined
-run --override
-// output-next-line
-""
-run --override foobar
-// output-next-line
-"foobar"
-run --help
-// output-start
-FLAGS
-  --override  (optional) Should override be applied, or override value
-// output-end
-```
+<StricliPlayground>{InferEmptyCodeCode}</StricliPlayground>
 
 ### Defaults
 
@@ -143,9 +90,7 @@ Any flag can specify a default value as a string. For `parsed` flag types, this 
 
 import DefaultFlagCode from "./examples/default-flag.txt";
 
-<StricliPlayground filename="default-flag" rootExport="root" appName="run" defaultInput="">
-    {DefaultFlagCode}
-</StricliPlayground>
+<StricliPlayground>{DefaultFlagCode}</StricliPlayground>
 
 ### Variadic
 
@@ -153,9 +98,7 @@ A flag can be variadic when the type it represents is an array of values. In thi
 
 import VariadicFlagCode from "./examples/variadic-flag.txt";
 
-<StricliPlayground filename="variadic-flag" rootExport="root" appName="run" defaultInput="--id 5 -i 10 -i 15">
-    {VariadicFlagCode}
-</StricliPlayground>
+<StricliPlayground>{VariadicFlagCode}</StricliPlayground>
 
 ### Hidden
 
@@ -165,6 +108,4 @@ The an additional system flag `--helpAll` (or `--help-all` depending on case sty
 
 import HiddenFlagCode from "./examples/hidden-flag.txt";
 
-<StricliPlayground filename="hidden-flag" rootExport="root" appName="run" defaultInput="--help">
-    {HiddenFlagCode}
-</StricliPlayground>
+<StricliPlayground>{HiddenFlagCode}</StricliPlayground>

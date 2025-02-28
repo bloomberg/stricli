@@ -1,9 +1,18 @@
-import { buildCommand, numberParser, type CommandContext } from "@stricli/core";
+--help
+1
+1 2
+1 2 3
+/// impl.ts
+import type { CommandContext } from "@stricli/core";
 
-export const root = buildCommand({
-  func(this: CommandContext, _: {}, ...ids: number[]) {
-    this.process.stdout.write(`Grouping users with IDs: ${ids.join(", ")}`);
-  },
+export default async function(this: CommandContext, _: {}, ...ids: number[]) {
+  this.process.stdout.write(`Grouping users with IDs: ${ids.join(", ")}`);
+}
+/// spec.ts
+import { buildCommand, numberParser } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     positional: {
       kind: "array",
@@ -19,3 +28,7 @@ export const root = buildCommand({
     brief: "Example for live playground with bounded positional parameters",
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

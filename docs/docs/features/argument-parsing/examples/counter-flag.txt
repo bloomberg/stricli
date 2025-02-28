@@ -1,13 +1,24 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+-vv -v
+/// impl.ts
+import type { CommandContext } from "@stricli/core";
+
+type Flags = {
+  verbose: number;
+};
+
+export default async function(this: CommandContext, { verbose }: Flags) {
+  this.process.stdout.write(`Logging with verbosity level ${verbose}`);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
 
 interface Flags {
   verbose: number;
 }
 
-export const root = buildCommand({
-  func(this: CommandContext, { verbose }: Flags) {
-    this.process.stdout.write(`Logging with verbosity level ${verbose}`);
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       verbose: {
@@ -29,3 +40,7 @@ export const root = buildCommand({
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

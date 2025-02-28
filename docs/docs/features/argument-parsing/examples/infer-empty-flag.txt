@@ -1,10 +1,16 @@
 --help
-a b c
+
+--value foobar
+--value
 /// impl.ts
 import type { CommandContext } from "@stricli/core";
 
-export default async function(this: CommandContext, _: {}, ...paths: string[]) {
-  this.process.stdout.write(`Deleting files at ${paths.join(", ")}`);
+type Flags = {
+  value?: string
+};
+
+export default async function(this: CommandContext, flags: Flags) {
+  this.process.stdout.write(JSON.stringify(flags));
 }
 /// spec.ts
 import { buildCommand, type CommandContext } from "@stricli/core";
@@ -12,16 +18,18 @@ import { buildCommand, type CommandContext } from "@stricli/core";
 export default buildCommand({
   loader: () => import("./impl"),
   parameters: {
-    positional: {
-      kind: "array",
-      parameter: {
-        brief: "File paths",
+    flags: {
+      value: {
+        kind: "parsed",
         parse: String,
+        brief: "Exact string value",
+        optional: true,
+        inferEmpty: true,
       },
     },
   },
   docs: {
-    brief: "Example for live playground with homogenous positional parameters",
+    brief: "Example for live playground with hidden flag"
   },
 });
 /// !app.ts

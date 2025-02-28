@@ -1,17 +1,23 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+/// impl.ts
+import type { CommandContext } from "@stricli/core";
 
-interface Flags {
+type Flags = {
   visible?: boolean;
   hidden?: boolean;
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { visible, hidden }: Flags) {
-    this.process.stdout.write(visible ? "Visible flag active" : "Visible flag inactive");
-    if (hidden) {
-      this.process.stdout.write("Hidden flag active");
-    }
-  },
+export default async function(this: CommandContext, { visible, hidden }: Flags) {
+  this.process.stdout.write(visible ? "Visible flag active" : "Visible flag inactive");
+  if (hidden) {
+    this.process.stdout.write("Hidden flag active");
+  }
+}
+/// spec.ts
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       visible: {
@@ -31,3 +37,7 @@ export const root = buildCommand({
     brief: "Example for live playground with hidden flag"
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

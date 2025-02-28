@@ -2,132 +2,90 @@
 // Distributed under the terms of the Apache 2.0 license.
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
-import Editor from "./Editor";
-import Terminal, { TerminalHistoryLine } from "./Terminal";
+// import Editor from "./Editor";
+import Terminal from "./Terminal";
 
 // @ts-expect-error Import .d.ts file as text for playground
 import StricliCoreTypes from "../../../../packages/core/dist/index.d.ts";
 
 import * as core from "@stricli/core";
+import TypeScriptPlayground, { EmittedFiles, TextFile } from "../TypeScriptPlayground/impl";
+import { parseArgv, proposeCompletions, runApplication } from "./actions";
+import { evaluateFiles } from "./eval";
 
 export interface StricliPlaygroundProps {
     title?: string;
-    filename: string;
-    children?: string;
-    rootExport?: string;
-    appName?: string;
-    defaultInput?: string;
+    children: string;
     collapsed?: boolean;
     editorHeight?: string;
     terminalHeight?: string;
 }
 
-function loadApplication(
-    rawCode: string,
-    rootExport?: string,
-    appName?: string,
-): core.Application<core.CommandContext> | undefined {
-    const exports: { default?: core.Application<core.CommandContext> } = {};
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    function require(mod: string) {
-        if (mod === "@stricli/core") {
-            return core;
+function importCore(mod: string) {
+    if (mod === "@stricli/core") {
+        return core;
+    }
+    throw new Error(`Unable to import "${mod}" in this context`);
+}
+
+function parseChildrenAsFiles(text: string): [initialInputs: readonly string[], files: readonly TextFile[]] {
+    const [preface, ...sections] = text.split("/// ");
+    const initialInputs = preface
+        .slice(0, -1)
+        .split("\n")
+        .map((line) => line.trim());
+    const files = sections.map((section) => {
+        const [fileName, ...lines] = section.split("\n");
+        let name: string;
+        let hidden = false;
+        if (fileName.startsWith("!")) {
+            name = fileName.slice(1);
+            hidden = true;
+        } else {
+            name = fileName;
         }
-        throw new Error(`Unable to import "${mod}" in this context`);
-    }
-    let code: string;
-    if (rootExport && appName) {
-        code = `${rawCode}
-    exports.default = require("@stricli/core").buildApplication(exports["${rootExport}"], {
-        name: "${appName}"
-    });`;
-    } else {
-        code = rawCode;
-    }
-    try {
-        eval(code);
-    } catch (exc) {
-        console.error("Error evaluating JS code:", exc);
-        return;
-    }
-    return exports.default;
-}
-
-function parseArgv(input: string): readonly string[] {
-    const matches = input.match(/".*?"|[\S]+/g);
-    if (!matches) {
-        return [];
-    }
-    for (let i = 0; i < matches?.length; ++i) {
-        matches[i] = matches[i].replace(/^"(.*)"$/, "$1");
-    }
-    return matches;
-}
-
-async function runApplication(
-    app: core.Application<core.CommandContext>,
-    inputs: readonly string[],
-): Promise<readonly TerminalHistoryLine[]> {
-    const history: TerminalHistoryLine[] = [];
-    await core.run(app, inputs, {
-        process: {
-            stdout: {
-                write: (str) => history.push([str, "stdout"]),
-                getColorDepth: () => 4,
-            },
-            stderr: {
-                write: (str) => history.push([str, "stderr"]),
-                getColorDepth: () => 4,
-            },
-        },
+        return {
+            name,
+            initialValue: lines.join("\n"),
+            hidden,
+            language: name.endsWith(".ts") ? "typescript" : void 0,
+        };
     });
-    return history;
-}
-
-async function proposeCompletions(
-    app: core.Application<core.CommandContext>,
-    inputs: readonly string[],
-): Promise<readonly string[]> {
-    const completions = await core.proposeCompletions(app, inputs, {
-        process: {
-            stdout: {
-                write: (str) => {
-                    console.log(str);
-                },
-            },
-            stderr: {
-                write: (str) => {
-                    console.warn(str);
-                },
-            },
-        },
-    });
-    return completions.map((completion) => completion.completion);
+    return [initialInputs, files];
 }
 
 export default function StricliPlayground({
     title = "Live Playground",
-    filename,
     children,
-    appName,
-    rootExport,
-    defaultInput,
     collapsed,
     editorHeight = "250px",
     terminalHeight = "250px",
 }: StricliPlaygroundProps): React.JSX.Element {
     const appRef = useRef<core.Application<core.CommandContext> | undefined>(void 0);
     const [lastLoaded, setLastLoaded] = useState<Date | undefined>();
+    const [appName, setAppName] = useState<string>("loading...");
+
+    const id = useMemo(() => crypto.randomUUID(), []);
+    const modelDirectory = `code_${id}`;
+
+    const [initialInputs, files] = parseChildrenAsFiles(children);
 
     const libraries = {
         "@stricli/core": StricliCoreTypes as unknown as string,
     };
 
-    const onTextChange = useCallback(
-        (value: string | undefined) => {
-            if (value) {
-                appRef.current = loadApplication(value, rootExport, appName);
-                setLastLoaded(new Date());
+    const onWorkspaceChange = useCallback(
+        (emittedFiles: EmittedFiles) => {
+            if (Object.keys(emittedFiles).length > 0) {
+                const exports = evaluateFiles(emittedFiles, `file:///${modelDirectory}/app.js`, importCore);
+                if (exports) {
+                    const app = exports.default as core.Application<core.CommandContext>;
+                    appRef.current = app;
+                    setLastLoaded(new Date());
+                    setAppName(app.config.name);
+                } else {
+                    appRef.current = void 0;
+                }
             } else {
                 appRef.current = void 0;
             }
@@ -152,41 +110,35 @@ export default function StricliPlayground({
     return (
         <div className="stricli-playground">
             <h5>{title}</h5>
-            <Editor
-                key={filename}
-                filename={filename}
-                language="typescript"
-                height={editorHeight}
-                options={{
-                    tabSize: 2,
-                    lineNumbers: "off",
-                    scrollBeyondLastLine: false,
-                    folding: false,
-                    bracketPairColorization: { enabled: false },
-                }}
+            <TypeScriptPlayground
+                files={files}
+                rootDirectory={modelDirectory}
+                defaultHeight={editorHeight}
                 libraries={libraries}
                 compilerOptions={{
+                    allowImportingTsExtensions: true,
                     module: 1,
                     strict: true,
+                    typeRoots: ["node_modules/@types"],
+                    types: ["@stricli/core"],
                 }}
-                defaultValue={children}
-                onChange={onTextChange}
-            ></Editor>
+                onEmit={onWorkspaceChange}
+            ></TypeScriptPlayground>
             <Terminal
+                appLoaded={Boolean(appRef.current)}
                 startCollapsed={collapsed}
                 height={terminalHeight}
-                commandPrefix={appName + " "}
-                defaultValue={defaultInput}
+                commandPrefix={appName}
+                initialInputs={initialInputs.slice(0, -1)}
+                defaultValue={initialInputs.at(-1)}
                 executeInput={async (input) => {
                     const app = appRef.current;
                     if (!app) {
                         return [["Application not loaded, check for type errors above ^", "stderr"]];
                     }
                     const argv = parseArgv(input);
-                    if (argv[0] !== app.config.name) {
-                        return [[`${argv[0]}: command not found`, "stderr"]];
-                    }
-                    return runApplication(app, argv.slice(1));
+                    const lines = await runApplication(app, argv);
+                    return [...lines, [input, "stdin", app.config.name]];
                 }}
                 completeInput={async (input) => {
                     const app = appRef.current;
@@ -194,17 +146,13 @@ export default function StricliPlayground({
                         console.error("Application not loaded");
                         return [];
                     }
-                    const argv = parseArgv(input);
-                    if (argv[0] !== app.config.name) {
-                        return [];
-                    }
-                    const inputs = argv.slice(1);
-                    let finalInput = inputs.at(-1);
+                    const argv = [...parseArgv(input)];
+                    let finalInput = argv.at(-1);
                     if (input.endsWith(" ")) {
                         finalInput = "";
-                        inputs.push("");
+                        argv.push("");
                     }
-                    const completions = await proposeCompletions(app, inputs);
+                    const completions = await proposeCompletions(app, argv);
                     if (finalInput === "") {
                         return completions.map((completion) => `${input}${completion}`);
                     }
@@ -217,47 +165,3 @@ export default function StricliPlayground({
         </div>
     );
 }
-
-// import { buildCommand, buildApplication } from "@stricli/core";
-
-// const command = buildCommand({
-//     loader: async () => {
-//         return (flags: {}) => {};
-//     },
-//     parameters: {},
-//     docs: {
-//         brief: "command",
-//     },
-// });
-
-// const app = buildApplication(command, {
-//     name: "z"
-// });
-// export default app;
-
-// import { buildCommand, buildApplication } from "@stricli/core";
-
-// const command = buildCommand({
-//     loader: async () => {
-//         return function(flags: { name: string }) {
-//             this.process.stdout.write(`Hello, ${flags.name}!`);
-//         };
-//     },
-//     parameters: {
-//         flags: {
-//             name: {
-//                 kind: "parsed",
-//                 parse: String,
-//                 brief: "Your name",
-//             },
-//         },
-//     },
-//     docs: {
-//         brief: "command",
-//     },
-// });
-
-// const app = buildApplication(command, {
-//     name: "run"
-// });
-// export default app;
