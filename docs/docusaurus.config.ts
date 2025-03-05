@@ -172,8 +172,8 @@ const config: Config = {
                             to: "/docs/category/getting-started",
                         },
                         {
-                            label: "Tutorial",
-                            to: "/docs/tutorial",
+                            label: "Quick Start",
+                            to: "/docs/quick-start",
                         },
                         {
                             label: "Features",
