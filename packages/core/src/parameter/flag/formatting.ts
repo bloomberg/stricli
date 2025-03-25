@@ -59,7 +59,11 @@ export function formatDocumentationForFlagParameters(
         }
         if (hasDefault(flag)) {
             const defaultKeyword = args.ansiColor ? `\x1B[90m${keywords.default}\x1B[39m` : keywords.default;
-            suffixParts.push(`${defaultKeyword} ${flag.default === "" ? `""` : String(flag.default)}`);
+            if (typeof flag.default === "object") {
+                suffixParts.push(`${defaultKeyword} <from env ${flag.default.env}>`);
+            } else {
+                suffixParts.push(`${defaultKeyword} ${flag.default === "" ? `""` : String(flag.default)}`);
+            }
         }
         if ("variadic" in flag && typeof flag.variadic === "string") {
             const separatorKeyword = args.ansiColor ? `\x1B[90m${keywords.separator}\x1B[39m` : keywords.separator;

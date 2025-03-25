@@ -28,14 +28,6 @@ interface WritableStreams {
 }
 
 /**
- * Command-level context that provides necessary process information and is available to all command runs.
- * This type should be extended to include context specific to your command implementations.
- */
-export interface CommandContext {
-    readonly process: WritableStreams;
-}
-
-/**
  * Simple interface that mirrors NodeJS.Process but only requires the minimum API required by Stricli.
  */
 export interface StricliProcess extends WritableStreams {
@@ -49,6 +41,14 @@ export interface StricliProcess extends WritableStreams {
      * A number which will be the process exit code.
      */
     exitCode?: number | string;
+}
+
+/**
+ * Command-level context that provides necessary process information and is available to all command runs.
+ * This type should be extended to include context specific to your command implementations.
+ */
+export interface CommandContext {
+    readonly process: StricliProcess;
 }
 
 /**
