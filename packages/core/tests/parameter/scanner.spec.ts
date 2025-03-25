@@ -1389,7 +1389,7 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: defaultScannerConfig,
-                    inputs: ["--fooFlag=t"],
+                    inputs: ["--fooFlag=✅"],
                     expected: {
                         success: false,
                         errors: [
@@ -1397,8 +1397,8 @@ describe("ArgumentScanner", () => {
                                 type: "ArgumentParseError",
                                 properties: {
                                     externalFlagNameOrPlaceholder: "fooFlag",
-                                    input: "t",
-                                    exception: new Error("Cannot convert t to a boolean"),
+                                    input: "✅",
+                                    exception: new Error("Cannot convert ✅ to a boolean"),
                                 },
                             },
                         ],
@@ -1407,7 +1407,7 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: defaultScannerConfig,
-                    inputs: ["--fooFlag=0"],
+                    inputs: ["--fooFlag=❌"],
                     expected: {
                         success: false,
                         errors: [
@@ -1415,8 +1415,8 @@ describe("ArgumentScanner", () => {
                                 type: "ArgumentParseError",
                                 properties: {
                                     externalFlagNameOrPlaceholder: "fooFlag",
-                                    input: "0",
-                                    exception: new Error("Cannot convert 0 to a boolean"),
+                                    input: "❌",
+                                    exception: new Error("Cannot convert ❌ to a boolean"),
                                 },
                             },
                         ],
@@ -1790,7 +1790,7 @@ describe("ArgumentScanner", () => {
                     await testArgumentScannerParse<Flags, Positional>({
                         parameters: parametersWithAlias,
                         config: defaultScannerConfig,
-                        inputs: ["-f=t"],
+                        inputs: ["-f=✅"],
                         expected: {
                             success: false,
                             errors: [
@@ -1798,8 +1798,8 @@ describe("ArgumentScanner", () => {
                                     type: "ArgumentParseError",
                                     properties: {
                                         externalFlagNameOrPlaceholder: "fooFlag",
-                                        input: "t",
-                                        exception: new Error("Cannot convert t to a boolean"),
+                                        input: "✅",
+                                        exception: new Error("Cannot convert ✅ to a boolean"),
                                     },
                                 },
                             ],
@@ -1808,7 +1808,7 @@ describe("ArgumentScanner", () => {
                     await testArgumentScannerParse<Flags, Positional>({
                         parameters: parametersWithAlias,
                         config: defaultScannerConfig,
-                        inputs: ["-f=0"],
+                        inputs: ["-f=❌"],
                         expected: {
                             success: false,
                             errors: [
@@ -1816,8 +1816,8 @@ describe("ArgumentScanner", () => {
                                     type: "ArgumentParseError",
                                     properties: {
                                         externalFlagNameOrPlaceholder: "fooFlag",
-                                        input: "0",
-                                        exception: new Error("Cannot convert 0 to a boolean"),
+                                        input: "❌",
+                                        exception: new Error("Cannot convert ❌ to a boolean"),
                                     },
                                 },
                             ],
