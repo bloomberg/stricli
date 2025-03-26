@@ -1,0 +1,83 @@
+name: Nx
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    status:
+        name: Status
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "npm"
+            - run: npm ci --legacy-peer-deps
+            - name: format
+              run: npx nx run-many -t format:check
+            - name: build
+              run: npx nx run-many -t build
+            - name: lint
+              run: npx nx run-many -t lint
+            - name: test
+              run: npx nx run-many -t coverage
+    build-docs:
+        name: Documentation
+        needs: [status]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "npm"
+            - run: npm ci --legacy-peer-deps
+            - run: npx nx run @stricli/docs:build-docs
+            - uses: actions/upload-pages-artifact@v3
+              with:
+                  path: docs/build
+    deploy-docs:
+        name: Deploy to GitHub Pages
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main')
+        needs: [build-docs]
+        permissions:
+            pages: write # to deploy to Pages
+            id-token: write # to verify the deployment originates from an appropriate source
+        environment:
+            name: github-pages # deploy to the github-pages environment
+            url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
+    publish:
+        name: Publish to NPM
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main')
+        needs: [status]
+        permissions:
+            id-token: write # needed for provenance data generation
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "npm"
+            - run: npm ci --legacy-peer-deps
+            - run: npx nx release publish
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NPM_CONFIG_PROVENANCE: true
