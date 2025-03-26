@@ -46,7 +46,7 @@
     "defaultBase": "main",
     "release": {
         "projects": ["@stricli/*", "!@stricli/docs"],
-        "releaseTagPattern": "release/{version}",
+        "releaseTagPattern": "v{version}",
         "version": {
             "conventionalCommits": true
         },
