@@ -1,3 +1,14 @@
+## 1.1.2 (2025-03-26)
+
+
+### 🩹 Fixes
+
+- make looseBooleanParser even more permissive ([07d4bc5](https://github.com/bloomberg/stricli/commit/07d4bc5))
+
+### ❤️  Thank You
+
+- Michael Molisani
+
 ## 1.1.1 (2025-01-13)
 
 
