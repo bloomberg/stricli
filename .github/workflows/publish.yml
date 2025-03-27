@@ -27,6 +27,9 @@ jobs:
               with:
                   node-version: 20
                   cache: "npm"
+                  registry-url: "https://registry.npmjs.org/"
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v4
