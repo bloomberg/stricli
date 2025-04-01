@@ -6852,6 +6852,175 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("required variadic (separator) enum flag", () => {
+            type Positional = [];
+            type MyEnum = "foo" | "bar" | "baz";
+            type Flags = {
+                readonly mode: MyEnum[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    mode: {
+                        kind: "enum",
+                        values: ["foo", "bar", "baz"],
+                        brief: "mode",
+                        variadic: ",",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode=bar"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["bar"] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode=bar,bar"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["bar", "bar"] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode", "bar", "--mode", "foo"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["bar", "foo"] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode", "bar,bar", "--mode", "foo"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["bar", "bar", "foo"] }],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "mode",
+                                },
+                            },
+                        ],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mod=100"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "FlagNotFoundError",
+                                properties: {
+                                    input: "mod",
+                                    corrections: ["mode"],
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+
+            it("proposeCompletions", async () => {
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--mode"],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [
+                        { kind: "argument:value", completion: "foo", brief: "mode" },
+                        { kind: "argument:value", completion: "bar", brief: "mode" },
+                        { kind: "argument:value", completion: "baz", brief: "mode" },
+                    ],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--mode"],
+                    partial: "b",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [
+                        { kind: "argument:value", completion: "bar", brief: "mode" },
+                        { kind: "argument:value", completion: "baz", brief: "mode" },
+                    ],
+                });
+                await testCompletions<Flags, Positional>({
+                    parameters,
+                    inputs: ["--mode"],
+                    partial: "bar,",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [
+                        { kind: "argument:value", completion: "foo", brief: "mode" },
+                        { kind: "argument:value", completion: "bar", brief: "mode" },
+                        { kind: "argument:value", completion: "baz", brief: "mode" },
+                    ],
+                });
+            });
+
+            describe("with alias", () => {
+                const parametersWithAlias: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                    ...parameters,
+                    aliases: { m: "mode" },
+                };
+
+                it("parseArguments", async () => {
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-m", "baz,baz"],
+                        expected: {
+                            success: true,
+                            arguments: [{ mode: ["baz", "baz"] }],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-m", "bar", "-m", "foo"],
+                        expected: {
+                            success: true,
+                            arguments: [{ mode: ["bar", "foo"] }],
+                        },
+                    });
+                    await testArgumentScannerParse<Flags, Positional>({
+                        parameters: parametersWithAlias,
+                        config: defaultScannerConfig,
+                        inputs: ["-m", "bar,bar", "-m", "foo"],
+                        expected: {
+                            success: true,
+                            arguments: [{ mode: ["bar", "bar", "foo"] }],
+                        },
+                    });
+                });
+            });
+        });
+
         describe("parsed flag with default", () => {
             type Positional = [];
             type Flags = {
@@ -8395,6 +8564,63 @@ describe("ArgumentScanner", () => {
                             { kind: "argument:flag", completion: "--baz", brief: "baz" },
                         ],
                     });
+                });
+            });
+        });
+
+        describe("required variadic (separator) parsed flags", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo: number[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        variadic: ",",
+                        brief: "foo",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100", "--foo=200"],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [100, 200] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100,200", "--foo", "300"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: [100, 200, 300],
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo", "100,200"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: [100, 200],
+                            },
+                        ],
+                    },
                 });
             });
         });
