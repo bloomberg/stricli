@@ -222,6 +222,56 @@ describe("Command", function () {
                 });
             }).to.throw("Unable to allow negation for --verbose as it conflicts with --no-verbose");
         });
+
+        it("fails with invalid variadic flag separator (empty)", function () {
+            expect(() => {
+                // WHEN
+                buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: { numbers: number[] }) => {},
+                        };
+                    },
+                    parameters: {
+                        positional: { kind: "tuple", parameters: [] },
+                        flags: {
+                            numbers: {
+                                brief: "numbers flag brief",
+                                kind: "parsed",
+                                parse: numberParser,
+                                variadic: "",
+                            },
+                        },
+                    },
+                    docs: { brief: "brief" },
+                });
+            }).to.throw('Unable to use "" as variadic separator for --numbers as it is empty');
+        });
+
+        it("fails with invalid variadic flag separator (contains whitespace)", function () {
+            expect(() => {
+                // WHEN
+                buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: { numbers: number[] }) => {},
+                        };
+                    },
+                    parameters: {
+                        positional: { kind: "tuple", parameters: [] },
+                        flags: {
+                            numbers: {
+                                brief: "numbers flag brief",
+                                kind: "parsed",
+                                parse: numberParser,
+                                variadic: "| |",
+                            },
+                        },
+                    },
+                    docs: { brief: "brief" },
+                });
+            }).to.throw('Unable to use "| |" as variadic separator for --numbers as it contains whitespace');
+        });
     });
 
     describe("printHelp", function () {
