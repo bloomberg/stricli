@@ -120,7 +120,7 @@ export interface BaseEnumFlagParameter<T extends string> extends BaseFlagParamet
     readonly default?: T;
     readonly optional?: boolean;
     readonly hidden?: boolean;
-    readonly variadic?: boolean;
+    readonly variadic?: boolean | string;
 }
 
 interface RequiredEnumFlagParameter<T extends string> extends BaseEnumFlagParameter<T> {
@@ -169,8 +169,12 @@ interface OptionalVariadicEnumFlagParameter<T extends string> extends BaseEnumFl
     readonly hidden?: false;
     /**
      * Parameter extends array and must be set as variadic.
+     * Also supports using an arbitrary string as a separator for individual inputs.
+     * For example, `variadic: ","` will scan `--flag a,b,c` as `["a", "b", "c"]`.
+     * If no separator is provided, the default behavior is to parse the input as a single string.
+     * The separator cannot be the empty string or contain any whitespace.
      */
-    readonly variadic: true;
+    readonly variadic: true | string;
 }
 
 interface RequiredVariadicEnumFlagParameter<T extends string> extends BaseEnumFlagParameter<T> {
@@ -189,8 +193,12 @@ interface RequiredVariadicEnumFlagParameter<T extends string> extends BaseEnumFl
     readonly hidden?: false;
     /**
      * Parameter extends array and must be set as variadic.
+     * Also supports using an arbitrary string as a separator for individual inputs.
+     * For example, `variadic: ","` will scan `--flag a,b,c` as `["a", "b", "c"]`.
+     * If no separator is provided, the default behavior is to parse the input as a single string.
+     * The separator cannot be the empty string or contain any whitespace.
      */
-    readonly variadic: true;
+    readonly variadic: true | string;
 }
 
 export interface BaseParsedFlagParameter<T, CONTEXT extends CommandContext>
@@ -209,7 +217,7 @@ export interface BaseParsedFlagParameter<T, CONTEXT extends CommandContext>
      */
     readonly inferEmpty?: boolean;
     readonly optional?: boolean;
-    readonly variadic?: boolean;
+    readonly variadic?: boolean | string;
     readonly hidden?: boolean;
 }
 
@@ -271,8 +279,12 @@ interface OptionalVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
     readonly optional: true;
     /**
      * Parameter extends array and must be set as variadic.
+     * Also supports using an arbitrary string as a separator for individual inputs.
+     * For example, `variadic: ","` will scan `--flag a,b,c` as `["a", "b", "c"]`.
+     * If no separator is provided, the default behavior is to parse the input as a single string.
+     * The separator cannot be the empty string or contain any whitespace.
      */
-    readonly variadic: true;
+    readonly variadic: true | string;
     /**
      * Default values are not supported for variadic parameters.
      */
@@ -288,8 +300,12 @@ interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
     readonly optional?: false;
     /**
      * Parameter extends array and must be set as variadic.
+     * Also supports using an arbitrary string as a separator for individual inputs.
+     * For example, `variadic: ","` will scan `--flag a,b,c` as `["a", "b", "c"]`.
+     * If no separator is provided, the default behavior is to parse the input as a single string.
+     * The separator cannot be the empty string or contain any whitespace.
      */
-    readonly variadic: true;
+    readonly variadic: true | string;
     /**
      * Default values are not supported for variadic parameters.
      */
