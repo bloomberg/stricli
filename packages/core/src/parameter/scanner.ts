@@ -632,16 +632,21 @@ function isVariadicFlag<CONTEXT extends CommandContext>(flag: FlagParameter<CONT
 function storeInput<CONTEXT extends CommandContext>(
     flagInputs: Map<InternalFlagName, ArgumentInputs>,
     scannerCaseStyle: ScannerCaseStyle,
-    namedFlag: NamedFlag<CONTEXT, FlagParameter<CONTEXT>>,
+    [internalFlagName, flag]: NamedFlag<CONTEXT, FlagParameter<CONTEXT>>,
     input: string,
 ) {
-    const inputs = flagInputs.get(namedFlag[0]) ?? [];
-    if (inputs.length > 0 && !isVariadicFlag(namedFlag[1])) {
-        const externalFlagName = asExternal(namedFlag[0], scannerCaseStyle);
+    const inputs = flagInputs.get(internalFlagName) ?? [];
+    if (inputs.length > 0 && !isVariadicFlag(flag)) {
+        const externalFlagName = asExternal(internalFlagName, scannerCaseStyle);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         throw new UnexpectedFlagError(externalFlagName, inputs[0]!, input);
     }
-    flagInputs.set(namedFlag[0], [...inputs, input]);
+    if ("variadic" in flag && typeof flag.variadic === "string") {
+        const multipleInputs = input.split(flag.variadic) as unknown as ArgumentInputs;
+        flagInputs.set(internalFlagName, [...inputs, ...multipleInputs]);
+    } else {
+        flagInputs.set(internalFlagName, [...inputs, input]);
+    }
 }
 
 function isFlagSatisfiedByInputs(
@@ -858,24 +863,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
         },
         proposeCompletions: async ({ partial, completionConfig, text, context, includeVersionFlag }) => {
             if (activeFlag) {
-                const flag = activeFlag[1];
-                let values: readonly string[];
-                if (flag.kind === "enum") {
-                    values = flag.values;
-                } else if (flag.proposeCompletions) {
-                    values = await flag.proposeCompletions.call(context, partial);
-                } else {
-                    values = [];
-                }
-                return values
-                    .map<ArgumentCompletion>((value) => {
-                        return {
-                            kind: "argument:value",
-                            completion: value,
-                            brief: flag.brief,
-                        };
-                    })
-                    .filter(({ completion }) => completion.startsWith(partial));
+                return proposeFlagCompletionsForPartialInput<CONTEXT>(activeFlag[1], context, partial);
             }
             const completions: ArgumentCompletion[] = [];
             if (!treatInputsAsArguments) {
@@ -1014,6 +1002,35 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             return completions.filter(({ completion }) => completion.startsWith(partial));
         },
     };
+}
+
+async function proposeFlagCompletionsForPartialInput<CONTEXT extends CommandContext>(
+    flag: FlagParserExpectingInput<CONTEXT>,
+    context: CONTEXT,
+    partial: string,
+) {
+    if (typeof flag.variadic === "string") {
+        if (partial.endsWith(flag.variadic)) {
+            return proposeFlagCompletionsForPartialInput(flag, context, "");
+        }
+    }
+    let values: readonly string[];
+    if (flag.kind === "enum") {
+        values = flag.values;
+    } else if (flag.proposeCompletions) {
+        values = await flag.proposeCompletions.call(context, partial);
+    } else {
+        values = [];
+    }
+    return values
+        .map<ArgumentCompletion>((value) => {
+            return {
+                kind: "argument:value",
+                completion: value,
+                brief: flag.brief,
+            };
+        })
+        .filter(({ completion }) => completion.startsWith(partial));
 }
 
 /**
