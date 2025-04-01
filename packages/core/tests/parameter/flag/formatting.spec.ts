@@ -148,6 +148,31 @@ describe("formatDocumentationForFlagParameters", function () {
             compareToBaseline(this, StringArrayBaselineFormat, lines);
         });
 
+        it("required boolean flag with default from env var", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly requiredBoolean: boolean;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    requiredBoolean: {
+                        kind: "boolean",
+                        brief: "required boolean flag",
+                        default: { env: "REQUIRED_BOOLEAN" },
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
         it("optional boolean flag", function () {
             // GIVEN
             type Positional = [];
@@ -276,6 +301,32 @@ describe("formatDocumentationForFlagParameters", function () {
                         kind: "enum",
                         values: ["a", "b", "c"],
                         default: "b",
+                        brief: "required enum flag",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
+        it("required enum flag with default from env var", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly requiredEnum: "a" | "b" | "c";
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    requiredEnum: {
+                        kind: "enum",
+                        values: ["a", "b", "c"],
+                        default: { env: "REQUIRED_ENUM" },
                         brief: "required enum flag",
                     },
                 },
@@ -483,6 +534,32 @@ describe("formatDocumentationForFlagParameters", function () {
                 ...defaultArgs,
                 includeHidden: true,
             });
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
+        it("required parsed flag with default from env var", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly requiredParsed: string;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    requiredParsed: {
+                        kind: "parsed",
+                        parse: String,
+                        default: { env: "REQUIRED_PARSED" },
+                        brief: "required parsed flag",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
 
             // THEN
             compareToBaseline(this, StringArrayBaselineFormat, lines);
