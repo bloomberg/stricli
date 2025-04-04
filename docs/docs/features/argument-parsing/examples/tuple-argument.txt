@@ -1,9 +1,16 @@
+--help
+a b
+/// impl.ts
+import type { CommandContext } from "@stricli/core";
+
+export default async function(this: CommandContext, _: {}, from: string, to: string) {
+  this.process.stdout.write(`Moving file from ${from} to ${to}`);
+}
+/// spec.ts
 import { buildCommand, type CommandContext } from "@stricli/core";
 
-export const root = buildCommand({
-  func(this: CommandContext, _: {}, from: string, to: string) {
-    this.process.stdout.write(`Moving file from ${from} to ${to}`);
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     positional: {
       kind: "tuple",
@@ -23,3 +30,7 @@ export const root = buildCommand({
     brief: "Example for live playground with positional parameters",
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });
