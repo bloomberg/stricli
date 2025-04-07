@@ -48,31 +48,4 @@ await run(app, process.argv.slice(2), { process, user });
 
 In this example, imagine that you store user information in the user's local environment. You can fetch that information and store it in the context for use in any/all of your commands.
 
-The _real_ benefit of this pattern is being able to fully test the implementation functions by controlling all of their inputs and dependencies.
-
-```ts
-// output-next-line
-/// command.spec.ts
-import impl from "./impl";
-
-it("runs without user", () => {
-  const testContext: CustomContext = {
-    ...
-  };
-
-  await impl.call(testContext);
-
-  expect(testContext.stdout).includes("Not logged in");
-});
-
-it("runs with user", () => {
-  const testContext: CustomContext = {
-    ...
-    user: { id: 1000, name: "test" },
-  };
-
-  await impl.call(testContext);
-
-  expect(testContext.stdout).includes("Logged in as test");
-});
-```
+The _real_ benefit of this pattern is being able to fully test the implementation functions by controlling all of their inputs and dependencies. Check out the [testing section](../testing.mdx) for more information on how to test your commands.
