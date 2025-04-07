@@ -1,0 +1,124 @@
+---
+sidebar_position: 4
+toc_max_heading_level: 4
+---
+
+# Testing
+
+Stricli commands are designed to run with a [provided context](./features/isolated-context.mdx), which makes it easier to write isolated tests. Most commands can be tested in one of two ways, depending on construction:
+
+-   [Testing the commands within an application](#running-the-application)
+-   [Testing a single command's implementation directly](#importing-the-implementation)
+
+The former tests a command in the scope of the entire application, where the route to the command is necessary and the inputs are provided as strings. This is useful for testing the routing and parsing of inputs, as well as the command itself. The latter tests the command in isolation, where the implementation function is called directly and the inputs are provided as their intended arguments, which can be more convenient when testing arguments that are stubbed/mocked.
+
+While Stricli currently uses `mocha`/`chai` for its own tests, any test framework/library can be used. As such, imports for `describe`/`it` and `expects` have been elided in the examples below to make them more readable.
+
+## Mocking the Context
+
+Depending on which test/mock framework is used, the `buildContextForTest` function (or an equivalent) can be implemented in a variety of ways. In this example, it would only need to intercept calls to `context.process.stdout.write()` and redirect the inputs to a string at `context.stdout` (so that the output could be confirmed). You can look at the [`buildFakeContext` function written for the internal Stricli tests](https://github.com/bloomberg/stricli/blob/main/packages/core/tests/fakes/context.ts) as an example.
+
+If your application makes use of [custom data in the context](./features/isolated-context.mdx#custom-data), then your equivalent `buildContextForTest` function should include that data as well.
+
+## Running the Application
+
+To run a Stricli application, the `run` function takes in the application, the inputs as an array of strings, and the context. If a "mock" version of the context can be constructed, then the application can be tested with the `run` function.
+
+:::tip[A Note For Inputs]
+
+At runtime, the `inputs` array is derived from `process.argv`. As such, it has already handled "tokenizing" the raw inputs and trimming the runtime/file name (if present). This means that in order to test `app cmd foo "bar baz"` the inputs array to `run` should be `["cmd", "foo", "bar baz"]`.
+
+:::
+
+```ts
+import { run } from "@stricli/core";
+import { app } from "./app";
+
+describe("echo command", () => {
+    it("prints 'hello' to stdout", async () => {
+        const context = buildContextForTest();
+        // highlight-next-line
+        await run(app, ["echo", "hello"], context);
+
+        expect(context.stdout).includes("hello");
+    });
+
+    it("prints 'hello world' to stdout", async () => {
+        const context = buildContextForTest();
+        // highlight-next-line
+        await run(app, ["echo", "hello", "world"], context);
+
+        expect(context.stdout).includes("hello world");
+    });
+});
+```
+
+### Handling Errors with `run`
+
+The `run` function will always return a `Promise<void>`, as it is intended for use on the command line. If the application (or a command) throws an error it will be captured and redirected to stderr.
+
+```ts
+import { run } from "@stricli/core";
+import { app } from "./app";
+
+describe("add command", () => {
+    it("fails if one input isn't a valid number", async () => {
+        const context = buildContextForTest();
+        await run(app, ["add", "1", "two"], context);
+
+        // highlight-next-line
+        expect(context.stderr).includes("Cannot convert two to a number");
+    });
+});
+```
+
+## Importing the Implementation
+
+Commands that take full advantage of the [lazy loader pattern](./features/command-routing/commands.mdx#lazy-loader) (or the [direct function pattern](./features/command-routing/commands.mdx#direct-func), if the function is exported separately) can be tested directly by calling the implementation function.
+
+```ts
+import func from "./impl";
+
+describe("echo command", () => {
+    it("prints 'hello' to stdout", async () => {
+        const context = buildContextForTest();
+        // highlight-next-line
+        await func.call(context, {}, "hello");
+
+        expect(context.stdout).includes("hello");
+    });
+
+    it("prints 'hello world' to stdout", async () => {
+        const context = buildContextForTest();
+        // highlight-next-line
+        await func.call(context, {}, "hello", "world");
+
+        expect(context.stdout).includes("hello world");
+    });
+});
+```
+
+### Handling Thrown Exceptions
+
+While `run` captures thrown exceptions to format them nicely for the command line, implementation functions should not. This means that if an exception is thrown, it will be thrown to the test and must be handled there.
+
+```ts
+import func from "./impl";
+
+describe("divide command", () => {
+    it("dividing by zero throws an error", async () => {
+        const context = buildContextForTest();
+        await func.call(context, {}, 1, 0).then(
+            () => {
+                throw new Error("Expected ({}, 1, 0) to throw an error");
+            },
+            // highlight-start
+            (exc) => {
+                expect(exc instanceof Error);
+                expect(exc.message).includes("Cannot divide by zero");
+            },
+            // highlight-end
+        );
+    });
+});
+```
