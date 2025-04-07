@@ -7,3 +7,13 @@ sidebar_position: 1
 Extending from our core principle of [When Parsing, Form Follows Function](../../getting-started/principles.mdx#when-parsing-form-follows-function), Stricli infers the shape of parameter definitions from the TypeScript types used in the implementation. This is achieved with some advanced conditional types that map the types of the parameters to the types of the parser specifications.
 
 Stricli supports both [named flags](./flags.mdx) and [positional arguments](./positional.mdx) when defining parameters.
+
+:::info[TypeScript `strict` recommended for type checking]
+
+Stricli relies on TypeScript to infer the types of the parameters. Through a series of conditional types, the type of the parameters in the implementation function are mapped to the types of the parser specifications.
+
+Many of these transforms do not behave as expected when the TypeScript compiler is not configured with `strict: true`. Specifically, the option `strictNullChecks` is known to be incompatible with the conditional types used to infer if a parameter is optional or not.
+
+So in order to ensure that the types are correctly inferred, it is **strongly recommended** that all Stricli projects (using TypeScript) are built with `strict: true`.
+
+:::
