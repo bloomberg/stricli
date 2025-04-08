@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Configuration
 
-The Stricli framework was designed to give applications the maximum amount of flexibility within the predefined constraints. When [building an application](./command-routing/index.mdx#applications), you can specify additional configurations to control the application behavior in different ways.
+The Stricli framework was designed to give applications the maximum amount of flexibility within the predefined constraints. When [building an application](../structure/command-routing/index.mdx#applications), you can specify additional configurations to control the application behavior in different ways.
 
 ## Version Information
 
@@ -86,7 +86,7 @@ Stricli has support for ANSI terminal styling codes, if it is supported by the c
 
 Every single string of text that is printed by a Stricli application can be customized and controlled by the `localization` configuration. The only exception to this is the internal errors that are thrown by `buildApplication` if the application configuration itself was invalid in some way.
 
-The `context` object provided to the `run` command can optionally include a `locale` property that will be used to control what text is used by the application. For this section, locale roughly refers to [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag), but since application owners provide both the locale and the text loader that interprets the locale, any locale scheme can be used.
+The `context` object provided to the [`run`](../../packages/core/functions/run) function can optionally include a `locale` property that will be used to control what text is used by the application. For this section, locale roughly refers to [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag), but since application owners provide both the locale and the text loader that interprets the locale, any locale scheme can be used.
 
 ### Default Locale
 
@@ -132,7 +132,7 @@ The following are brief descriptions of all of the dynamic functions that accept
 -   `exceptionWhileLoadingCommandContext`
 
     -   Default: `Unable to load command context, {formattedException}`
-    -   This function is called if an exception is thrown while loading the command context. This will only happen if the context passed to `run` has a `forCommand` method to provide a custom command context. This generally implies that there is something wrong with the application itself and how it was built/structured.
+    -   This function is called if an exception is thrown while loading the command context. This will only happen if the context passed to [`run`](../../packages/core/functions/run) has a `forCommand` method to provide a custom command context. This generally implies that there is something wrong with the application itself and how it was built/structured.
 
 -   `exceptionWhileRunningCommand`
 

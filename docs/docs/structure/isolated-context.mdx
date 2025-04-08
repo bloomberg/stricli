@@ -8,11 +8,11 @@ At the simplest level, command line applications require few external dependenci
 
 It is a simple object that stores a `process` property that has `stdout`/`stderr` writable streams. This context is required when running the app, and is how Stricli prints help text and error messages to the console.
 
-For Node or Node-compatible applications, this is as simple as passing `{ process }` or `globalThis` to `run`.
+For Node or Node-compatible applications, this is as simple as passing `{ process }` or `globalThis` to [`run`](../../packages/core/functions/run).
 
 ## Application Context
 
-This object serves double duty as the context for the command and the application itself. There are some additional options that control the application's behavior. The first is `process.exit()` which allows Stricli to set the exit code of the application once the command finishes (or throws an error). The other is `locale` which is used by the [localization logic](configuration.mdx#localization) to determine which language the text should be in.
+This object serves double duty as the context for the command and the application itself. There are some additional options that control the application's behavior. The first is `process.exit()` which allows Stricli to set the exit code of the application once the command finishes (or throws an error). The other is `locale` which is used by the [localization logic](../features/configuration.mdx#localization) to determine which language the text should be in.
 
 ## Custom Data
 

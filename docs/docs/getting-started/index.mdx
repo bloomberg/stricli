@@ -1,14 +1,18 @@
----
-sidebar_position: 2
----
+# Getting Started
 
-# Guiding Principles
+**Stricli** is a zero-dependency framework for building complex, highly-featured CLIs in TypeScript.
+
+Stricli was created despite an existing set of CLI frameworks in the JavaScript ecosystem. Bloomberg maintains several internal, user-facing CLIs written in TypeScript on top of Node.js using an assortment of existing frameworks and libraries. In the opinion of the authors of this framework, these existing frameworks and libraries suffer from some shortcomings and pain points that warranted an alternative solution. Check out the [alternatives considered](./alternatives) for a concrete breakdown.
+
+The common issues with these alternatives can be reframed as a set of language-agnostic guiding principles that should be considered in addition to [clig.dev](https://clig.dev) when analyzing a CLI framework.
+
+## Guiding Principles
 
 Much of this work was inspired by and built upon the incredible [Command Line Interface Guidelines](https://clig.dev). They are a set of open-source rules and recommendations for developing command line interfaces. This framework adheres to these guidelines, but it does not implement _all_ of them. Some features were considered [out-of-scope](../features/out-of-scope.mdx) for this framework, and are already solved by existing packages in the ecosystem.
 
 The following are principles that were found to be common traits of frameworks with good design.
 
-## Commands Are Just Functions
+### Commands Are Just Functions
 
 > **tl;dr** - Every command that is exposed by a CLI should just be a function underneath.
 
@@ -18,7 +22,7 @@ It is rare that an advanced CLI application exposes only a single function, so t
 
 To support the natural syntax of functions, an application should simultaneously understand both named, unordered flags as well as positional arguments. Check out [clig.dev section on `Arguments and flags`](https://clig.dev/#arguments-and-flags) for specific guidelines on how these different input types should be formatted/interpreted.
 
-## When Parsing, Form Follows Function
+### When Parsing, Form Follows Function
 
 > **tl;dr** - If function and command line arguments are linked, then function arguments should define command line parsing.
 
@@ -26,7 +30,7 @@ Given a set of arguments for a function, the corresponding parser should type ch
 
 When inputs are parsed without an intended end state, it then falls to the individual functions to define which inputs are valid. The application logic for a CLI should not be directly responsible for validating user input, [within reason](../features/out-of-scope.mdx#cross-argument-validation).
 
-## No "Magic" Features or Patterns
+### No "Magic" Features or Patterns
 
 > **tl;dr** - Developers should be able to understand and debug a framework using native tools for the language of that framework.
 

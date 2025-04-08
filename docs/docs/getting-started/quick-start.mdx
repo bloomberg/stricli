@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 toc_max_heading_level: 4
 ---
 
@@ -48,7 +48,7 @@ The boilerplate includes a `build` script that invokes [`tsup`](https://tsup.ego
 
 ### Step 4: Test the output
 
-Stricli applications can be executed directly in source, or in a separate script. This template generates a `src/bin/cli.ts` file to invoke `run` so that the rest of the source only contains exports without side-effects. Try running your new app by calling the compiled bin script at `dist/cli.js` with `--help`.
+Stricli applications can be executed directly in source, or in a separate script. This template generates a `src/bin/cli.ts` file to invoke [`run`](../../packages/core/functions/run) so that the rest of the source only contains exports without side-effects. Try running your new app by calling the compiled bin script at `dist/cli.js` with `--help`.
 
 ```sh
 dist/cli.js --help

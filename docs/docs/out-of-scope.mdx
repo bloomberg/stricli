@@ -1,10 +1,10 @@
 ---
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 # Out of Scope
 
-Stricli has a lot of features (see [Features](../category/features)) but it was not designed to solve every problem. It was deliberately created to have a limited feature set and then excel at those. The following features were all determined to be out-of-scope and are better solved manually or with an existing library.
+Stricli has a lot of features (see [Features](./features)) but it was not designed to solve every problem. It was deliberately created to have a limited feature set and then excel at those. The following features were all determined to be out-of-scope and are better solved manually or with an existing library.
 
 ## Cross-Argument Validation
 
@@ -28,15 +28,15 @@ export default function (rawFlags: { alpha?: number; beta?: number; bravo?: numb
 
 ## Local System Access
 
-Command functions passed to Stricli can contain any sort of implementation. This means that an implementation can directly access any globals of the environment it is running in (ex: Node/Deno) as well as import other modules. While this is perfectly valid, the recommended best practice is to write command implementations with dependency injection via the [context](isolated-context.mdx) (bound to `this`) so that they are portable and testable.
+Command functions passed to Stricli can contain any sort of implementation. This means that an implementation can directly access any globals of the environment it is running in (ex: Node/Deno) as well as import other modules. While this is perfectly valid, the recommended best practice is to write command implementations with dependency injection via the [context](./structure/isolated-context.mdx) (bound to `this`) so that they are portable and testable.
 
 As such, the local dependencies of a given command/application are not defined by Stricli and it is up to the application developer to define and supply them.
 
 ## Logging
 
-Stricli has a very limited set of situations that rely in output printed to the console. As such, Stricli directly writes to stdout and stderr depending on the use case.
+Stricli has a very limited set of situations that rely in output printed to the console. In those cases, Stricli directly writes to stdout and stderr depending on the use case.
 
-A fully featured logging solution is not simple to implement. Given that Stricli has no need for a logging solution directly, it does not provide one. However, developers are more than welcome to "bring your own" with any logging solution. As well, the `stdout` and `stderr` streams can be implemented indirectly by a logger if the intention is to capture all console output by the logger. Just provide alternative streams in the `context` object when invoking `run` and Stricli will write to those streams.
+A fully featured logging solution is not simple to implement. Given that Stricli has no need for a logging solution directly, it does not provide one. However, developers are more than welcome to "bring your own" with any logging solution. As well, the `stdout` and `stderr` streams can be implemented indirectly by a logger if the intention is to capture all console output by the logger. Just provide alternative streams in the `context` object when invoking [`run`](../packages/core/functions/run) and Stricli will write to those streams.
 
 ### Enhanced Formatting
 

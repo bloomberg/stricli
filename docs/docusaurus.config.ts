@@ -60,6 +60,41 @@ const config: Config = {
                 sidebarPath: "packages/sidebars.ts",
             },
         ],
+        [
+            "@docusaurus/plugin-client-redirects",
+            {
+                redirects: [
+                    {
+                        from: "/docs/getting-started/overview",
+                        to: "/docs/getting-started",
+                    },
+                    {
+                        from: "/docs/getting-started/principles",
+                        to: "/docs/getting-started#guiding-principles",
+                    },
+                    {
+                        from: "/docs/quick-start",
+                        to: "/docs/getting-started/quick-start",
+                    },
+                    {
+                        from: "/docs/features/command-routing",
+                        to: "/docs/structure/command-routing",
+                    },
+                    {
+                        from: "/docs/features/command-routing/commands",
+                        to: "/docs/structure/command-routing/commands",
+                    },
+                    {
+                        from: "/docs/features/command-routing/route-map",
+                        to: "/docs/structure/command-routing/route-map",
+                    },
+                    {
+                        from: "/docs/features/isolated-context",
+                        to: "/docs/structure/isolated-context",
+                    },
+                ],
+            },
+        ],
         () => {
             return {
                 name: "webpack-source-map",
@@ -149,7 +184,7 @@ const config: Config = {
             items: [
                 {
                     type: "doc",
-                    docId: "getting-started/overview",
+                    docId: "getting-started/index",
                     position: "left",
                     label: "Documentation",
                 },
@@ -169,11 +204,11 @@ const config: Config = {
                     items: [
                         {
                             label: "Getting Started",
-                            to: "/docs/category/getting-started",
+                            to: "/docs/getting-started",
                         },
                         {
                             label: "Quick Start",
-                            to: "/docs/quick-start",
+                            to: "/docs/getting-started/quick-start",
                         },
                         {
                             label: "Features",
