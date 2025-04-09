@@ -238,7 +238,7 @@ export const app = buildApplication(routes, {
 export function buildMultiCommandAppWithAutoCompleteText(command: string, autcCommand: string): string {
     return `\
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { buildInstallAllCommand, buildUninstallAllCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -247,8 +247,8 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("${command}", { bash: "${autcCommand}" }),
-        uninstall: buildUninstallCommand("${command}", { bash: true }),
+        install: buildInstallAllCommand("${command}", { autocompleteCommand: "${autcCommand}", skipInactiveShells: true }),
+        uninstall: buildUninstallAllCommand("${command}", { skipInactiveShells: true }),
     },
     docs: {
         brief: description,
@@ -284,39 +284,20 @@ import { app } from "../app";
 void run(app, process.argv.slice(2), buildContext(process));
 `;
 
-export const binBashCompleteModuleText = `\
+export const binAutoCompleteModuleText = `\
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 `;
 
-export const binBashCompleteScriptText = `\
+export const binAutoCompleteScriptText = `\
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 `;

@@ -45,7 +45,7 @@ dist
   ],
   "bin": {
     "@org/test-cli": "dist/cli.js",
-    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+    "__@org/test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -54,12 +54,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all @org/test-cli --autocomplete-command __@org/test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -115,23 +115,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(`${completion}\n`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
