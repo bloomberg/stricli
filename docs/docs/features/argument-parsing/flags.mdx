@@ -178,7 +178,7 @@ buildCommand({
 });
 ```
 
-However, Stricli has built-in support for loading default values from environment variables. Specifying the default this way enables additional formatting to indicate to the user where this value came from, and the option to "redact" the value from the output. This is done by passing an option with the `env` property in the flag configuration. The value of this property should be a string that represents the name of the environment variable to load. If the user does not pass in a value for the flag and the environment variable is not set, it will throw an `UnsatisfiedFlagError`.
+However, Stricli has built-in support for loading default values from environment variables. Specifying the default this way enables additional formatting to indicate to the user where this value came from, and the option to redact sensitive values from the output. This is done by passing an option with the `env` property in the flag configuration. The value of this property should be a string that represents the name of the environment variable to load. If the user does not pass in a value for the flag and the environment variable is not set, it will throw an `UnsatisfiedFlagError`.
 
 The additional `redact` config is optional, and if enabled will replace the value with `***` in the **Stricli-generated output**. Note that the value is still just a string passed to the flag, so there is nothing preventing the command implementation from displaying the value. There is no way for the command implementation to know where the value was sourced from, so it is up to the developer to ensure that the value is not printed if contains sensitive information.
 
