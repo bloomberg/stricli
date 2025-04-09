@@ -12,7 +12,7 @@ Stricli commands are designed to run with a [provided context](./features/isolat
 
 The former tests a command in the scope of the entire application, where the route to the command is necessary and the inputs are provided as strings. This is useful for testing the routing and parsing of inputs, as well as the command itself. The latter tests the command in isolation, where the implementation function is called directly and the inputs are provided as their intended arguments, which can be more convenient when testing arguments that are stubbed/mocked.
 
-While Stricli currently uses `mocha`/`chai` for its own tests, any test framework/library can be used. As such, imports for `describe`/`it` and `expects` have been elided in the examples below to make them more readable.
+While Stricli currently uses `mocha`/`chai` for its own tests, any test framework/library can be used. As such, imports for `describe`/`it` and `expect` have been elided in the examples below to make them more readable.
 
 ## Mocking the Context
 
@@ -26,7 +26,7 @@ To run a Stricli application, the `run` function takes in the application, the i
 
 :::tip[A Note For Inputs]
 
-At runtime, the `inputs` array is derived from `process.argv`. As such, it has already handled "tokenizing" the raw inputs and trimming the runtime/file name (if present). This means that in order to test `app cmd foo "bar baz"` the inputs array to `run` should be `["cmd", "foo", "bar baz"]`.
+At runtime, the `inputs` array is derived from `process.argv`. As such, it has already handled tokenizing the raw inputs and trimming the executable (if present). This means that in order to test `app cmd foo "bar baz"` the inputs array to `run` should be `["cmd", "foo", "bar baz"]`.
 
 :::
 
