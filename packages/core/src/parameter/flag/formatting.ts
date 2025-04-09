@@ -59,7 +59,11 @@ export function formatDocumentationForFlagParameters(
         }
         if (hasDefault(flag)) {
             const defaultKeyword = args.ansiColor ? `\x1B[90m${keywords.default}\x1B[39m` : keywords.default;
-            suffixParts.push(`${defaultKeyword} ${flag.default === "" ? `""` : String(flag.default)}`);
+            if (typeof flag.default === "object") {
+                suffixParts.push(`${defaultKeyword} <from env ${flag.default.env}>`);
+            } else {
+                suffixParts.push(`${defaultKeyword} ${flag.default === "" ? `""` : String(flag.default)}`);
+            }
         }
         const suffix = suffixParts.length > 0 ? `[${suffixParts.join(", ")}]` : void 0;
 
