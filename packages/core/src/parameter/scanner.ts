@@ -176,23 +176,6 @@ function redactInputFromProperties(obj: Record<string, unknown>, input: string, 
  * Thrown when underlying parameter parser throws an exception parsing some input.
  */
 export class ArgumentParseError extends ArgumentScannerError {
-    static parseInput<T, P extends InputParser<T, CONTEXT>, CONTEXT extends CommandContext>(
-        externalFlagNameOrPlaceholder: ExternalFlagName | Placeholder,
-        parser: P,
-        input: string,
-        displayValue: string,
-        source: ArgumentInputSource,
-        context: CONTEXT,
-    ): ReturnType<P> {
-        try {
-            return parser.call(context, input) as ReturnType<P>;
-        } catch (exc) {
-            if (typeof exc === "object" && exc) {
-                redactInputFromProperties(exc as Record<string, unknown>, input, displayValue);
-            }
-            throw new ArgumentParseError(externalFlagNameOrPlaceholder, displayValue, source, exc);
-        }
-    }
     /**
      * External name of flag or placeholder for positional argument that was parsing this input.
      */
@@ -235,27 +218,28 @@ export class ArgumentParseError extends ArgumentScannerError {
     }
 }
 
+function parseInput<T, P extends InputParser<T, CONTEXT>, CONTEXT extends CommandContext>(
+    externalFlagNameOrPlaceholder: ExternalFlagName | Placeholder,
+    parser: P,
+    input: string,
+    displayValue: string,
+    source: ArgumentInputSource,
+    context: CONTEXT,
+): ReturnType<P> {
+    try {
+        return parser.call(context, input) as ReturnType<P>;
+    } catch (exc) {
+        if (typeof exc === "object" && exc) {
+            redactInputFromProperties(exc as Record<string, unknown>, input, displayValue);
+        }
+        throw new ArgumentParseError(externalFlagNameOrPlaceholder, displayValue, source, exc);
+    }
+}
+
 /**
  * Thrown when input fails to match the given values for an enum flag.
  */
 export class EnumValidationError extends ArgumentScannerError {
-    static assertInputIsEnumValue<T extends string>(
-        flag: BaseEnumFlagParameter<T>,
-        input: string,
-        displayValue: string,
-        source: ArgumentInputSource,
-        config: ScannerConfiguration,
-        externalFlagName: ExternalFlagName,
-    ): asserts input is T {
-        if (!flag.values.includes(input as T)) {
-            if (input === displayValue) {
-                const corrections = filterClosestAlternatives(input, flag.values, config.distanceOptions);
-                throw new EnumValidationError(externalFlagName, input, source, flag.values, corrections);
-            } else {
-                throw new EnumValidationError(externalFlagName, displayValue, source, flag.values, []);
-            }
-        }
-    }
     /**
      * External name of flag that was parsing this input.
      */
@@ -305,6 +289,24 @@ export class EnumValidationError extends ArgumentScannerError {
         this.input = input;
         this.source = source;
         this.values = values;
+    }
+}
+
+function assertInputIsEnumValue<T extends string>(
+    flag: BaseEnumFlagParameter<T>,
+    input: string,
+    displayValue: string,
+    source: ArgumentInputSource,
+    config: ScannerConfiguration,
+    externalFlagName: ExternalFlagName,
+): asserts input is T {
+    if (!flag.values.includes(input as T)) {
+        if (input === displayValue) {
+            const corrections = filterClosestAlternatives(input, flag.values, config.distanceOptions);
+            throw new EnumValidationError(externalFlagName, input, source, flag.values, corrections);
+        } else {
+            throw new EnumValidationError(externalFlagName, displayValue, source, flag.values, []);
+        }
     }
 }
 
@@ -583,7 +585,7 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
                 }
                 const displayValue = flag.default.redact ? "*".repeat(defaultValue.length) : defaultValue;
                 if (flag.kind === "boolean") {
-                    return ArgumentParseError.parseInput(
+                    return parseInput(
                         externalFlagName,
                         looseBooleanParser,
                         defaultValue,
@@ -593,24 +595,10 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
                     );
                 }
                 if (flag.kind === "enum") {
-                    EnumValidationError.assertInputIsEnumValue(
-                        flag,
-                        defaultValue,
-                        displayValue,
-                        source,
-                        config,
-                        externalFlagName,
-                    );
+                    assertInputIsEnumValue(flag, defaultValue, displayValue, source, config, externalFlagName);
                     return defaultValue;
                 }
-                return ArgumentParseError.parseInput(
-                    externalFlagName,
-                    flag.parse,
-                    defaultValue,
-                    displayValue,
-                    source,
-                    context,
-                );
+                return parseInput(externalFlagName, flag.parse, defaultValue, displayValue, source, context);
             }
             if (flag.kind === "boolean") {
                 return flag.default;
@@ -618,14 +606,7 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
             if (flag.kind === "enum") {
                 return flag.default;
             }
-            return ArgumentParseError.parseInput(
-                externalFlagName,
-                flag.parse,
-                flag.default,
-                flag.default,
-                "default",
-                context,
-            );
+            return parseInput(externalFlagName, flag.parse, flag.default, flag.default, "default", context);
         }
         if (flag.optional) {
             return;
@@ -639,32 +620,30 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
     }
     if (flag.kind === "counter") {
         return inputs.reduce((total, input) => {
-            const value = ArgumentParseError.parseInput(externalFlagName, numberParser, input, input, "argv", context);
+            const value = parseInput(externalFlagName, numberParser, input, input, "argv", context);
             return total + value;
         }, 0);
     }
     if ("variadic" in flag && flag.variadic) {
         if (flag.kind === "enum") {
             for (const input of inputs) {
-                EnumValidationError.assertInputIsEnumValue(flag, input, input, "argv", config, externalFlagName);
+                assertInputIsEnumValue(flag, input, input, "argv", config, externalFlagName);
             }
             return inputs;
         }
         return Promise.all(
-            inputs.map((input) =>
-                ArgumentParseError.parseInput(externalFlagName, flag.parse, input, input, "argv", context),
-            ),
+            inputs.map((input) => parseInput(externalFlagName, flag.parse, input, input, "argv", context)),
         );
     }
     const input = inputs[0];
     if (flag.kind === "boolean") {
-        return ArgumentParseError.parseInput(externalFlagName, looseBooleanParser, input, input, "argv", context);
+        return parseInput(externalFlagName, looseBooleanParser, input, input, "argv", context);
     }
     if (flag.kind === "enum") {
-        EnumValidationError.assertInputIsEnumValue(flag, input, input, "argv", config, externalFlagName);
+        assertInputIsEnumValue(flag, input, input, "argv", config, externalFlagName);
         return input;
     }
-    return ArgumentParseError.parseInput(externalFlagName, flag.parse, input, input, "argv", context);
+    return parseInput(externalFlagName, flag.parse, input, input, "argv", context);
 }
 
 /**
@@ -895,14 +874,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 positionalValues_p = allSettledOrElse(
                     positionalInputs.map(async (input, i) => {
                         const placeholder = getPlaceholder(positional.parameter, i + 1);
-                        return ArgumentParseError.parseInput(
-                            placeholder,
-                            positional.parameter.parse,
-                            input,
-                            input,
-                            "argv",
-                            context,
-                        );
+                        return parseInput(placeholder, positional.parameter.parse, input, input, "argv", context);
                     }),
                 ) as Promise<PromiseSettledOrElseResult<ARGS>>;
             } else {
@@ -912,7 +884,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const input = positionalInputs[i];
                         if (typeof input !== "string") {
                             if (typeof param.default === "string") {
-                                return ArgumentParseError.parseInput(
+                                return parseInput(
                                     placeholder,
                                     param.parse,
                                     param.default,
@@ -926,7 +898,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                             }
                             throw new UnsatisfiedPositionalError(placeholder);
                         }
-                        return ArgumentParseError.parseInput(placeholder, param.parse, input, input, "argv", context);
+                        return parseInput(placeholder, param.parse, input, input, "argv", context);
                     }),
                 ) as Promise<PromiseSettledOrElseResult<ARGS>>;
             }
