@@ -74,6 +74,23 @@ function checkForNegationCollisions(flags: Record<string, FlagParameter<CommandC
     }
 }
 
+function checkForInvalidVariadicSeparators(flags: Record<string, FlagParameter<CommandContext>>): void {
+    for (const [internalFlagName, flag] of Object.entries(flags)) {
+        if ("variadic" in flag && typeof flag.variadic === "string") {
+            if (flag.variadic.length < 1) {
+                throw new InternalError(
+                    `Unable to use "" as variadic separator for --${internalFlagName} as it is empty`,
+                );
+            }
+            if (/\s/.test(flag.variadic)) {
+                throw new InternalError(
+                    `Unable to use "${flag.variadic}" as variadic separator for --${internalFlagName} as it contains whitespace`,
+                );
+            }
+        }
+    }
+}
+
 /**
  * Build command from loader or local function as action with associated parameters and documentation.
  */
@@ -89,6 +106,7 @@ export function buildCommand<
     checkForReservedFlags(flags, ["help", "helpAll", "help-all"]);
     checkForReservedAliases(aliases, ["h", "H"]);
     checkForNegationCollisions(flags);
+    checkForInvalidVariadicSeparators(flags);
     let loader: CommandFunctionLoader<BaseFlags, BaseArgs, CONTEXT>;
     if ("func" in builderArgs) {
         loader = async () => builderArgs.func as CommandFunction<BaseFlags, BaseArgs, CONTEXT>;

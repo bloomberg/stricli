@@ -105,3 +105,7 @@
 [97m[39m   [97m--requiredVariadicParsed...[39m  [03mrequired variadic parsed flag[23m
 [97m-h[39m [97m--help[39m                       [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                           [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / variadic parsed flag with separator
+[97m[39m   [97m--variadicParsed...[39m  [03mvariadic parsed flag with separator[23m                      [[90mseparator =[39m ,]
+[97m-h[39m [97m--help[39m               [03mPrint help information and exit[23m
+[97m[39m   [97m--[39m                   [03mAll subsequent inputs should be interpreted as arguments[23m

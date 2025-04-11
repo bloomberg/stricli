@@ -637,6 +637,32 @@ describe("formatDocumentationForFlagParameters", function () {
             compareToBaseline(this, StringArrayBaselineFormat, lines);
         });
 
+        it("variadic parsed flag with separator", function () {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly variadicParsed: string[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    variadicParsed: {
+                        kind: "parsed",
+                        parse: String,
+                        variadic: ",",
+                        brief: "variadic parsed flag with separator",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            // WHEN
+            const lines = formatDocumentationForFlagParameters(parameters.flags, parameters.aliases ?? {}, defaultArgs);
+
+            // THEN
+            compareToBaseline(this, StringArrayBaselineFormat, lines);
+        });
+
         it("required array parsed flag", function () {
             // GIVEN
             type Positional = [];
