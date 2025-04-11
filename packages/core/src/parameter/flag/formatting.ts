@@ -61,6 +61,10 @@ export function formatDocumentationForFlagParameters(
             const defaultKeyword = args.ansiColor ? `\x1B[90m${keywords.default}\x1B[39m` : keywords.default;
             suffixParts.push(`${defaultKeyword} ${flag.default === "" ? `""` : String(flag.default)}`);
         }
+        if ("variadic" in flag && typeof flag.variadic === "string") {
+            const separatorKeyword = args.ansiColor ? `\x1B[90m${keywords.separator}\x1B[39m` : keywords.separator;
+            suffixParts.push(`${separatorKeyword} ${flag.variadic}`);
+        }
         const suffix = suffixParts.length > 0 ? `[${suffixParts.join(", ")}]` : void 0;
 
         return {

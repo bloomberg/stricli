@@ -13,9 +13,15 @@ export interface DocumentationKeywords {
     /**
      * Keyword to be included when flags or arguments have a default value.
      *
-     * Defaults to `"default"`.
+     * Defaults to `"default ="`.
      */
     readonly default: string;
+    /**
+     * Keyword to be included when flags are variadic and have a defined separator.
+     *
+     * Defaults to `"separator ="`.
+     */
+    readonly separator: string;
 }
 
 /**
@@ -214,6 +220,7 @@ export const text_en: ApplicationText = {
     },
     keywords: {
         default: "default =",
+        separator: "separator =",
     },
     briefs: {
         help: "Print help information and exit",
