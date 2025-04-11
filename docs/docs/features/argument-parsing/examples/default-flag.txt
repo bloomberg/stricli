@@ -1,13 +1,19 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+/// impl.ts
+import type { CommandContext } from "@stricli/core";
 
-interface Flags {
+type Flags = {
   lineEnding: "lf" | "crlf";
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { lineEnding }: Flags) {
-    this.process.stdout.write(`Switched line ending to ${lineEnding}`);
-  },
+export default async function(this: CommandContext, { lineEnding }: Flags) {
+  this.process.stdout.write(`Switched line ending to ${lineEnding}`);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       lineEnding: {
@@ -22,3 +28,7 @@ export const root = buildCommand({
     brief: "Example for live playground with flag configured with default value",
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });
