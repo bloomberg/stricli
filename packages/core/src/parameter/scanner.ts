@@ -25,7 +25,7 @@ import type {
     AvailableAlias,
     BaseFlags,
     CommandParameters,
-    ParsedParameter,
+    InputParser,
     TypedCommandParameters,
 } from "./types";
 
@@ -162,6 +162,16 @@ function asExternal(internal: InternalFlagName, scannerCaseStyle: ScannerCaseSty
     ) as ExternalFlagName;
 }
 
+export type ArgumentInputSource = "argv" | "default" | `env:${string}`;
+
+function redactInputFromProperties(obj: Record<string, unknown>, input: string, displayValue: string): void {
+    for (const propertyName of Object.getOwnPropertyNames(obj)) {
+        if (typeof obj[propertyName] === "string") {
+            obj[propertyName] = obj[propertyName].replaceAll(input, displayValue);
+        }
+    }
+}
+
 /**
  * Thrown when underlying parameter parser throws an exception parsing some input.
  */
@@ -171,35 +181,58 @@ export class ArgumentParseError extends ArgumentScannerError {
      */
     readonly externalFlagNameOrPlaceholder: string;
     /**
-     * Command line input that triggered this error.
+     * Input that triggered this error.
      */
     readonly input: string;
+    /**
+     * Where the input came from.
+     */
+    readonly source: ArgumentInputSource;
     /**
      * Raw exception thrown from parse function.
      */
     readonly exception: unknown;
-    constructor(externalFlagNameOrPlaceholder: ExternalFlagName | Placeholder, input: string, exception: unknown) {
-        super(
-            `Failed to parse "${input}" for ${externalFlagNameOrPlaceholder}: ${
-                exception instanceof Error ? exception.message : String(exception)
-            }`,
-        );
+    constructor(
+        externalFlagNameOrPlaceholder: ExternalFlagName | Placeholder,
+        input: string,
+        source: ArgumentInputSource,
+        exception: unknown,
+    ) {
+        let message = "Failed to parse ";
+        if (source === "default") {
+            message += "default value ";
+        }
+        message += `"${input}" `;
+        if (source.startsWith("env:")) {
+            const env = source.slice(4);
+            message += `from environment variable ${env} `;
+        }
+        message += `for ${externalFlagNameOrPlaceholder}: ${
+            exception instanceof Error ? exception.message : String(exception)
+        }`;
+        super(message);
         this.externalFlagNameOrPlaceholder = externalFlagNameOrPlaceholder;
         this.input = input;
+        this.source = source;
         this.exception = exception;
     }
 }
 
-function parseInput<T, CONTEXT extends CommandContext>(
+function parseInput<T, P extends InputParser<T, CONTEXT>, CONTEXT extends CommandContext>(
     externalFlagNameOrPlaceholder: ExternalFlagName | Placeholder,
-    parameter: ParsedParameter<T, CONTEXT>,
+    parser: P,
     input: string,
+    displayValue: string,
+    source: ArgumentInputSource,
     context: CONTEXT,
-): T | Promise<T> {
+): ReturnType<P> {
     try {
-        return parameter.parse.call(context, input);
+        return parser.call(context, input) as ReturnType<P>;
     } catch (exc) {
-        throw new ArgumentParseError(externalFlagNameOrPlaceholder, input, exc);
+        if (typeof exc === "object" && exc) {
+            redactInputFromProperties(exc as Record<string, unknown>, input, displayValue);
+        }
+        throw new ArgumentParseError(externalFlagNameOrPlaceholder, displayValue, source, exc);
     }
 }
 
@@ -212,9 +245,13 @@ export class EnumValidationError extends ArgumentScannerError {
      */
     readonly externalFlagName: string;
     /**
-     * Command line input that triggered this error.
+     * Input that triggered this error.
      */
     readonly input: string;
+    /**
+     * Where the input came from.
+     */
+    readonly source: ArgumentInputSource;
     /**
      * All possible enum values.
      */
@@ -222,10 +259,20 @@ export class EnumValidationError extends ArgumentScannerError {
     constructor(
         externalFlagName: ExternalFlagName,
         input: string,
+        source: ArgumentInputSource,
         values: readonly string[],
         corrections: readonly string[],
     ) {
-        let message = `Expected "${input}" to be one of (${values.join("|")})`;
+        let message = `Expected `;
+        if (source === "default") {
+            message += "default value ";
+        }
+        message += `"${input}" `;
+        if (source.startsWith("env:")) {
+            const env = source.slice(4);
+            message += `from environment variable ${env} `;
+        }
+        message += `to be one of (${values.join("|")})`;
         if (corrections.length > 0) {
             const formattedCorrections = joinWithGrammar(
                 corrections.map((str) => `"${str}"`),
@@ -240,7 +287,26 @@ export class EnumValidationError extends ArgumentScannerError {
         super(message);
         this.externalFlagName = externalFlagName;
         this.input = input;
+        this.source = source;
         this.values = values;
+    }
+}
+
+function assertInputIsEnumValue<T extends string>(
+    flag: BaseEnumFlagParameter<T>,
+    input: string,
+    displayValue: string,
+    source: ArgumentInputSource,
+    config: ScannerConfiguration,
+    externalFlagName: ExternalFlagName,
+): asserts input is T {
+    if (!flag.values.includes(input as T)) {
+        if (input === displayValue) {
+            const corrections = filterClosestAlternatives(input, flag.values, config.distanceOptions);
+            throw new EnumValidationError(externalFlagName, input, source, flag.values, corrections);
+        } else {
+            throw new EnumValidationError(externalFlagName, displayValue, source, flag.values, []);
+        }
     }
 }
 
@@ -256,7 +322,15 @@ export class UnsatisfiedFlagError extends ArgumentScannerError {
      * External name of flag that interrupted the original flag.
      */
     readonly nextFlagName?: string;
-    constructor(externalFlagName: ExternalFlagName, nextFlagName?: ExternalFlagName) {
+    /**
+     * Environment variable name that was empty when it was expected to be set.
+     */
+    readonly envVarName?: string;
+    constructor(
+        externalFlagName: ExternalFlagName,
+        nextFlagName: ExternalFlagName | undefined,
+        envVarName: string | undefined,
+    ) {
         let message = `Expected input for flag --${externalFlagName}`;
         if (nextFlagName) {
             message += ` but encountered --${nextFlagName} instead`;
@@ -264,6 +338,7 @@ export class UnsatisfiedFlagError extends ArgumentScannerError {
         super(message);
         this.externalFlagName = externalFlagName;
         this.nextFlagName = nextFlagName;
+        this.envVarName = envVarName;
     }
 }
 
@@ -502,13 +577,36 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
 ): Promise<unknown> {
     if (!inputs) {
         if ("default" in flag && typeof flag.default !== "undefined") {
+            if (typeof flag.default === "object") {
+                const source: ArgumentInputSource = `env:${flag.default.env}`;
+                const defaultValue = context.process.env?.[flag.default.env];
+                if (typeof defaultValue === "undefined") {
+                    throw new UnsatisfiedFlagError(externalFlagName, void 0, flag.default.env);
+                }
+                const displayValue = flag.default.redact ? "█".repeat(defaultValue.length) : defaultValue;
+                if (flag.kind === "boolean") {
+                    return parseInput(
+                        externalFlagName,
+                        looseBooleanParser,
+                        defaultValue,
+                        displayValue,
+                        source,
+                        context,
+                    );
+                }
+                if (flag.kind === "enum") {
+                    assertInputIsEnumValue(flag, defaultValue, displayValue, source, config, externalFlagName);
+                    return defaultValue;
+                }
+                return parseInput(externalFlagName, flag.parse, defaultValue, displayValue, source, context);
+            }
             if (flag.kind === "boolean") {
                 return flag.default;
             }
             if (flag.kind === "enum") {
                 return flag.default;
             }
-            return parseInput(externalFlagName, flag, flag.default, context);
+            return parseInput(externalFlagName, flag.parse, flag.default, flag.default, "default", context);
         }
         if (flag.optional) {
             return;
@@ -518,45 +616,34 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
         } else if (flag.kind === "counter") {
             return 0;
         }
-        throw new UnsatisfiedFlagError(externalFlagName);
+        throw new UnsatisfiedFlagError(externalFlagName, void 0, void 0);
     }
     if (flag.kind === "counter") {
         return inputs.reduce((total, input) => {
-            try {
-                return total + numberParser.call(context, input);
-            } catch (exc) {
-                throw new ArgumentParseError(externalFlagName, input, exc);
-            }
+            const value = parseInput(externalFlagName, numberParser, input, input, "argv", context);
+            return total + value;
         }, 0);
     }
     if ("variadic" in flag && flag.variadic) {
         if (flag.kind === "enum") {
             for (const input of inputs) {
-                if (!flag.values.includes(input)) {
-                    const corrections = filterClosestAlternatives(input, flag.values, config.distanceOptions);
-                    throw new EnumValidationError(externalFlagName, input, flag.values, corrections);
-                }
+                assertInputIsEnumValue(flag, input, input, "argv", config, externalFlagName);
             }
             return inputs;
         }
-        return Promise.all(inputs.map((input) => parseInput(externalFlagName, flag, input, context)));
+        return Promise.all(
+            inputs.map((input) => parseInput(externalFlagName, flag.parse, input, input, "argv", context)),
+        );
     }
     const input = inputs[0];
     if (flag.kind === "boolean") {
-        try {
-            return looseBooleanParser.call(context, input);
-        } catch (exc) {
-            throw new ArgumentParseError(externalFlagName, input, exc);
-        }
+        return parseInput(externalFlagName, looseBooleanParser, input, input, "argv", context);
     }
     if (flag.kind === "enum") {
-        if (!flag.values.includes(input)) {
-            const corrections = filterClosestAlternatives(input, flag.values, config.distanceOptions);
-            throw new EnumValidationError(externalFlagName, input, flag.values, corrections);
-        }
+        assertInputIsEnumValue(flag, input, input, "argv", config, externalFlagName);
         return input;
     }
-    return parseInput(externalFlagName, flag, input, context);
+    return parseInput(externalFlagName, flag.parse, input, input, "argv", context);
 }
 
 /**
@@ -696,7 +783,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         activeFlag = void 0;
                     } else {
                         const externalFlagName = asExternal(activeFlag[0], config.caseStyle);
-                        throw new UnsatisfiedFlagError(externalFlagName);
+                        throw new UnsatisfiedFlagError(externalFlagName, void 0, void 0);
                     }
                 }
                 treatInputsAsArguments = true;
@@ -713,7 +800,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         } else {
                             const externalFlagName = asExternal(activeFlag[0], config.caseStyle);
                             const nextExternalFlagName = asExternal(flagInput[0][0], config.caseStyle);
-                            throw new UnsatisfiedFlagError(externalFlagName, nextExternalFlagName);
+                            throw new UnsatisfiedFlagError(externalFlagName, nextExternalFlagName, void 0);
                         }
                     }
                     storeInput(flagInputs, config.caseStyle, ...flagInput);
@@ -730,7 +817,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                             const externalFlagName = asExternal(activeFlag[0], config.caseStyle);
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             const nextFlagName = asExternal(nextFlags[0]!.namedFlag[0], config.caseStyle);
-                            throw new UnsatisfiedFlagError(externalFlagName, nextFlagName);
+                            throw new UnsatisfiedFlagError(externalFlagName, nextFlagName, void 0);
                         }
                     }
                     if (nextFlags.every(isNiladic)) {
@@ -750,7 +837,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const nextFlagExpectingArg = nextFlags.find((nextFlag) => !isNiladic(nextFlag));
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         const externalFlagName = asExternal(nextFlagExpectingArg!.namedFlag[0], config.caseStyle);
-                        throw new UnsatisfiedFlagError(externalFlagName);
+                        throw new UnsatisfiedFlagError(externalFlagName, void 0, void 0);
                     } else {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         activeFlag = nextFlags[0]!.namedFlag as NamedFlag<CONTEXT, FlagParserExpectingInput<CONTEXT>>;
@@ -792,7 +879,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 positionalValues_p = allSettledOrElse(
                     positionalInputs.map(async (input, i) => {
                         const placeholder = getPlaceholder(positional.parameter, i + 1);
-                        return parseInput(placeholder, positional.parameter, input, context);
+                        return parseInput(placeholder, positional.parameter.parse, input, input, "argv", context);
                     }),
                 ) as Promise<PromiseSettledOrElseResult<ARGS>>;
             } else {
@@ -802,14 +889,21 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const input = positionalInputs[i];
                         if (typeof input !== "string") {
                             if (typeof param.default === "string") {
-                                return parseInput(placeholder, param, param.default, context);
+                                return parseInput(
+                                    placeholder,
+                                    param.parse,
+                                    param.default,
+                                    param.default,
+                                    "default",
+                                    context,
+                                );
                             }
                             if (param.optional) {
                                 return;
                             }
                             throw new UnsatisfiedPositionalError(placeholder);
                         }
-                        return parseInput(placeholder, param, input, context);
+                        return parseInput(placeholder, param.parse, input, input, "argv", context);
                     }),
                 ) as Promise<PromiseSettledOrElseResult<ARGS>>;
             }
@@ -824,7 +918,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                     const [internalFlagName, flag] = entry as [InternalFlagName, FlagParameter<CONTEXT>];
                     const externalFlagName = asExternal(internalFlagName, config.caseStyle);
                     if (activeFlag && activeFlag[0] === internalFlagName) {
-                        throw new UnsatisfiedFlagError(externalFlagName);
+                        throw new UnsatisfiedFlagError(externalFlagName, void 0, void 0);
                     }
                     const inputs = flagInputs.get(internalFlagName);
                     const value = await parseInputsForFlag(externalFlagName, flag, inputs, config, context);
