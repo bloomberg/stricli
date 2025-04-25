@@ -111,6 +111,7 @@ export async function runApplication<CONTEXT extends CommandContext>(
                 aliases: result.aliases[config.documentation.caseStyle],
                 text,
                 ansiColor,
+                env: context.process.env,
             }),
         );
         return ExitCode.Success;

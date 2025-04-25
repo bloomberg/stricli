@@ -583,7 +583,7 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
                 if (typeof defaultValue === "undefined") {
                     throw new UnsatisfiedFlagError(externalFlagName, void 0, flag.default.env);
                 }
-                const displayValue = flag.default.redact ? "*".repeat(defaultValue.length) : defaultValue;
+                const displayValue = flag.default.redact ? "█".repeat(defaultValue.length) : defaultValue;
                 if (flag.kind === "boolean") {
                     return parseInput(
                         externalFlagName,

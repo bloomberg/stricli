@@ -3093,18 +3093,18 @@ describe("ArgumentScanner", () => {
                             {
                                 type: "ArgumentParseError",
                                 properties: {
-                                    input: "************",
+                                    input: "████████████",
                                     source: "env:BAR",
-                                    exception: new Error("Cannot convert ************ to a boolean"),
+                                    exception: new Error("Cannot convert ████████████ to a boolean"),
                                     externalFlagNameOrPlaceholder: "bar",
                                 },
                             },
                             {
                                 type: "ArgumentParseError",
                                 properties: {
-                                    input: "************",
+                                    input: "████████████",
                                     source: "env:BAZ",
-                                    exception: new Error("Cannot convert ************ to a boolean"),
+                                    exception: new Error("Cannot convert ████████████ to a boolean"),
                                     externalFlagNameOrPlaceholder: "baz",
                                 },
                             },
@@ -4852,9 +4852,9 @@ describe("ArgumentScanner", () => {
                                 type: "ArgumentParseError",
                                 properties: {
                                     externalFlagNameOrPlaceholder: "foo",
-                                    input: "************",
+                                    input: "████████████",
                                     source: "env:FOO",
-                                    exception: new Error("Cannot convert ************ to a number"),
+                                    exception: new Error("Cannot convert ████████████ to a number"),
                                 },
                             },
                             {
@@ -6697,7 +6697,7 @@ describe("ArgumentScanner", () => {
                                 type: "EnumValidationError",
                                 properties: {
                                     externalFlagName: "mode",
-                                    input: "************",
+                                    input: "████████████",
                                     source: "env:MODE",
                                     values: ["foo", "bar", "baz"],
                                 },

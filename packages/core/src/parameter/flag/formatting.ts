@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { formatForDisplay, formatAsNegated } from "../../config";
+import { formatAsNegated, formatForDisplay } from "../../config";
 import type { CommandContext } from "../../context";
 import type { HelpFormattingArguments } from "../../routing/types";
 import { formatRowsWithColumns } from "../../util/formatting";
@@ -60,7 +60,24 @@ export function formatDocumentationForFlagParameters(
         if (hasDefault(flag)) {
             const defaultKeyword = args.ansiColor ? `\x1B[90m${keywords.default}\x1B[39m` : keywords.default;
             if (typeof flag.default === "object") {
-                suffixParts.push(`${defaultKeyword} <from env ${flag.default.env}>`);
+                let displayValue = args.env?.[flag.default.env];
+                if (typeof displayValue === "string") {
+                    if (flag.default.redact) {
+                        displayValue = "█".repeat(displayValue.length);
+                    }
+                    if (displayValue === "") {
+                        displayValue = `""`;
+                    }
+                    const fromEnv = args.ansiColor
+                        ? `\x1B[90m| ${keywords.fromEnv}${flag.default.env}\x1B[39m`
+                        : `| ${keywords.fromEnv}${flag.default.env}`;
+                    suffixParts.push(`${defaultKeyword} ${displayValue} ${fromEnv}`);
+                } else {
+                    const fromEnv = args.ansiColor
+                        ? `\x1B[90m${keywords.fromEnv}${flag.default.env}\x1B[39m`
+                        : `${keywords.fromEnv}${flag.default.env}`;
+                    suffixParts.push(`${defaultKeyword} ${fromEnv}`);
+                }
             } else {
                 suffixParts.push(`${defaultKeyword} ${flag.default === "" ? `""` : String(flag.default)}`);
             }

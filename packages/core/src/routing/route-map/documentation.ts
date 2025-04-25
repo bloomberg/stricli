@@ -1,12 +1,12 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import type { CommandContext } from "../../context";
 import { formatForDisplay } from "../../config";
+import type { CommandContext } from "../../context";
+import { formatDocumentationForFlagParameters, generateBuiltInFlagUsageLines } from "../../parameter/flag/formatting";
 import { convertCamelCaseToKebabCase } from "../../util/case-style";
 import { formatRowsWithColumns } from "../../util/formatting";
 import type { HelpFormattingArguments } from "../types";
 import type { RouteMapRoutes } from "./builder";
-import { formatDocumentationForFlagParameters, generateBuiltInFlagUsageLines } from "../../parameter/flag/formatting";
 
 /**
  * Help documentation for route map.
