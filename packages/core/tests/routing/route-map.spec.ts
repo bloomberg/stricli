@@ -1,10 +1,53 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { expect } from "chai";
-import { buildCommand, buildRouteMap, numberParser, text_en, type CommandContext } from "../../src";
+import { buildCommand, buildRouteMap, numberParser, text_en, type CommandContext, type RouteMap } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
 import { compareToBaseline, StringArrayBaselineFormat } from "../baseline";
+
+function compareHelpTextToBaseline(
+    routeMap: RouteMap<CommandContext>,
+    args: Omit<HelpFormattingArguments, "ansiColor">,
+) {
+    it("with ANSI color", function () {
+        // WHEN
+        const helpText = routeMap.formatHelp({
+            ...args,
+            ansiColor: true,
+        });
+
+        // THEN
+        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+    });
+
+    it("no ANSI color", function () {
+        // WHEN
+        const helpText = routeMap.formatHelp({
+            ...args,
+            ansiColor: false,
+        });
+
+        // THEN
+        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+    });
+
+    it("text with ANSI matches text without ANSI", function () {
+        // WHEN
+        const helpTextWithAnsiColor = routeMap.formatHelp({
+            ...args,
+            ansiColor: true,
+        });
+        const helpTextWithAnsiColorStrippedOut = helpTextWithAnsiColor.replace(/\x1B\[[0-9;]*m/g, "");
+        const helpTextWithoutAnsiColor = routeMap.formatHelp({
+            ...args,
+            ansiColor: false,
+        });
+
+        // THEN
+        expect(helpTextWithAnsiColorStrippedOut).to.deep.equal(helpTextWithoutAnsiColor);
+    });
+}
 
 describe("RouteMap", () => {
     it("builder enforces at least one route", () => {
@@ -130,7 +173,7 @@ describe("RouteMap", () => {
             docs: { brief: "top command brief" },
         });
 
-        it("nested route map", function () {
+        describe("nested route map", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -139,14 +182,10 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(routeMap, defaultArgs);
         });
 
-        it("nested route map with version available", function () {
+        describe("nested route map with version available", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -156,17 +195,13 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 includeVersionFlag: true,
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("nested route map with aliases", function () {
+        describe("nested route map with aliases", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -175,19 +210,15 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
                 aliases: ["alias1", "alias2"],
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("aliased nested route map with aliases", function () {
+        describe("aliased nested route map with aliases", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -196,41 +227,15 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 prefix: ["cli", "alias1"],
                 includeVersionFlag: true,
                 aliases: ["route", "alias2"],
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("nested route map with aliases, ansi color", function () {
-            // GIVEN
-            const routeMap = buildRouteMap({
-                routes: { doNothing: topCommand, sub: subRouteMap },
-                docs: {
-                    brief: "route map brief",
-                },
-            });
-
-            // WHEN
-            const helpString = routeMap.formatHelp({
-                ...defaultArgs,
-                ansiColor: true,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-            });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
-        });
-
-        it("nested route map with hidden routes", function () {
+        describe("nested route map with hidden routes", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -242,17 +247,13 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 includeVersionFlag: true,
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("nested route map force include hidden routes", function () {
+        describe("nested route map force include hidden routes", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -264,18 +265,14 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 includeVersionFlag: true,
                 includeHidden: true,
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("nested route map with `convert-camel-to-kebab` display case style", function () {
+        describe("nested route map with `convert-camel-to-kebab` display case style", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -285,8 +282,7 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 includeVersionFlag: true,
                 config: {
@@ -294,12 +290,9 @@ describe("RouteMap", () => {
                     caseStyle: "convert-camel-to-kebab",
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("nested route maps with custom header text", function () {
+        describe("nested route maps with custom header text", function () {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -308,8 +301,7 @@ describe("RouteMap", () => {
                 },
             });
 
-            // WHEN
-            const helpString = routeMap.formatHelp({
+            compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
@@ -325,9 +317,6 @@ describe("RouteMap", () => {
                     },
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
     });
 

@@ -1,4 +1,4 @@
-:::: Command / printHelp / mixed parameters
+:::: Command / printHelp / mixed parameters / no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   prefix --help
@@ -16,7 +16,25 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style
+:::: Command / printHelp / mixed parameters / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style / no ANSI color
 USAGE
   prefix (--alpha-flag value) (--bravo-flag value)... [--charlie-flag c] (--delta-flag) <arg1> [<arg2>]
   prefix --help
@@ -34,7 +52,25 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line
+:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha-flag value) (--bravo-flag value)... [--charlie-flag c] (--delta-flag) <arg1> [<arg2>]
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha-flag[39m                  [03malpha flag brief[23m
+  [97m[39m   [97m --bravo-flag...[39m               [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie-flag][39m               [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta-flag/--no-delta-flag[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line / no ANSI color
 USAGE
   prefix (--alpha-flag value) (--bravo-flag value)... (--delta-flag) <arg1>
   prefix --help
@@ -52,7 +88,25 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `original` display case style
+:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha-flag value) (--bravo-flag value)... (--delta-flag) <arg1>
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha-flag[39m                  [03malpha flag brief[23m
+  [97m[39m   [97m --bravo-flag...[39m               [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie-flag][39m               [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta-flag/--no-delta-flag[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with `original` display case style / no ANSI color
 USAGE
   prefix (--alphaFlag value) (--bravoFlag value)... [--charlieFlag c] (--deltaFlag) <arg1> [<arg2>]
   prefix --help
@@ -70,7 +124,25 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `original` display case style, only required in usage line
+:::: Command / printHelp / mixed parameters with `original` display case style / with ANSI color
+[1mUSAGE[22m
+  prefix (--alphaFlag value) (--bravoFlag value)... [--charlieFlag c] (--deltaFlag) <arg1> [<arg2>]
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alphaFlag[39m                [03malpha flag brief[23m
+  [97m[39m   [97m --bravoFlag...[39m             [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlieFlag][39m             [03mcharlie flag brief[23m
+  [97m-d[39m [97m --deltaFlag/--noDeltaFlag[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m                     [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with `original` display case style, only required in usage line / no ANSI color
 USAGE
   prefix (--alphaFlag value) (--bravoFlag value)... (--deltaFlag) <arg1>
   prefix --help
@@ -88,7 +160,25 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with aliases
+:::: Command / printHelp / mixed parameters with `original` display case style, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alphaFlag value) (--bravoFlag value)... (--deltaFlag) <arg1>
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alphaFlag[39m                [03malpha flag brief[23m
+  [97m[39m   [97m --bravoFlag...[39m             [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlieFlag][39m             [03mcharlie flag brief[23m
+  [97m-d[39m [97m --deltaFlag/--noDeltaFlag[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m                     [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with aliases / no ANSI color
 USAGE
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -112,7 +202,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with aliases, ansi color
+:::: Command / printHelp / mixed parameters with aliases / with ANSI color
 [1mUSAGE[22m
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -136,7 +226,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with aliases, only required in usage line
+:::: Command / printHelp / mixed parameters with aliases, only required in usage line / no ANSI color
 USAGE
   cli route (--alpha value) (--bravo value)... (--delta) <arg1>
   cli route --help
@@ -160,7 +250,31 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with custom headers
+:::: Command / printHelp / mixed parameters with aliases, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  cli route (--alpha value) (--bravo value)... (--delta) <arg1>
+  cli route --help
+  cli route --version
+
+brief
+
+[1mALIASES[22m
+  cli alias1
+  cli alias2
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [97m-v[39m [97m --version[39m          [03mPrint version information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with custom headers / no ANSI color
 Usage:
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -184,7 +298,31 @@ Arguments:
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with custom headers, only required in usage line
+:::: Command / printHelp / mixed parameters with custom headers / with ANSI color
+[1mUsage:[22m
+  cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  cli route --help
+  cli route --version
+
+brief
+
+[1mAliases:[22m
+  cli alias1
+  cli alias2
+
+[1mFlags:[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [97m-v[39m [97m --version[39m          [03mPrint version information and exit[23m
+
+[1mArguments:[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with custom headers, only required in usage line / no ANSI color
 Usage:
   cli route (--alpha value) (--bravo value)... (--delta) <arg1>
   cli route --help
@@ -208,7 +346,31 @@ Arguments:
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with version available
+:::: Command / printHelp / mixed parameters with custom headers, only required in usage line / with ANSI color
+[1mUsage:[22m
+  cli route (--alpha value) (--bravo value)... (--delta) <arg1>
+  cli route --help
+  cli route --version
+
+brief
+
+[1mAliases:[22m
+  cli alias1
+  cli alias2
+
+[1mFlags:[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [97m-v[39m [97m --version[39m          [03mPrint version information and exit[23m
+
+[1mArguments:[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with version available / no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   prefix --help
@@ -228,7 +390,27 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with version available, only required in usage line
+:::: Command / printHelp / mixed parameters with version available / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
+  prefix --help
+  prefix --version
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [97m-v[39m [97m --version[39m          [03mPrint version information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters with version available, only required in usage line / no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... (--delta) <arg1>
   prefix --help
@@ -248,7 +430,27 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters, custom usage
+:::: Command / printHelp / mixed parameters with version available, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--bravo value)... (--delta) <arg1>
+  prefix --help
+  prefix --version
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [97m-v[39m [97m --version[39m          [03mPrint version information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters, custom usage / no ANSI color
 USAGE
   prefix custom usage line #1
   prefix custom usage line #2
@@ -266,7 +468,25 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, enhanced custom usage
+:::: Command / printHelp / mixed parameters, custom usage / with ANSI color
+[1mUSAGE[22m
+  prefix custom usage line #1
+  prefix custom usage line #2
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, enhanced custom usage / no ANSI color
 USAGE
   prefix -a 1
     enhanced usage line #1
@@ -286,7 +506,27 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, force include hidden
+:::: Command / printHelp / mixed parameters, enhanced custom usage / with ANSI color
+[1mUSAGE[22m
+  prefix -a 1
+    [3menhanced usage line #1[23m
+  prefix -a 2 -d
+    [3menhanced usage line #2[23m
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, force include hidden / no ANSI color
 USAGE
   prefix (--alpha value) (--delta) <args>...
   prefix --help
@@ -303,7 +543,24 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, full description
+:::: Command / printHelp / mixed parameters, force include hidden / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--delta) <args>...
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [90m[39m   [90m --bravo...[39m         [90mbravo flag brief[39m
+  [90m[39m   [90m[--charlie][39m         [90mcharlie flag brief[39m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, full description / no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <args>...
   prefix --help
@@ -320,7 +577,24 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, full description, only required in usage line
+:::: Command / printHelp / mixed parameters, full description / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <args>...
+  prefix --help
+
+Longer description of this command's behavior, only printed during --help
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, full description, only required in usage line / no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... (--delta) <args>...
   prefix --help
@@ -337,7 +611,24 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, help all, force alias in usage line
+:::: Command / printHelp / mixed parameters, full description, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--bravo value)... (--delta) <args>...
+  prefix --help
+
+Longer description of this command's behavior, only printed during --help
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, help all, force alias in usage line / no ANSI color
 USAGE
   prefix (-a value) (--bravo value)... [--charlie c] (-d) <args>...
   prefix -h
@@ -356,7 +647,26 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, mixed custom usage
+:::: Command / printHelp / mixed parameters, help all, force alias in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (-a value) (--bravo value)... [--charlie c] (-d) <args>...
+  prefix -h
+  prefix -H
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+  [90m-H[39m [90m --helpAll[39m          [90mPrint help information (including hidden commands/flags) and exit[39m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, mixed custom usage / no ANSI color
 USAGE
   prefix -a 1
     enhanced usage line #1
@@ -380,7 +690,31 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, only required in usage line
+:::: Command / printHelp / mixed parameters, mixed custom usage / with ANSI color
+[1mUSAGE[22m
+  prefix -a 1
+    [3menhanced usage line #1[23m
+  prefix normal custom usage A
+  prefix normal custom usage B
+  prefix -a 2 -d
+    [3menhanced usage line #2[23m
+  prefix normal custom usage C
+  prefix normal custom usage D
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / mixed parameters, only required in usage line / no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... (--delta) <arg1>
   prefix --help
@@ -398,7 +732,25 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters, skips hidden
+:::: Command / printHelp / mixed parameters, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--bravo value)... (--delta) <arg1>
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m --alpha[39m            [03malpha flag brief[23m
+  [97m[39m   [97m --bravo...[39m         [03mbravo flag brief[23m
+  [97m[39m   [97m[--charlie][39m         [03mcharlie flag brief[23m
+  [97m-d[39m [97m --delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97m arg1[39m   [3mfirst argument brief[23m
+  [97m[arg2][39m  [3msecond argument brief[23m
+
+:::: Command / printHelp / mixed parameters, skips hidden / no ANSI color
 USAGE
   prefix (--alpha value) (--delta) <args>...
   prefix --help
@@ -413,7 +765,22 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / multiple boolean flags
+:::: Command / printHelp / mixed parameters, skips hidden / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha value) (--delta) <args>...
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-a[39m [97m--alpha[39m            [03malpha flag brief[23m
+  [97m-d[39m [97m--delta/--noDelta[39m  [03mdelta flag brief[23m
+  [97m-h[39m [97m--help[39m             [03mPrint help information and exit[23m
+
+[1mARGUMENTS[22m
+  [97margs...[39m  [3mstring array brief[23m
+
+:::: Command / printHelp / multiple boolean flags / no ANSI color
 USAGE
   prefix (--alpha) [--bravo] (--charlie)
   prefix --help
@@ -426,7 +793,20 @@ FLAGS
   -c  --charlie/--noCharlie  charlie flag brief
   -h  --help                 Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags, kebab-case
+:::: Command / printHelp / multiple boolean flags / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha) [--bravo] (--charlie)
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m[39m   [97m --alpha/--noAlpha[39m      [03malpha flag brief[23m
+  [97m[39m   [97m[--bravo/--noBravo][39m     [03mbravo flag brief[23m
+  [97m-c[39m [97m --charlie/--noCharlie[39m  [03mcharlie flag brief[23m
+  [97m-h[39m [97m --help[39m                 [03mPrint help information and exit[23m
+
+:::: Command / printHelp / multiple boolean flags, kebab-case / no ANSI color
 USAGE
   prefix (--alpha) [--bravo] (--charlie)
   prefix --help
@@ -439,7 +819,20 @@ FLAGS
   -c  --charlie/--no-charlie  charlie flag brief
   -h  --help                  Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags, kebab-case, only required in usage line
+:::: Command / printHelp / multiple boolean flags, kebab-case / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha) [--bravo] (--charlie)
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m[39m   [97m --alpha/--no-alpha[39m      [03malpha flag brief[23m
+  [97m[39m   [97m[--bravo/--no-bravo][39m     [03mbravo flag brief[23m
+  [97m-c[39m [97m --charlie/--no-charlie[39m  [03mcharlie flag brief[23m
+  [97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m
+
+:::: Command / printHelp / multiple boolean flags, kebab-case, only required in usage line / no ANSI color
 USAGE
   prefix (--alpha) (--charlie)
   prefix --help
@@ -452,7 +845,20 @@ FLAGS
   -c  --charlie/--no-charlie  charlie flag brief
   -h  --help                  Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags, only required in usage line
+:::: Command / printHelp / multiple boolean flags, kebab-case, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha) (--charlie)
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m[39m   [97m --alpha/--no-alpha[39m      [03malpha flag brief[23m
+  [97m[39m   [97m[--bravo/--no-bravo][39m     [03mbravo flag brief[23m
+  [97m-c[39m [97m --charlie/--no-charlie[39m  [03mcharlie flag brief[23m
+  [97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m
+
+:::: Command / printHelp / multiple boolean flags, only required in usage line / no ANSI color
 USAGE
   prefix (--alpha) (--charlie)
   prefix --help
@@ -465,7 +871,20 @@ FLAGS
   -c  --charlie/--noCharlie  charlie flag brief
   -h  --help                 Print help information and exit
 
-:::: Command / printHelp / no parameters
+:::: Command / printHelp / multiple boolean flags, only required in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix (--alpha) (--charlie)
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m[39m   [97m --alpha/--noAlpha[39m      [03malpha flag brief[23m
+  [97m[39m   [97m[--bravo/--noBravo][39m     [03mbravo flag brief[23m
+  [97m-c[39m [97m --charlie/--noCharlie[39m  [03mcharlie flag brief[23m
+  [97m-h[39m [97m --help[39m                 [03mPrint help information and exit[23m
+
+:::: Command / printHelp / no parameters / no ANSI color
 USAGE
   prefix
   prefix --help
@@ -475,7 +894,17 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, dropped empty flag spec
+:::: Command / printHelp / no parameters / with ANSI color
+[1mUSAGE[22m
+  prefix
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:::: Command / printHelp / no parameters, dropped empty flag spec / no ANSI color
 USAGE
   prefix
   prefix --help
@@ -485,7 +914,17 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, dropped empty positional spec
+:::: Command / printHelp / no parameters, dropped empty flag spec / with ANSI color
+[1mUSAGE[22m
+  prefix
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:::: Command / printHelp / no parameters, dropped empty positional spec / no ANSI color
 USAGE
   prefix
   prefix --help
@@ -495,7 +934,17 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, dropped empty specs
+:::: Command / printHelp / no parameters, dropped empty positional spec / with ANSI color
+[1mUSAGE[22m
+  prefix
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:::: Command / printHelp / no parameters, dropped empty specs / no ANSI color
 USAGE
   prefix
   prefix --help
@@ -505,7 +954,17 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, help all, force alias in usage line
+:::: Command / printHelp / no parameters, dropped empty specs / with ANSI color
+[1mUSAGE[22m
+  prefix
+  prefix --help
+
+brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+:::: Command / printHelp / no parameters, help all, force alias in usage line / no ANSI color
 USAGE
   prefix
   prefix -h
@@ -516,6 +975,18 @@ brief
 FLAGS
   -h --help     Print help information and exit
   -H --helpAll  Print help information (including hidden commands/flags) and exit
+
+:::: Command / printHelp / no parameters, help all, force alias in usage line / with ANSI color
+[1mUSAGE[22m
+  prefix
+  prefix -h
+  prefix -H
+
+brief
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [90m-H[39m [90m--helpAll[39m  [90mPrint help information (including hidden commands/flags) and exit[39m
 
 :::: Command / run / command function returns error / with custom exit code
 ExitCode=Unknown(10)

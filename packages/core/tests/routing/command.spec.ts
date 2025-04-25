@@ -91,6 +91,46 @@ const CommandRunResultBaselineFormat: BaselineFormat<CommandRunResult> = {
     },
 };
 
+function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<HelpFormattingArguments, "ansiColor">) {
+    it("with ANSI color", function () {
+        // WHEN
+        const helpText = command.formatHelp({
+            ...args,
+            ansiColor: true,
+        });
+
+        // THEN
+        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+    });
+
+    it("no ANSI color", function () {
+        // WHEN
+        const helpText = command.formatHelp({
+            ...args,
+            ansiColor: false,
+        });
+
+        // THEN
+        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+    });
+
+    it("text with ANSI matches text without ANSI", function () {
+        // WHEN
+        const helpTextWithAnsiColor = command.formatHelp({
+            ...args,
+            ansiColor: true,
+        });
+        const helpTextWithAnsiColorStrippedOut = helpTextWithAnsiColor.replace(/\x1B\[[0-9;]*m/g, "");
+        const helpTextWithoutAnsiColor = command.formatHelp({
+            ...args,
+            ansiColor: false,
+        });
+
+        // THEN
+        expect(helpTextWithAnsiColorStrippedOut).to.deep.equal(helpTextWithoutAnsiColor);
+    });
+}
+
 describe("Command", function () {
     describe("buildCommand", function () {
         it("fails with reserved flag --help", function () {
@@ -293,7 +333,7 @@ describe("Command", function () {
             ansiColor: false,
         };
 
-        it("no parameters", function () {
+        describe("no parameters", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -311,14 +351,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("no parameters, dropped empty flag spec", function () {
+        describe("no parameters, dropped empty flag spec", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -335,14 +371,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("no parameters, dropped empty positional spec", function () {
+        describe("no parameters, dropped empty positional spec", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -354,14 +386,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("no parameters, dropped empty specs", function () {
+        describe("no parameters, dropped empty specs", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -373,14 +401,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("no parameters, help all, force alias in usage line", function () {
+        describe("no parameters, help all, force alias in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -392,8 +416,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 includeHelpAllFlag: true,
                 config: {
@@ -401,12 +424,9 @@ describe("Command", function () {
                     useAliasInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters", function () {
+        describe("mixed parameters", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -465,14 +485,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters, only required in usage line", function () {
+        describe("mixed parameters, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -531,20 +547,16 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with version available", function () {
+        describe("mixed parameters with version available", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -603,14 +615,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({ ...defaultArgs, includeVersionFlag: true });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, { ...defaultArgs, includeVersionFlag: true });
         });
 
-        it("mixed parameters with version available, only required in usage line", function () {
+        describe("mixed parameters with version available, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -669,8 +677,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 includeVersionFlag: true,
                 config: {
@@ -678,12 +685,9 @@ describe("Command", function () {
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with aliases", function () {
+        describe("mixed parameters with aliases", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -742,19 +746,15 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
                 aliases: ["alias1", "alias2"],
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with aliases, ansi color", function () {
+        describe("mixed parameters with aliases, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -813,80 +813,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
-                ...defaultArgs,
-                ansiColor: true,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-            });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
-        });
-
-        it("mixed parameters with aliases, only required in usage line", function () {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
@@ -896,12 +823,9 @@ describe("Command", function () {
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("multiple boolean flags", function () {
+        describe("multiple boolean flags", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -936,14 +860,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("multiple boolean flags, only required in usage line", function () {
+        describe("multiple boolean flags, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -978,20 +898,16 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("multiple boolean flags, kebab-case", function () {
+        describe("multiple boolean flags, kebab-case", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1026,20 +942,16 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
                     caseStyle: "convert-camel-to-kebab",
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("multiple boolean flags, kebab-case, only required in usage line", function () {
+        describe("multiple boolean flags, kebab-case, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1074,8 +986,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
@@ -1083,12 +994,9 @@ describe("Command", function () {
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters, full description", function () {
+        describe("mixed parameters, full description", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1142,14 +1050,10 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters, full description, only required in usage line", function () {
+        describe("mixed parameters, full description, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1203,20 +1107,16 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters, custom usage", function () {
+        describe("mixed parameters, custom usage", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1270,14 +1170,10 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters, enhanced custom usage", function () {
+        describe("mixed parameters, enhanced custom usage", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1340,14 +1236,10 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters, mixed custom usage", function () {
+        describe("mixed parameters, mixed custom usage", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1414,14 +1306,10 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters with `original` display case style", function () {
+        describe("mixed parameters with `original` display case style", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1480,14 +1368,10 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters with `original` display case style, only required in usage line", function () {
+        describe("mixed parameters with `original` display case style, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1546,20 +1430,16 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with `convert-camel-to-kebab` display case style", function () {
+        describe("mixed parameters with `convert-camel-to-kebab` display case style", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1618,20 +1498,16 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
                     caseStyle: "convert-camel-to-kebab",
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line", function () {
+        describe("mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1690,8 +1566,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 config: {
                     ...defaultArgs.config,
@@ -1699,12 +1574,9 @@ describe("Command", function () {
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with custom headers", function () {
+        describe("mixed parameters with custom headers", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1763,8 +1635,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
@@ -1780,12 +1651,9 @@ describe("Command", function () {
                     },
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters with custom headers, only required in usage line", function () {
+        describe("mixed parameters with custom headers, only required in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1844,8 +1712,7 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
@@ -1865,12 +1732,9 @@ describe("Command", function () {
                     onlyRequiredInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters, skips hidden", function () {
+        describe("mixed parameters, skips hidden", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1925,14 +1789,10 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp(defaultArgs);
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
+            compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        it("mixed parameters, force include hidden", function () {
+        describe("mixed parameters, force include hidden", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1987,17 +1847,13 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 includeHidden: true,
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
 
-        it("mixed parameters, help all, force alias in usage line", function () {
+        describe("mixed parameters, help all, force alias in usage line", function () {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -2050,8 +1906,7 @@ describe("Command", function () {
                 },
             });
 
-            // WHEN
-            const helpString = command.formatHelp({
+            compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 includeHelpAllFlag: true,
                 config: {
@@ -2059,9 +1914,6 @@ describe("Command", function () {
                     useAliasInUsageLine: true,
                 },
             });
-
-            // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, helpString.split("\n"));
         });
     });
 

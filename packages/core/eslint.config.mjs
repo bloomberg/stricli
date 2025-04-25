@@ -18,5 +18,8 @@ export default [
                 project: ["tsconfig.json"],
             },
         },
+        rules: {
+            "no-control-regex": "off",
+        },
     },
 ];
