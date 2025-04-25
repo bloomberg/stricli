@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+}
+
+.fileTab {
+    display: block;
+    padding: 5px 10px;
+    border-style: solid;
+    border-color: var(--ifm-color-emphasis-200);
+    border-width: 1px 1px 0 1px;
+    /* border: 0 0 1px 0 solid var(--ifm-background-surface-color); */
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.fileTab:first-child {
+    border-right-width: 0;
+}
+
+.fileTab.active {
+    background-color: var(--ifm-color-emphasis-300);
+    cursor: default;
+}
+
+.headerRight {
+    width: 100%;
+    position: relative;
+}
+
+.sizeToggleButton {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
+}
+
+.editor {
+    transition: height var(--ifm-transition-fast) ease-out;
+}
