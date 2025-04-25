@@ -2,7 +2,6 @@
 // Distributed under the terms of the Apache 2.0 license.
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
-// import Editor from "./Editor";
 import Terminal from "./Terminal";
 
 // @ts-expect-error Import .d.ts file as text for playground
