@@ -1,6 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { type CommandContext, numberParser, text_en, type TypedPositionalParameters } from "../../../src";
+import { expect } from "chai";
+import { type CommandContext, text_en, type TypedPositionalParameters } from "../../../src";
 // eslint-disable-next-line no-restricted-imports
 import { formatDocumentationForPositionalParameters } from "../../../src/parameter/positional/formatting";
 // eslint-disable-next-line no-restricted-imports
@@ -8,6 +9,48 @@ import type { PositionalParameters } from "../../../src/parameter/positional/typ
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
 import { compareToBaseline, StringArrayBaselineFormat } from "../../baseline";
+
+type DocumentationArgs = Pick<HelpFormattingArguments, "config" | "text">;
+
+function compareDocumentationToBaseline(positional: PositionalParameters, args: DocumentationArgs) {
+    it("with ANSI color", function () {
+        // WHEN
+        const lines = formatDocumentationForPositionalParameters(positional, {
+            ...args,
+            ansiColor: true,
+        });
+
+        // THEN
+        compareToBaseline(this, StringArrayBaselineFormat, lines);
+    });
+
+    it("no ANSI color", function () {
+        // WHEN
+        const lines = formatDocumentationForPositionalParameters(positional, {
+            ...args,
+            ansiColor: false,
+        });
+
+        // THEN
+        compareToBaseline(this, StringArrayBaselineFormat, lines);
+    });
+
+    it("text with ANSI matches text without ANSI", function () {
+        // WHEN
+        const linesWithAnsiColor = formatDocumentationForPositionalParameters(positional, {
+            ...args,
+            ansiColor: true,
+        });
+        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map((line) => line.replace(/\x1B\[[0-9;]*m/g, ""));
+        const linesWithoutAnsiColor = formatDocumentationForPositionalParameters(positional, {
+            ...args,
+            ansiColor: false,
+        });
+
+        // THEN
+        expect(linesWithAnsiColorStrippedOut).to.deep.equal(linesWithoutAnsiColor);
+    });
+}
 
 describe("formatDocumentationForPositionalParameters", function () {
     const defaultArgs: Pick<HelpFormattingArguments, "config" | "text" | "ansiColor"> = {
@@ -22,7 +65,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         ansiColor: true,
     };
 
-    it("tuple with no positional parameters", function () {
+    describe("tuple with no positional parameters", function () {
         // GIVEN
         type Positional = [];
 
@@ -31,14 +74,10 @@ describe("formatDocumentationForPositionalParameters", function () {
             parameters: [],
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    it("tuple of one required positional parameter", function () {
+    describe("tuple of one required positional parameter", function () {
         // GIVEN
         type Positional = [string];
 
@@ -53,14 +92,10 @@ describe("formatDocumentationForPositionalParameters", function () {
             ],
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    it("tuple of one optional positional parameter", function () {
+    describe("tuple of one optional positional parameter", function () {
         // GIVEN
         type Positional = [string?];
 
@@ -76,14 +111,10 @@ describe("formatDocumentationForPositionalParameters", function () {
             ],
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional as PositionalParameters, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
     });
 
-    it("tuple of one positional parameter with default", function () {
+    describe("tuple of one positional parameter with default", function () {
         // GIVEN
         type Positional = [string];
 
@@ -99,14 +130,30 @@ describe("formatDocumentationForPositionalParameters", function () {
             ],
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    it("tuple of one positional parameter with default, no ansi color", function () {
+    describe("tuple of one optional positional parameter with default", function () {
+        // GIVEN
+        type Positional = [string?];
+
+        const positional: TypedPositionalParameters<Positional, CommandContext> = {
+            kind: "tuple",
+            parameters: [
+                {
+                    placeholder: "parsed",
+                    brief: "optional positional parameter",
+                    parse: String,
+                    default: "1001",
+                    optional: true,
+                },
+            ],
+        };
+
+        compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
+    });
+
+    describe("tuple of one positional parameter with default, with alt text", function () {
         // GIVEN
         type Positional = [string];
 
@@ -122,75 +169,19 @@ describe("formatDocumentationForPositionalParameters", function () {
             ],
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional, {
+        compareDocumentationToBaseline(positional, {
             ...defaultArgs,
-            ansiColor: false,
+            text: {
+                ...defaultArgs.text,
+                keywords: {
+                    ...defaultArgs.text.keywords,
+                    default: "def =",
+                },
+            },
         });
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
     });
 
-    it("tuple of one optional positional parameter with default", function () {
-        // GIVEN
-        type Positional = [string?];
-
-        const positional: TypedPositionalParameters<Positional, CommandContext> = {
-            kind: "tuple",
-            parameters: [
-                {
-                    placeholder: "parsed",
-                    brief: "optional positional parameter",
-                    parse: String,
-                    default: "1001",
-                    optional: true,
-                },
-            ],
-        };
-
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional as PositionalParameters, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
-    });
-
-    it("tuple of one positional parameter with default, with alt text", function () {
-        // GIVEN
-        type Positional = [string];
-
-        const positional: TypedPositionalParameters<Positional, CommandContext> = {
-            kind: "tuple",
-            parameters: [
-                {
-                    placeholder: "parsed",
-                    brief: "required positional parameter",
-                    parse: String,
-                    default: "1001",
-                },
-            ],
-        };
-
-        // WHEN
-        const lines = Array.from(
-            formatDocumentationForPositionalParameters(positional, {
-                ...defaultArgs,
-                text: {
-                    ...defaultArgs.text,
-                    keywords: {
-                        ...defaultArgs.text.keywords,
-                        default: "def =",
-                    },
-                },
-            }),
-        );
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
-    });
-
-    it("tuple of multiple positional parameters", function () {
+    describe("tuple of multiple positional parameters", function () {
         // GIVEN
         type Positional = [string, string, string];
 
@@ -215,14 +206,10 @@ describe("formatDocumentationForPositionalParameters", function () {
             ],
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    it("homogenous array of positional parameters", function () {
+    describe("homogenous array of positional parameters", function () {
         // GIVEN
         type Positional = string[];
 
@@ -235,10 +222,6 @@ describe("formatDocumentationForPositionalParameters", function () {
             },
         };
 
-        // WHEN
-        const lines = formatDocumentationForPositionalParameters(positional as PositionalParameters, defaultArgs);
-
-        // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
     });
 });

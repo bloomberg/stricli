@@ -18,8 +18,6 @@ import {
     type RouteMapBuilderArguments,
     type VersionInfo,
 } from "../src";
-// eslint-disable-next-line no-restricted-imports
-import type { RouteMapRoutes } from "../src/routing/route-map/builder";
 import { compareToBaseline, sanitizeStackTraceReferences, type BaselineFormat } from "./baseline";
 import { buildFakeApplicationText } from "./fakes/config";
 import { buildFakeContext, type FakeContext } from "./fakes/context";
