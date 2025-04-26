@@ -98,8 +98,8 @@ export function buildCommand<
     // Normally FLAGS would extend BaseFlags, but when it does there are some unexpected and confusing failures with the
     // type inference for this function. Check out tests/type-inference.spec.ts for examples where this fails.
     // Thanks to @dragomirtitian for concocting this fix.
-    const FLAGS extends Readonly<Partial<Record<keyof FLAGS, unknown>>>,
-    const ARGS extends BaseArgs,
+    const FLAGS extends Readonly<Partial<Record<keyof FLAGS, unknown>>> = NonNullable<unknown>,
+    const ARGS extends BaseArgs = [],
     const CONTEXT extends CommandContext = CommandContext,
 >(builderArgs: CommandBuilderArguments<FLAGS, ARGS, CONTEXT>): Command<CONTEXT> {
     const { flags = {}, aliases = {} } = builderArgs.parameters;
