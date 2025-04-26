@@ -72,10 +72,11 @@ interface TypedCommandFlagParameters_<FLAGS extends BaseFlags, CONTEXT extends C
     readonly aliases?: Aliases<keyof FLAGS & string>;
 }
 
-export type TypedCommandFlagParameters<FLAGS extends BaseFlags, CONTEXT extends CommandContext> =
-    Record<string, never> extends FLAGS
-        ? Partial<TypedCommandFlagParameters_<FLAGS, CONTEXT>>
-        : TypedCommandFlagParameters_<FLAGS, CONTEXT>;
+export type TypedCommandFlagParameters<FLAGS extends BaseFlags, CONTEXT extends CommandContext> = [
+    keyof FLAGS,
+] extends [never]
+    ? Partial<TypedCommandFlagParameters_<FLAGS, CONTEXT>>
+    : TypedCommandFlagParameters_<FLAGS, CONTEXT>;
 
 interface TypedCommandPositionalParameters_<ARGS extends BaseArgs, CONTEXT extends CommandContext> {
     /**
