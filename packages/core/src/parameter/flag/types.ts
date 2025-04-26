@@ -362,10 +362,9 @@ export type FlagParameter<CONTEXT extends CommandContext> =
 
 /**
  * Definition of flags for each named parameter.
- * Required properties may vary depending on the type argument `T`.
  */
 export type FlagParametersForType<T, CONTEXT extends CommandContext = CommandContext> = {
-    readonly [K in keyof T]: TypedFlagParameter<T[K], CONTEXT>;
+    readonly [K in keyof T]-?: TypedFlagParameter<T[K], CONTEXT>;
 };
 
 /**
