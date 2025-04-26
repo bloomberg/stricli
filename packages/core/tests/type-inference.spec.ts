@@ -249,3 +249,27 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
         },
     });
 }
+
+{
+    const command = buildCommand({
+        func: async (flags: { count?: number }) => {},
+        // @ts-expect-error flag definition is still required even if the flag is optional at runtime and it has to be defined in parameters
+        parameters: {},
+        docs: {
+            brief: "",
+        },
+    });
+}
+
+{
+    const command = buildCommand({
+        func: async (flags: { count?: number }) => {},
+        parameters: {
+            // @ts-expect-error flag definition is still required even if the flag is optional at runtime
+            flags: {},
+        },
+        docs: {
+            brief: "",
+        },
+    });
+}
