@@ -45,7 +45,7 @@ dist
   ],
   "bin": {
     "@org/test-cli": "dist/cli.js",
-    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+    "__@org/test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -59,7 +59,7 @@ dist
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -81,7 +81,7 @@ dist
 }
 ::::/root/test/src/app.ts
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { buildInstallAllCommand, buildUninstallAllCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -90,8 +90,8 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("@org/test-cli", { bash: "__@org/test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("@org/test-cli", { bash: true }),
+        install: buildInstallAllCommand("@org/test-cli", { autocompleteCommand: "__@org/test-cli_auto_complete", skipInactiveShells: true }),
+        uninstall: buildUninstallAllCommand("@org/test-cli", { skipInactiveShells: true }),
     },
     docs: {
         brief: description,
@@ -109,23 +109,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(`${completion}\n`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
