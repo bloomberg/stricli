@@ -2074,15 +2074,15 @@ describe("ArgumentScanner", () => {
             });
         });
 
-        describe("required boolean flag with kebab-case name", () => {
+        describe("required boolean flag with alphanumeric name", () => {
             type Positional = [];
             type Flags = {
-                readonly "foo-flag": boolean;
+                readonly foo1: boolean;
             };
 
             const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
                 flags: {
-                    "foo-flag": { kind: "boolean", brief: "foo-flag" },
+                    foo1: { kind: "boolean", brief: "foo1" },
                 },
                 positional: { kind: "tuple", parameters: [] },
             };
@@ -2094,31 +2094,18 @@ describe("ArgumentScanner", () => {
                     inputs: [],
                     expected: {
                         success: true,
-                        arguments: [{ "foo-flag": false }],
+                        arguments: [{ foo1: false }],
                     },
                 });
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: defaultScannerConfig,
-                    inputs: ["--foo-flag"],
+                    inputs: ["--foo1"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": true,
-                            },
-                        ],
-                    },
-                });
-                await testArgumentScannerParse<Flags, Positional>({
-                    parameters,
-                    config: defaultScannerConfig,
-                    inputs: ["--foo-flag=false"],
-                    expected: {
-                        success: true,
-                        arguments: [
-                            {
-                                "foo-flag": false,
+                                foo1: true,
                             },
                         ],
                     },
@@ -2126,12 +2113,12 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: defaultScannerConfig,
-                    inputs: ["--foo-flag=y"],
+                    inputs: ["--foo1=false"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": true,
+                                foo1: false,
                             },
                         ],
                     },
@@ -2139,12 +2126,25 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: defaultScannerConfig,
-                    inputs: ["--foo-flag=No"],
+                    inputs: ["--foo1=y"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": false,
+                                foo1: true,
+                            },
+                        ],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo1=No"],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo1: false,
                             },
                         ],
                     },
@@ -2152,12 +2152,12 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
-                    inputs: ["--foo-flag"],
+                    inputs: ["--foo1"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": true,
+                                foo1: true,
                             },
                         ],
                     },
@@ -2165,12 +2165,12 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
-                    inputs: ["--foo-flag=false"],
+                    inputs: ["--foo1=false"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": false,
+                                foo1: false,
                             },
                         ],
                     },
@@ -2178,12 +2178,12 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
-                    inputs: ["--foo-flag=y"],
+                    inputs: ["--foo1=y"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": true,
+                                foo1: true,
                             },
                         ],
                     },
@@ -2191,12 +2191,12 @@ describe("ArgumentScanner", () => {
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
-                    inputs: ["--foo-flag=No"],
+                    inputs: ["--foo1=No"],
                     expected: {
                         success: true,
                         arguments: [
                             {
-                                "foo-flag": false,
+                                foo1: false,
                             },
                         ],
                     },
@@ -2253,41 +2253,6 @@ describe("ArgumentScanner", () => {
                         ],
                     },
                 });
-
-                await testArgumentScannerParse<Flags, Positional>({
-                    parameters,
-                    config: defaultScannerConfig,
-                    inputs: ["--fooFlag"],
-                    expected: {
-                        success: false,
-                        errors: [
-                            {
-                                type: "FlagNotFoundError",
-                                properties: {
-                                    input: "fooFlag",
-                                    corrections: ["foo-flag"],
-                                },
-                            },
-                        ],
-                    },
-                });
-                await testArgumentScannerParse<Flags, Positional>({
-                    parameters,
-                    config: defaultScannerConfig,
-                    inputs: ["--fooFlag=false"],
-                    expected: {
-                        success: false,
-                        errors: [
-                            {
-                                type: "FlagNotFoundError",
-                                properties: {
-                                    input: "fooFlag",
-                                    corrections: ["foo-flag"],
-                                },
-                            },
-                        ],
-                    },
-                });
             });
 
             it("proposeCompletions", async () => {
@@ -2297,7 +2262,7 @@ describe("ArgumentScanner", () => {
                     partial: "",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2305,7 +2270,7 @@ describe("ArgumentScanner", () => {
                     partial: "-",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2313,7 +2278,7 @@ describe("ArgumentScanner", () => {
                     partial: "--",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2321,7 +2286,7 @@ describe("ArgumentScanner", () => {
                     partial: "--f",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2341,7 +2306,7 @@ describe("ArgumentScanner", () => {
                         caseStyle: "allow-kebab-for-camel",
                     },
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2352,7 +2317,7 @@ describe("ArgumentScanner", () => {
                         caseStyle: "allow-kebab-for-camel",
                     },
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2363,7 +2328,7 @@ describe("ArgumentScanner", () => {
                         caseStyle: "allow-kebab-for-camel",
                     },
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2374,7 +2339,7 @@ describe("ArgumentScanner", () => {
                         caseStyle: "allow-kebab-for-camel",
                     },
                     completionConfig: defaultCompletionConfig,
-                    expected: [{ kind: "argument:flag", completion: "--foo-flag", brief: "foo-flag" }],
+                    expected: [{ kind: "argument:flag", completion: "--foo1", brief: "foo1" }],
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
@@ -2401,7 +2366,7 @@ describe("ArgumentScanner", () => {
 
                 await testCompletions<Flags, Positional>({
                     parameters,
-                    inputs: ["--foo-flag"],
+                    inputs: ["--foo1"],
                     partial: "",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
@@ -2409,7 +2374,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
-                    inputs: ["--foo-flag"],
+                    inputs: ["--foo1"],
                     partial: "-",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
@@ -2417,7 +2382,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
-                    inputs: ["--foo-flag"],
+                    inputs: ["--foo1"],
                     partial: "--",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
@@ -2425,7 +2390,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
-                    inputs: ["--foo-flag"],
+                    inputs: ["--foo1"],
                     partial: "--b",
                     scannerConfig: defaultScannerConfig,
                     completionConfig: defaultCompletionConfig,
@@ -4173,6 +4138,19 @@ describe("ArgumentScanner", () => {
             };
 
             it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--text", ""],
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                text: "",
+                            },
+                        ],
+                    },
+                });
                 await testArgumentScannerParse<Flags, Positional>({
                     parameters,
                     config: defaultScannerConfig,
@@ -7017,6 +6995,37 @@ describe("ArgumentScanner", () => {
                             arguments: [{ mode: ["bar", "bar", "foo"] }],
                         },
                     });
+                });
+            });
+        });
+
+        describe("parsed (string) flag with default", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo: string;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: String,
+                        default: "",
+                        brief: "limit",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: "" }],
+                    },
                 });
             });
         });

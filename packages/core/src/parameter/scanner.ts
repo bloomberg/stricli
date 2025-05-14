@@ -407,7 +407,7 @@ function isNiladic<CONTEXT extends CommandContext>(
 }
 
 const FLAG_SHORTHAND_PATTERN = /^-([a-z]+)$/i;
-const FLAG_NAME_PATTERN = /^--([a-z][a-z-]+)$/i;
+const FLAG_NAME_PATTERN = /^--([a-z][a-z-.\d_]+)$/i;
 
 function findFlagsByArgument<CONTEXT extends CommandContext>(
     arg: string,
