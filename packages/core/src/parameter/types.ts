@@ -59,6 +59,9 @@ export type AvailableAlias = Exclude<LowercaseLetter | UppercaseLetter, Reserved
 
 export type Aliases<T> = Readonly<Partial<Record<AvailableAlias, T>>>;
 
+/**
+ * Root constraint for all flag type parameters.
+ */
 export type BaseFlags = Readonly<Record<string, unknown>>;
 
 interface TypedCommandFlagParameters_<FLAGS extends BaseFlags, CONTEXT extends CommandContext> {

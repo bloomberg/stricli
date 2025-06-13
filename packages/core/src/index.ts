@@ -34,22 +34,23 @@ export type { FlagParametersForType, TypedFlagParameter } from "./parameter/flag
 export { booleanParser, looseBooleanParser } from "./parameter/parser/boolean";
 export { buildChoiceParser } from "./parameter/parser/choice";
 export { numberParser } from "./parameter/parser/number";
-export type { TypedPositionalParameter, TypedPositionalParameters } from "./parameter/positional/types";
+export type { BaseArgs, TypedPositionalParameter, TypedPositionalParameters } from "./parameter/positional/types";
 export {
     AliasNotFoundError,
     ArgumentParseError,
     ArgumentScannerError,
     EnumValidationError,
     FlagNotFoundError,
+    formatMessageForArgumentScannerError,
     InvalidNegatedFlagSyntaxError,
     UnexpectedFlagError,
     UnexpectedPositionalError,
     UnsatisfiedFlagError,
     UnsatisfiedPositionalError,
-    formatMessageForArgumentScannerError,
 } from "./parameter/scanner";
 export type {
     Aliases,
+    BaseFlags,
     InputParser,
     TypedCommandFlagParameters,
     TypedCommandParameters,
@@ -57,7 +58,7 @@ export type {
 } from "./parameter/types";
 export { buildCommand } from "./routing/command/builder";
 export type { CommandBuilderArguments } from "./routing/command/builder";
-export type { Command } from "./routing/command/types";
+export type { Command, CommandFunction, CommandFunctionLoader, CommandModule } from "./routing/command/types";
 export { buildRouteMap } from "./routing/route-map/builder";
 export type { RouteMapBuilderArguments } from "./routing/route-map/builder";
 export type { RouteMap } from "./routing/route-map/types";

@@ -60,6 +60,10 @@ interface PositionalParameterTuple<T> {
     readonly parameters: T;
 }
 
+/**
+ * Root constraint for all positional argument type parameters.
+ * This is used to ensure that positional parameters are always defined as an array or tuple.
+ */
 export type BaseArgs = readonly unknown[];
 
 /**
