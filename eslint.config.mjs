@@ -59,6 +59,7 @@ export default [
             ],
 
             "@typescript-eslint/consistent-type-definitions": "off",
+            "@typescript-eslint/no-unnecessary-type-arguments": "off",
             "@typescript-eslint/no-invalid-void-type": "off",
             "@typescript-eslint/require-await": "off",
         },
