@@ -86,6 +86,8 @@ import OptionalFlagCode from "./examples/optional-flag.txt";
     {OptionalFlagCode}
 </StricliPlayground>
 
+When a property exists on the type used to define the flags, it must be represented in the specification. In cases where the type that defines the flags is derived from some other type, and you do not want an optional property to be made available as a flag the property should be manually removed (i.e. `Omit<Flags, "unwantedOptional">`).
+
 ### Empty
 
 It can be valuable to distinguish between `--flag` and `--flag value`. For `parsed` flag types, this behavior is available with the `inferEmpty` attribute. When this is true and the flag is encountered without an input, the input is inferred as the empty string `""` instead.
