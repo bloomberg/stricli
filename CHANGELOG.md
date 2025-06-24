@@ -1,3 +1,23 @@
+## 1.2.0 (2025-06-24)
+
+### 🚀 Features
+
+- custom separators for variadic flags ([bc4c369](https://github.com/bloomberg/stricli/commit/bc4c369))
+
+### 🩹 Fixes
+
+- make looseBooleanParser even more permissive ([07d4bc5](https://github.com/bloomberg/stricli/commit/07d4bc5))
+- include separator in help text (suffix) ([68ff1d8](https://github.com/bloomberg/stricli/commit/68ff1d8))
+- relax flag name pattern to allow alphanumeric (and more) ([beb8584](https://github.com/bloomberg/stricli/commit/beb8584))
+- stricter types for `parameters.flags` when flags are a weak type ([f39be88](https://github.com/bloomberg/stricli/commit/f39be88))
+- expose additional types for command module ([66aa66b](https://github.com/bloomberg/stricli/commit/66aa66b))
+
+### ❤️ Thank You
+
+- Mateusz Burzyński @Andarist
+- Michael Molisani
+- mmolisani
+
 ## 1.1.2 (2025-03-26)
 
 
