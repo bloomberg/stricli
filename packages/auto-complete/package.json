@@ -1,6 +1,6 @@
 {
     "name": "@stricli/auto-complete",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "Common utilities for enhancing Stricli applications with autocomplete",
     "license": "Apache-2.0",
     "repository": {
@@ -52,6 +52,6 @@
         "typescript": "5.6.x"
     },
     "dependencies": {
-        "@stricli/core": "^1.1.2"
+        "@stricli/core": "^1.2.0"
     }
 }
