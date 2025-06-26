@@ -18,9 +18,7 @@ When the function arguments are individually specified, Stricli will infer the t
 
 import TupleArgumentCode from "./examples/tuple-argument.txt";
 
-<StricliPlayground filename="tuple-argument" rootExport="root" appName="run" defaultInput="a b">
-    {TupleArgumentCode}
-</StricliPlayground>
+<StricliPlayground>{TupleArgumentCode}</StricliPlayground>
 
 ### Homogenous Arrays
 
@@ -28,9 +26,7 @@ The only other supported pattern for command functions matches the flags as the 
 
 import ArrayArgumentCode from "./examples/array-argument.txt";
 
-<StricliPlayground filename="array-argument" rootExport="root" appName="run" defaultInput="a b c">
-    {ArrayArgumentCode}
-</StricliPlayground>
+<StricliPlayground>{ArrayArgumentCode}</StricliPlayground>
 
 #### Bounds
 
@@ -40,9 +36,7 @@ The `minimum` and `maximum` bounds can be provided to a parameter, and then Stri
 
 import BoundedArrayArgumentCode from "./examples/bounded-array-argument.txt";
 
-<StricliPlayground filename="bounded-array-argument" rootExport="root" appName="run" defaultInput="12 34 56">
-    {BoundedArrayArgumentCode}
-</StricliPlayground>
+<StricliPlayground>{BoundedArrayArgumentCode}</StricliPlayground>
 
 ## Variants
 
@@ -54,9 +48,7 @@ If an argument is optional, or is otherwise possibly `undefined` then it must ha
 
 import OptionalTupleArgumentCode from "./examples/optional-tuple-argument.txt";
 
-<StricliPlayground filename="optional-tuple-argument" rootExport="root" appName="run" defaultInput="Your Name">
-    {OptionalTupleArgumentCode}
-</StricliPlayground>
+<StricliPlayground>{OptionalTupleArgumentCode}</StricliPlayground>
 
 ### Default
 
@@ -64,9 +56,7 @@ Any argument can specify a default value as a string. This string will be parsed
 
 import DefaultTupleArgumentCode from "./examples/default-tuple-argument.txt";
 
-<StricliPlayground filename="default-tuple-argument" rootExport="root" appName="run" defaultInput="">
-    {DefaultTupleArgumentCode}
-</StricliPlayground>
+<StricliPlayground>{DefaultTupleArgumentCode}</StricliPlayground>
 
 ## Placeholder
 
@@ -74,6 +64,4 @@ Positional arguments don't truly have names as a name cannot be included in the 
 
 import PlaceholderArgumentCode from "./examples/placeholder-argument.txt";
 
-<StricliPlayground filename="placeholder-argument" rootExport="root" appName="run" defaultInput="--help">
-    {PlaceholderArgumentCode}
-</StricliPlayground>
+<StricliPlayground>{PlaceholderArgumentCode}</StricliPlayground>
