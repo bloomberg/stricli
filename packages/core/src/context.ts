@@ -48,7 +48,7 @@ export interface StricliProcess extends WritableStreams {
     /**
      * A number which will be the process exit code.
      */
-    exitCode?: number | string;
+    exitCode?: number | string | null;
 }
 
 /**
