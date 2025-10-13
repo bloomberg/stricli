@@ -28,13 +28,14 @@ jobs:
                   node-version: 20
                   cache: "npm"
                   registry-url: "https://registry.npmjs.org/"
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            # Ensure npm 11.5.1 or later is installed
+            - name: Update npm
+              run: npm install -g npm@latest
 
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v4
 
             - run: npx nx release publish ${{ inputs.dry-run == 'true' && '--dry-run' || '' }}
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
                   NPM_CONFIG_PROVENANCE: true
