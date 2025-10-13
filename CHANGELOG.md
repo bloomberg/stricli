@@ -1,3 +1,13 @@
+## 1.2.1 (2025-10-13)
+
+### 🩹 Fixes
+
+- update type for exitCode to include null ([c85c18e](https://github.com/bloomberg/stricli/commit/c85c18e))
+
+### ❤️ Thank You
+
+- Kirk Eaton @kirkeaton
+
 ## 1.2.0 (2025-06-24)
 
 ### 🚀 Features
