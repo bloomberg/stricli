@@ -24,7 +24,7 @@
         "lint": "eslint src",
         "lint:fix": "eslint src --fix",
         "typecheck": "tsc -p tsconfig.json --noEmit",
-        "build": "tsup",
+        "build": "tsup --silent",
         "prepublishOnly": "npm run build"
     },
     "tsup": {

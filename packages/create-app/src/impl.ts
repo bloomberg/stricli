@@ -60,7 +60,7 @@ function buildPackageJson(
         },
         scripts: {
             prebuild: "tsc -p src/tsconfig.json",
-            build: "tsup",
+            build: "tsup --silent",
             prepublishOnly: "npm run build",
         },
         tsup: {

@@ -52,7 +52,7 @@ dist
   },
   "scripts": {
     "prebuild": "tsc -p src/tsconfig.json",
-    "build": "tsup",
+    "build": "tsup --silent",
     "prepublishOnly": "npm run build",
     "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
   },
