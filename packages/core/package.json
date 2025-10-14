@@ -27,7 +27,7 @@
         "test:clear-baseline": "node scripts/clear_baseline",
         "test:accept-baseline": "node scripts/accept_baseline",
         "coverage": "c8 npm test",
-        "build": "tsup",
+        "build": "tsup --silent",
         "prepublishOnly": "npm run build"
     },
     "mocha": {
