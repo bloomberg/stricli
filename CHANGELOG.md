@@ -1,3 +1,7 @@
+## 1.2.4 (2025-10-14)
+
+This was a version bump only, there were no code changes.
+
 ## 1.2.3 (2025-10-14)
 
 ### 🩹 Fixes

@@ -1,6 +1,6 @@
 {
     "name": "@stricli/core",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Build complex CLIs with type safety and no dependencies",
     "license": "Apache-2.0",
     "repository": {
