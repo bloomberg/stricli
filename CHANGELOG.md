@@ -1,3 +1,13 @@
+## 1.2.3 (2025-10-14)
+
+### 🩹 Fixes
+
+- run tsup with --silent to suppress unwanted stdout ([fc6636d](https://github.com/bloomberg/stricli/commit/fc6636d))
+
+### ❤️ Thank You
+
+- Michael Molisani
+
 ## 1.2.2 (2025-10-14)
 
 This was a version bump only, there were no code changes.
