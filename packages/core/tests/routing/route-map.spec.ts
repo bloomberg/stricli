@@ -141,6 +141,7 @@ describe("RouteMap", () => {
             includeHelpAllFlag: false,
             includeHidden: false,
             ansiColor: false,
+            env: void 0,
         };
 
         // GIVEN
