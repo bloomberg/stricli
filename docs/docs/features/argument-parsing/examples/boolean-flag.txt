@@ -1,13 +1,18 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
-
-interface Flags {
+--help
+--noQuiet
+/// impl.ts
+type Flags = {
   quiet: boolean;
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { quiet }: Flags) {
-    this.process.stdout.write(quiet ? "LOUD LOGGING" : "quiet logging");
-  },
+export default async function({ quiet }: Flags) {
+  console.log(quiet ? "LOUD LOGGING" : "quiet logging");
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       quiet: {
@@ -25,3 +30,7 @@ export const root = buildCommand({
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });
