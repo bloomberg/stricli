@@ -3,6 +3,22 @@
 import type { CommandContext } from "../../context";
 import type { ParsedParameter } from "../types";
 
+/**
+ * Default value for flag when one is not provided by the end user.
+ */
+export type DefaultFlagValue<T> =
+    | T
+    | {
+          /**
+           * Default value should be read from the environment variable with this name.
+           */
+          readonly env: string;
+          /**
+           * When enabled, redact the value from the environment variable in all Stricli-generated output.
+           */
+          readonly redact?: boolean;
+      };
+
 interface BaseFlagParameter {
     /**
      * In-line documentation for this flag.
@@ -12,6 +28,10 @@ interface BaseFlagParameter {
      * String that serves as placeholder for the value in the generated usage line. Defaults to "value".
      */
     readonly placeholder?: string;
+    /**
+     * If no value was provided, attempt to read the environment variable with this name for the value.
+     */
+    readonly env?: string;
 }
 
 interface BaseBooleanFlagParameter extends BaseFlagParameter {
@@ -25,7 +45,7 @@ interface BaseBooleanFlagParameter extends BaseFlagParameter {
      *
      * If no value is provided, boolean flags default to `false`.
      */
-    readonly default?: boolean;
+    readonly default?: DefaultFlagValue<boolean>;
 }
 
 type RequiredBooleanFlagParameter = BaseBooleanFlagParameter & {
@@ -44,7 +64,7 @@ type RequiredBooleanFlagParameter = BaseBooleanFlagParameter & {
               /**
                * Default input value if one is not provided at runtime.
                */
-              readonly default: boolean;
+              readonly default: DefaultFlagValue<boolean>;
               /**
                * Parameter should be hidden from all help text and proposed completions.
                * Only available for runtime-optional parameters.
@@ -117,7 +137,7 @@ export interface BaseEnumFlagParameter<T extends string> extends BaseFlagParamet
     /**
      * Default input value if one is not provided at runtime.
      */
-    readonly default?: T;
+    readonly default?: DefaultFlagValue<T>;
     readonly optional?: boolean;
     readonly hidden?: boolean;
     readonly variadic?: boolean | string;
@@ -211,7 +231,7 @@ export interface BaseParsedFlagParameter<T, CONTEXT extends CommandContext>
     /**
      * Default input value if one is not provided at runtime.
      */
-    readonly default?: string;
+    readonly default?: DefaultFlagValue<string>;
     /**
      * If flag is specified with no corresponding input, infer an empty string `""` as the input.
      */
@@ -241,7 +261,7 @@ type RequiredParsedFlagParameter<T, CONTEXT extends CommandContext> = BaseParsed
               /**
                * Default input value if one is not provided at runtime.
                */
-              readonly default: string;
+              readonly default: DefaultFlagValue<string>;
               /**
                * Parameter should be hidden from all help text and proposed completions.
                * Only available for runtime-optional parameters.
@@ -376,7 +396,7 @@ export type FlagParameters<CONTEXT extends CommandContext = CommandContext> = Re
 
 export function hasDefault<CONTEXT extends CommandContext>(
     flag: FlagParameter<CONTEXT>,
-): flag is FlagParameter<CONTEXT> & { default: string | boolean } {
+): flag is FlagParameter<CONTEXT> & { default: DefaultFlagValue<string | boolean> } {
     return "default" in flag && typeof flag.default !== "undefined";
 }
 

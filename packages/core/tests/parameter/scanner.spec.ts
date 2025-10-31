@@ -15,6 +15,7 @@ import {
     InvalidNegatedFlagSyntaxError,
     numberParser,
     type ScannerConfiguration,
+    type StricliProcess,
     type TypedCommandParameters,
     UnexpectedFlagError,
     UnexpectedPositionalError,
@@ -141,13 +142,20 @@ async function parseInputs<FLAGS extends BaseFlags, ARGS extends BaseArgs>(
     parameters: TypedCommandParameters<FLAGS, ARGS, CommandContext>,
     config: ScannerConfiguration,
     inputs: string[],
+    env: StricliProcess["env"] = {},
 ): Promise<ArgumentScannerParseResult<FLAGS, ARGS>> {
     try {
         const scanner = buildArgumentScanner(parameters, config);
         for (const arg of inputs) {
             scanner.next(arg);
         }
-        return await scanner.parseArguments({ process });
+        const result = await scanner.parseArguments({
+            process: {
+                ...process,
+                env,
+            },
+        });
+        return result;
     } catch (exc) {
         if (exc instanceof ArgumentScannerError) {
             return { success: false, errors: [exc] };
@@ -164,6 +172,7 @@ export interface ArgumentScannerParseTestArguments<FLAGS extends BaseFlags, ARGS
     readonly parameters: TypedCommandParameters<FLAGS, ARGS, CommandContext>;
     readonly config: ScannerConfiguration;
     readonly inputs: string[];
+    readonly env?: StricliProcess["env"];
     readonly expected: ArgumentScannerParseResultExpectation<FLAGS, ARGS>;
 }
 
@@ -171,14 +180,15 @@ export async function testArgumentScannerParse<FLAGS extends BaseFlags, ARGS ext
     parameters,
     config,
     inputs,
+    env,
     expected,
 }: ArgumentScannerParseTestArguments<FLAGS, ARGS>): Promise<void> {
-    const actual = await parseInputs(parameters, config, inputs);
+    const actual = await parseInputs(parameters, config, inputs, env);
     if (expected.success) {
         if (!actual.success) {
             throw new Error(
                 `Expected argument scanner to parse [${inputs.join(",")}], but it failed with ${actual.errors
-                    .map((error) => error.constructor.name)
+                    .map((error) => String(error))
                     .join(",")}`,
             );
         }
@@ -374,6 +384,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "action",
                                     input: "ad",
+                                    source: "argv",
                                     exception: new SyntaxError("ad is not one of (add|remove)"),
                                 },
                             },
@@ -485,6 +496,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "userId",
                                     input: "INVALID",
+                                    source: "argv",
                                     exception: new Error("Cannot convert INVALID to a number"),
                                 },
                             },
@@ -563,6 +575,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "userId",
                                     input: "INVALID",
+                                    source: "argv",
                                     exception: new Error("Cannot convert INVALID to a number"),
                                 },
                             },
@@ -628,6 +641,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "arg1",
                                     input: "zero",
+                                    source: "argv",
                                     exception: new Error("Cannot convert zero to a number"),
                                 },
                             },
@@ -860,6 +874,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "id",
                                     input: "zero",
+                                    source: "argv",
                                     exception: new Error("Cannot convert zero to a number"),
                                 },
                             },
@@ -1380,6 +1395,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "fooFlag",
                                     input: "enable",
+                                    source: "argv",
                                     exception: new Error("Cannot convert enable to a boolean"),
                                 },
                             },
@@ -1398,6 +1414,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "fooFlag",
                                     input: "✅",
+                                    source: "argv",
                                     exception: new Error("Cannot convert ✅ to a boolean"),
                                 },
                             },
@@ -1416,6 +1433,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "fooFlag",
                                     input: "❌",
+                                    source: "argv",
                                     exception: new Error("Cannot convert ❌ to a boolean"),
                                 },
                             },
@@ -1781,6 +1799,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagNameOrPlaceholder: "fooFlag",
                                         input: "enable",
+                                        source: "argv",
                                         exception: new Error("Cannot convert enable to a boolean"),
                                     },
                                 },
@@ -1799,6 +1818,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagNameOrPlaceholder: "fooFlag",
                                         input: "✅",
+                                        source: "argv",
                                         exception: new Error("Cannot convert ✅ to a boolean"),
                                     },
                                 },
@@ -1817,6 +1837,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagNameOrPlaceholder: "fooFlag",
                                         input: "❌",
+                                        source: "argv",
                                         exception: new Error("Cannot convert ❌ to a boolean"),
                                     },
                                 },
@@ -2902,6 +2923,162 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("required boolean flag with default from env", () => {
+            type Positional = [];
+            type Flags = {
+                readonly bar: boolean;
+                readonly baz: boolean;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    bar: { kind: "boolean", brief: "bar", default: { env: "BAR" } },
+                    baz: { kind: "boolean", brief: "baz", default: { env: "BAZ" } },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        BAR: "false",
+                        BAZ: "true",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [{ bar: false, baz: true }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        BAR: "0",
+                        BAZ: "1",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [{ bar: false, baz: true }],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        BAR: "fake",
+                        BAZ: "yep",
+                    },
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "ArgumentParseError",
+                                properties: {
+                                    input: "fake",
+                                    source: "env:BAR",
+                                    exception: new Error("Cannot convert fake to a boolean"),
+                                    externalFlagNameOrPlaceholder: "bar",
+                                },
+                            },
+                            {
+                                type: "ArgumentParseError",
+                                properties: {
+                                    input: "yep",
+                                    source: "env:BAZ",
+                                    exception: new Error("Cannot convert yep to a boolean"),
+                                    externalFlagNameOrPlaceholder: "baz",
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
+        describe("required boolean flag with default from env (redacted)", () => {
+            type Positional = [];
+            type Flags = {
+                readonly bar: boolean;
+                readonly baz: boolean;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    bar: { kind: "boolean", brief: "bar", default: { env: "BAR", redact: true } },
+                    baz: { kind: "boolean", brief: "baz", default: { env: "BAZ", redact: true } },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        BAR: "false",
+                        BAZ: "true",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [{ bar: false, baz: true }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        BAR: "0",
+                        BAZ: "1",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [{ bar: false, baz: true }],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        BAR: "SECRET_VALUE",
+                        BAZ: "SECRET_VALUE",
+                    },
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "ArgumentParseError",
+                                properties: {
+                                    input: "████████████",
+                                    source: "env:BAR",
+                                    exception: new Error("Cannot convert ████████████ to a boolean"),
+                                    externalFlagNameOrPlaceholder: "bar",
+                                },
+                            },
+                            {
+                                type: "ArgumentParseError",
+                                properties: {
+                                    input: "████████████",
+                                    source: "env:BAZ",
+                                    exception: new Error("Cannot convert ████████████ to a boolean"),
+                                    externalFlagNameOrPlaceholder: "baz",
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
         describe("required counter flag", () => {
             type Positional = [];
             type Flags = {
@@ -3222,6 +3399,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "logLevel",
                                     input: "high",
+                                    source: "argv",
                                     exception: new Error("Cannot convert high to a number"),
                                 },
                             },
@@ -3622,6 +3800,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "foo",
                                     input: "INVALID",
+                                    source: "argv",
                                     exception: new Error("Cannot convert INVALID to a number"),
                                 },
                             },
@@ -4492,6 +4671,188 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("required parsed flag with default from env", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo: number;
+                readonly bar: number;
+                readonly baz: number;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        brief: "foo",
+                        default: { env: "FOO" },
+                    },
+                    bar: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        brief: "bar",
+                        default: { env: "BAR" },
+                    },
+                    baz: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        brief: "baz",
+                        default: { env: "BAZ" },
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        FOO: "100",
+                        BAR: "200",
+                        BAZ: "300",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: 100,
+                                bar: 200,
+                                baz: 300,
+                            },
+                        ],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        FOO: "INVALID",
+                    },
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "ArgumentParseError",
+                                properties: {
+                                    externalFlagNameOrPlaceholder: "foo",
+                                    input: "INVALID",
+                                    source: "env:FOO",
+                                    exception: new Error("Cannot convert INVALID to a number"),
+                                },
+                            },
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "bar",
+                                },
+                            },
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "baz",
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
+        describe("required parsed flag with default from env (redacted)", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo: number;
+                readonly bar: number;
+                readonly baz: number;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        brief: "foo",
+                        default: { env: "FOO", redact: true },
+                    },
+                    bar: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        brief: "bar",
+                        default: { env: "BAR", redact: true },
+                    },
+                    baz: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        brief: "baz",
+                        default: { env: "BAZ", redact: true },
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        FOO: "100",
+                        BAR: "200",
+                        BAZ: "300",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [
+                            {
+                                foo: 100,
+                                bar: 200,
+                                baz: 300,
+                            },
+                        ],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        FOO: "SECRET_VALUE",
+                    },
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "ArgumentParseError",
+                                properties: {
+                                    externalFlagNameOrPlaceholder: "foo",
+                                    input: "████████████",
+                                    source: "env:FOO",
+                                    exception: new Error("Cannot convert ████████████ to a number"),
+                                },
+                            },
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "bar",
+                                },
+                            },
+                            {
+                                type: "UnsatisfiedFlagError",
+                                properties: {
+                                    externalFlagName: "baz",
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
         describe("optional parsed flag", () => {
             type Positional = [];
             type Flags = {
@@ -4726,6 +5087,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagNameOrPlaceholder: "foo",
                                     input: "INVALID",
+                                    source: "argv",
                                     exception: new Error("Cannot convert INVALID to a number"),
                                 },
                             },
@@ -5514,6 +5876,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "INVALID",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -5532,6 +5895,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "bat",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -5621,6 +5985,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagName: "mode",
                                         input: "a",
+                                        source: "argv",
                                         values: ["foo", "bar", "baz"],
                                     },
                                 },
@@ -5947,6 +6312,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "INVALID",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -5965,6 +6331,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "bat",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -6054,6 +6421,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagName: "mode",
                                         input: "a",
+                                        source: "argv",
                                         values: ["foo", "bar", "baz"],
                                     },
                                 },
@@ -6202,6 +6570,122 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("required enum flag with default from env", () => {
+            type Positional = [];
+            type Flags = {
+                readonly mode: "foo" | "bar" | "baz";
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    mode: {
+                        kind: "enum",
+                        values: ["foo", "bar", "baz"],
+                        variadic: false,
+                        default: { env: "MODE" },
+                        brief: "mode",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        MODE: "foo",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: "foo" }],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        MODE: "INVALID",
+                    },
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "EnumValidationError",
+                                properties: {
+                                    externalFlagName: "mode",
+                                    input: "INVALID",
+                                    source: "env:MODE",
+                                    values: ["foo", "bar", "baz"],
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
+        describe("required enum flag with default from env (redacted)", () => {
+            type Positional = [];
+            type Flags = {
+                readonly mode: "foo" | "bar" | "baz";
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    mode: {
+                        kind: "enum",
+                        values: ["foo", "bar", "baz"],
+                        variadic: false,
+                        default: { env: "MODE", redact: true },
+                        brief: "mode",
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        MODE: "foo",
+                    },
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: "foo" }],
+                    },
+                });
+
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    env: {
+                        MODE: "SECRET_VALUE",
+                    },
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "EnumValidationError",
+                                properties: {
+                                    externalFlagName: "mode",
+                                    input: "████████████",
+                                    source: "env:MODE",
+                                    values: ["foo", "bar", "baz"],
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
         describe("optional variadic enum flag", () => {
             type Positional = [];
             type MyEnum = "foo" | "bar" | "baz";
@@ -6335,6 +6819,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "INVALID",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -6353,6 +6838,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "bat",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -6460,6 +6946,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagName: "mode",
                                         input: "a",
+                                        source: "argv",
                                         values: ["foo", "bar", "baz"],
                                     },
                                 },
@@ -6657,6 +7144,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "INVALID",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -6675,6 +7163,7 @@ describe("ArgumentScanner", () => {
                                 properties: {
                                     externalFlagName: "mode",
                                     input: "bat",
+                                    source: "argv",
                                     values: ["foo", "bar", "baz"],
                                 },
                             },
@@ -6773,6 +7262,7 @@ describe("ArgumentScanner", () => {
                                     properties: {
                                         externalFlagName: "mode",
                                         input: "a",
+                                        source: "argv",
                                         values: ["foo", "bar", "baz"],
                                     },
                                 },
@@ -10448,12 +10938,13 @@ describe("formatMessageForArgumentScannerError", () => {
     });
 
     describe("ArgumentParseError", () => {
-        it("default message", () => {
+        it("default message when source is argv", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
             const input = "1";
+            const source = "argv";
             const exception = new Error("Parse failed");
-            const error = new ArgumentParseError(externalFlagName, input, exception);
+            const error = new ArgumentParseError(externalFlagName, input, source, exception);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {});
@@ -10462,12 +10953,43 @@ describe("formatMessageForArgumentScannerError", () => {
             expect(message).to.equal('Failed to parse "1" for foo: Parse failed');
         });
 
+        it("default message when source is default value", () => {
+            // GIVEN
+            const externalFlagName = "foo" as ExternalFlagName;
+            const input = "1";
+            const source = "default";
+            const exception = new Error("Parse failed");
+            const error = new ArgumentParseError(externalFlagName, input, source, exception);
+
+            // WHEN
+            const message = formatMessageForArgumentScannerError(error, {});
+
+            // THEN
+            expect(message).to.equal('Failed to parse default value "1" for foo: Parse failed');
+        });
+
+        it("default message when source is default from env var", () => {
+            // GIVEN
+            const externalFlagName = "foo" as ExternalFlagName;
+            const input = "1";
+            const source = "env:FOO";
+            const exception = new Error("Parse failed");
+            const error = new ArgumentParseError(externalFlagName, input, source, exception);
+
+            // WHEN
+            const message = formatMessageForArgumentScannerError(error, {});
+
+            // THEN
+            expect(message).to.equal('Failed to parse "1" from environment variable FOO for foo: Parse failed');
+        });
+
         it("non-Error, default message", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
             const input = "1";
+            const source = "argv";
             const exception = "Parse failed";
-            const error = new ArgumentParseError(externalFlagName, input, exception);
+            const error = new ArgumentParseError(externalFlagName, input, source, exception);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {});
@@ -10480,8 +11002,9 @@ describe("formatMessageForArgumentScannerError", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
             const input = "1";
+            const source = "argv";
             const exception = new Error("Parse failed");
-            const error = new ArgumentParseError(externalFlagName, input, exception);
+            const error = new ArgumentParseError(externalFlagName, input, source, exception);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {
@@ -10497,10 +11020,10 @@ describe("formatMessageForArgumentScannerError", () => {
     });
 
     describe("EnumValidationError", () => {
-        it("default message", () => {
+        it("default message when source is argv", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
-            const error = new EnumValidationError(externalFlagName, "x", ["a", "b", "c"], ["a", "b", "c"]);
+            const error = new EnumValidationError(externalFlagName, "x", "argv", ["a", "b", "c"], ["a", "b", "c"]);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {});
@@ -10509,10 +11032,36 @@ describe("formatMessageForArgumentScannerError", () => {
             expect(message).to.equal('Expected "x" to be one of (a|b|c), did you mean "a", "b", or "c"?');
         });
 
+        it("default message when source is default value", () => {
+            // GIVEN
+            const externalFlagName = "foo" as ExternalFlagName;
+            const error = new EnumValidationError(externalFlagName, "x", "default", ["a", "b", "c"], ["a", "b", "c"]);
+
+            // WHEN
+            const message = formatMessageForArgumentScannerError(error, {});
+
+            // THEN
+            expect(message).to.equal('Expected default value "x" to be one of (a|b|c), did you mean "a", "b", or "c"?');
+        });
+
+        it("default message when source is default value from env var", () => {
+            // GIVEN
+            const externalFlagName = "foo" as ExternalFlagName;
+            const error = new EnumValidationError(externalFlagName, "x", "env:FOO", ["a", "b", "c"], ["a", "b", "c"]);
+
+            // WHEN
+            const message = formatMessageForArgumentScannerError(error, {});
+
+            // THEN
+            expect(message).to.equal(
+                'Expected "x" from environment variable FOO to be one of (a|b|c), did you mean "a", "b", or "c"?',
+            );
+        });
+
         it("custom message", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
-            const error = new EnumValidationError(externalFlagName, "x", ["a", "b", "c"], ["a", "b", "c"]);
+            const error = new EnumValidationError(externalFlagName, "x", "argv", ["a", "b", "c"], ["a", "b", "c"]);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {
@@ -10693,10 +11242,10 @@ describe("formatMessageForArgumentScannerError", () => {
     });
 
     describe("UnsatisfiedFlagError", () => {
-        it("no next, default message", () => {
+        it("no next/env, default message", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
-            const error = new UnsatisfiedFlagError(externalFlagName);
+            const error = new UnsatisfiedFlagError(externalFlagName, void 0, void 0);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {});
@@ -10709,7 +11258,7 @@ describe("formatMessageForArgumentScannerError", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
             const nextFlagName = "bar" as ExternalFlagName;
-            const error = new UnsatisfiedFlagError(externalFlagName, nextFlagName);
+            const error = new UnsatisfiedFlagError(externalFlagName, nextFlagName, void 0);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {});
@@ -10718,10 +11267,23 @@ describe("formatMessageForArgumentScannerError", () => {
             expect(message).to.equal("Expected input for flag --foo but encountered --bar instead");
         });
 
+        it("env, default message", () => {
+            // GIVEN
+            const externalFlagName = "foo" as ExternalFlagName;
+            const nextFlagName = "bar" as ExternalFlagName;
+            const error = new UnsatisfiedFlagError(externalFlagName, void 0, "FOO");
+
+            // WHEN
+            const message = formatMessageForArgumentScannerError(error, {});
+
+            // THEN
+            expect(message).to.equal("Expected input for flag --foo");
+        });
+
         it("custom message", () => {
             // GIVEN
             const externalFlagName = "foo" as ExternalFlagName;
-            const error = new UnsatisfiedFlagError(externalFlagName);
+            const error = new UnsatisfiedFlagError(externalFlagName, void 0, void 0);
 
             // WHEN
             const message = formatMessageForArgumentScannerError(error, {

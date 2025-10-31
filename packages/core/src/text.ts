@@ -17,6 +17,12 @@ export interface DocumentationKeywords {
      */
     readonly default: string;
     /**
+     * Keyword to be included after default value from environment variable (if present) and name of environment variable.
+     *
+     * Defaults to `"env:"`.
+     */
+    readonly fromEnv: string;
+    /**
      * Keyword to be included when flags are variadic and have a defined separator.
      *
      * Defaults to `"separator ="`.
@@ -220,6 +226,7 @@ export const text_en: ApplicationText = {
     },
     keywords: {
         default: "default =",
+        fromEnv: "env:",
         separator: "separator =",
     },
     briefs: {
