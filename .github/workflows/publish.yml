@@ -1,5 +1,8 @@
 name: Nx Publish
 
+# Declare default permissions as read-only
+permissions: read-all
+
 on:
     push:
         branches:
