@@ -2,6 +2,8 @@
 sidebar_position: 2
 ---
 
+import StricliPlayground from "@site/src/components/StricliPlayground";
+
 # Commands
 
 Commands are the true building blocks of any CLI application. In order to create a new command, call the `buildCommand` function with the entire specification for that command's parameters and documentation. The argument object for the builder accepts the following properties.
@@ -62,7 +64,7 @@ const command = buildCommand({
 
 ## Parameters
 
-The parameters object is a specification of all of the parameters (arguments and flags) that the command should accept. For more information about this specification, check out the section on [argument parsing](../argument-parsing).
+The parameters object is a specification of all of the parameters (arguments and flags) that the command should accept. For more information about this specification, check out the section on [argument parsing](../argument-parsing/index.mdx).
 
 ## Documentation
 
@@ -70,41 +72,6 @@ A base level of documentation is required, and more is always appreciated. All c
 
 Optionally, you can further customize the help text for this specific command by including `fullDescription` or `customUsage`. The former will override `brief` in the command's help text and can contain multiple lines of text rather than just one. The `customUsage` property will replace the auto-generated usage lines, and is useful when there's some [additional validation of user inputs](../out-of-scope.mdx#cross-argument-validation) that isn't represented natively by Stricli. You can also provide an object with `input` and `brief` to print a description after the usage line.
 
-```ts
-// output-next-line
-/// command.ts
-buildCommand({
-  docs: {
-    brief: "This is a brief description of the command",
-    fullDescription: [
-      "This is the full description of the command.",
-      "It should include all of the necessary details about the behavior.",
-      "It will only be displayed to the user in the help text for this command.",
-    ].join("\n"),
-    customUsage: [
-      "-a -b",
-      "-c",
-      { input: "-d", brief: "Brief description of this use case" },
-    ],
-  },
-  ...
-});
-```
+import HelpTextDocumentationCode from "./examples/help-text-documentation.txt";
 
-The command configuration above will produce a command with the following behavior:
-
-```sh
-run --help
-// output-start
-USAGE
-  run -a -b
-  run -c
-  run -d
-    Brief description of this use case
-  run --help
-
-This is the full description of the command.
-It should include all of the necessary details about the behavior.
-It will only be displayed to the user in the help text for this command.
-// output-end
-```
+<StricliPlayground>{HelpTextDocumentationCode}</StricliPlayground>
