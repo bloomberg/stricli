@@ -8,6 +8,18 @@ Stricli has first class support for tab auto completion in shells.
 
 Rather than generate shell-specific scripts based on your application, the logic for proposing input completions is written directly into the core library. This means that the auto complete behavior will exactly match the functionality of your app.
 
+## Configuration
+
+The auto-complete feature can be customized with the `completion` configuration.
+
+### Alias Support
+
+You can control whether or not aliases will be suggested as possible completions with the `includeAliases` configuration property. It defaults to match the value of `useAliasInUsageLine`.
+
+### Hidden Route Support
+
+You can control whether or not aliases will be suggested as possible completions with the `includeHiddenRoutes` configuration property. It defaults to `false`, and will not expose any hidden route names.
+
 ## Autocomplete Management
 
 Part of the difficulty with setting up auto completion is getting it installed into the shell. Stricli solves this with a standalone command `npx @stricli/auto-complete@latest`.
