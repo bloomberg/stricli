@@ -331,6 +331,7 @@ describe("Command", function () {
             includeHelpAllFlag: false,
             includeHidden: false,
             ansiColor: false,
+            env: void 0,
         };
 
         describe("no parameters", function () {
