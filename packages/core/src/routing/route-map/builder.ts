@@ -79,6 +79,9 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
         get brief(): string {
             return docs.brief;
         },
+        get fullDescription(): string | undefined {
+            return docs.fullDescription;
+        },
         formatUsageLine(args) {
             const routeNames = this.getAllEntries()
                 .filter((entry) => !entry.hidden)
