@@ -17,6 +17,7 @@ export interface HelpFormattingArguments extends UsageFormattingArguments {
 
 export interface DocumentedTarget {
     readonly brief: string;
+    readonly fullDescription: string | undefined;
     readonly formatUsageLine: (args: UsageFormattingArguments) => string;
     readonly formatHelp: (args: HelpFormattingArguments) => string;
 }

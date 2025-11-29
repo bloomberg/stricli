@@ -120,6 +120,9 @@ export function buildCommand<
         get brief(): string {
             return builderArgs.docs.brief;
         },
+        get fullDescription(): string | undefined {
+            return builderArgs.docs.fullDescription;
+        },
         formatUsageLine: (args) => {
             return formatUsageLineForParameters(builderArgs.parameters as CommandParameters, args);
         },
