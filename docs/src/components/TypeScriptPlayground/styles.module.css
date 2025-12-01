@@ -5,9 +5,6 @@
 .fileTab {
     display: block;
     padding: 5px 10px;
-    /* border-style: solid; */
-    /* border-color: var(--ifm-alert-foreground-color); */
-    /* border-width: 1px 1px 0 1px; */
     background-color: var(--ifm-alert-background-color-highlight);
     border-radius: 10px 5px 0 0;
     font-family: "JetBrains Mono", monospace;
