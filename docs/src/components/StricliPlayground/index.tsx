@@ -3,11 +3,6 @@
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import type { StricliPlaygroundProps } from "./impl";
 
-/**
- *
- * @param props.title
- * @returns
- */
 export default function StricliPlayground(props: StricliPlaygroundProps): React.JSX.Element {
     return (
         <BrowserOnly>
