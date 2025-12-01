@@ -8,6 +8,7 @@
 
 /* You can override the default Infima variables here. */
 :root {
+    --ifm-background-color: #ffffff;
     --ifm-color-primary: hsl(205, 70%, 40%);
     --ifm-color-primary-dark: hsl(205, 80%, 32%);
     --ifm-color-primary-darker: hsl(205, 90%, 24%);
@@ -176,6 +177,7 @@ a.button {
     overflow-y: scroll;
     width: 100%;
     transition: height var(--ifm-transition-fast) ease-out;
+    margin-bottom: 0.25em;
 }
 
 .terminal-input {
@@ -188,7 +190,6 @@ a.button {
 }
 
 .terminal-stdout {
-    background-color: rgba(124, 175, 194, 10%);
 }
 
 .terminal-stderr {
@@ -322,7 +323,10 @@ a.button {
     color: #f8f8f8;
 }
 
-.stricli-playground {
-    padding: 0.25em;
-    border-left: 0.25em solid var(--ifm-color-primary);
+.stricli-tooltip {
+    padding: 0.25em 0.5em;
+    background-color: var(--ifm-background-color);
+    border-radius: 0.5em;
+    box-shadow: 0px 2px 10px 1px #0000007f;
+    font-size: 14px;
 }

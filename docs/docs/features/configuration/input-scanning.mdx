@@ -1,0 +1,45 @@
+---
+sidebar_position: 2
+---
+
+import StricliPlayground from "@site/src/components/StricliPlayground";
+
+# Input Scanning
+
+The scanner is the internal system in Stricli that processes user inputs from the command line and determines which route/command to run and the arguments to run it with. Configuration for this system is controlled by the `scanner` property in the application configuration.
+
+## Scanner Case Style
+
+As route, command, and flag names are all defined in the specification as object properties, it is likely that stylistic preferences will force these properties to adhere to **camelCase** styling. However, many CLI applications also support or require **kebab-case** style for naming at runtime. The `caseStyle` configuration allows you to adjust what to accept as input.
+
+The default value for this configuration is `original`, which requires that any input match the defined name exactly. The other option is `allow-kebab-for-camel`, which augments the scanner and additionally allows the **kebab-case** style version of any **camelCase** style name. The conversion relies on converting upper case letters to lower case with a preceding `-`.
+
+import FlagCaseStyleCode from "./examples/flag-case-style.txt";
+
+<StricliPlayground>{FlagCaseStyleCode}</StricliPlayground>
+
+## Argument Escape Sequence
+
+Stricli scans the user input to determine how to parse that input into flags and positional arguments. Due to the fact that every input string with a leading `-` is treated as a potential flag, it can be useful to bypass this behavior in some circumstances. The user can specify `--` which indicates to the scanner that any following inputs should be treated as positional arguments. This feature is controlled by the `allowArgumentEscapeSequence` property, which defaults to `false`.
+
+The following is an example command that prints flags and args to stdout.
+
+With `allowArgumentEscapeSequence=false`
+
+```sh
+run --foo -- --bar
+// output-next-line
+{ foo: true, bar: true }, ["--"]
+```
+
+With `allowArgumentEscapeSequence=true`
+
+```sh
+run --foo -- --bar
+// output-next-line
+{ foo: true }, ["--bar"]
+```
+
+## Distance Calculation
+
+When input scanning fails to find a route/command or flag, Stricli will include suggested alternatives in the error message (`"did you mean ___?"`). Stricli calculates the [Damerau-Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) of all potential alternatives and returns only those that have a distance below a certain threshold. By default, this distance threshold is `7` with specific weights for certain operations (insertion=1, deletion=2, substitution=2, transposition=0). However, it can be customized to any value by editing the `distanceOptions` property.
