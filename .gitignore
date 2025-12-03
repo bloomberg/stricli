@@ -135,3 +135,5 @@ tests/baselines/local
 
 .nx/cache
 .nx/workspace-data
+
+.npmrc
