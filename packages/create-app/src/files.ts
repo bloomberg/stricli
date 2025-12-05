@@ -320,3 +320,35 @@ void proposeCompletions(app, inputs, buildContext(process)).then((completions) =
     // ignore
 });
 `;
+
+export const binFishCompleteModuleText = `#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+
+const inputs = process.argv.slice(2);
+
+try {
+  const completions = await proposeCompletions(app, inputs, buildContext(process));
+  for (const { completion } of completions) {
+    process.stdout.write(\`\${completion}\n\`);
+  }
+} catch {
+  // ignore errors
+}
+`;
+
+export const binFishCompleteScriptText = `#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+
+const inputs = process.argv.slice(2);
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+  for (const { completion } of completions) {
+    process.stdout.write(\`\${completion}\n\`);
+  }
+}, () => {
+  // ignore errors
+});
+`;
