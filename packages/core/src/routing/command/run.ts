@@ -29,8 +29,6 @@ export async function runCommand<CONTEXT extends CommandContext>(
         determineExitCode,
     }: CommandRunArguments<CONTEXT>,
 ): Promise<number> {
-    const commandFunctionLoad_p = loader();
-
     let parsedArguments: ParsedArguments<BaseFlags, BaseArgs>;
     try {
         const scanner = buildArgumentScanner(parameters, scannerConfig);
@@ -61,7 +59,7 @@ export async function runCommand<CONTEXT extends CommandContext>(
 
     let commandFunction: CommandFunction<BaseFlags, BaseArgs, CONTEXT>;
     try {
-        const loaded = await commandFunctionLoad_p;
+        const loaded = await loader();
         if (typeof loaded === "function") {
             commandFunction = loaded;
         } else {
