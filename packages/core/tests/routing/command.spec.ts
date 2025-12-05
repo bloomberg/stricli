@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "chai";
+import { describe, expect, it } from "vitest";
 import {
     ExitCode,
     booleanParser,
@@ -92,7 +92,7 @@ const CommandRunResultBaselineFormat: BaselineFormat<CommandRunResult> = {
 };
 
 function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<HelpFormattingArguments, "ansiColor">) {
-    it("with ANSI color", function () {
+    it("with ANSI color", (context) => {
         // WHEN
         const helpText = command.formatHelp({
             ...args,
@@ -100,10 +100,10 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
     });
 
-    it("no ANSI color", function () {
+    it("no ANSI color", (context) => {
         // WHEN
         const helpText = command.formatHelp({
             ...args,
@@ -111,10 +111,10 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
     });
 
-    it("text with ANSI matches text without ANSI", function () {
+    it("text with ANSI matches text without ANSI", (context) => {
         // WHEN
         const helpTextWithAnsiColor = command.formatHelp({
             ...args,
@@ -131,9 +131,9 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
     });
 }
 
-describe("Command", function () {
-    describe("buildCommand", function () {
-        it("fails with reserved flag --help", function () {
+describe("Command", () => {
+    describe("buildCommand", () => {
+        it("fails with reserved flag --help", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -156,7 +156,7 @@ describe("Command", function () {
             }).to.throw("Unable to use reserved flag --help");
         });
 
-        it("fails with reserved alias -h", function () {
+        it("fails with reserved alias -h", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -182,7 +182,7 @@ describe("Command", function () {
             }).to.throw("Unable to use reserved alias -h");
         });
 
-        it("fails with required boolean flag negated name collision", function () {
+        it("fails with required boolean flag negated name collision", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -209,7 +209,7 @@ describe("Command", function () {
             }).to.throw("Unable to allow negation for --verbose as it conflicts with --noVerbose");
         });
 
-        it("fails with required boolean flag negated name, camelCase", function () {
+        it("fails with required boolean flag negated name, camelCase", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -236,7 +236,7 @@ describe("Command", function () {
             }).to.throw("Unable to allow negation for --forceBuild as it conflicts with --no-force-build");
         });
 
-        it("fails with required boolean flag negated name, kebab-case", function () {
+        it("fails with required boolean flag negated name, kebab-case", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -263,7 +263,7 @@ describe("Command", function () {
             }).to.throw("Unable to allow negation for --verbose as it conflicts with --no-verbose");
         });
 
-        it("fails with invalid variadic flag separator (empty)", function () {
+        it("fails with invalid variadic flag separator (empty)", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -288,7 +288,7 @@ describe("Command", function () {
             }).to.throw('Unable to use "" as variadic separator for --numbers as it is empty');
         });
 
-        it("fails with invalid variadic flag separator (contains whitespace)", function () {
+        it("fails with invalid variadic flag separator (contains whitespace)", (context) => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -314,7 +314,7 @@ describe("Command", function () {
         });
     });
 
-    describe("printHelp", function () {
+    describe("printHelp", () => {
         const defaultArgs: HelpFormattingArguments = {
             prefix: ["prefix"],
             aliases: [],
@@ -333,7 +333,7 @@ describe("Command", function () {
             ansiColor: false,
         };
 
-        describe("no parameters", function () {
+        describe("no parameters", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -354,7 +354,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("no parameters, dropped empty flag spec", function () {
+        describe("no parameters, dropped empty flag spec", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -374,7 +374,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("no parameters, dropped empty positional spec", function () {
+        describe("no parameters, dropped empty positional spec", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -389,7 +389,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("no parameters, dropped empty specs", function () {
+        describe("no parameters, dropped empty specs", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -404,7 +404,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("no parameters, help all, force alias in usage line", function () {
+        describe("no parameters, help all, force alias in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -426,7 +426,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters", function () {
+        describe("mixed parameters", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -488,7 +488,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters, only required in usage line", function () {
+        describe("mixed parameters, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -556,7 +556,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters with version available", function () {
+        describe("mixed parameters with version available", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -618,7 +618,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, { ...defaultArgs, includeVersionFlag: true });
         });
 
-        describe("mixed parameters with version available, only required in usage line", function () {
+        describe("mixed parameters with version available, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -687,74 +687,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters with aliases", function () {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-            });
-        });
-
-        describe("mixed parameters with aliases, only required in usage line", function () {
+        describe("mixed parameters with aliases", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -818,6 +751,73 @@ describe("Command", function () {
                 prefix: ["cli", "route"],
                 includeVersionFlag: true,
                 aliases: ["alias1", "alias2"],
+            });
+        });
+
+        describe("mixed parameters with aliases, only required in usage line", () => {
+            // GIVEN
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (
+                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
+                            arg0: string,
+                            arg1?: number,
+                        ) => {},
+                    };
+                },
+                parameters: {
+                    positional: {
+                        kind: "tuple",
+                        parameters: [
+                            {
+                                brief: "first argument brief",
+                                parse: (x) => x,
+                            },
+                            {
+                                brief: "second argument brief",
+                                optional: true,
+                                parse: numberParser,
+                            },
+                        ],
+                    },
+                    flags: {
+                        alpha: {
+                            brief: "alpha flag brief",
+                            kind: "parsed",
+                            parse: numberParser,
+                        },
+                        bravo: {
+                            brief: "bravo flag brief",
+                            kind: "parsed",
+                            variadic: true,
+                            parse: numberParser,
+                        },
+                        charlie: {
+                            brief: "charlie flag brief",
+                            placeholder: "c",
+                            kind: "parsed",
+                            optional: true,
+                            parse: numberParser,
+                        },
+                        delta: {
+                            brief: "delta flag brief",
+                            kind: "boolean",
+                        },
+                    },
+                    aliases: {
+                        a: "alpha",
+                        d: "delta",
+                    },
+                },
+                docs: { brief: "brief" },
+            });
+
+            compareHelpTextToBaseline(command, {
+                ...defaultArgs,
+                prefix: ["cli", "route"],
+                includeVersionFlag: true,
+                aliases: ["alias1", "alias2"],
                 config: {
                     ...defaultArgs.config,
                     onlyRequiredInUsageLine: true,
@@ -825,7 +825,7 @@ describe("Command", function () {
             });
         });
 
-        describe("multiple boolean flags", function () {
+        describe("multiple boolean flags", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -863,7 +863,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("multiple boolean flags, only required in usage line", function () {
+        describe("multiple boolean flags, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -907,7 +907,7 @@ describe("Command", function () {
             });
         });
 
-        describe("multiple boolean flags, kebab-case", function () {
+        describe("multiple boolean flags, kebab-case", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -951,7 +951,7 @@ describe("Command", function () {
             });
         });
 
-        describe("multiple boolean flags, kebab-case, only required in usage line", function () {
+        describe("multiple boolean flags, kebab-case, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -996,7 +996,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters, full description", function () {
+        describe("mixed parameters, full description", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1053,7 +1053,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters, full description, only required in usage line", function () {
+        describe("mixed parameters, full description, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1116,7 +1116,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters, custom usage", function () {
+        describe("mixed parameters, custom usage", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1173,7 +1173,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters, enhanced custom usage", function () {
+        describe("mixed parameters, enhanced custom usage", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1239,7 +1239,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters, mixed custom usage", function () {
+        describe("mixed parameters, mixed custom usage", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1309,7 +1309,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters with `original` display case style", function () {
+        describe("mixed parameters with `original` display case style", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1371,7 +1371,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters with `original` display case style, only required in usage line", function () {
+        describe("mixed parameters with `original` display case style, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1439,7 +1439,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters with `convert-camel-to-kebab` display case style", function () {
+        describe("mixed parameters with `convert-camel-to-kebab` display case style", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1507,7 +1507,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line", function () {
+        describe("mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1576,7 +1576,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters with custom headers", function () {
+        describe("mixed parameters with custom headers", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1653,7 +1653,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters with custom headers, only required in usage line", function () {
+        describe("mixed parameters with custom headers, only required in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1734,7 +1734,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters, skips hidden", function () {
+        describe("mixed parameters, skips hidden", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1792,7 +1792,7 @@ describe("Command", function () {
             compareHelpTextToBaseline(command, defaultArgs);
         });
 
-        describe("mixed parameters, force include hidden", function () {
+        describe("mixed parameters, force include hidden", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1853,7 +1853,7 @@ describe("Command", function () {
             });
         });
 
-        describe("mixed parameters, help all, force alias in usage line", function () {
+        describe("mixed parameters, help all, force alias in usage line", () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -1917,7 +1917,7 @@ describe("Command", function () {
         });
     });
 
-    describe("run", function () {
+    describe("run", () => {
         const defaultArgs: Omit<CommandRunArguments<CommandContext>, "context"> = {
             inputs: [],
             errorFormatting: text_en,
@@ -1943,7 +1943,7 @@ describe("Command", function () {
             },
         };
 
-        describe("doNothing (loader returns function)", function () {
+        describe("doNothing (loader returns function)", () => {
             const command = buildCommand({
                 loader: async () => {
                     return (flags: Record<string, never>) => {};
@@ -1955,23 +1955,23 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            it("no inputs", async function () {
+            it("no inputs", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected input argument", async function () {
+            it("unexpected input argument", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected input flag", async function () {
+            it("unexpected input flag", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["--foo"] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
         });
 
-        describe("doNothing", function () {
+        describe("doNothing", () => {
             const command = buildCommand({
                 loader: async () => {
                     return {
@@ -1985,17 +1985,17 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            it("no inputs", async function () {
+            it("no inputs", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected input argument", async function () {
+            it("unexpected input argument", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected input argument, with ansi color", async function () {
+            it("unexpected input argument, with ansi color", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2004,15 +2004,15 @@ describe("Command", function () {
                     },
                     inputs: ["foo"],
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected input flag", async function () {
+            it("unexpected input flag", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["--foo"] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected input flag, with ansi color", async function () {
+            it("unexpected input flag, with ansi color", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2021,11 +2021,11 @@ describe("Command", function () {
                     },
                     inputs: ["--foo"],
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
         });
 
-        describe("echoArguments", function () {
+        describe("echoArguments", () => {
             const command = buildCommand({
                 loader: async () => {
                     return {
@@ -2047,22 +2047,22 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            it("no inputs", async function () {
+            it("no inputs", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("single input argument", async function () {
+            it("single input argument", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("multiple input arguments", async function () {
+            it("multiple input arguments", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo", "bar"] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected error", async function () {
+            it("unexpected error", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     inputs: [
@@ -2073,10 +2073,10 @@ describe("Command", function () {
                         } as any,
                     ],
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("unexpected error, with ansi color", async function () {
+            it("unexpected error, with ansi color", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2091,11 +2091,11 @@ describe("Command", function () {
                         } as any,
                     ],
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
         });
 
-        it("fails to scan missing flags", async function () {
+        it("fails to scan missing flags", async (context) => {
             const command = buildCommand<{ foo: string; bar: string }, []>({
                 loader: async () => {
                     throw new Error("This should not be reached by this test");
@@ -2118,10 +2118,10 @@ describe("Command", function () {
             });
 
             const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-            compareToBaseline(this, CommandRunResultBaselineFormat, result);
+            compareToBaseline(context, CommandRunResultBaselineFormat, result);
         });
 
-        it("fails to scan missing flags, with ansi color", async function () {
+        it("fails to scan missing flags, with ansi color", async (context) => {
             const command = buildCommand<{ foo: string; bar: string }, []>({
                 loader: async () => {
                     throw new Error("This should not be reached by this test");
@@ -2151,10 +2151,10 @@ describe("Command", function () {
                 },
                 inputs: [],
             });
-            compareToBaseline(this, CommandRunResultBaselineFormat, result);
+            compareToBaseline(context, CommandRunResultBaselineFormat, result);
         });
 
-        it("fails to parse invalid parameter", async function () {
+        it("fails to parse invalid parameter", async (context) => {
             const command = buildCommand<{}, [boolean]>({
                 loader: async () => {
                     throw new Error("This should not be reached by this test");
@@ -2175,10 +2175,10 @@ describe("Command", function () {
             });
 
             const result = await runWithInputs(command, { ...defaultArgs, inputs: ["nope"] });
-            compareToBaseline(this, CommandRunResultBaselineFormat, result);
+            compareToBaseline(context, CommandRunResultBaselineFormat, result);
         });
 
-        it("fails to load command module", async function () {
+        it("fails to load command module", async (context) => {
             const command = buildCommand<{}, []>({
                 loader: async () => {
                     throw new Error("This command load purposefully throws an error");
@@ -2191,10 +2191,10 @@ describe("Command", function () {
             });
 
             const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-            compareToBaseline(this, CommandRunResultBaselineFormat, result);
+            compareToBaseline(context, CommandRunResultBaselineFormat, result);
         });
 
-        it("fails to load command module, with ansi color", async function () {
+        it("fails to load command module, with ansi color", async (context) => {
             const command = buildCommand<{}, []>({
                 loader: async () => {
                     throw new Error("This command load purposefully throws an error");
@@ -2214,10 +2214,10 @@ describe("Command", function () {
                 },
                 inputs: [],
             });
-            compareToBaseline(this, CommandRunResultBaselineFormat, result);
+            compareToBaseline(context, CommandRunResultBaselineFormat, result);
         });
 
-        describe("command function throws error", function () {
+        describe("command function throws error", () => {
             class ErrorWithoutStack extends Error {
                 override stack = void 0;
             }
@@ -2236,12 +2236,12 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            it("with default exit code", async function () {
+            it("with default exit code", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("with default exit code, ansi color", async function () {
+            it("with default exit code, ansi color", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2250,20 +2250,20 @@ describe("Command", function () {
                     },
                     inputs: [],
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("with custom exit code", async function () {
+            it("with custom exit code", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     inputs: [],
                     determineExitCode: () => 10,
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
         });
 
-        describe("command function returns error", function () {
+        describe("command function returns error", () => {
             const command = buildCommand({
                 loader: async () => {
                     return {
@@ -2279,12 +2279,12 @@ describe("Command", function () {
                 docs: { brief: "brief" },
             });
 
-            it("with default exit code", async function () {
+            it("with default exit code", async (context) => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("with default exit code, ansi color", async function () {
+            it("with default exit code, ansi color", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2293,16 +2293,16 @@ describe("Command", function () {
                     },
                     inputs: [],
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
 
-            it("with custom exit code", async function () {
+            it("with custom exit code", async (context) => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     inputs: [],
                     determineExitCode: () => 10,
                 });
-                compareToBaseline(this, CommandRunResultBaselineFormat, result);
+                compareToBaseline(context, CommandRunResultBaselineFormat, result);
             });
         });
     });
