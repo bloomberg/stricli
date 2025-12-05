@@ -1,4 +1,4 @@
-:::: Command / printHelp / mixed parameters / no ANSI color
+:::: Command > printHelp > mixed parameters > no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   prefix --help
@@ -16,7 +16,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters / with ANSI color
+:::: Command > printHelp > mixed parameters > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   prefix --help
@@ -34,7 +34,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style / no ANSI color
+:::: Command > printHelp > mixed parameters with `convert-camel-to-kebab` display case style > no ANSI color
 USAGE
   prefix (--alpha-flag value) (--bravo-flag value)... [--charlie-flag c] (--delta-flag) <arg1> [<arg2>]
   prefix --help
@@ -52,7 +52,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style / with ANSI color
+:::: Command > printHelp > mixed parameters with `convert-camel-to-kebab` display case style > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha-flag value) (--bravo-flag value)... [--charlie-flag c] (--delta-flag) <arg1> [<arg2>]
   prefix --help
@@ -70,7 +70,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line > no ANSI color
 USAGE
   prefix (--alpha-flag value) (--bravo-flag value)... (--delta-flag) <arg1>
   prefix --help
@@ -88,7 +88,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha-flag value) (--bravo-flag value)... (--delta-flag) <arg1>
   prefix --help
@@ -106,7 +106,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with `original` display case style / no ANSI color
+:::: Command > printHelp > mixed parameters with `original` display case style > no ANSI color
 USAGE
   prefix (--alphaFlag value) (--bravoFlag value)... [--charlieFlag c] (--deltaFlag) <arg1> [<arg2>]
   prefix --help
@@ -124,7 +124,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `original` display case style / with ANSI color
+:::: Command > printHelp > mixed parameters with `original` display case style > with ANSI color
 [1mUSAGE[22m
   prefix (--alphaFlag value) (--bravoFlag value)... [--charlieFlag c] (--deltaFlag) <arg1> [<arg2>]
   prefix --help
@@ -142,7 +142,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with `original` display case style, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters with `original` display case style, only required in usage line > no ANSI color
 USAGE
   prefix (--alphaFlag value) (--bravoFlag value)... (--deltaFlag) <arg1>
   prefix --help
@@ -160,7 +160,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with `original` display case style, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters with `original` display case style, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alphaFlag value) (--bravoFlag value)... (--deltaFlag) <arg1>
   prefix --help
@@ -178,7 +178,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with aliases / no ANSI color
+:::: Command > printHelp > mixed parameters with aliases > no ANSI color
 USAGE
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -202,7 +202,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with aliases / with ANSI color
+:::: Command > printHelp > mixed parameters with aliases > with ANSI color
 [1mUSAGE[22m
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -226,7 +226,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with aliases, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters with aliases, only required in usage line > no ANSI color
 USAGE
   cli route (--alpha value) (--bravo value)... (--delta) <arg1>
   cli route --help
@@ -250,7 +250,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with aliases, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters with aliases, only required in usage line > with ANSI color
 [1mUSAGE[22m
   cli route (--alpha value) (--bravo value)... (--delta) <arg1>
   cli route --help
@@ -274,7 +274,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with custom headers / no ANSI color
+:::: Command > printHelp > mixed parameters with custom headers > no ANSI color
 Usage:
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -298,7 +298,7 @@ Arguments:
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with custom headers / with ANSI color
+:::: Command > printHelp > mixed parameters with custom headers > with ANSI color
 [1mUsage:[22m
   cli route (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   cli route --help
@@ -322,7 +322,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with custom headers, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters with custom headers, only required in usage line > no ANSI color
 Usage:
   cli route (--alpha value) (--bravo value)... (--delta) <arg1>
   cli route --help
@@ -346,7 +346,7 @@ Arguments:
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with custom headers, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters with custom headers, only required in usage line > with ANSI color
 [1mUsage:[22m
   cli route (--alpha value) (--bravo value)... (--delta) <arg1>
   cli route --help
@@ -370,7 +370,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with version available / no ANSI color
+:::: Command > printHelp > mixed parameters with version available > no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   prefix --help
@@ -390,7 +390,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with version available / with ANSI color
+:::: Command > printHelp > mixed parameters with version available > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <arg1> [<arg2>]
   prefix --help
@@ -410,7 +410,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters with version available, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters with version available, only required in usage line > no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... (--delta) <arg1>
   prefix --help
@@ -430,7 +430,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters with version available, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters with version available, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--bravo value)... (--delta) <arg1>
   prefix --help
@@ -450,7 +450,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters, custom usage / no ANSI color
+:::: Command > printHelp > mixed parameters, custom usage > no ANSI color
 USAGE
   prefix custom usage line #1
   prefix custom usage line #2
@@ -468,7 +468,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, custom usage / with ANSI color
+:::: Command > printHelp > mixed parameters, custom usage > with ANSI color
 [1mUSAGE[22m
   prefix custom usage line #1
   prefix custom usage line #2
@@ -486,7 +486,7 @@ brief
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, enhanced custom usage / no ANSI color
+:::: Command > printHelp > mixed parameters, enhanced custom usage > no ANSI color
 USAGE
   prefix -a 1
     enhanced usage line #1
@@ -506,7 +506,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, enhanced custom usage / with ANSI color
+:::: Command > printHelp > mixed parameters, enhanced custom usage > with ANSI color
 [1mUSAGE[22m
   prefix -a 1
     [3menhanced usage line #1[23m
@@ -526,7 +526,7 @@ brief
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, force include hidden / no ANSI color
+:::: Command > printHelp > mixed parameters, force include hidden > no ANSI color
 USAGE
   prefix (--alpha value) (--delta) <args>...
   prefix --help
@@ -543,7 +543,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, force include hidden / with ANSI color
+:::: Command > printHelp > mixed parameters, force include hidden > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--delta) <args>...
   prefix --help
@@ -560,7 +560,7 @@ brief
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, full description / no ANSI color
+:::: Command > printHelp > mixed parameters, full description > no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <args>...
   prefix --help
@@ -577,7 +577,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, full description / with ANSI color
+:::: Command > printHelp > mixed parameters, full description > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--bravo value)... [--charlie c] (--delta) <args>...
   prefix --help
@@ -594,7 +594,7 @@ Longer description of this command's behavior, only printed during --help
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, full description, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters, full description, only required in usage line > no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... (--delta) <args>...
   prefix --help
@@ -611,7 +611,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, full description, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters, full description, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--bravo value)... (--delta) <args>...
   prefix --help
@@ -628,7 +628,7 @@ Longer description of this command's behavior, only printed during --help
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, help all, force alias in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters, help all, force alias in usage line > no ANSI color
 USAGE
   prefix (-a value) (--bravo value)... [--charlie c] (-d) <args>...
   prefix -h
@@ -647,7 +647,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, help all, force alias in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters, help all, force alias in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (-a value) (--bravo value)... [--charlie c] (-d) <args>...
   prefix -h
@@ -666,7 +666,7 @@ brief
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, mixed custom usage / no ANSI color
+:::: Command > printHelp > mixed parameters, mixed custom usage > no ANSI color
 USAGE
   prefix -a 1
     enhanced usage line #1
@@ -690,7 +690,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, mixed custom usage / with ANSI color
+:::: Command > printHelp > mixed parameters, mixed custom usage > with ANSI color
 [1mUSAGE[22m
   prefix -a 1
     [3menhanced usage line #1[23m
@@ -714,7 +714,7 @@ brief
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / mixed parameters, only required in usage line / no ANSI color
+:::: Command > printHelp > mixed parameters, only required in usage line > no ANSI color
 USAGE
   prefix (--alpha value) (--bravo value)... (--delta) <arg1>
   prefix --help
@@ -732,7 +732,7 @@ ARGUMENTS
    arg1   first argument brief
   [arg2]  second argument brief
 
-:::: Command / printHelp / mixed parameters, only required in usage line / with ANSI color
+:::: Command > printHelp > mixed parameters, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--bravo value)... (--delta) <arg1>
   prefix --help
@@ -750,7 +750,7 @@ brief
   [97m arg1[39m   [3mfirst argument brief[23m
   [97m[arg2][39m  [3msecond argument brief[23m
 
-:::: Command / printHelp / mixed parameters, skips hidden / no ANSI color
+:::: Command > printHelp > mixed parameters, skips hidden > no ANSI color
 USAGE
   prefix (--alpha value) (--delta) <args>...
   prefix --help
@@ -765,7 +765,7 @@ FLAGS
 ARGUMENTS
   args...  string array brief
 
-:::: Command / printHelp / mixed parameters, skips hidden / with ANSI color
+:::: Command > printHelp > mixed parameters, skips hidden > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha value) (--delta) <args>...
   prefix --help
@@ -780,7 +780,7 @@ brief
 [1mARGUMENTS[22m
   [97margs...[39m  [3mstring array brief[23m
 
-:::: Command / printHelp / multiple boolean flags / no ANSI color
+:::: Command > printHelp > multiple boolean flags > no ANSI color
 USAGE
   prefix (--alpha) [--bravo] (--charlie)
   prefix --help
@@ -793,7 +793,7 @@ FLAGS
   -c  --charlie/--noCharlie  charlie flag brief
   -h  --help                 Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags / with ANSI color
+:::: Command > printHelp > multiple boolean flags > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha) [--bravo] (--charlie)
   prefix --help
@@ -806,7 +806,7 @@ brief
   [97m-c[39m [97m --charlie/--noCharlie[39m  [03mcharlie flag brief[23m
   [97m-h[39m [97m --help[39m                 [03mPrint help information and exit[23m
 
-:::: Command / printHelp / multiple boolean flags, kebab-case / no ANSI color
+:::: Command > printHelp > multiple boolean flags, kebab-case > no ANSI color
 USAGE
   prefix (--alpha) [--bravo] (--charlie)
   prefix --help
@@ -819,7 +819,7 @@ FLAGS
   -c  --charlie/--no-charlie  charlie flag brief
   -h  --help                  Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags, kebab-case / with ANSI color
+:::: Command > printHelp > multiple boolean flags, kebab-case > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha) [--bravo] (--charlie)
   prefix --help
@@ -832,7 +832,7 @@ brief
   [97m-c[39m [97m --charlie/--no-charlie[39m  [03mcharlie flag brief[23m
   [97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m
 
-:::: Command / printHelp / multiple boolean flags, kebab-case, only required in usage line / no ANSI color
+:::: Command > printHelp > multiple boolean flags, kebab-case, only required in usage line > no ANSI color
 USAGE
   prefix (--alpha) (--charlie)
   prefix --help
@@ -845,7 +845,7 @@ FLAGS
   -c  --charlie/--no-charlie  charlie flag brief
   -h  --help                  Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags, kebab-case, only required in usage line / with ANSI color
+:::: Command > printHelp > multiple boolean flags, kebab-case, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha) (--charlie)
   prefix --help
@@ -858,7 +858,7 @@ brief
   [97m-c[39m [97m --charlie/--no-charlie[39m  [03mcharlie flag brief[23m
   [97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m
 
-:::: Command / printHelp / multiple boolean flags, only required in usage line / no ANSI color
+:::: Command > printHelp > multiple boolean flags, only required in usage line > no ANSI color
 USAGE
   prefix (--alpha) (--charlie)
   prefix --help
@@ -871,7 +871,7 @@ FLAGS
   -c  --charlie/--noCharlie  charlie flag brief
   -h  --help                 Print help information and exit
 
-:::: Command / printHelp / multiple boolean flags, only required in usage line / with ANSI color
+:::: Command > printHelp > multiple boolean flags, only required in usage line > with ANSI color
 [1mUSAGE[22m
   prefix (--alpha) (--charlie)
   prefix --help
@@ -884,7 +884,7 @@ brief
   [97m-c[39m [97m --charlie/--noCharlie[39m  [03mcharlie flag brief[23m
   [97m-h[39m [97m --help[39m                 [03mPrint help information and exit[23m
 
-:::: Command / printHelp / no parameters / no ANSI color
+:::: Command > printHelp > no parameters > no ANSI color
 USAGE
   prefix
   prefix --help
@@ -894,7 +894,7 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters / with ANSI color
+:::: Command > printHelp > no parameters > with ANSI color
 [1mUSAGE[22m
   prefix
   prefix --help
@@ -904,7 +904,7 @@ brief
 [1mFLAGS[22m
   [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 
-:::: Command / printHelp / no parameters, dropped empty flag spec / no ANSI color
+:::: Command > printHelp > no parameters, dropped empty flag spec > no ANSI color
 USAGE
   prefix
   prefix --help
@@ -914,7 +914,7 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, dropped empty flag spec / with ANSI color
+:::: Command > printHelp > no parameters, dropped empty flag spec > with ANSI color
 [1mUSAGE[22m
   prefix
   prefix --help
@@ -924,7 +924,7 @@ brief
 [1mFLAGS[22m
   [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 
-:::: Command / printHelp / no parameters, dropped empty positional spec / no ANSI color
+:::: Command > printHelp > no parameters, dropped empty positional spec > no ANSI color
 USAGE
   prefix
   prefix --help
@@ -934,7 +934,7 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, dropped empty positional spec / with ANSI color
+:::: Command > printHelp > no parameters, dropped empty positional spec > with ANSI color
 [1mUSAGE[22m
   prefix
   prefix --help
@@ -944,7 +944,7 @@ brief
 [1mFLAGS[22m
   [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 
-:::: Command / printHelp / no parameters, dropped empty specs / no ANSI color
+:::: Command > printHelp > no parameters, dropped empty specs > no ANSI color
 USAGE
   prefix
   prefix --help
@@ -954,7 +954,7 @@ brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Command / printHelp / no parameters, dropped empty specs / with ANSI color
+:::: Command > printHelp > no parameters, dropped empty specs > with ANSI color
 [1mUSAGE[22m
   prefix
   prefix --help
@@ -964,7 +964,7 @@ brief
 [1mFLAGS[22m
   [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 
-:::: Command / printHelp / no parameters, help all, force alias in usage line / no ANSI color
+:::: Command > printHelp > no parameters, help all, force alias in usage line > no ANSI color
 USAGE
   prefix
   prefix -h
@@ -976,7 +976,7 @@ FLAGS
   -h --help     Print help information and exit
   -H --helpAll  Print help information (including hidden commands/flags) and exit
 
-:::: Command / printHelp / no parameters, help all, force alias in usage line / with ANSI color
+:::: Command > printHelp > no parameters, help all, force alias in usage line > with ANSI color
 [1mUSAGE[22m
   prefix
   prefix -h
@@ -988,122 +988,122 @@ brief
   [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
   [90m-H[39m [90m--helpAll[39m  [90mPrint help information (including hidden commands/flags) and exit[39m
 
-:::: Command / run / command function returns error / with custom exit code
+:::: Command > run > command function returns error > with custom exit code
 ExitCode=Unknown(10)
 :: STDOUT
 
 :: STDERR
 This action purposefully throws an error
 
-:::: Command / run / command function returns error / with default exit code
+:::: Command > run > command function returns error > with default exit code
 ExitCode=CommandRunError
 :: STDOUT
 
 :: STDERR
 This action purposefully throws an error
 
-:::: Command / run / command function returns error / with default exit code, ansi color
+:::: Command > run > command function returns error > with default exit code, ansi color
 ExitCode=CommandRunError
 :: STDOUT
 
 :: STDERR
 [1m[31mThis action purposefully throws an error[39m[22m
 
-:::: Command / run / command function throws error / with custom exit code
+:::: Command > run > command function throws error > with custom exit code
 ExitCode=Unknown(10)
 :: STDOUT
 
 :: STDERR
 Command failed, Error: This action purposefully throws an error
 
-:::: Command / run / command function throws error / with default exit code
+:::: Command > run > command function throws error > with default exit code
 ExitCode=CommandRunError
 :: STDOUT
 
 :: STDERR
 Command failed, Error: This action purposefully throws an error
 
-:::: Command / run / command function throws error / with default exit code, ansi color
+:::: Command > run > command function throws error > with default exit code, ansi color
 ExitCode=CommandRunError
 :: STDOUT
 
 :: STDERR
 [1m[31mCommand failed, Error: This action purposefully throws an error[39m[22m
 
-:::: Command / run / doNothing (loader returns function) / no inputs
+:::: Command > run > doNothing (loader returns function) > no inputs
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Command / run / doNothing (loader returns function) / unexpected input argument
+:::: Command > run > doNothing (loader returns function) > unexpected input argument
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 Too many arguments, expected 0 but encountered "foo"
 
-:::: Command / run / doNothing (loader returns function) / unexpected input flag
+:::: Command > run > doNothing (loader returns function) > unexpected input flag
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 No flag registered for --foo
 
-:::: Command / run / doNothing / no inputs
+:::: Command > run > doNothing > no inputs
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Command / run / doNothing / unexpected input argument
+:::: Command > run > doNothing > unexpected input argument
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 Too many arguments, expected 0 but encountered "foo"
 
-:::: Command / run / doNothing / unexpected input argument, with ansi color
+:::: Command > run > doNothing > unexpected input argument, with ansi color
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mToo many arguments, expected 0 but encountered "foo"[39m[22m
 
-:::: Command / run / doNothing / unexpected input flag
+:::: Command > run > doNothing > unexpected input flag
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 No flag registered for --foo
 
-:::: Command / run / doNothing / unexpected input flag, with ansi color
+:::: Command > run > doNothing > unexpected input flag, with ansi color
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mNo flag registered for --foo[39m[22m
 
-:::: Command / run / echoArguments / multiple input arguments
+:::: Command > run > echoArguments > multiple input arguments
 ExitCode=Success
 :: STDOUT
 foo
 bar
 :: STDERR
 
-:::: Command / run / echoArguments / no inputs
+:::: Command > run > echoArguments > no inputs
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Command / run / echoArguments / single input argument
+:::: Command > run > echoArguments > single input argument
 ExitCode=Success
 :: STDOUT
 foo
 :: STDERR
 
-:::: Command / run / echoArguments / unexpected error
+:::: Command > run > echoArguments > unexpected error
 ExitCode=InvalidArgument
 :: STDOUT
 
@@ -1115,9 +1115,9 @@ Unable to parse arguments, Error: Unexpected error thrown by input
     at Object.next (#/src/parameter/scanner.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
-    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+    at #/tests/routing/command.spec.ts:?:?
 
-:::: Command / run / echoArguments / unexpected error, with ansi color
+:::: Command > run > echoArguments > unexpected error, with ansi color
 ExitCode=InvalidArgument
 :: STDOUT
 
@@ -1129,9 +1129,9 @@ ExitCode=InvalidArgument
     at Object.next (#/src/parameter/scanner.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
-    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+    at #/tests/routing/command.spec.ts:?:?
 
-:::: Command / run / fails to load command module
+:::: Command > run > fails to load command module
 ExitCode=CommandLoadError
 :: STDOUT
 
@@ -1139,10 +1139,10 @@ ExitCode=CommandLoadError
 Unable to load command function, Error: This command load purposefully throws an error
     at loader (#/tests/routing/command.spec.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
-    at async runWithInputs (#/tests/routing/command.spec.ts:?:?)
-    at async Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at #/tests/routing/command.spec.ts:?:?
 
-:::: Command / run / fails to load command module, with ansi color
+:::: Command > run > fails to load command module, with ansi color
 ExitCode=CommandLoadError
 :: STDOUT
 
@@ -1150,17 +1150,17 @@ ExitCode=CommandLoadError
 [1m[31mUnable to load command function, Error: This command load purposefully throws an error
     at loader (#/tests/routing/command.spec.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
-    at async runWithInputs (#/tests/routing/command.spec.ts:?:?)
-    at async Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)[39m[22m
+    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at #/tests/routing/command.spec.ts:?:?
 
-:::: Command / run / fails to parse invalid parameter
+:::: Command > run > fails to parse invalid parameter
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 Failed to parse "nope" for arg1: Cannot convert nope to a boolean
 
-:::: Command / run / fails to scan missing flags
+:::: Command > run > fails to scan missing flags
 ExitCode=InvalidArgument
 :: STDOUT
 
@@ -1168,7 +1168,7 @@ ExitCode=InvalidArgument
 Expected input for flag --foo
 Expected input for flag --bar
 
-:::: Command / run / fails to scan missing flags, with ansi color
+:::: Command > run > fails to scan missing flags, with ansi color
 ExitCode=InvalidArgument
 :: STDOUT
 

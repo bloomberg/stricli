@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+import { describe } from "vitest";
 import { numberParser } from "../../../src";
 import { testParser, testParserError } from "../parser";
 

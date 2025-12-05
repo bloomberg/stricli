@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "chai";
+import { describe, expect, it } from "vitest";
 import { type CommandContext, text_en, type TypedPositionalParameters } from "../../../src";
 // eslint-disable-next-line no-restricted-imports
 import { formatDocumentationForPositionalParameters } from "../../../src/parameter/positional/formatting";
@@ -13,7 +13,7 @@ import { compareToBaseline, StringArrayBaselineFormat } from "../../baseline";
 type DocumentationArgs = Pick<HelpFormattingArguments, "config" | "text">;
 
 function compareDocumentationToBaseline(positional: PositionalParameters, args: DocumentationArgs) {
-    it("with ANSI color", function () {
+    it("with ANSI color", (context) => {
         // WHEN
         const lines = formatDocumentationForPositionalParameters(positional, {
             ...args,
@@ -21,10 +21,10 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareToBaseline(context, StringArrayBaselineFormat, lines);
     });
 
-    it("no ANSI color", function () {
+    it("no ANSI color", (context) => {
         // WHEN
         const lines = formatDocumentationForPositionalParameters(positional, {
             ...args,
@@ -32,10 +32,10 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareToBaseline(context, StringArrayBaselineFormat, lines);
     });
 
-    it("text with ANSI matches text without ANSI", function () {
+    it("text with ANSI matches text without ANSI", (context) => {
         // WHEN
         const linesWithAnsiColor = formatDocumentationForPositionalParameters(positional, {
             ...args,
@@ -52,7 +52,7 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
     });
 }
 
-describe("formatDocumentationForPositionalParameters", function () {
+describe("formatDocumentationForPositionalParameters", () => {
     const defaultArgs: Pick<HelpFormattingArguments, "config" | "text" | "ansiColor"> = {
         config: {
             alwaysShowHelpAllFlag: false,
@@ -65,7 +65,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         ansiColor: true,
     };
 
-    describe("tuple with no positional parameters", function () {
+    describe("tuple with no positional parameters", () => {
         // GIVEN
         type Positional = [];
 
@@ -77,7 +77,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    describe("tuple of one required positional parameter", function () {
+    describe("tuple of one required positional parameter", () => {
         // GIVEN
         type Positional = [string];
 
@@ -95,7 +95,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    describe("tuple of one optional positional parameter", function () {
+    describe("tuple of one optional positional parameter", () => {
         // GIVEN
         type Positional = [string?];
 
@@ -114,7 +114,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
     });
 
-    describe("tuple of one positional parameter with default", function () {
+    describe("tuple of one positional parameter with default", () => {
         // GIVEN
         type Positional = [string];
 
@@ -133,7 +133,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    describe("tuple of one optional positional parameter with default", function () {
+    describe("tuple of one optional positional parameter with default", () => {
         // GIVEN
         type Positional = [string?];
 
@@ -153,7 +153,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
     });
 
-    describe("tuple of one positional parameter with default, with alt text", function () {
+    describe("tuple of one positional parameter with default, with alt text", () => {
         // GIVEN
         type Positional = [string];
 
@@ -181,7 +181,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         });
     });
 
-    describe("tuple of multiple positional parameters", function () {
+    describe("tuple of multiple positional parameters", () => {
         // GIVEN
         type Positional = [string, string, string];
 
@@ -209,7 +209,7 @@ describe("formatDocumentationForPositionalParameters", function () {
         compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    describe("homogenous array of positional parameters", function () {
+    describe("homogenous array of positional parameters", () => {
         // GIVEN
         type Positional = string[];
 
