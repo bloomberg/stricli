@@ -1139,8 +1139,8 @@ ExitCode=CommandLoadError
 Unable to load command function, Error: This command load purposefully throws an error
     at loader (#/tests/routing/command.spec.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
-    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
-    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+    at async runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at async Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
 
 :::: Command / run / fails to load command module, with ansi color
 ExitCode=CommandLoadError
@@ -1150,8 +1150,8 @@ ExitCode=CommandLoadError
 [1m[31mUnable to load command function, Error: This command load purposefully throws an error
     at loader (#/tests/routing/command.spec.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
-    at runWithInputs (#/tests/routing/command.spec.ts:?:?)
-    at Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)
+    at async runWithInputs (#/tests/routing/command.spec.ts:?:?)
+    at async Context.<anonymous> (#/tests/routing/command.spec.ts:?:?)[39m[22m
 
 :::: Command / run / fails to parse invalid parameter
 ExitCode=InvalidArgument
