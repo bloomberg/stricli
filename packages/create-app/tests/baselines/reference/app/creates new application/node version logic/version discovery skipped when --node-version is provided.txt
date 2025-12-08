@@ -1,8 +1,7 @@
 [STDOUT]
 
 [STDERR]
-No version of @types/node found with major 30, falling back to 20.x
-Rerun this command with the hidden flag --node-version to manually specify the Node.js major version
+
 [FILES]
 ::::/home/node-version-test/.gitignore
 # Logs
@@ -49,7 +48,7 @@ dist
     "__node-version-test_bash_complete": "dist/bash-complete.js"
   },
   "engines": {
-    "node": ">=30"
+    "node": ">=major"
   },
   "scripts": {
     "prebuild": "tsc -p src/tsconfig.json",
@@ -75,7 +74,7 @@ dist
     "@stricli/auto-complete": "<self>"
   },
   "devDependencies": {
-    "@types/node": "20.x",
+    "@types/node": "major.x",
     "tsup": "^6.7.0",
     "typescript": "5.6.x"
   }
