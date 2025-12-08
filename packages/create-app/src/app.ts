@@ -70,7 +70,7 @@ const command = buildCommand({
             nodeVersion: {
                 kind: "parsed",
                 brief: "Node.js major version to use for engines.node minimum and @types/node, bypasses version discovery logic",
-                parse: numberParser,
+                parse: String,
                 optional: true,
                 hidden: true,
             },

@@ -20,7 +20,6 @@ import {
     singleCommandAppText,
     singleCommandImplText,
 } from "./files";
-import { calculateAcceptableNodeVersions, type NodeVersions } from "./node";
 import srcTsconfig from "./tsconfig.json";
 
 interface TsupConfig {
@@ -46,7 +45,7 @@ type PackageJsonTemplateValues = Pick<PackageJson.PackageJsonStandard, "name"> &
 function buildPackageJson(
     values: PackageJsonTemplateValues,
     commandName: string,
-    nodeVersions: NodeVersions,
+    nodeMajorVersion: string | undefined,
 ): LocalPackageJson {
     return {
         ...values,
@@ -56,7 +55,7 @@ function buildPackageJson(
             [commandName]: "dist/cli.js",
         },
         engines: {
-            node: nodeVersions.engine,
+            node: nodeMajorVersion && `>=${nodeMajorVersion}`,
         },
         scripts: {
             prebuild: "tsc -p src/tsconfig.json",
@@ -75,7 +74,7 @@ function buildPackageJson(
             "@stricli/core": self.dependencies["@stricli/core"],
         },
         devDependencies: {
-            "@types/node": nodeVersions.types,
+            "@types/node": nodeMajorVersion && `${nodeMajorVersion}.x`,
             tsup: self.devDependencies.tsup,
             typescript: self.devDependencies.typescript,
         },
@@ -115,7 +114,7 @@ export interface CreateProjectFlags extends PackageJsonTemplateValues {
     readonly template: "single" | "multi";
     readonly autoComplete: boolean;
     readonly command?: string;
-    readonly nodeVersion?: number;
+    readonly nodeVersion?: string;
 }
 
 export default async function (this: LocalContext, flags: CreateProjectFlags, directoryPath: string): Promise<void> {
@@ -138,12 +137,9 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
     const packageName = flags.name ?? path.basename(directoryPath);
     const commandName = flags.command ?? packageName;
 
-    let nodeVersions: NodeVersions;
-    if (flags.nodeVersion) {
-        nodeVersions = { engine: `>=${flags.nodeVersion}`, types: `${flags.nodeVersion}.x` };
-    } else {
-        nodeVersions = await calculateAcceptableNodeVersions(this.process);
-    }
+    const nodeMajorVersion = (
+        typeof flags.nodeVersion === "string" ? flags.nodeVersion : this.process?.versions?.node
+    )?.split(".")[0];
 
     let packageJson = buildPackageJson(
         {
@@ -154,7 +150,7 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
             type: flags.type,
         },
         commandName,
-        nodeVersions,
+        nodeMajorVersion,
     );
 
     const bashCommandName = calculateBashCompletionCommand(commandName);
