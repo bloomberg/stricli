@@ -138,7 +138,7 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
     const commandName = flags.command ?? packageName;
 
     const nodeMajorVersion = (
-        typeof flags.nodeVersion === "string" ? flags.nodeVersion : this.process?.versions?.node
+        typeof flags.nodeVersion === "string" ? flags.nodeVersion : this.process.versions?.node
     )?.split(".")[0];
 
     let packageJson = buildPackageJson(

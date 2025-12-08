@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { buildApplication, buildCommand } from "@stricli/core";
 import packageJson from "../package.json";
 
 const command = buildCommand({

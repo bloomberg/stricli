@@ -7,7 +7,10 @@ import os from "node:os";
 import path from "node:path";
 
 export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
-    readonly process: NodeJS.Process;
+    readonly process: StricliAutoCompleteContext["process"] & {
+        readonly cwd: () => string;
+        readonly versions?: { readonly node?: string };
+    };
     readonly fs: {
         readonly promises: Pick<typeof import("fs").promises, "readFile" | "writeFile" | "mkdir">;
     };
