@@ -1,214 +1,214 @@
-:::: formatDocumentationForFlagParameters / boolean / hidden optional boolean flag / no ANSI color
+:::: formatDocumentationForFlagParameters > boolean > hidden optional boolean flag > no ANSI color
 -h --help  Print help information and exit
    --      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / boolean / hidden optional boolean flag / with ANSI color
+:::: formatDocumentationForFlagParameters > boolean > hidden optional boolean flag > with ANSI color
 [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / boolean / hidden optional boolean flag, help all / no ANSI color
+:::: formatDocumentationForFlagParameters > boolean > hidden optional boolean flag, help all > no ANSI color
    [--optionalBoolean/--noOptionalBoolean]  optional boolean flag
 -h  --help                                  Print help information and exit
     --                                      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / boolean / hidden optional boolean flag, help all / with ANSI color
+:::: formatDocumentationForFlagParameters > boolean > hidden optional boolean flag, help all > with ANSI color
 [90m[39m   [90m[--optionalBoolean/--noOptionalBoolean][39m  [90moptional boolean flag[39m
 [97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / boolean / optional boolean flag / no ANSI color
+:::: formatDocumentationForFlagParameters > boolean > optional boolean flag > no ANSI color
    [--optionalBoolean/--noOptionalBoolean]  optional boolean flag
 -h  --help                                  Print help information and exit
     --                                      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / boolean / optional boolean flag / with ANSI color
+:::: formatDocumentationForFlagParameters > boolean > optional boolean flag > with ANSI color
 [97m[39m   [97m[--optionalBoolean/--noOptionalBoolean][39m  [03moptional boolean flag[23m
 [97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / boolean / required boolean flag / no ANSI color
+:::: formatDocumentationForFlagParameters > boolean > required boolean flag > no ANSI color
    --requiredBoolean/--noRequiredBoolean  required boolean flag
 -h --help                                 Print help information and exit
    --                                     All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / boolean / required boolean flag / with ANSI color
+:::: formatDocumentationForFlagParameters > boolean > required boolean flag > with ANSI color
 [97m[39m   [97m--requiredBoolean/--noRequiredBoolean[39m  [03mrequired boolean flag[23m
 [97m-h[39m [97m--help[39m                                 [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                                     [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=false / no ANSI color
+:::: formatDocumentationForFlagParameters > boolean > required boolean flag with default=false > no ANSI color
    [--requiredBoolean]  required boolean flag                                    [default = false]
 -h  --help              Print help information and exit
     --                  All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=false / with ANSI color
+:::: formatDocumentationForFlagParameters > boolean > required boolean flag with default=false > with ANSI color
 [97m[39m   [97m[--requiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m false]
 [97m-h[39m [97m --help[39m              [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                  [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=true / no ANSI color
+:::: formatDocumentationForFlagParameters > boolean > required boolean flag with default=true > no ANSI color
    [--requiredBoolean/--noRequiredBoolean]  required boolean flag                                    [default = true]
 -h  --help                                  Print help information and exit
     --                                      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=true / with ANSI color
+:::: formatDocumentationForFlagParameters > boolean > required boolean flag with default=true > with ANSI color
 [97m[39m   [97m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]
 [97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / enum / optional enum flag / no ANSI color
+:::: formatDocumentationForFlagParameters > enum > optional enum flag > no ANSI color
    [--optionalEnum]  optional enum flag                                       [a|b|c]
 -h  --help           Print help information and exit
     --               All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / enum / optional enum flag / with ANSI color
+:::: formatDocumentationForFlagParameters > enum > optional enum flag > with ANSI color
 [97m[39m   [97m[--optionalEnum][39m  [03moptional enum flag[23m                                       [a|b|c]
 [97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / enum / optional enum flag with default / no ANSI color
+:::: formatDocumentationForFlagParameters > enum > optional enum flag with default > no ANSI color
    [--optionalEnum]  optional enum flag                                       [a|b|c, default = b]
 -h  --help           Print help information and exit
     --               All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / enum / optional enum flag with default / with ANSI color
+:::: formatDocumentationForFlagParameters > enum > optional enum flag with default > with ANSI color
 [97m[39m   [97m[--optionalEnum][39m  [03moptional enum flag[23m                                       [a|b|c, [90mdefault =[39m b]
 [97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / enum / required enum flag / no ANSI color
+:::: formatDocumentationForFlagParameters > enum > required enum flag > no ANSI color
    --requiredEnum  required enum flag                                       [a|b|c]
 -h --help          Print help information and exit
    --              All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / enum / required enum flag / with ANSI color
+:::: formatDocumentationForFlagParameters > enum > required enum flag > with ANSI color
 [97m[39m   [97m--requiredEnum[39m  [03mrequired enum flag[23m                                       [a|b|c]
 [97m-h[39m [97m--help[39m          [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m              [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / enum / required enum flag with default / no ANSI color
+:::: formatDocumentationForFlagParameters > enum > required enum flag with default > no ANSI color
    [--requiredEnum]  required enum flag                                       [a|b|c, default = b]
 -h  --help           Print help information and exit
     --               All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / enum / required enum flag with default / with ANSI color
+:::: formatDocumentationForFlagParameters > enum > required enum flag with default > with ANSI color
 [97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m b]
 [97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / no flags / no ANSI color
+:::: formatDocumentationForFlagParameters > no flags > no ANSI color
 -h --help  Print help information and exit
    --      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / no flags / with ANSI color
+:::: formatDocumentationForFlagParameters > no flags > with ANSI color
 [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / flag with nonstandard character / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > flag with nonstandard character > no ANSI color
    --a.b.c_10  required parsed flag
 -h --help      Print help information and exit
    --          All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / flag with nonstandard character / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > flag with nonstandard character > with ANSI color
 [97m[39m   [97m--a.b.c_10[39m  [03mrequired parsed flag[23m
 [97m-h[39m [97m--help[39m      [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m          [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / multipart flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > multipart flag > no ANSI color
    --multi.part  required parsed flag
 -h --help        Print help information and exit
    --            All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / multipart flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > multipart flag > with ANSI color
 [97m[39m   [97m--multi.part[39m  [03mrequired parsed flag[23m
 [97m-h[39m [97m--help[39m        [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m            [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / multiple parsed flags / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > multiple parsed flags > no ANSI color
    --requiredParsed                        required parsed flag
    --requiredParsedWithLongerName          required parsed flag with longer name
    --required-parsed-with-kebab-case-name  required parsed flag with kebab-case name
 -h --help                                  Print help information and exit
    --                                      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / multiple parsed flags / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > multiple parsed flags > with ANSI color
 [97m[39m   [97m--requiredParsed[39m                        [03mrequired parsed flag[23m
 [97m[39m   [97m--requiredParsedWithLongerName[39m          [03mrequired parsed flag with longer name[23m
 [97m[39m   [97m--required-parsed-with-kebab-case-name[39m  [03mrequired parsed flag with kebab-case name[23m
 [97m-h[39m [97m--help[39m                                  [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / optional array parsed flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional array parsed flag > no ANSI color
    [--optionalArrayParsed]  optional array parsed flag
 -h  --help                  Print help information and exit
     --                      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / optional array parsed flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional array parsed flag > with ANSI color
 [97m[39m   [97m[--optionalArrayParsed][39m  [03moptional array parsed flag[23m
 [97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / optional parsed flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional parsed flag > no ANSI color
    [--optionalParsed]  optional parsed flag
 -h  --help             Print help information and exit
     --                 All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / optional parsed flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional parsed flag > with ANSI color
 [97m[39m   [97m[--optionalParsed][39m  [03moptional parsed flag[23m
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / optional parsed flag with alias / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional parsed flag with alias > no ANSI color
 -p [--optionalParsed]  optional parsed flag
 -h  --help             Print help information and exit
     --                 All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / optional parsed flag with alias / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional parsed flag with alias > with ANSI color
 [97m-p[39m [97m[--optionalParsed][39m  [03moptional parsed flag[23m
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / optional variadic parsed flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional variadic parsed flag > no ANSI color
    [--optionalVariadicParsed]...  optional variadic parsed flag
 -h  --help                        Print help information and exit
     --                            All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / optional variadic parsed flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > optional variadic parsed flag > with ANSI color
 [97m[39m   [97m[--optionalVariadicParsed]...[39m  [03moptional variadic parsed flag[23m
 [97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                            [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required array parsed flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required array parsed flag > no ANSI color
    --requiredArrayParsed  required array parsed flag
 -h --help                 Print help information and exit
    --                     All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required array parsed flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required array parsed flag > with ANSI color
 [97m[39m   [97m--requiredArrayParsed[39m  [03mrequired array parsed flag[23m
 [97m-h[39m [97m--help[39m                 [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                     [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag > no ANSI color
    --requiredParsed  required parsed flag
 -h --help            Print help information and exit
    --                All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag > with ANSI color
 [97m[39m   [97m--requiredParsed[39m  [03mrequired parsed flag[23m
 [97m-h[39m [97m--help[39m            [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with alias / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with alias > no ANSI color
 -p --requiredParsed  required parsed flag
 -h --help            Print help information and exit
    --                All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with alias / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with alias > with ANSI color
 [97m-p[39m [97m--requiredParsed[39m  [03mrequired parsed flag[23m
 [97m-h[39m [97m--help[39m            [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default > no ANSI color
    [--requiredParsed]  required parsed flag                                     [default = ""]
 -h  --help             Print help information and exit
     --                 All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default > with ANSI color
 [97m[39m   [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m ""]
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default [hidden] / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden] > no ANSI color
 -h --help  Print help information and exit
    --      All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default [hidden] / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden] > with ANSI color
 [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default [hidden], hide all / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden], hide all > no ANSI color
    [--requiredParsed]  required parsed flag                                     [default = 100]
 -h  --help             Print help information and exit
     --                 All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default [hidden], hide all / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden], hide all > with ANSI color
 [90m[39m   [90m[--requiredParsed][39m  [90mrequired parsed flag[39m                                     [[90mdefault =[39m 100]
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default and alias / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default and alias > no ANSI color
 -p [--requiredParsed]  required parsed flag                                     [default = 100]
 -h  --help             Print help information and exit
     --                 All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default and alias / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required parsed flag with default and alias > with ANSI color
 [97m-p[39m [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m 100]
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / required variadic parsed flag / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag > no ANSI color
    --requiredVariadicParsed...  required variadic parsed flag
 -h --help                       Print help information and exit
    --                           All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / required variadic parsed flag / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag > with ANSI color
 [97m[39m   [97m--requiredVariadicParsed...[39m  [03mrequired variadic parsed flag[23m
 [97m-h[39m [97m--help[39m                       [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                           [03mAll subsequent inputs should be interpreted as arguments[23m
-:::: formatDocumentationForFlagParameters / parsed / variadic parsed flag with separator / no ANSI color
+:::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > no ANSI color
    --variadicParsed...  variadic parsed flag with separator                      [separator = ,]
 -h --help               Print help information and exit
    --                   All subsequent inputs should be interpreted as arguments
-:::: formatDocumentationForFlagParameters / parsed / variadic parsed flag with separator / with ANSI color
+:::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > with ANSI color
 [97m[39m   [97m--variadicParsed...[39m  [03mvariadic parsed flag with separator[23m                      [[90mseparator =[39m ,]
 [97m-h[39m [97m--help[39m               [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                   [03mAll subsequent inputs should be interpreted as arguments[23m

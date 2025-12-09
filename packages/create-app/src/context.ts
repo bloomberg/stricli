@@ -17,7 +17,7 @@ export interface LocalContext extends CommandContext, StricliAutoCompleteContext
     readonly path: Pick<typeof import("path"), "join" | "basename">;
 }
 
-/* c8 ignore start */
+/* v8 ignore start -- @preserve */
 export function buildContext(process: NodeJS.Process): LocalContext {
     return {
         process,
@@ -26,4 +26,4 @@ export function buildContext(process: NodeJS.Process): LocalContext {
         path,
     };
 }
-/* c8 ignore stop */
+/* v8 ignore stop -- @preserve */

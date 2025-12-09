@@ -94,7 +94,7 @@ function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandNa
         },
         tsup: {
             ...packageJson.tsup,
-            /* c8 ignore next */
+            /* v8 ignore next -- @preserve */
             entry: [...(packageJson.tsup?.entry ?? []), "src/bin/bash-complete.ts"],
         },
     };

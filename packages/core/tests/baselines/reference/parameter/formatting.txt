@@ -1,52 +1,52 @@
-:::: formatUsageLineForParameters / flags / boolean / optional boolean flag
+:::: formatUsageLineForParameters > flags > boolean > optional boolean flag
 cli [--optionalBoolean]
-:::: formatUsageLineForParameters / flags / boolean / required boolean flag
+:::: formatUsageLineForParameters > flags > boolean > required boolean flag
 cli (--requiredBoolean)
-:::: formatUsageLineForParameters / flags / boolean / required boolean flag with default
+:::: formatUsageLineForParameters > flags > boolean > required boolean flag with default
 cli [--requiredBoolean]
-:::: formatUsageLineForParameters / flags / enum / optional enum flag
+:::: formatUsageLineForParameters > flags > enum > optional enum flag
 cli [--optionalEnum a|b|c]
-:::: formatUsageLineForParameters / flags / enum / optional enum flag with default
+:::: formatUsageLineForParameters > flags > enum > optional enum flag with default
 cli [--optionalEnum a|b|c]
-:::: formatUsageLineForParameters / flags / enum / required enum flag
+:::: formatUsageLineForParameters > flags > enum > required enum flag
 cli (--requiredEnum a|b|c)
-:::: formatUsageLineForParameters / flags / enum / required enum flag with default
+:::: formatUsageLineForParameters > flags > enum > required enum flag with default
 cli [--requiredEnum a|b|c]
-:::: formatUsageLineForParameters / flags / parsed / optional array parsed flag
+:::: formatUsageLineForParameters > flags > parsed > optional array parsed flag
 cli [--optionalArrayParsed value]
-:::: formatUsageLineForParameters / flags / parsed / optional parsed flag
+:::: formatUsageLineForParameters > flags > parsed > optional parsed flag
 cli [--optionalParsed value]
-:::: formatUsageLineForParameters / flags / parsed / optional parsed flag [hidden]
+:::: formatUsageLineForParameters > flags > parsed > optional parsed flag [hidden]
 cli
-:::: formatUsageLineForParameters / flags / parsed / optional parsed flag with placeholder
+:::: formatUsageLineForParameters > flags > parsed > optional parsed flag with placeholder
 cli [--optionalParsed parsed]
-:::: formatUsageLineForParameters / flags / parsed / optional variadic parsed flag
+:::: formatUsageLineForParameters > flags > parsed > optional variadic parsed flag
 cli [--optionalVariadicParsed value]...
-:::: formatUsageLineForParameters / flags / parsed / required array parsed flag
+:::: formatUsageLineForParameters > flags > parsed > required array parsed flag
 cli (--requiredArrayParsed value)
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag
 cli (--requiredParsed value)
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag with alias
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag with alias
 cli (-p value)
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag with default
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag with default
 cli [--requiredParsed value]
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag with default [hidden]
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag with default [hidden]
 cli
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag with multiple aliases
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag with multiple aliases
 cli (--requiredParsed value)
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag with no aliases
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag with no aliases
 cli (--requiredParsed value)
-:::: formatUsageLineForParameters / flags / parsed / required parsed flag with unused alias
+:::: formatUsageLineForParameters > flags > parsed > required parsed flag with unused alias
 cli (--requiredParsed value)
-:::: formatUsageLineForParameters / flags / parsed / required variadic parsed flag
+:::: formatUsageLineForParameters > flags > parsed > required variadic parsed flag
 cli (--requiredVariadicParsed value)...
-:::: formatUsageLineForParameters / positional parameters / homogenous array of positional parameters
+:::: formatUsageLineForParameters > positional parameters > homogenous array of positional parameters
 cli <parsed>...
-:::: formatUsageLineForParameters / positional parameters / tuple of mixed positional parameters
+:::: formatUsageLineForParameters > positional parameters > tuple of mixed positional parameters
 cli <parsed> [<parsed>] [<parsed>]
-:::: formatUsageLineForParameters / positional parameters / tuple of one optional positional parameter
+:::: formatUsageLineForParameters > positional parameters > tuple of one optional positional parameter
 cli [<parsed>]
-:::: formatUsageLineForParameters / positional parameters / tuple of one required positional parameter
+:::: formatUsageLineForParameters > positional parameters > tuple of one required positional parameter
 cli <parsed>
-:::: formatUsageLineForParameters / positional parameters / tuple with no positional parameters
+:::: formatUsageLineForParameters > positional parameters > tuple with no positional parameters
 cli

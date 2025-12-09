@@ -1,34 +1,34 @@
-:::: formatDocumentationForPositionalParameters / homogenous array of positional parameters / no ANSI color
+:::: formatDocumentationForPositionalParameters > homogenous array of positional parameters > no ANSI color
 parsed...  required positional parameter
-:::: formatDocumentationForPositionalParameters / homogenous array of positional parameters / with ANSI color
+:::: formatDocumentationForPositionalParameters > homogenous array of positional parameters > with ANSI color
 [97mparsed...[39m  [3mrequired positional parameter[23m
-:::: formatDocumentationForPositionalParameters / tuple of multiple positional parameters / no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of multiple positional parameters > no ANSI color
 parsed             required positional parameter
 parsedLonger       required positional parameter with longer placeholder
 parsed-kebab-case  required positional parameter with kebab-case placeholder
-:::: formatDocumentationForPositionalParameters / tuple of multiple positional parameters / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of multiple positional parameters > with ANSI color
 [97mparsed[39m             [3mrequired positional parameter[23m
 [97mparsedLonger[39m       [3mrequired positional parameter with longer placeholder[23m
 [97mparsed-kebab-case[39m  [3mrequired positional parameter with kebab-case placeholder[23m
-:::: formatDocumentationForPositionalParameters / tuple of one optional positional parameter / no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one optional positional parameter > no ANSI color
 [parsed]  optional positional parameter
-:::: formatDocumentationForPositionalParameters / tuple of one optional positional parameter / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one optional positional parameter > with ANSI color
 [97m[parsed][39m  [3moptional positional parameter[23m
-:::: formatDocumentationForPositionalParameters / tuple of one optional positional parameter with default / no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one optional positional parameter with default > no ANSI color
 [parsed]  optional positional parameter [default = 1001]
-:::: formatDocumentationForPositionalParameters / tuple of one optional positional parameter with default / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one optional positional parameter with default > with ANSI color
 [97m[parsed][39m  [3moptional positional parameter[23m [[90mdefault =[39m 1001]
-:::: formatDocumentationForPositionalParameters / tuple of one positional parameter with default / no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one positional parameter with default > no ANSI color
 parsed  required positional parameter [default = 1001]
-:::: formatDocumentationForPositionalParameters / tuple of one positional parameter with default / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one positional parameter with default > with ANSI color
 [97mparsed[39m  [3mrequired positional parameter[23m [[90mdefault =[39m 1001]
-:::: formatDocumentationForPositionalParameters / tuple of one positional parameter with default, with alt text / no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one positional parameter with default, with alt text > no ANSI color
 parsed  required positional parameter [def = 1001]
-:::: formatDocumentationForPositionalParameters / tuple of one positional parameter with default, with alt text / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one positional parameter with default, with alt text > with ANSI color
 [97mparsed[39m  [3mrequired positional parameter[23m [[90mdef =[39m 1001]
-:::: formatDocumentationForPositionalParameters / tuple of one required positional parameter / no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one required positional parameter > no ANSI color
 parsed  required positional parameter
-:::: formatDocumentationForPositionalParameters / tuple of one required positional parameter / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple of one required positional parameter > with ANSI color
 [97mparsed[39m  [3mrequired positional parameter[23m
-:::: formatDocumentationForPositionalParameters / tuple with no positional parameters / no ANSI color
-:::: formatDocumentationForPositionalParameters / tuple with no positional parameters / with ANSI color
+:::: formatDocumentationForPositionalParameters > tuple with no positional parameters > no ANSI color
+:::: formatDocumentationForPositionalParameters > tuple with no positional parameters > with ANSI color

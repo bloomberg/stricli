@@ -1,6 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "chai";
+import { expect } from "vitest";
+import { describe, it } from "vitest";
 import {
     ExitCode,
     buildApplication,
@@ -475,29 +476,29 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root, no color depth", async function () {
+            it("display help text for root, no color depth", async (context) => {
                 const result = await runWithInputs(app, ["--help"], { colorDepth: void 0 });
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root, color depth < 4", async function () {
+            it("display help text for root, color depth < 4", async (context) => {
                 const result = await runWithInputs(app, ["--help"], { colorDepth: 2 });
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root, color depth > 4", async function () {
+            it("display help text for root, color depth > 4", async (context) => {
                 const result = await runWithInputs(app, ["--help"], { colorDepth: 8 });
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root (with flag alias)", async function () {
+            it("display help text for root (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["-h"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
             describe("with current version (as static string)", () => {
@@ -511,14 +512,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version (with flag alias)", async function () {
+                it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -533,14 +534,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version (with flag alias)", async function () {
+                it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -556,9 +557,9 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -574,14 +575,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("display help text for root", async function () {
+                it("display help text for root", async (context) => {
                     const result = await runWithInputs(app, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -597,39 +598,39 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("display help text for root, warn on outdated version", async function () {
+                it("display help text for root, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("display help text for root, warn on outdated version, with no ansi color", async function () {
+                it("display help text for root, warn on outdated version, with no ansi color", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"], { colorDepth: void 0 });
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("display help text for root, warn on outdated version, no ansi color with env var", async function () {
+                it("display help text for root, warn on outdated version, no ansi color with env var", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"], {
                         colorDepth: void 0,
                         env: {
                             STRICLI_NO_COLOR: "",
                         },
                     });
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("display help text for root, warn on outdated version, ansi color with env var set to 0", async function () {
+                it("display help text for root, warn on outdated version, ansi color with env var set to 0", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"], {
                         colorDepth: void 0,
                         env: {
                             STRICLI_NO_COLOR: "0",
                         },
                     });
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -645,14 +646,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("display help text for root, warn on outdated version", async function () {
+                it("display help text for root, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -683,9 +684,9 @@ describe("Application", () => {
                     name: "cli",
                 });
 
-                it("display help text for root", async function () {
+                it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -712,9 +713,9 @@ describe("Application", () => {
                     name: "cli",
                 });
 
-                it("display help text for root", async function () {
+                it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
         });
@@ -727,19 +728,19 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root (with flag alias)", async function () {
+            it("display help text for root (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["-h"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
             describe("with current version as static string", () => {
@@ -753,14 +754,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version (with flag alias)", async function () {
+                it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -775,14 +776,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version (with flag alias)", async function () {
+                it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -798,14 +799,14 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("display help text for root, no warning", async function () {
+                it("display help text for root, no warning", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -821,37 +822,37 @@ describe("Application", () => {
                 });
 
                 // WHEN
-                it("display help text for root, warn on outdated version", async function () {
+                it("display help text for root, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("display help text for subcommand, warn on outdated version", async function () {
+                it("display help text for subcommand, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["command", "--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("request current version", async function () {
+                it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("display help text for root, skip check with env var defined", async function () {
+                it("display help text for root, skip check with env var defined", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"], {
                         env: {
                             STRICLI_SKIP_VERSION_CHECK: "",
                         },
                     });
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
-                it("display help text for root, do not skip check with env var set to 0", async function () {
+                it("display help text for root, do not skip check with env var set to 0", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"], {
                         env: {
                             STRICLI_SKIP_VERSION_CHECK: "0",
                         },
                     });
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
 
                 describe("and upgrade command", () => {
@@ -867,39 +868,39 @@ describe("Application", () => {
                     });
 
                     // WHEN
-                    it("display help text for root, warn on outdated version", async function () {
+                    it("display help text for root, warn on outdated version", async (context) => {
                         const result = await runWithInputs(appWithOutdatedVersionAndUpgradeCommand, ["--help"]);
-                        compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                        compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                     });
 
-                    it("display help text for subcommand, warn on outdated version", async function () {
+                    it("display help text for subcommand, warn on outdated version", async (context) => {
                         const result = await runWithInputs(appWithOutdatedVersionAndUpgradeCommand, [
                             "command",
                             "--help",
                         ]);
-                        compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                        compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                     });
 
-                    it("request current version", async function () {
+                    it("request current version", async (context) => {
                         const result = await runWithInputs(appWithOutdatedVersionAndUpgradeCommand, ["--version"]);
-                        compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                        compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                     });
                 });
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route, with no ansi color", async function () {
+            it("fails for undefined route, with no ansi color", async (context) => {
                 const result = await runWithInputs(app, ["undefined"], { colorDepth: void 0 });
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route, proposes similar alternative", async function () {
+            it("fails for undefined route, proposes similar alternative", async (context) => {
                 const result = await runWithInputs(app, ["commandx"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
             describe("with custom distance threshold", () => {
@@ -918,9 +919,9 @@ describe("Application", () => {
                     },
                 });
 
-                it("fails for undefined route, proposes similar alternative", async function () {
+                it("fails for undefined route, proposes similar alternative", async (context) => {
                     const result = await runWithInputs(appWithCustomDistanceThreshold, ["commandxyz"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
@@ -932,30 +933,30 @@ describe("Application", () => {
                     },
                 });
 
-                it("fails for undefined route, proposes similar alternative", async function () {
+                it("fails for undefined route, proposes similar alternative", async (context) => {
                     const result = await runWithInputs(appWithCustomDistanceThreshold, ["commandxyz"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("runs subcommand directly with no arguments", async function () {
+            it("runs subcommand directly with no arguments", async (context) => {
                 const result = await runWithInputs(app, ["command"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for subcommand", async function () {
+            it("displays help text for subcommand", async (context) => {
                 const result = await runWithInputs(app, ["command", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for subcommand (with flag alias)", async function () {
+            it("displays help text for subcommand (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["command", "-h"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
             describe("with full description", () => {
@@ -972,9 +973,9 @@ describe("Application", () => {
                     name: "cli",
                 });
 
-                it("display help text for root", async function () {
+                it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
         });
@@ -996,59 +997,59 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("runs default command (implicit)", async function () {
+            it("runs default command (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root (with flag alias)", async function () {
+            it("display help text for root (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["-h"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("passes undefined route as argument to default command", async function () {
+            it("passes undefined route as argument to default command", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("passes similar route as argument to default command", async function () {
+            it("passes similar route as argument to default command", async (context) => {
                 const result = await runWithInputs(app, ["commandx"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("passes undefined flag to default command", async function () {
+            it("passes undefined flag to default command", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("runs subcommand directly with no arguments", async function () {
+            it("runs subcommand directly with no arguments", async (context) => {
                 const result = await runWithInputs(app, ["default"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for default command", async function () {
+            it("displays help text for default command", async (context) => {
                 const result = await runWithInputs(app, ["default", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for default command (with flag alias)", async function () {
+            it("displays help text for default command (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["default", "-h"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("runs subcommand directly with default route name as argument", async function () {
+            it("runs subcommand directly with default route name as argument", async (context) => {
                 const result = await runWithInputs(app, ["default", "default"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("runs subcommand directly with alternate route name as argument", async function () {
+            it("runs subcommand directly with alternate route name as argument", async (context) => {
                 const result = await runWithInputs(app, ["default", "alternate"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
             describe("with full description", () => {
@@ -1065,9 +1066,9 @@ describe("Application", () => {
                     name: "cli",
                 });
 
-                it("display help text for root", async function () {
+                it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
                 });
             });
         });
@@ -1083,34 +1084,34 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map (implicit)", async function () {
+            it("displays help text for nested route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["sub"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map", async function () {
+            it("displays help text for nested route map", async (context) => {
                 const result = await runWithInputs(app, ["sub", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
         });
 
@@ -1131,44 +1132,44 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for alias-adjacent route", async function () {
+            it("fails for alias-adjacent route", async (context) => {
                 const result = await runWithInputs(app, ["aliasX"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map with route alias", async function () {
+            it("displays help text for nested route map with route alias", async (context) => {
                 const result = await runWithInputs(app, ["sub"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map via route alias (implicit)", async function () {
+            it("displays help text for nested route map via route alias (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["alias"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map via route alias", async function () {
+            it("displays help text for nested route map via route alias", async (context) => {
                 const result = await runWithInputs(app, ["alias", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
         });
 
@@ -1193,54 +1194,54 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for alias-adjacent route", async function () {
+            it("fails for alias-adjacent route", async (context) => {
                 const result = await runWithInputs(app, ["aliasX"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map with route alias", async function () {
+            it("displays help text for nested route map with route alias", async (context) => {
                 const result = await runWithInputs(app, ["sub"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map via route alias (implicit)", async function () {
+            it("displays help text for nested route map via route alias (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["aliasFoo"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map via route alias", async function () {
+            it("displays help text for nested route map via route alias", async (context) => {
                 const result = await runWithInputs(app, ["aliasFoo", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map via route alias kebab-case version (implicit)", async function () {
+            it("displays help text for nested route map via route alias kebab-case version (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["alias-foo"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested route map via route alias kebab-case version", async function () {
+            it("displays help text for nested route map via route alias kebab-case version", async (context) => {
                 const result = await runWithInputs(app, ["alias-foo", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
         });
 
@@ -1271,7 +1272,7 @@ describe("Application", () => {
             );
         });
 
-        it("runs command with original context", async function () {
+        it("runs command with original context", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1282,10 +1283,10 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { forCommand: false });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("fails when context.forCommand throws error", async function () {
+        it("fails when context.forCommand throws error", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1301,10 +1302,10 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("fails when context.forCommand throws error, with no ansi color", async function () {
+        it("fails when context.forCommand throws error, with no ansi color", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1320,10 +1321,10 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("fails when context.forCommand throws error (without stack)", async function () {
+        it("fails when context.forCommand throws error (without stack)", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1341,10 +1342,10 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("fails when context.forCommand throws non-error", async function () {
+        it("fails when context.forCommand throws non-error", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1361,10 +1362,10 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("loads text for context locale", async function () {
+        it("loads text for context locale", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1375,10 +1376,10 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { locale: "en" });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("uses default text when no text loaded for unsupported context locale", async function () {
+        it("uses default text when no text loaded for unsupported context locale", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1394,10 +1395,10 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { locale: "other", colorDepth: 4 });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
-        it("uses default text when no text loaded for unsupported context locale, with no ansi color", async function () {
+        it("uses default text when no text loaded for unsupported context locale, with no ansi color", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const app = buildApplication(command, {
@@ -1413,7 +1414,7 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { locale: "other" });
 
             // THEN
-            compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
         });
 
         describe("nested basic route map with hidden routes", () => {
@@ -1435,39 +1436,39 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root including hidden", async function () {
+            it("display help text for root including hidden", async (context) => {
                 const result = await runWithInputs(app, ["--help-all"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested hidden route map (implicit)", async function () {
+            it("displays help text for nested hidden route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["subHidden"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested hidden route map", async function () {
+            it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
         });
 
@@ -1493,39 +1494,39 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root including hidden", async function () {
+            it("display help text for root including hidden", async (context) => {
                 const result = await runWithInputs(app, ["--help-all"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested hidden route map (implicit)", async function () {
+            it("displays help text for nested hidden route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["subHidden"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested hidden route map", async function () {
+            it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
         });
 
@@ -1552,39 +1553,39 @@ describe("Application", () => {
             });
 
             // WHEN
-            it("display help text for root (implicit)", async function () {
+            it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root", async function () {
+            it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("display help text for root including hidden", async function () {
+            it("display help text for root including hidden", async (context) => {
                 const result = await runWithInputs(app, ["--help-all"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined route", async function () {
+            it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("fails for undefined flag", async function () {
+            it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested hidden route map (implicit)", async function () {
+            it("displays help text for nested hidden route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["subHidden"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
 
-            it("displays help text for nested hidden route map", async function () {
+            it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
-                compareToBaseline(this, ApplicationRunResultBaselineFormat, result);
+                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
             });
         });
     });
@@ -2554,7 +2555,7 @@ describe("Application", () => {
     });
 
     describe("generateHelpTextForAllCommands", () => {
-        it("route map at root", async function () {
+        it("route map at root", async (context) => {
             // GIVEN
             const routeMap = buildBasicRouteMap("root");
             const versionInfo: VersionInfo = {
@@ -2569,10 +2570,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("nested route map", async function () {
+        it("nested route map", async (context) => {
             // GIVEN
             const rootRouteMap = buildRouteMapForFakeContext({
                 routes: { sub: buildBasicRouteMap("sub") },
@@ -2590,10 +2591,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("nested route map skips hidden routes", async function () {
+        it("nested route map skips hidden routes", async (context) => {
             // GIVEN
             const rootRouteMap = buildRouteMapForFakeContext({
                 routes: { sub: buildBasicRouteMap("sub") },
@@ -2611,10 +2612,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("nested command, with aliases", async function () {
+        it("nested command, with aliases", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const rootRouteMap = buildRouteMapForFakeContext({
@@ -2637,10 +2638,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("nested commands", async function () {
+        it("nested commands", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const rootRouteMap = buildRouteMapForFakeContext({
@@ -2659,10 +2660,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("nested commands, with aliases", async function () {
+        it("nested commands, with aliases", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const rootRouteMap = buildRouteMapForFakeContext({
@@ -2685,10 +2686,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("multiple commands at different levels", async function () {
+        it("multiple commands at different levels", async (context) => {
             // GIVEN
             const command = buildBasicCommand();
             const subRouteMap = buildRouteMapForFakeContext({
@@ -2711,10 +2712,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("command at root", async function () {
+        it("command at root", async (context) => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -2740,10 +2741,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("command at root, with usage config", async function () {
+        it("command at root, with usage config", async (context) => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -2773,10 +2774,10 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
 
-        it("fails with missing locale", async function () {
+        it("fails with missing locale", async (context) => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -2803,7 +2804,7 @@ describe("Application", () => {
             }).to.throw(`Application does not support "fake" locale`);
         });
 
-        it("command at root, with alternate locale", async function () {
+        it("command at root, with alternate locale", async (context) => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -2834,7 +2835,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app, "fake");
 
             // THEN
-            compareToBaseline(this, DocumentedCommandsBaselineFormat, documentedCommands);
+            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
         });
     });
 });

@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "chai";
+import { describe, expect, it } from "vitest";
 import { type CommandContext, text_en, type TypedCommandParameters } from "../../../src";
 // eslint-disable-next-line no-restricted-imports
 import { formatDocumentationForFlagParameters } from "../../../src/parameter/flag/formatting";
@@ -16,7 +16,7 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
     parameters: TypedCommandParameters<FLAGS, POSITIONAL, CommandContext>,
     args: DocumentationArgs,
 ) {
-    it("with ANSI color", function () {
+    it("with ANSI color", (context) => {
         // WHEN
         const lines = formatDocumentationForFlagParameters(parameters.flags ?? {}, parameters.aliases ?? {}, {
             ...args,
@@ -24,10 +24,10 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareToBaseline(context, StringArrayBaselineFormat, lines);
     });
 
-    it("no ANSI color", function () {
+    it("no ANSI color", (context) => {
         // WHEN
         const lines = formatDocumentationForFlagParameters(parameters.flags ?? {}, parameters.aliases ?? {}, {
             ...args,
@@ -35,10 +35,10 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, lines);
+        compareToBaseline(context, StringArrayBaselineFormat, lines);
     });
 
-    it("text with ANSI matches text without ANSI", function () {
+    it("text with ANSI matches text without ANSI", (context) => {
         // WHEN
         const linesWithAnsiColor = formatDocumentationForFlagParameters(
             parameters.flags ?? {},
@@ -63,7 +63,7 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
     });
 }
 
-describe("formatDocumentationForFlagParameters", function () {
+describe("formatDocumentationForFlagParameters", () => {
     const defaultArgs: DocumentationArgs = {
         includeVersionFlag: false,
         includeArgumentEscapeSequenceFlag: true,
@@ -79,7 +79,7 @@ describe("formatDocumentationForFlagParameters", function () {
         text: text_en,
     };
 
-    describe("no flags", function () {
+    describe("no flags", () => {
         // GIVEN
         type Positional = [];
         type Flags = {};
@@ -92,8 +92,8 @@ describe("formatDocumentationForFlagParameters", function () {
         compareDocumentationToBaseline(parameters, defaultArgs);
     });
 
-    describe("boolean", function () {
-        describe("required boolean flag", function () {
+    describe("boolean", () => {
+        describe("required boolean flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -113,7 +113,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required boolean flag with default=false", function () {
+        describe("required boolean flag with default=false", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -134,7 +134,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required boolean flag with default=true", function () {
+        describe("required boolean flag with default=true", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -155,7 +155,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional boolean flag", function () {
+        describe("optional boolean flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -176,7 +176,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("hidden optional boolean flag", function () {
+        describe("hidden optional boolean flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -198,7 +198,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("hidden optional boolean flag, help all", function () {
+        describe("hidden optional boolean flag, help all", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -224,8 +224,8 @@ describe("formatDocumentationForFlagParameters", function () {
         });
     });
 
-    describe("enum", function () {
-        describe("required enum flag", function () {
+    describe("enum", () => {
+        describe("required enum flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -246,7 +246,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required enum flag with default", function () {
+        describe("required enum flag with default", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -268,7 +268,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional enum flag", function () {
+        describe("optional enum flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -290,7 +290,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional enum flag with default", function () {
+        describe("optional enum flag with default", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -314,8 +314,8 @@ describe("formatDocumentationForFlagParameters", function () {
         });
     });
 
-    describe("parsed", function () {
-        describe("required parsed flag", function () {
+    describe("parsed", () => {
+        describe("required parsed flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -336,7 +336,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required parsed flag with alias", function () {
+        describe("required parsed flag with alias", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -360,7 +360,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required parsed flag with default", function () {
+        describe("required parsed flag with default", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -382,7 +382,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required parsed flag with default [hidden]", function () {
+        describe("required parsed flag with default [hidden]", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -405,7 +405,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required parsed flag with default [hidden], hide all", function () {
+        describe("required parsed flag with default [hidden], hide all", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -431,7 +431,7 @@ describe("formatDocumentationForFlagParameters", function () {
             });
         });
 
-        describe("required parsed flag with default and alias", function () {
+        describe("required parsed flag with default and alias", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -456,7 +456,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional parsed flag", function () {
+        describe("optional parsed flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -478,7 +478,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional parsed flag with alias", function () {
+        describe("optional parsed flag with alias", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -503,7 +503,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required variadic parsed flag", function () {
+        describe("required variadic parsed flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -525,7 +525,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional variadic parsed flag", function () {
+        describe("optional variadic parsed flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -548,7 +548,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("variadic parsed flag with separator", function () {
+        describe("variadic parsed flag with separator", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -570,7 +570,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("required array parsed flag", function () {
+        describe("required array parsed flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -591,7 +591,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("optional array parsed flag", function () {
+        describe("optional array parsed flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -613,7 +613,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("multiple parsed flags", function () {
+        describe("multiple parsed flags", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -646,7 +646,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("multipart flag", function () {
+        describe("multipart flag", () => {
             // GIVEN
             type Positional = [];
             type Flags = {
@@ -667,7 +667,7 @@ describe("formatDocumentationForFlagParameters", function () {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
-        describe("flag with nonstandard character", function () {
+        describe("flag with nonstandard character", () => {
             // GIVEN
             type Positional = [];
             type Flags = {

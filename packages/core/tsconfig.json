@@ -7,7 +7,7 @@
         // Modules
         "rootDir": ".",
         "moduleResolution": "node",
-        "types": ["node", "mocha"],
+        "types": ["node"],
         // Interop Constraints
         "esModuleInterop": true
     },

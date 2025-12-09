@@ -4,9 +4,10 @@
 // The following tests exist to validate the type inference and type checking of the framework.
 // They do not test any runtime behavior and do not need to be executed as part of the test suite.
 
+import { it } from "vitest";
 import { buildCommand, buildRouteMap, numberParser, type CommandContext, type TypedFlagParameter } from "../src";
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const command = buildCommand({
         docs: {
@@ -24,9 +25,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const foo: TypedFlagParameter<boolean> = {
         brief: "",
@@ -45,9 +46,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const command = buildCommand({
         docs: {
@@ -65,9 +66,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const command = buildCommand({
         docs: {
@@ -85,9 +86,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const foo: TypedFlagParameter<boolean> = {
         brief: "",
@@ -106,9 +107,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const command = buildCommand({
         docs: {
@@ -126,9 +127,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     type Flags = { foo: boolean };
     const func = function (this: CommandContext, { foo }: Flags) {
         this.process.stdout.write(`foo=${foo}`);
@@ -147,9 +148,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             },
         },
     });
-}
+});
 
-{
+it("", () => {
     interface CustomContext extends CommandContext {
         readonly __custom__: symbol;
     }
@@ -179,9 +180,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
         defaultCommand: "alpha",
         docs: { brief: "route map with custom context" },
     });
-}
+});
 
-{
+it("", () => {
     // This is not a runtime test and will fail to compile if inference is broken
     buildCommand({
         func: async (flags: unknown, ...args: unknown[]) => {},
@@ -200,9 +201,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             brief: "",
         },
     });
-}
+});
 
-{
+it("", () => {
     buildCommand({
         func: async (flags: any, ...args: any[]) => {},
         parameters: {
@@ -220,9 +221,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             brief: "",
         },
     });
-}
+});
 
-{
+it("", () => {
     const command = buildCommand({
         func: async (flags: { count?: number }, text: string) => {},
         parameters: {
@@ -248,9 +249,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             brief: "",
         },
     });
-}
+});
 
-{
+it("", () => {
     const command = buildCommand({
         func: async (flags: { count?: number }) => {},
         // @ts-expect-error flag definition is still required even if the flag is optional at runtime and it has to be defined in parameters
@@ -259,9 +260,9 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             brief: "",
         },
     });
-}
+});
 
-{
+it("", () => {
     const command = buildCommand({
         func: async (flags: { count?: number }) => {},
         parameters: {
@@ -272,4 +273,4 @@ import { buildCommand, buildRouteMap, numberParser, type CommandContext, type Ty
             brief: "",
         },
     });
-}
+});

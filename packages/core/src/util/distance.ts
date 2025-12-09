@@ -10,7 +10,7 @@ function newSparseMatrix(defaultValue: number): SparseMatrix {
     const values = new Map<string, number>();
     return {
         get: (...args) => {
-            /* c8 ignore next */
+            /* v8 ignore next -- @preserve */
             return values.get(args.join(",")) ?? defaultValue;
         },
         set: (value, ...args) => {
@@ -138,7 +138,7 @@ export function damerauLevenshtein(a: string, b: string, options: DamerauLevensh
 
 type AlternativeWithEditDistance = readonly [value: string, distance: number];
 
-/* c8 ignore start */
+/* v8 ignore next -- @preserve */
 function compareAlternatives(a: AlternativeWithEditDistance, b: AlternativeWithEditDistance, target: string): number {
     const cmp = a[1] - b[1];
     if (cmp !== 0) {
@@ -153,7 +153,6 @@ function compareAlternatives(a: AlternativeWithEditDistance, b: AlternativeWithE
     }
     return a[0].localeCompare(b[0]);
 }
-/* c8 ignore stop */
 
 /**
  * @internal

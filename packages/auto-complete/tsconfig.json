@@ -6,7 +6,7 @@
         "noEmit": true,
         // Modules
         "rootDir": ".",
-        "types": ["node", "mocha"],
+        "types": ["node"],
         // Interop Constraints
         "esModuleInterop": true
     },

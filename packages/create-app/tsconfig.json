@@ -6,7 +6,7 @@
         "noEmit": true,
         // Modules
         "rootDir": ".",
-        "types": ["node", "mocha"],
+        "types": ["node"],
         "allowImportingTsExtensions": true,
         // Interop Constraints
         "esModuleInterop": true

@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+/* v8 ignore file -- @preserve */
 import { stub, type SinonStub } from "sinon";
 import type {
     CommandContext,

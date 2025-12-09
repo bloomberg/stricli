@@ -1,10 +1,12 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+/* v8 ignore file -- @preserve */
 import assert from "node:assert";
 import path from "node:path";
 import fs from "node:fs";
-import { expect } from "chai";
+import { expect } from "vitest";
 import url from "node:url";
+import { afterAll, type TestContext } from "vitest";
 
 const __dirnameUrl = new url.URL(".", import.meta.url);
 const __dirname = url.fileURLToPath(__dirnameUrl);
@@ -122,22 +124,39 @@ function getFileBaselines(testPath: string): FileBaselines {
     return baselines;
 }
 
-after(() => {
+afterAll(() => {
     for (const baselines of FILE_BASELINES_BY_PATH.values()) {
         baselines.save();
     }
 });
 
-export function compareToBaseline<T, O>(context: Mocha.Context, format: BaselineFormat<T, O>, result: T): void {
-    assert(context.test, "Mocha context does not have a runnable test");
-    assert(context.test.file, "Unable to determine file of current test");
+type Task = {
+    readonly name: string;
+    readonly suite?: Task;
+    readonly meta?: any;
+};
+
+function getFullTitle(task: Task): string[] {
+    const names: string[] = [];
+
+    let current: Task | undefined = task;
+    while (current) {
+        names.unshift(current.name);
+        current = current.suite;
+    }
+
+    return names;
+}
+
+export function compareToBaseline<T, O>(context: TestContext, format: BaselineFormat<T, O>, result: T): void {
+    assert(context.task.file, "Unable to determine file of current test");
     const testPath = path
-        .relative(__dirname, context.test.file.replace(/\.spec\.(js|ts)$/, ""))
+        .relative(__dirname, context.task.file.filepath.replace(/\.spec\.(js|ts)$/, ""))
         .split(path.sep)
         .join("/");
     const baselines = getFileBaselines(testPath);
 
-    const title = context.test.titlePath().join(" / ");
+    const title = getFullTitle(context.task).join(" > ");
 
     try {
         const actualResult = format.parse([...format.serialize(result)]);

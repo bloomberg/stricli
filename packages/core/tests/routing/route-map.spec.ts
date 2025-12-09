@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "chai";
+import { describe, expect, it } from "vitest";
 import { buildCommand, buildRouteMap, numberParser, text_en, type CommandContext, type RouteMap } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
@@ -10,7 +10,7 @@ function compareHelpTextToBaseline(
     routeMap: RouteMap<CommandContext>,
     args: Omit<HelpFormattingArguments, "ansiColor">,
 ) {
-    it("with ANSI color", function () {
+    it("with ANSI color", (context) => {
         // WHEN
         const helpText = routeMap.formatHelp({
             ...args,
@@ -18,10 +18,10 @@ function compareHelpTextToBaseline(
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
     });
 
-    it("no ANSI color", function () {
+    it("no ANSI color", (context) => {
         // WHEN
         const helpText = routeMap.formatHelp({
             ...args,
@@ -29,10 +29,10 @@ function compareHelpTextToBaseline(
         });
 
         // THEN
-        compareToBaseline(this, StringArrayBaselineFormat, helpText.split("\n"));
+        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
     });
 
-    it("text with ANSI matches text without ANSI", function () {
+    it("text with ANSI matches text without ANSI", (context) => {
         // WHEN
         const helpTextWithAnsiColor = routeMap.formatHelp({
             ...args,
@@ -173,7 +173,7 @@ describe("RouteMap", () => {
             docs: { brief: "top command brief" },
         });
 
-        describe("nested route map", function () {
+        describe("nested route map", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -185,7 +185,7 @@ describe("RouteMap", () => {
             compareHelpTextToBaseline(routeMap, defaultArgs);
         });
 
-        describe("nested route map with version available", function () {
+        describe("nested route map with version available", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -201,7 +201,7 @@ describe("RouteMap", () => {
             });
         });
 
-        describe("nested route map with aliases", function () {
+        describe("nested route map with aliases", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -218,7 +218,7 @@ describe("RouteMap", () => {
             });
         });
 
-        describe("aliased nested route map with aliases", function () {
+        describe("aliased nested route map with aliases", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -235,7 +235,7 @@ describe("RouteMap", () => {
             });
         });
 
-        describe("nested route map with hidden routes", function () {
+        describe("nested route map with hidden routes", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -253,7 +253,7 @@ describe("RouteMap", () => {
             });
         });
 
-        describe("nested route map force include hidden routes", function () {
+        describe("nested route map force include hidden routes", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -272,7 +272,7 @@ describe("RouteMap", () => {
             });
         });
 
-        describe("nested route map with `convert-camel-to-kebab` display case style", function () {
+        describe("nested route map with `convert-camel-to-kebab` display case style", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },
@@ -292,7 +292,7 @@ describe("RouteMap", () => {
             });
         });
 
-        describe("nested route maps with custom header text", function () {
+        describe("nested route maps with custom header text", () => {
             // GIVEN
             const routeMap = buildRouteMap({
                 routes: { doNothing: topCommand, sub: subRouteMap },

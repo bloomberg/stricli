@@ -1,7 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { run } from "@stricli/core";
-import { expect } from "chai";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import child_process from "child_process";
 import { createFsFromVolume, Volume, type DirectoryJSON } from "memfs";
 import nodePath from "node:path";
@@ -124,7 +124,7 @@ async function testApplication(
     const vol = Volume.fromJSON({});
     const memfs = createFsFromVolume(vol);
 
-    const context: DeepPartial<LocalContext> = {
+    const localContext: DeepPartial<LocalContext> = {
         process: {
             stdout,
             stderr,
@@ -137,7 +137,7 @@ async function testApplication(
         path: nodePath,
     };
 
-    await run(app, inputs, context as LocalContext);
+    await run(app, inputs, localContext as LocalContext);
 
     return {
         stdout: stdout.text,
@@ -149,35 +149,35 @@ async function testApplication(
 describe("creates new application", () => {
     describe("single-command", () => {
         describe("module [default]", () => {
-            it("with default flags", async function () {
+            it("with default flags", async (context) => {
                 const result = await testApplication(["test", "--template", "single"], { cwd: "/root" });
-                compareToBaseline(this, ApplicationTestResultFormat, result);
+                compareToBaseline(context, ApplicationTestResultFormat, result);
             });
 
             describe("package properties", () => {
-                it("custom name", async function () {
+                it("custom name", async (context) => {
                     const result = await testApplication(["test", "--template", "single", "--name", "@org/test-cli"], {
                         cwd: "/root",
                     });
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom bin command", async function () {
+                it("custom bin command", async (context) => {
                     const result = await testApplication(["test", "--template", "single", "--command", "test-cli"], {
                         cwd: "/root",
                     });
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom name and bin command", async function () {
+                it("custom name and bin command", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "single", "--name", "@org/test-cli", "--command", "test-cli"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom metadata", async function () {
+                it("custom metadata", async (context) => {
                     const result = await testApplication(
                         [
                             "test",
@@ -192,46 +192,46 @@ describe("creates new application", () => {
                         ],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
 
             describe("additional features", () => {
-                it("without auto-complete", async function () {
+                it("without auto-complete", async (context) => {
                     const result = await testApplication(["test", "--template", "single", "--no-auto-complete"], {
                         cwd: "/root",
                     });
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
         });
 
         describe("commonjs", () => {
-            it("with default flags", async function () {
+            it("with default flags", async (context) => {
                 const result = await testApplication(["test", "--template", "single", "--type", "commonjs"], {
                     cwd: "/root",
                 });
-                compareToBaseline(this, ApplicationTestResultFormat, result);
+                compareToBaseline(context, ApplicationTestResultFormat, result);
             });
 
             describe("package properties", () => {
-                it("custom name", async function () {
+                it("custom name", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "single", "--type", "commonjs", "--name", "@org/test-cli"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom bin command", async function () {
+                it("custom bin command", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "single", "--type", "commonjs", "--command", "test-cli"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom name and bin command", async function () {
+                it("custom name and bin command", async (context) => {
                     const result = await testApplication(
                         [
                             "test",
@@ -246,10 +246,10 @@ describe("creates new application", () => {
                         ],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom metadata", async function () {
+                it("custom metadata", async (context) => {
                     const result = await testApplication(
                         [
                             "test",
@@ -266,17 +266,17 @@ describe("creates new application", () => {
                         ],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
 
             describe("additional features", () => {
-                it("without auto-complete", async function () {
+                it("without auto-complete", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "single", "--type", "commonjs", "--no-auto-complete"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
         });
@@ -284,35 +284,35 @@ describe("creates new application", () => {
 
     describe("multi-command", () => {
         describe("module [default]", () => {
-            it("with default flags", async function () {
+            it("with default flags", async (context) => {
                 const result = await testApplication(["test", "--template", "multi"], { cwd: "/root" });
-                compareToBaseline(this, ApplicationTestResultFormat, result);
+                compareToBaseline(context, ApplicationTestResultFormat, result);
             });
 
             describe("package properties", () => {
-                it("custom name", async function () {
+                it("custom name", async (context) => {
                     const result = await testApplication(["test", "--template", "multi", "--name", "@org/test-cli"], {
                         cwd: "/root",
                     });
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom bin command", async function () {
+                it("custom bin command", async (context) => {
                     const result = await testApplication(["test", "--template", "multi", "--command", "test-cli"], {
                         cwd: "/root",
                     });
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom name and bin command", async function () {
+                it("custom name and bin command", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "multi", "--name", "@org/test-cli", "--command", "test-cli"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom metadata", async function () {
+                it("custom metadata", async (context) => {
                     const result = await testApplication(
                         [
                             "test",
@@ -327,46 +327,46 @@ describe("creates new application", () => {
                         ],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
 
             describe("additional features", () => {
-                it("without auto-complete", async function () {
+                it("without auto-complete", async (context) => {
                     const result = await testApplication(["test", "--template", "multi", "--no-auto-complete"], {
                         cwd: "/root",
                     });
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
         });
 
         describe("commonjs", () => {
-            it("with default flags", async function () {
+            it("with default flags", async (context) => {
                 const result = await testApplication(["test", "--template", "multi", "--type", "commonjs"], {
                     cwd: "/root",
                 });
-                compareToBaseline(this, ApplicationTestResultFormat, result);
+                compareToBaseline(context, ApplicationTestResultFormat, result);
             });
 
             describe("package properties", () => {
-                it("custom name", async function () {
+                it("custom name", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "multi", "--type", "commonjs", "--name", "@org/test-cli"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom bin command", async function () {
+                it("custom bin command", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "multi", "--type", "commonjs", "--command", "test-cli"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom name and bin command", async function () {
+                it("custom name and bin command", async (context) => {
                     const result = await testApplication(
                         [
                             "test",
@@ -381,10 +381,10 @@ describe("creates new application", () => {
                         ],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
 
-                it("custom metadata", async function () {
+                it("custom metadata", async (context) => {
                     const result = await testApplication(
                         [
                             "test",
@@ -401,31 +401,31 @@ describe("creates new application", () => {
                         ],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
 
             describe("additional features", () => {
-                it("without auto-complete", async function () {
+                it("without auto-complete", async (context) => {
                     const result = await testApplication(
                         ["test", "--template", "multi", "--type", "commonjs", "--no-auto-complete"],
                         { cwd: "/root" },
                     );
-                    compareToBaseline(this, ApplicationTestResultFormat, result);
+                    compareToBaseline(context, ApplicationTestResultFormat, result);
                 });
             });
         });
     });
 
     describe("node version logic", () => {
-        it("use major from process.versions.node", async function () {
+        it("use major from process.versions.node", async (context) => {
             const stdout = new FakeWritableStream();
             const stderr = new FakeWritableStream();
             const cwd = sinon.stub().returns("/home");
             const vol = Volume.fromJSON({});
             const memfs = createFsFromVolume(vol);
 
-            const context: DeepPartial<LocalContext> = {
+            const localContext: DeepPartial<LocalContext> = {
                 process: {
                     stdout,
                     stderr,
@@ -438,24 +438,24 @@ describe("creates new application", () => {
                 path: nodePath,
             };
 
-            await run(app, ["node-version-test"], context as LocalContext);
+            await run(app, ["node-version-test"], localContext as LocalContext);
 
             const result = {
                 stdout: stdout.text,
                 stderr: stderr.text,
                 files: vol.toJSON(),
             };
-            compareToBaseline(this, ApplicationTestResultFormat, result);
+            compareToBaseline(context, ApplicationTestResultFormat, result);
         });
 
-        it("version discovery skipped when --node-version is provided", async function () {
+        it("version discovery skipped when --node-version is provided", async (context) => {
             const stdout = new FakeWritableStream();
             const stderr = new FakeWritableStream();
             const cwd = sinon.stub().returns("/home");
             const vol = Volume.fromJSON({});
             const memfs = createFsFromVolume(vol);
 
-            const context: DeepPartial<LocalContext> = {
+            const localContext: DeepPartial<LocalContext> = {
                 process: {
                     stdout,
                     stderr,
@@ -468,24 +468,24 @@ describe("creates new application", () => {
                 path: nodePath,
             };
 
-            await run(app, ["node-version-test", "--node-version", "major.minor.patch"], context as LocalContext);
+            await run(app, ["node-version-test", "--node-version", "major.minor.patch"], localContext as LocalContext);
 
             const result = {
                 stdout: stdout.text,
                 stderr: stderr.text,
                 files: vol.toJSON(),
             };
-            compareToBaseline(this, ApplicationTestResultFormat, result);
+            compareToBaseline(context, ApplicationTestResultFormat, result);
         });
 
-        it("skips node information in package.json if no node version available", async function () {
+        it("skips node information in package.json if no node version available", async (context) => {
             const stdout = new FakeWritableStream();
             const stderr = new FakeWritableStream();
             const cwd = sinon.stub().returns("/home");
             const vol = Volume.fromJSON({});
             const memfs = createFsFromVolume(vol);
 
-            const context: DeepPartial<LocalContext> = {
+            const localContext: DeepPartial<LocalContext> = {
                 process: {
                     stdout,
                     stderr,
@@ -495,14 +495,14 @@ describe("creates new application", () => {
                 path: nodePath,
             };
 
-            await run(app, ["node-version-test"], context as LocalContext);
+            await run(app, ["node-version-test"], localContext as LocalContext);
 
             const result = {
                 stdout: stdout.text,
                 stderr: stderr.text,
                 files: vol.toJSON(),
             };
-            compareToBaseline(this, ApplicationTestResultFormat, result);
+            compareToBaseline(context, ApplicationTestResultFormat, result);
         });
     });
 });
