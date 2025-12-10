@@ -50,4 +50,4 @@ For similar reasons to the lack of first-party logging support, Stricli does not
 
 The only end user input processed by Stricli is the `inputs` array of strings (derived from `argv` in Node). Many commands have no need for interactivity and the best method to achieve it is highly dependant on the environment. This is why `stdin` is not defined on the default context.
 
-For end user interactivity during command execution, we would recommend [`enquirer`](https://github.com/enquirer/enquirer) for basic prompts.
+For end user interactivity during command execution, we would recommend [`enquirer`](https://github.com/enquirer/enquirer) for basic prompts or [`clack`](https://www.clack.cc/) for more advanced applications.

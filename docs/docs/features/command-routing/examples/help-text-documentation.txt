@@ -1,0 +1,36 @@
+--help
+/// spec.ts
+import { buildCommand } from "@stricli/core";
+
+export default buildCommand({
+  docs: {
+    brief: "This is a brief description of the command",
+    fullDescription: [
+      "This is the full description of the command.",
+      "It should include all of the necessary details about the behavior.",
+      "It will only be displayed to the user in the help text for this command.",
+    ].join("\n"),
+    customUsage: [
+      "--a --b",
+      "--c",
+      { input: "--d", brief: "Brief description of this use case" },
+    ],
+  },
+  loader: () => import("./impl"),
+  parameters: {
+    flags: {
+      alpha: { kind: "boolean", brief: "Flag that should be passed with bravo", optional: true },
+      bravo: { kind: "boolean", brief: "Flag that should be passed with alpha", optional: true },
+      charlie: { kind: "boolean", brief: "Flag that should be passed by itself", optional: true },
+      delta: { kind: "parsed", parse: String, brief: "Flag that should be passed by itself", optional: true },
+    },
+  },
+});
+/// !impl.ts
+export default async function(flags: { alpha?: boolean, bravo?: boolean, charlie?: boolean, delta?: string }) {
+  console.log(flags);
+}
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });
