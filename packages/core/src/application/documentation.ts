@@ -72,6 +72,7 @@ export function generateHelpTextForAllCommands(
                 aliases,
                 text,
                 ansiColor: false,
+                env: void 0,
             }),
         ];
     });

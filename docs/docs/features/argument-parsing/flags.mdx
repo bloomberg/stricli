@@ -149,6 +149,68 @@ import DefaultFlagCode from "./examples/default-flag.txt";
     {DefaultFlagCode}
 </StricliPlayground>
 
+#### Default from Environment Variables
+
+The default value can be sourced from anywhere, as long as it is a valid string. This includes environment variables, which can be useful for providing default values that are specific to the user's environment.
+
+```ts
+// output-next-line
+/// impl.ts
+export default function(flags: { token: string }) {
+  console.log(flags.token);
+}
+
+// output-next-line
+/// command.ts
+buildCommand({
+  loader: async () => import("./impl"),
+  parameters: {
+    flags: {
+      token: {
+        kind: "parsed",
+        parse: String,
+        brief: "Token used for authentication",
+        // highlight-next-line
+        default: process.env["SOME_TOKEN"],
+      },
+    },
+    ...
+  },
+  ...
+});
+```
+
+However, Stricli has built-in support for loading default values from environment variables. Specifying the default this way enables additional formatting to indicate to the user where this value came from, and the option to redact sensitive values from the output. This is done by passing an option with the `env` property in the flag configuration. The value of this property should be a string that represents the name of the environment variable to load. If the user does not pass in a value for the flag and the environment variable is not set, it will throw an `UnsatisfiedFlagError`.
+
+The additional `redact` config is optional, and if enabled will replace the value with `███` in the **Stricli-generated output**. Note that the value is still just a string passed to the flag, so there is nothing preventing the command implementation from displaying the value. There is no way for the command implementation to know where the value was sourced from, so it is up to the developer to ensure that the value is not printed if contains sensitive information.
+
+```ts
+// output-next-line
+/// impl.ts
+export default function(flags: { token: string }) {
+  console.log(flags.token);
+}
+
+// output-next-line
+/// command.ts
+buildCommand({
+  loader: async () => import("./impl"),
+  parameters: {
+    flags: {
+      token: {
+        kind: "parsed",
+        parse: String,
+        brief: "Token used for authentication",
+        // highlight-next-line
+        default: { env: "SOME_TOKEN", redact: true },
+      },
+    },
+    ...
+  },
+  ...
+});
+```
+
 ### Variadic
 
 A flag can be variadic when the type it represents is an array of values. In this case, the flag can be specified multiple times and each value is then parsed individually and added to a single array. If the type of a flag is an array it must be set as variadic.

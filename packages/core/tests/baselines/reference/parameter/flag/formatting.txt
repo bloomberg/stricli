@@ -28,6 +28,30 @@
 [97m[39m   [97m--requiredBoolean/--noRequiredBoolean[39m  [03mrequired boolean flag[23m
 [97m-h[39m [97m--help[39m                                 [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                                     [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default from env var (no value) / no ANSI color
+   [--requiredBoolean/--noRequiredBoolean]  required boolean flag                                    [default = env:REQUIRED_BOOLEAN]
+-h  --help                                  Print help information and exit
+    --                                      All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default from env var (no value) / with ANSI color
+[97m[39m   [97m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m [90menv:REQUIRED_BOOLEAN[39m]
+[97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default from env var (value) / no ANSI color
+   [--requiredBoolean/--noRequiredBoolean]  required boolean flag                                    [default = yes | env:REQUIRED_BOOLEAN]
+-h  --help                                  Print help information and exit
+    --                                      All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default from env var (value) / with ANSI color
+[97m[39m   [97m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m yes [90m| env:REQUIRED_BOOLEAN[39m]
+[97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default from env var (value, redacted) / no ANSI color
+   [--requiredBoolean/--noRequiredBoolean]  required boolean flag                                    [default = ███ | env:REQUIRED_BOOLEAN]
+-h  --help                                  Print help information and exit
+    --                                      All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default from env var (value, redacted) / with ANSI color
+[97m[39m   [97m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m ███ [90m| env:REQUIRED_BOOLEAN[39m]
+[97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=false / no ANSI color
    [--requiredBoolean]  required boolean flag                                    [default = false]
 -h  --help              Print help information and exit
@@ -74,6 +98,30 @@
     --               All subsequent inputs should be interpreted as arguments
 :::: formatDocumentationForFlagParameters / enum / required enum flag with default / with ANSI color
 [97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m b]
+[97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / enum / required enum flag with default from env var (no value) / no ANSI color
+   [--requiredEnum]  required enum flag                                       [a|b|c, default = env:REQUIRED_ENUM]
+-h  --help           Print help information and exit
+    --               All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / enum / required enum flag with default from env var (no value) / with ANSI color
+[97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m [90menv:REQUIRED_ENUM[39m]
+[97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / enum / required enum flag with default from env var (value) / no ANSI color
+   [--requiredEnum]  required enum flag                                       [a|b|c, default = a | env:REQUIRED_ENUM]
+-h  --help           Print help information and exit
+    --               All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / enum / required enum flag with default from env var (value) / with ANSI color
+[97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m a [90m| env:REQUIRED_ENUM[39m]
+[97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / enum / required enum flag with default from env var (value, redacted) / no ANSI color
+   [--requiredEnum]  required enum flag                                       [a|b|c, default = █ | env:REQUIRED_ENUM]
+-h  --help           Print help information and exit
+    --               All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / enum / required enum flag with default from env var (value, redacted) / with ANSI color
+[97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m █ [90m| env:REQUIRED_ENUM[39m]
 [97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / no flags / no ANSI color
@@ -194,6 +242,38 @@
     --                 All subsequent inputs should be interpreted as arguments
 :::: formatDocumentationForFlagParameters / parsed / required parsed flag with default and alias / with ANSI color
 [97m-p[39m [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m 100]
+[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (no value) / no ANSI color
+   [--requiredParsed]  required parsed flag                                     [default = env:REQUIRED_PARSED]
+-h  --help             Print help information and exit
+    --                 All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (no value) / with ANSI color
+[97m[39m   [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m [90menv:REQUIRED_PARSED[39m]
+[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (set, but empty) / no ANSI color
+   [--requiredParsed]  required parsed flag                                     [default = "" | env:REQUIRED_PARSED]
+-h  --help             Print help information and exit
+    --                 All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (set, but empty) / with ANSI color
+[97m[39m   [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m "" [90m| env:REQUIRED_PARSED[39m]
+[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (value) / no ANSI color
+   [--requiredParsed]  required parsed flag                                     [default = VALUE | env:REQUIRED_PARSED]
+-h  --help             Print help information and exit
+    --                 All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (value) / with ANSI color
+[97m[39m   [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m VALUE [90m| env:REQUIRED_PARSED[39m]
+[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (value, redacted) / no ANSI color
+   [--requiredParsed]  required parsed flag                                     [default = █████ | env:REQUIRED_PARSED]
+-h  --help             Print help information and exit
+    --                 All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / parsed / required parsed flag with default from env var (value, redacted) / with ANSI color
+[97m[39m   [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m █████ [90m| env:REQUIRED_PARSED[39m]
 [97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / parsed / required variadic parsed flag / no ANSI color
