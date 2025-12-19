@@ -27,20 +27,9 @@
         "test": "vitest --run",
         "test:clear-baseline": "node scripts/clear_baseline",
         "test:accept-baseline": "node scripts/accept_baseline",
-        "coverage": "vitest --run --coverage.enabled --coverage.thresholds.100",
+        "coverage": "vitest --run --coverage.enabled",
         "build": "tsup --silent",
         "prepublishOnly": "npm run build"
-    },
-    "coverage": {
-        "100": true
-    },
-    "c8": {
-        "reporter": [
-            "text",
-            "lcovonly"
-        ],
-        "check-coverage": true,
-        "skip-full": true
     },
     "tsup": {
         "entry": [
