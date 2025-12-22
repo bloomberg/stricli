@@ -30,11 +30,13 @@
         },
         "test": {
             "dependsOn": ["^build", "typecheck"],
+            "inputs": ["{workspaceRoot}/vitest.config.ts"],
             "cache": true
         },
         "coverage": {
             "dependsOn": ["^build", "typecheck"],
-            "outputs": ["{projectRoot}/coverage", "{projectRoot}/.nyc_output"],
+            "inputs": ["{workspaceRoot}/vitest.config.ts"],
+            "outputs": ["{projectRoot}/coverage"],
             "cache": true
         },
         "build-docs": {

@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+import { describe, it } from "vitest";
 import { buildChoiceParser, type CommandContext, numberParser, type TypedCommandParameters } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import { formatUsageLineForParameters, type UsageFormattingArguments } from "../../src/parameter/formatting";
@@ -7,7 +8,7 @@ import { formatUsageLineForParameters, type UsageFormattingArguments } from "../
 import type { CommandParameters } from "../../src/parameter/types";
 import { compareToBaseline, StringArrayBaselineFormat } from "../baseline";
 
-describe("formatUsageLineForParameters", function () {
+describe("formatUsageLineForParameters", () => {
     const defaultArgs: UsageFormattingArguments = {
         prefix: ["cli"],
         config: {
@@ -20,8 +21,8 @@ describe("formatUsageLineForParameters", function () {
         ansiColor: true,
     };
 
-    describe("positional parameters", function () {
-        it("tuple with no positional parameters", function () {
+    describe("positional parameters", () => {
+        it("tuple with no positional parameters", (context) => {
             // GIVEN
             type Positional = [];
             type Flags = {};
@@ -35,10 +36,10 @@ describe("formatUsageLineForParameters", function () {
             const line = formatUsageLineForParameters(parameters, defaultArgs);
 
             // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            compareToBaseline(context, StringArrayBaselineFormat, [line]);
         });
 
-        it("tuple of one required positional parameter", function () {
+        it("tuple of one required positional parameter", (context) => {
             // GIVEN
             type Positional = [string];
             type Flags = {};
@@ -61,10 +62,10 @@ describe("formatUsageLineForParameters", function () {
             const line = formatUsageLineForParameters(parameters, defaultArgs);
 
             // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            compareToBaseline(context, StringArrayBaselineFormat, [line]);
         });
 
-        it("tuple of one optional positional parameter", function () {
+        it("tuple of one optional positional parameter", (context) => {
             // GIVEN
             type Positional = [string?];
             type Flags = {};
@@ -88,10 +89,10 @@ describe("formatUsageLineForParameters", function () {
             const line = formatUsageLineForParameters(parameters as CommandParameters, defaultArgs);
 
             // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            compareToBaseline(context, StringArrayBaselineFormat, [line]);
         });
 
-        it("tuple of mixed positional parameters", function () {
+        it("tuple of mixed positional parameters", (context) => {
             // GIVEN
             type Positional = [string, string?, string?];
             type Flags = {};
@@ -126,10 +127,10 @@ describe("formatUsageLineForParameters", function () {
             const line = formatUsageLineForParameters(parameters as CommandParameters, defaultArgs);
 
             // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            compareToBaseline(context, StringArrayBaselineFormat, [line]);
         });
 
-        it("homogenous array of positional parameters", function () {
+        it("homogenous array of positional parameters", (context) => {
             // GIVEN
             type Positional = string[];
             type Flags = {};
@@ -150,13 +151,13 @@ describe("formatUsageLineForParameters", function () {
             const line = formatUsageLineForParameters(parameters as CommandParameters, defaultArgs);
 
             // THEN
-            compareToBaseline(this, StringArrayBaselineFormat, [line]);
+            compareToBaseline(context, StringArrayBaselineFormat, [line]);
         });
     });
 
-    describe("flags", function () {
-        describe("boolean", function () {
-            it("required boolean flag", function () {
+    describe("flags", () => {
+        describe("boolean", () => {
+            it("required boolean flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -177,10 +178,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required boolean flag with default", function () {
+            it("required boolean flag with default", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -202,10 +203,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional boolean flag", function () {
+            it("optional boolean flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -227,12 +228,12 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
         });
 
-        describe("enum", function () {
-            it("required enum flag", function () {
+        describe("enum", () => {
+            it("required enum flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -254,10 +255,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required enum flag with default", function () {
+            it("required enum flag with default", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -280,10 +281,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional enum flag", function () {
+            it("optional enum flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -306,10 +307,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional enum flag with default", function () {
+            it("optional enum flag with default", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -333,12 +334,12 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
         });
 
-        describe("parsed", function () {
-            it("required parsed flag", function () {
+        describe("parsed", () => {
+            it("required parsed flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -360,10 +361,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required parsed flag with unused alias", function () {
+            it("required parsed flag with unused alias", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -388,10 +389,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required parsed flag with no aliases", function () {
+            it("required parsed flag with no aliases", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -419,10 +420,10 @@ describe("formatUsageLineForParameters", function () {
                 });
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required parsed flag with alias", function () {
+            it("required parsed flag with alias", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -453,10 +454,10 @@ describe("formatUsageLineForParameters", function () {
                 });
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required parsed flag with multiple aliases", function () {
+            it("required parsed flag with multiple aliases", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -488,10 +489,10 @@ describe("formatUsageLineForParameters", function () {
                 });
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required parsed flag with default", function () {
+            it("required parsed flag with default", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -514,10 +515,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required parsed flag with default [hidden]", function () {
+            it("required parsed flag with default [hidden]", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -541,10 +542,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional parsed flag", function () {
+            it("optional parsed flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -567,10 +568,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional parsed flag [hidden]", function () {
+            it("optional parsed flag [hidden]", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -594,10 +595,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional parsed flag with placeholder", function () {
+            it("optional parsed flag with placeholder", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -621,10 +622,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required variadic parsed flag", function () {
+            it("required variadic parsed flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -647,10 +648,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional variadic parsed flag", function () {
+            it("optional variadic parsed flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -674,10 +675,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("required array parsed flag", function () {
+            it("required array parsed flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -699,10 +700,10 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
 
-            it("optional array parsed flag", function () {
+            it("optional array parsed flag", (context) => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -725,7 +726,7 @@ describe("formatUsageLineForParameters", function () {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(this, StringArrayBaselineFormat, [line]);
+                compareToBaseline(context, StringArrayBaselineFormat, [line]);
             });
         });
     });

@@ -404,6 +404,7 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
             throw new FlagNotFoundError(externalFlagName, [camelCaseFlagName]);
         }
         const kebabCaseFlagName = convertCamelCaseToKebabCase(externalFlagName);
+        /* v8 ignore if -- @preserve */
         if (kebabCaseFlagName in flags) {
             throw new FlagNotFoundError(externalFlagName, [kebabCaseFlagName]);
         }
@@ -871,15 +872,15 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 return { success: false, errors };
             }
 
-            /* c8 ignore start */
+            /* v8 ignore if -- @preserve */
             if (positionalValuesResult.status === "rejected") {
                 throw new InternalError("Unknown failure while scanning positional arguments");
             }
 
+            /* v8 ignore if -- @preserve */
             if (flagEntriesResult.status === "rejected") {
                 throw new InternalError("Unknown failure while scanning flag arguments");
             }
-            /* c8 ignore stop */
 
             const parsedFlags = Object.fromEntries(flagEntriesResult.value) as FLAGS;
             return { success: true, arguments: [parsedFlags, ...positionalValuesResult.value] };
@@ -898,6 +899,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         );
                         for (const [alias] of incompleteAliases) {
                             const flag = resolvedAliases[alias as AvailableAlias];
+                            /* v8 ignore else -- @preserve */
                             if (flag) {
                                 completions.push({
                                     kind: "argument:flag",
@@ -929,8 +931,10 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                             );
                         }
                         const lastAlias = partialAliases[partialAliases.length - 1];
+                        /* v8 ignore else -- @preserve */
                         if (lastAlias) {
                             const namedFlag = resolvedAliases[lastAlias as AvailableAlias];
+                            /* v8 ignore else -- @preserve */
                             if (namedFlag) {
                                 completions.push({
                                     kind: "argument:flag",
@@ -949,6 +953,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         );
                         for (const [alias] of incompleteAliases) {
                             const flag = resolvedAliases[alias as AvailableAlias];
+                            /* v8 ignore else -- @preserve */
                             if (flag) {
                                 completions.push({
                                     kind: "argument:flag",
@@ -1066,6 +1071,7 @@ export function listAllRouteNamesAndAliasesForScan(
 ): readonly string[] {
     const displayCaseStyle = scannerCaseStyle === "allow-kebab-for-camel" ? "convert-camel-to-kebab" : scannerCaseStyle;
     let entries = routeMap.getAllEntries();
+    /* v8 ignore else -- @preserve */
     if (!config.includeHiddenRoutes) {
         entries = entries.filter((entry) => !entry.hidden);
     }

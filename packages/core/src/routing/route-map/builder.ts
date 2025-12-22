@@ -79,6 +79,7 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
         get brief(): string {
             return docs.brief;
         },
+        /* v8 ignore next -- @preserve */
         get fullDescription(): string | undefined {
             return docs.fullDescription;
         },
@@ -117,14 +118,13 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
             if (!routeName && caseStyle === "allow-kebab-for-camel") {
                 routeName = resolveRouteName(camelInput);
             }
-            /* c8 ignore start */
+            /* v8 ignore if -- @preserve */
             if (!routeName) {
                 return {
                     original: [],
                     "convert-camel-to-kebab": [],
                 };
             }
-            /* c8 ignore stop */
             const otherAliases = [routeName, ...(aliasesByRoute.get(routeName) ?? [])].filter(
                 (alias) => alias !== input && alias !== camelInput,
             );

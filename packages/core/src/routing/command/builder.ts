@@ -82,6 +82,7 @@ function checkForInvalidVariadicSeparators(flags: Record<string, FlagParameter<C
                     `Unable to use "" as variadic separator for --${internalFlagName} as it is empty`,
                 );
             }
+            /* v8 ignore else -- @preserve */
             if (/\s/.test(flag.variadic)) {
                 throw new InternalError(
                     `Unable to use "${flag.variadic}" as variadic separator for --${internalFlagName} as it contains whitespace`,
@@ -109,6 +110,7 @@ export function buildCommand<
     checkForInvalidVariadicSeparators(flags);
     let loader: CommandFunctionLoader<BaseFlags, BaseArgs, CONTEXT>;
     if ("func" in builderArgs) {
+        /* v8 ignore next -- @preserve */
         loader = async () => builderArgs.func as CommandFunction<BaseFlags, BaseArgs, CONTEXT>;
     } else {
         loader = builderArgs.loader as CommandFunctionLoader<BaseFlags, BaseArgs, CONTEXT>;
@@ -120,6 +122,7 @@ export function buildCommand<
         get brief(): string {
             return builderArgs.docs.brief;
         },
+        /* v8 ignore next -- @preserve */
         get fullDescription(): string | undefined {
             return builderArgs.docs.fullDescription;
         },

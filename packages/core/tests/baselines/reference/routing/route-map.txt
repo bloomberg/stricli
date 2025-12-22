@@ -1,4 +1,4 @@
-:::: RouteMap / printHelp / aliased nested route map with aliases / no ANSI color
+:::: RouteMap > printHelp > aliased nested route map with aliases > no ANSI color
 USAGE
   cli alias1 doNothing
   cli alias1 sub doNothing1|doNothing2 ...
@@ -19,7 +19,7 @@ COMMANDS
   doNothing  top command brief
   sub        sub route map brief
 
-:::: RouteMap / printHelp / aliased nested route map with aliases / with ANSI color
+:::: RouteMap > printHelp > aliased nested route map with aliases > with ANSI color
 [1mUSAGE[22m
   cli alias1 doNothing
   cli alias1 sub doNothing1|doNothing2 ...
@@ -40,7 +40,7 @@ route map brief
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
 
-:::: RouteMap / printHelp / nested route map / no ANSI color
+:::: RouteMap > printHelp > nested route map > no ANSI color
 USAGE
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
@@ -55,7 +55,7 @@ COMMANDS
   doNothing  top command brief
   sub        sub route map brief
 
-:::: RouteMap / printHelp / nested route map / with ANSI color
+:::: RouteMap > printHelp > nested route map > with ANSI color
 [1mUSAGE[22m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
@@ -70,7 +70,7 @@ route map brief
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
 
-:::: RouteMap / printHelp / nested route map force include hidden routes / no ANSI color
+:::: RouteMap > printHelp > nested route map force include hidden routes > no ANSI color
 USAGE
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
@@ -87,7 +87,7 @@ COMMANDS
   doNothing  top command brief
   sub        sub route map brief
 
-:::: RouteMap / printHelp / nested route map force include hidden routes / with ANSI color
+:::: RouteMap > printHelp > nested route map force include hidden routes > with ANSI color
 [1mUSAGE[22m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
@@ -104,7 +104,7 @@ route map brief
   [97mdoNothing[39m  [03mtop command brief[23m
   [90msub[39m        [90msub route map brief[39m
 
-:::: RouteMap / printHelp / nested route map with `convert-camel-to-kebab` display case style / no ANSI color
+:::: RouteMap > printHelp > nested route map with `convert-camel-to-kebab` display case style > no ANSI color
 USAGE
   prefix do-nothing
   prefix sub do-nothing1|do-nothing2 ...
@@ -121,7 +121,7 @@ COMMANDS
   do-nothing  top command brief
   sub         sub route map brief
 
-:::: RouteMap / printHelp / nested route map with `convert-camel-to-kebab` display case style / with ANSI color
+:::: RouteMap > printHelp > nested route map with `convert-camel-to-kebab` display case style > with ANSI color
 [1mUSAGE[22m
   prefix do-nothing
   prefix sub do-nothing1|do-nothing2 ...
@@ -138,7 +138,7 @@ Longer description of this route map's behavior, only printed during --help
   [97mdo-nothing[39m  [03mtop command brief[23m
   [97msub[39m         [03msub route map brief[23m
 
-:::: RouteMap / printHelp / nested route map with aliases / no ANSI color
+:::: RouteMap > printHelp > nested route map with aliases > no ANSI color
 USAGE
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
@@ -159,7 +159,7 @@ COMMANDS
   doNothing  top command brief
   sub        sub route map brief
 
-:::: RouteMap / printHelp / nested route map with aliases / with ANSI color
+:::: RouteMap > printHelp > nested route map with aliases > with ANSI color
 [1mUSAGE[22m
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
@@ -180,7 +180,7 @@ route map brief
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
 
-:::: RouteMap / printHelp / nested route map with hidden routes / no ANSI color
+:::: RouteMap > printHelp > nested route map with hidden routes > no ANSI color
 USAGE
   prefix doNothing
   prefix --help
@@ -195,7 +195,7 @@ FLAGS
 COMMANDS
   doNothing  top command brief
 
-:::: RouteMap / printHelp / nested route map with hidden routes / with ANSI color
+:::: RouteMap > printHelp > nested route map with hidden routes > with ANSI color
 [1mUSAGE[22m
   prefix doNothing
   prefix --help
@@ -210,7 +210,7 @@ route map brief
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
 
-:::: RouteMap / printHelp / nested route map with version available / no ANSI color
+:::: RouteMap > printHelp > nested route map with version available > no ANSI color
 USAGE
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
@@ -227,7 +227,7 @@ COMMANDS
   doNothing  top command brief
   sub        sub route map brief
 
-:::: RouteMap / printHelp / nested route map with version available / with ANSI color
+:::: RouteMap > printHelp > nested route map with version available > with ANSI color
 [1mUSAGE[22m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
@@ -244,7 +244,7 @@ Longer description of this route map's behavior, only printed during --help
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
 
-:::: RouteMap / printHelp / nested route maps with custom header text / no ANSI color
+:::: RouteMap > printHelp > nested route maps with custom header text > no ANSI color
 Usage:
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
@@ -265,7 +265,7 @@ Commands:
   doNothing  top command brief
   sub        sub route map brief
 
-:::: RouteMap / printHelp / nested route maps with custom header text / with ANSI color
+:::: RouteMap > printHelp > nested route maps with custom header text > with ANSI color
 [1mUsage:[22m
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...

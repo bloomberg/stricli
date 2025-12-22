@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "chai";
+import { describe, expect, it } from "vitest";
 import { buildCommand, buildRouteMap, type CommandContext, type ScannerConfiguration } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import { CommandSymbol } from "../../src/routing/command/types";
