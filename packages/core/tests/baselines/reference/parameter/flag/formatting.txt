@@ -44,6 +44,14 @@
 [97m[39m   [97m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]
 [97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=true and withNegated=false / no ANSI color
+   [--requiredBoolean]  required boolean flag                                    [default = true]
+-h  --help              Print help information and exit
+    --                  All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters / boolean / required boolean flag with default=true and withNegated=false / with ANSI color
+[97m[39m   [97m[--requiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]
+[97m-h[39m [97m --help[39m              [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                  [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters / enum / optional enum flag / no ANSI color
    [--optionalEnum]  optional enum flag                                       [a|b|c]
 -h  --help           Print help information and exit
