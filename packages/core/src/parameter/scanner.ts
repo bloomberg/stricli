@@ -357,8 +357,13 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
         const internalWithoutNegation = undoNegation(internalFlagName);
         if (internalWithoutNegation) {
             flag = flags[internalWithoutNegation];
-            if (flag && flag.kind == "boolean" && flag.withNegated !== false) {
-                return { namedFlag: [internalWithoutNegation, flag], negated: true };
+            if (flag && flag.kind == "boolean") {
+                if (flag.withNegated !== false) {
+                    return { namedFlag: [internalWithoutNegation, flag], negated: true };
+                } else {
+                    // Clear out flag match so that it doesn't trigger a false positive.
+                    flag = void 0;
+                }
             }
         }
     }
@@ -371,8 +376,13 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
         const camelCaseWithoutNegation = undoNegation(camelCaseFlagName);
         if (camelCaseWithoutNegation) {
             flag = flags[camelCaseWithoutNegation];
-            if (flag && flag.kind == "boolean" && flag.withNegated !== false) {
-                return { namedFlag: [camelCaseWithoutNegation, flag], negated: true };
+            if (flag && flag.kind == "boolean") {
+                if (flag.withNegated !== false) {
+                    return { namedFlag: [camelCaseWithoutNegation, flag], negated: true };
+                } else {
+                    // Clear out theflag match so that it doesn't trigger a false positive.
+                    flag = void 0;
+                }
             }
         }
     }
