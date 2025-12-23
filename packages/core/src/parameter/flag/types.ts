@@ -26,6 +26,15 @@ interface BaseBooleanFlagParameter extends BaseFlagParameter {
      * If no value is provided, boolean flags default to `false`.
      */
     readonly default?: boolean;
+    /**
+     * Whether to generate a negated version of this flag (e.g., `--no-foo` for `--foo`).
+     *
+     * By default, boolean flags with a non-false default value automatically generate a negated version.
+     * Set this to `false` to disable the negated flag generation.
+     *
+     * Defaults to `true`.
+     */
+    readonly withNegated?: boolean;
 }
 
 type RequiredBooleanFlagParameter = BaseBooleanFlagParameter & {

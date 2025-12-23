@@ -2902,6 +2902,82 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("boolean flag with withNegated=false", () => {
+            type Positional = [];
+            type Flags = {
+                readonly enableFeature: boolean;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    enableFeature: { kind: "boolean", brief: "enableFeature", default: true, withNegated: false },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                // Flag should work normally
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--enableFeature"],
+                    expected: {
+                        success: true,
+                        arguments: [{ enableFeature: true }],
+                    },
+                });
+
+                // Negated flag should NOT work (flag not found error)
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--noEnableFeature"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "FlagNotFoundError",
+                                properties: {
+                                    input: "noEnableFeature",
+                                    corrections: ["enableFeature"],
+                                },
+                            },
+                        ],
+                    },
+                });
+
+                // Negated flag with kebab-case should also NOT work
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                    inputs: ["--no-enable-feature"],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "FlagNotFoundError",
+                                properties: {
+                                    input: "no-enable-feature",
+                                    corrections: ["enable-feature"],
+                                },
+                            },
+                        ],
+                    },
+                });
+
+                // Default value should still be used when flag is not provided
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ enableFeature: true }],
+                    },
+                });
+            });
+        });
+
         describe("required counter flag", () => {
             type Positional = [];
             type Flags = {

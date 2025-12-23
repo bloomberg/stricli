@@ -155,6 +155,28 @@ describe("formatDocumentationForFlagParameters", () => {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
+        describe("required boolean flag with default=true and withNegated=false", () => {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly requiredBoolean: boolean;
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    requiredBoolean: {
+                        kind: "boolean",
+                        brief: "required boolean flag",
+                        default: true,
+                        withNegated: false,
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            compareDocumentationToBaseline(parameters, defaultArgs);
+        });
+
         describe("optional boolean flag", () => {
             // GIVEN
             type Positional = [];
