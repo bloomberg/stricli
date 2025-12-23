@@ -56,7 +56,7 @@ Since boolean flags can only have two values, the presence of the flag can be us
 
 The negation behavior can be controlled using the `withNegated` option:
 
--   When `withNegated` is not set or set to `true` (default), the framework generates a negated version of the flag (e.g., `--noQuiet` for `--quiet`)
+-   When `withNegated` is not set or set to `true` (default), a negated version of the flag (e.g., `--noQuiet` for `--quiet`) will be genereated
 -   When `withNegated` is set to `false`, the negated flag is disabled and only the base flag name is available
 
 This is particularly useful when you want to prevent confusing flag combinations or when the semantics of the flag don't make sense with negation.
