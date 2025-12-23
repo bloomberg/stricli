@@ -64,11 +64,8 @@ export function formatDocumentationForFlagParameters(
                 // Format array defaults
                 if (flag.default.length === 0) {
                     defaultValue = "[]";
-                } else if (flag.default.length <= 3) {
-                    defaultValue = flag.default.join(", ");
                 } else {
-                    const preview = flag.default.slice(0, 3).join(", ");
-                    defaultValue = `${preview}, ... (${flag.default.length} total)`;
+                    defaultValue = flag.default.join(", ");
                 }
             } else {
                 defaultValue = flag.default === "" ? `""` : String(flag.default);
