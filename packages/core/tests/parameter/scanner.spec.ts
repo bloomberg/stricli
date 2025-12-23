@@ -6999,6 +6999,192 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("optional variadic enum flag with default", () => {
+            type Positional = [];
+            type MyEnum = "foo" | "bar" | "baz";
+            type Flags = {
+                readonly mode?: MyEnum[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    mode: {
+                        kind: "enum",
+                        values: ["foo", "bar", "baz"],
+                        optional: true,
+                        brief: "mode",
+                        variadic: true,
+                        default: ["foo", "bar"],
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["foo", "bar"] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode=baz"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["baz"] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode", "bar", "--mode", "baz"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["bar", "baz"] }],
+                    },
+                });
+            });
+        });
+
+        describe("required variadic enum flag with default", () => {
+            type Positional = [];
+            type MyEnum = "foo" | "bar" | "baz";
+            type Flags = {
+                readonly mode: MyEnum[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    mode: {
+                        kind: "enum",
+                        values: ["foo", "bar", "baz"],
+                        brief: "mode",
+                        variadic: true,
+                        default: ["foo"],
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["foo"] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--mode=bar"],
+                    expected: {
+                        success: true,
+                        arguments: [{ mode: ["bar"] }],
+                    },
+                });
+            });
+        });
+
+        describe("optional variadic parsed flag with default", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo?: number[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        variadic: true,
+                        optional: true,
+                        brief: "foo",
+                        default: ["1", "2", "3"],
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [1, 2, 3] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=42"],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [42] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo", "10", "--foo", "20"],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [10, 20] }],
+                    },
+                });
+            });
+        });
+
+        describe("required variadic parsed flag with default", () => {
+            type Positional = [];
+            type Flags = {
+                readonly foo: number[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    foo: {
+                        kind: "parsed",
+                        parse: numberParser,
+                        variadic: true,
+                        brief: "foo",
+                        default: ["5"],
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [5] }],
+                    },
+                });
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: ["--foo=100"],
+                    expected: {
+                        success: true,
+                        arguments: [{ foo: [100] }],
+                    },
+                });
+            });
+        });
+
         describe("parsed (string) flag with default", () => {
             type Positional = [];
             type Flags = {

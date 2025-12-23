@@ -116,8 +116,9 @@ export interface BaseEnumFlagParameter<T extends string> extends BaseFlagParamet
     readonly values: readonly T[];
     /**
      * Default input value if one is not provided at runtime.
+     * For variadic flags, this can be an array of default values.
      */
-    readonly default?: T;
+    readonly default?: T | readonly T[];
     readonly optional?: boolean;
     readonly hidden?: boolean;
     readonly variadic?: boolean | string;
@@ -156,9 +157,10 @@ interface OptionalEnumFlagParameter<T extends string> extends BaseEnumFlagParame
 
 interface OptionalVariadicEnumFlagParameter<T extends string> extends BaseEnumFlagParameter<T> {
     /**
-     * Default values are not supported for variadic parameters.
+     * Default values to use if no arguments are provided at runtime.
+     * Values must be valid members of the enum values array.
      */
-    readonly default?: undefined;
+    readonly default?: readonly T[];
     /**
      * Optional variadic parameter will parse to an empty array if no arguments are found.
      */
@@ -179,16 +181,18 @@ interface OptionalVariadicEnumFlagParameter<T extends string> extends BaseEnumFl
 
 interface RequiredVariadicEnumFlagParameter<T extends string> extends BaseEnumFlagParameter<T> {
     /**
-     * Default values are not supported for variadic parameters.
+     * Default values to use if no arguments are provided at runtime.
+     * Values must be valid members of the enum values array.
+     * If a default is provided, the parameter becomes optional at runtime.
      */
-    readonly default?: undefined;
+    readonly default?: readonly T[];
     /**
      * Parameter is required and cannot be set as optional.
      * Expects at least one value to be satisfied.
      */
     readonly optional?: false;
     /**
-     * Parameter is required and cannot be set as hidden.
+     * Parameter is required and cannot be set as hidden without a default value.
      */
     readonly hidden?: false;
     /**
@@ -210,8 +214,9 @@ export interface BaseParsedFlagParameter<T, CONTEXT extends CommandContext>
     readonly kind: "parsed";
     /**
      * Default input value if one is not provided at runtime.
+     * For variadic flags, this can be an array of input strings to be parsed.
      */
-    readonly default?: string;
+    readonly default?: string | readonly string[];
     /**
      * If flag is specified with no corresponding input, infer an empty string `""` as the input.
      */
@@ -286,9 +291,10 @@ interface OptionalVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
      */
     readonly variadic: true | string;
     /**
-     * Default values are not supported for variadic parameters.
+     * Default input values to parse if no arguments are provided at runtime.
+     * These will be parsed using the flag's parse function.
      */
-    readonly default?: undefined;
+    readonly default?: readonly string[];
 }
 
 interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
@@ -307,9 +313,11 @@ interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
      */
     readonly variadic: true | string;
     /**
-     * Default values are not supported for variadic parameters.
+     * Default input values to parse if no arguments are provided at runtime.
+     * These will be parsed using the flag's parse function.
+     * If a default is provided, the parameter becomes optional at runtime.
      */
-    readonly default?: undefined;
+    readonly default?: readonly string[];
 }
 
 type TypedFlagParameter_Optional<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer A)[]]
@@ -376,7 +384,7 @@ export type FlagParameters<CONTEXT extends CommandContext = CommandContext> = Re
 
 export function hasDefault<CONTEXT extends CommandContext>(
     flag: FlagParameter<CONTEXT>,
-): flag is FlagParameter<CONTEXT> & { default: string | boolean } {
+): flag is FlagParameter<CONTEXT> & { default: string | boolean | readonly string[] } {
     return "default" in flag && typeof flag.default !== "undefined";
 }
 

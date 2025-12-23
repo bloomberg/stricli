@@ -142,6 +142,14 @@
 [97m[39m   [97m[--optionalVariadicParsed]...[39m  [03moptional variadic parsed flag[23m
 [97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                            [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > no ANSI color
+   [--variadicParsed]...  optional variadic parsed flag with default               [default = foo, bar]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03moptional variadic parsed flag with default[23m               [[90mdefault =[39m foo, bar]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters > parsed > required array parsed flag > no ANSI color
    --requiredArrayParsed  required array parsed flag
 -h --help                 Print help information and exit
@@ -204,6 +212,14 @@
 [97m[39m   [97m--requiredVariadicParsed...[39m  [03mrequired variadic parsed flag[23m
 [97m-h[39m [97m--help[39m                       [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                           [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > no ANSI color
+   [--variadicParsed]...  required variadic parsed flag with long default          [default = one, two, three, ... (5 total)]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with long default[23m          [[90mdefault =[39m one, two, three, ... (5 total)]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > no ANSI color
    --variadicParsed...  variadic parsed flag with separator                      [separator = ,]
 -h --help               Print help information and exit
