@@ -40,7 +40,7 @@
         ],
         "tsconfig": "src/tsconfig.json",
         "dts": true,
-        "minify": true,
+        "minify": false,
         "clean": true
     },
     "devDependencies": {
