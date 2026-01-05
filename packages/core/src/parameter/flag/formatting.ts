@@ -65,7 +65,9 @@ export function formatDocumentationForFlagParameters(
                 if (flag.default.length === 0) {
                     defaultValue = "[]";
                 } else {
-                    defaultValue = flag.default.join(", ");
+                    // Use custom separator if provided, otherwise use space
+                    const separator = "variadic" in flag && typeof flag.variadic === "string" ? flag.variadic : " ";
+                    defaultValue = flag.default.join(separator);
                 }
             } else {
                 defaultValue = flag.default === "" ? `""` : String(flag.default);
