@@ -16,7 +16,7 @@ interface ApplicationTestOptions {
     readonly cwd: string;
 }
 
-interface ApplicationTestResult {
+export interface ApplicationTestResult {
     readonly stdout: string;
     readonly stderr: string;
     readonly files: DirectoryJSON<string | null>;

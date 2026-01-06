@@ -4,8 +4,8 @@
 import { expect } from "vitest";
 import nodePath from "node:path";
 import url from "node:url";
-import type { DirectoryJSON } from "memfs";
 import type { PackageJson } from "type-fest";
+import type { ApplicationTestResult } from "./app.spec";
 
 const repoRootUrl = new url.URL("..", import.meta.url);
 const repoRootPath = url.fileURLToPath(repoRootUrl);
@@ -32,12 +32,6 @@ function sanitizeStackTraceReferences(text: string): string {
             return line;
         })
         .join("\n");
-}
-
-interface ApplicationTestResult {
-    readonly stdout: string;
-    readonly stderr: string;
-    readonly files: DirectoryJSON<string | null>;
 }
 
 const FILE_ENTRY_PREFIX = "::::";
