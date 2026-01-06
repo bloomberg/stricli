@@ -1,4 +1,6 @@
-:::: Application > generateHelpTextForAllCommands > command at root
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Application > generateHelpTextForAllCommands > command at root 1`] = `
 :: cli
 USAGE
   cli
@@ -11,7 +13,9 @@ FLAGS
   -h --help     Print help information and exit
   -v --version  Print version information and exit
 
-:::: Application > generateHelpTextForAllCommands > command at root, with alternate locale
+`;
+
+exports[`Application > generateHelpTextForAllCommands > command at root, with alternate locale 1`] = `
 :: cli
 USAGE
   cli
@@ -22,7 +26,9 @@ command brief
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > generateHelpTextForAllCommands > command at root, with usage config
+`;
+
+exports[`Application > generateHelpTextForAllCommands > command at root, with usage config 1`] = `
 :: cli
 USAGE
   cli
@@ -35,7 +41,9 @@ FLAGS
   -h --help     Print help information and exit
   -v --version  Print version information and exit
 
-:::: Application > generateHelpTextForAllCommands > multiple commands at different levels
+`;
+
+exports[`Application > generateHelpTextForAllCommands > multiple commands at different levels 1`] = `
 :: cli sub command
 USAGE
   cli sub command
@@ -56,7 +64,9 @@ basic command
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > generateHelpTextForAllCommands > nested command, with aliases
+`;
+
+exports[`Application > generateHelpTextForAllCommands > nested command, with aliases 1`] = `
 :: cli sub
 USAGE
   cli sub
@@ -71,7 +81,9 @@ ALIASES
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > generateHelpTextForAllCommands > nested commands
+`;
+
+exports[`Application > generateHelpTextForAllCommands > nested commands 1`] = `
 :: cli sub1
 USAGE
   cli sub1
@@ -92,7 +104,9 @@ basic command
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > generateHelpTextForAllCommands > nested commands, with aliases
+`;
+
+exports[`Application > generateHelpTextForAllCommands > nested commands, with aliases 1`] = `
 :: cli sub1
 USAGE
   cli sub1
@@ -119,7 +133,9 @@ ALIASES
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > generateHelpTextForAllCommands > nested route map
+`;
+
+exports[`Application > generateHelpTextForAllCommands > nested route map 1`] = `
 :: cli sub command
 USAGE
   cli sub command
@@ -130,8 +146,11 @@ basic command
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > generateHelpTextForAllCommands > nested route map skips hidden routes
-:::: Application > generateHelpTextForAllCommands > route map at root
+`;
+
+exports[`Application > generateHelpTextForAllCommands > nested route map skips hidden routes 1`] = `[]`;
+
+exports[`Application > generateHelpTextForAllCommands > route map at root 1`] = `
 :: cli command
 USAGE
   cli command
@@ -142,7 +161,9 @@ basic command
 FLAGS
   -h --help  Print help information and exit
 
-:::: Application > run > basic command at root > display help text for root
+`;
+
+exports[`Application > run > basic command at root > display help text for root (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -156,7 +177,9 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic command at root > display help text for root (with flag alias)
+`;
+
+exports[`Application > run > basic command at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -170,7 +193,9 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic command at root > display help text for root, color depth < 4
+`;
+
+exports[`Application > run > basic command at root > display help text for root, color depth < 4 1`] = `
 ExitCode=Success
 :: STDOUT
 USAGE
@@ -184,7 +209,9 @@ FLAGS
 
 :: STDERR
 
-:::: Application > run > basic command at root > display help text for root, color depth > 4
+`;
+
+exports[`Application > run > basic command at root > display help text for root, color depth > 4 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -198,7 +225,9 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic command at root > display help text for root, no color depth
+`;
+
+exports[`Application > run > basic command at root > display help text for root, no color depth 1`] = `
 ExitCode=Success
 :: STDOUT
 USAGE
@@ -212,35 +241,45 @@ FLAGS
 
 :: STDERR
 
-:::: Application > run > basic command at root > with current version (as async callback) > request current version
+`;
+
+exports[`Application > run > basic command at root > with current version (as async callback) > request current version (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic command at root > with current version (as async callback) > request current version (with flag alias)
+`;
+
+exports[`Application > run > basic command at root > with current version (as async callback) > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic command at root > with current version (as static string) > request current version
+`;
+
+exports[`Application > run > basic command at root > with current version (as static string) > request current version (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic command at root > with current version (as static string) > request current version (with flag alias)
+`;
+
+exports[`Application > run > basic command at root > with current version (as static string) > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic command at root > with custom usage > display help text for root
+`;
+
+exports[`Application > run > basic command at root > with custom usage > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -257,7 +296,9 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic command at root > with full description > display help text for root
+`;
+
+exports[`Application > run > basic command at root > with full description > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -272,7 +313,9 @@ of this command's behavior.
 
 :: STDERR
 
-:::: Application > run > basic command at root > with missing latest version info > display help text for root
+`;
+
+exports[`Application > run > basic command at root > with missing latest version info > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -286,39 +329,18 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic command at root > with missing latest version info > request current version
+`;
+
+exports[`Application > run > basic command at root > with missing latest version info > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic command at root > with outdated version info (as async callback) > display help text for root, warn on outdated version
-ExitCode=Success
-:: STDOUT
-[1mUSAGE[22m
-  cli
-  cli --help
-  cli --version
+`;
 
-basic command
-
-[1mFLAGS[22m
-  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
-  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
-:::: Application > run > basic command at root > with outdated version info (as async callback) > request current version
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
-:::: Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version
+exports[`Application > run > basic command at root > with outdated version info (as async callback) > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -335,58 +357,9 @@ basic command
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
 
-:::: Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to 0
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-  cli --version
+`;
 
-basic command
-
-FLAGS
-  -h --help     Print help information and exit
-  -v --version  Print version information and exit
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
-:::: Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, no ansi color with env var
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-FLAGS
-  -h --help     Print help information and exit
-  -v --version  Print version information and exit
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
-:::: Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, with no ansi color
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-FLAGS
-  -h --help     Print help information and exit
-  -v --version  Print version information and exit
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
-:::: Application > run > basic command at root > with outdated version info (as static string) > request current version
+exports[`Application > run > basic command at root > with outdated version info (as async callback) > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
@@ -394,14 +367,104 @@ ExitCode=Success
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
 
-:::: Application > run > basic command at root > with up-to-date version info > request current version
+`;
+
+exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version 1`] = `
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m     [03mPrint help information and exit[23m
+  [97m-v[39m [97m--version[39m  [03mPrint version information and exit[23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to 0 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, no ansi color with env var 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, with no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`Application > run > basic command at root > with outdated version info (as static string) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`Application > run > basic command at root > with up-to-date version info > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic route map at root > display help text for root
+`;
+
+exports[`Application > run > basic route map at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -418,7 +481,9 @@ root
 
 :: STDERR
 
-:::: Application > run > basic route map at root > display help text for root (implicit)
+`;
+
+exports[`Application > run > basic route map at root > display help text for root (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -435,7 +500,9 @@ root
 
 :: STDERR
 
-:::: Application > run > basic route map at root > display help text for root (with flag alias)
+`;
+
+exports[`Application > run > basic route map at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -452,7 +519,9 @@ root
 
 :: STDERR
 
-:::: Application > run > basic route map at root > displays help text for subcommand
+`;
+
+exports[`Application > run > basic route map at root > displays help text for subcommand (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -466,7 +535,9 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic route map at root > displays help text for subcommand (with flag alias)
+`;
+
+exports[`Application > run > basic route map at root > displays help text for subcommand 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -480,83 +551,107 @@ basic command
 
 :: STDERR
 
-:::: Application > run > basic route map at root > fails for undefined flag
+`;
+
+exports[`Application > run > basic route map at root > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > basic route map at root > fails for undefined route
+`;
+
+exports[`Application > run > basic route map at root > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > basic route map at root > fails for undefined route, proposes similar alternative
+`;
+
+exports[`Application > run > basic route map at root > fails for undefined route, proposes similar alternative 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `commandx`, did you mean `command`?[39m[22m
+[1m[31mNo command registered for \`commandx\`, did you mean \`command\`?[39m[22m
 
-:::: Application > run > basic route map at root > fails for undefined route, with no ansi color
+`;
+
+exports[`Application > run > basic route map at root > fails for undefined route, with no ansi color 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-No command registered for `undefined`
+No command registered for \`undefined\`
 
-:::: Application > run > basic route map at root > runs subcommand directly with no arguments
+`;
+
+exports[`Application > run > basic route map at root > runs subcommand directly with no arguments 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Application > run > basic route map at root > with allow-kebab-for-camel > fails for undefined route, proposes similar alternative
+`;
+
+exports[`Application > run > basic route map at root > with allow-kebab-for-camel > fails for undefined route, proposes similar alternative 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `commandxyz`[39m[22m
+[1m[31mNo command registered for \`commandxyz\`[39m[22m
 
-:::: Application > run > basic route map at root > with current version as async callback > request current version
-ExitCode=Success
-:: STDOUT
-1.0.0
+`;
 
-:: STDERR
-
-:::: Application > run > basic route map at root > with current version as async callback > request current version (with flag alias)
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
-:::: Application > run > basic route map at root > with current version as static string > request current version
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
-:::: Application > run > basic route map at root > with current version as static string > request current version (with flag alias)
+exports[`Application > run > basic route map at root > with current version as async callback > request current version (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic route map at root > with custom distance threshold > fails for undefined route, proposes similar alternative
+`;
+
+exports[`Application > run > basic route map at root > with current version as async callback > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`Application > run > basic route map at root > with current version as static string > request current version (with flag alias) 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`Application > run > basic route map at root > with current version as static string > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`Application > run > basic route map at root > with custom distance threshold > fails for undefined route, proposes similar alternative 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `commandxyz`, did you mean `command`?[39m[22m
+[1m[31mNo command registered for \`commandxyz\`, did you mean \`command\`?[39m[22m
 
-:::: Application > run > basic route map at root > with full description > display help text for root
+`;
+
+exports[`Application > run > basic route map at root > with full description > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -574,7 +669,9 @@ of this route map's behavior.
 
 :: STDERR
 
-:::: Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for root, warn on outdated version
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -594,7 +691,9 @@ root
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
 
-:::: Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for subcommand, warn on outdated version
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for subcommand, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -609,7 +708,9 @@ basic command
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
 
-:::: Application > run > basic route map at root > with outdated version info > and upgrade command > request current version
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
@@ -617,7 +718,9 @@ ExitCode=Success
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
 
-:::: Application > run > basic route map at root > with outdated version info > display help text for root, do not skip check with env var set to 0
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > display help text for root, do not skip check with env var set to 0 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
@@ -625,14 +728,18 @@ ExitCode=Success
 :: STDERR
 Latest available version is 1.1.0 (currently running 1.0.0)
 
-:::: Application > run > basic route map at root > with outdated version info > display help text for root, skip check with env var defined
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > display help text for root, skip check with env var defined 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > basic route map at root > with outdated version info > display help text for root, warn on outdated version
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -652,7 +759,9 @@ root
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
 
-:::: Application > run > basic route map at root > with outdated version info > display help text for subcommand, warn on outdated version
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > display help text for subcommand, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -667,7 +776,9 @@ basic command
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
 
-:::: Application > run > basic route map at root > with outdated version info > request current version
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
@@ -675,7 +786,9 @@ ExitCode=Success
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
 
-:::: Application > run > basic route map at root > with up-to-date version info > display help text for root, no warning
+`;
+
+exports[`Application > run > basic route map at root > with up-to-date version info > display help text for root, no warning 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -694,14 +807,26 @@ root
 
 :: STDERR
 
-:::: Application > run > basic route map at root > with up-to-date version info > request current version
+`;
+
+exports[`Application > run > basic route map at root > with up-to-date version info > request current version 1`] = `
 ExitCode=Success
 :: STDOUT
 1.0.0
 
 :: STDERR
 
-:::: Application > run > fails when context.forCommand throws error
+`;
+
+exports[`Application > run > fails when context.forCommand throws error (without stack) 1`] = `
+ExitCode=ContextLoadError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to load command context, Error: This function purposefully throws an error[39m[22m
+`;
+
+exports[`Application > run > fails when context.forCommand throws error 1`] = `
 ExitCode=ContextLoadError
 :: STDOUT
 
@@ -712,13 +837,9 @@ ExitCode=ContextLoadError
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application.spec.ts:?:?)
     at #/tests/application.spec.ts:?:?
-:::: Application > run > fails when context.forCommand throws error (without stack)
-ExitCode=ContextLoadError
-:: STDOUT
+`;
 
-:: STDERR
-[1m[31mUnable to load command context, Error: This function purposefully throws an error[39m[22m
-:::: Application > run > fails when context.forCommand throws error, with no ansi color
+exports[`Application > run > fails when context.forCommand throws error, with no ansi color 1`] = `
 ExitCode=ContextLoadError
 :: STDOUT
 
@@ -729,36 +850,25 @@ Unable to load command context, Error: This function purposefully throws an erro
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application.spec.ts:?:?)
     at #/tests/application.spec.ts:?:?
-:::: Application > run > fails when context.forCommand throws non-error
+`;
+
+exports[`Application > run > fails when context.forCommand throws non-error 1`] = `
 ExitCode=ContextLoadError
 :: STDOUT
 
 :: STDERR
 [1m[31mUnable to load command context, This function purposefully throws an error[39m[22m
-:::: Application > run > loads text for context locale
+`;
+
+exports[`Application > run > loads text for context locale 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Application > run > nested basic route map at root > display help text for root
-ExitCode=Success
-:: STDOUT
-[1mUSAGE[22m
-  cli sub command ...
-  cli --help
+`;
 
-root route map
-
-[1mFLAGS[22m
-  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
-
-[1mCOMMANDS[22m
-  [97msub[39m  [03msub[23m
-
-:: STDERR
-
-:::: Application > run > nested basic route map at root > display help text for root (implicit)
+exports[`Application > run > nested basic route map at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -775,7 +885,28 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map at root > displays help text for nested route map
+`;
+
+exports[`Application > run > nested basic route map at root > display help text for root 1`] = `
+ExitCode=Success
+:: STDOUT
+[1mUSAGE[22m
+  cli sub command ...
+  cli --help
+
+root route map
+
+[1mFLAGS[22m
+  [97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m
+
+[1mCOMMANDS[22m
+  [97msub[39m  [03msub[23m
+
+:: STDERR
+
+`;
+
+exports[`Application > run > nested basic route map at root > displays help text for nested route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -792,7 +923,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map at root > displays help text for nested route map (implicit)
+`;
+
+exports[`Application > run > nested basic route map at root > displays help text for nested route map 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -809,21 +942,27 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map at root > fails for undefined flag
+`;
+
+exports[`Application > run > nested basic route map at root > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > nested basic route map at root > fails for undefined route
+`;
+
+exports[`Application > run > nested basic route map at root > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > display help text for root
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -840,7 +979,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > display help text for root (implicit)
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -857,7 +998,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -878,7 +1021,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias (implicit)
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -899,7 +1044,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -920,7 +1067,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version (implicit)
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -941,7 +1090,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map with route alias
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map with route alias 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -962,28 +1113,36 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > fails for alias-adjacent route
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for alias-adjacent route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `aliasX`, did you mean `aliasBar` or `aliasFoo`?[39m[22m
+[1m[31mNo command registered for \`aliasX\`, did you mean \`aliasBar\` or \`aliasFoo\`?[39m[22m
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > fails for undefined flag
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with camelCase route aliases at root > fails for undefined route
+`;
+
+exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with hidden routes > display help text for root
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1000,7 +1159,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes > display help text for root (implicit)
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1017,7 +1178,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes > display help text for root including hidden
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > display help text for root including hidden 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1038,7 +1201,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1055,7 +1220,9 @@ subHidden
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map (implicit)
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1072,21 +1239,27 @@ subHidden
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes > fails for undefined flag
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with hidden routes > fails for undefined route
+`;
+
+exports[`Application > run > nested basic route map with hidden routes > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1105,7 +1278,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root (implicit)
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1124,7 +1299,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root including hidden
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root including hidden 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1145,7 +1322,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1164,7 +1343,9 @@ subHidden
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map (implicit)
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1183,21 +1364,27 @@ subHidden
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined flag
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined route
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > display help text for root
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1216,7 +1403,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > display help text for root (implicit)
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1235,7 +1424,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > display help text for root including hidden
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root including hidden 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1256,7 +1447,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1275,7 +1468,9 @@ subHidden
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map (implicit)
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1294,21 +1489,27 @@ subHidden
 
 :: STDERR
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined flag
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined route
+`;
+
+exports[`Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with route alias at root > display help text for root
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1325,7 +1526,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with route alias at root > display help text for root (implicit)
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1342,7 +1545,9 @@ root route map
 
 :: STDERR
 
-:::: Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1362,7 +1567,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias (implicit)
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1382,7 +1589,9 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with route alias at root > displays help text for nested route map with route alias
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map with route alias 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1402,28 +1611,36 @@ sub
 
 :: STDERR
 
-:::: Application > run > nested basic route map with route alias at root > fails for alias-adjacent route
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > fails for alias-adjacent route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `aliasX`, did you mean `alias`?[39m[22m
+[1m[31mNo command registered for \`aliasX\`, did you mean \`alias\`?[39m[22m
 
-:::: Application > run > nested basic route map with route alias at root > fails for undefined flag
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `--undefined`[39m[22m
+[1m[31mNo command registered for \`--undefined\`[39m[22m
 
-:::: Application > run > nested basic route map with route alias at root > fails for undefined route
+`;
+
+exports[`Application > run > nested basic route map with route alias at root > fails for undefined route 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
 
 :: STDERR
-[1m[31mNo command registered for `undefined`[39m[22m
+[1m[31mNo command registered for \`undefined\`[39m[22m
 
-:::: Application > run > route map with default command at root > display help text for root
+`;
+
+exports[`Application > run > route map with default command at root > display help text for root (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1442,7 +1659,9 @@ route map with default command brief
 
 :: STDERR
 
-:::: Application > run > route map with default command at root > display help text for root (with flag alias)
+`;
+
+exports[`Application > run > route map with default command at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1461,7 +1680,9 @@ route map with default command brief
 
 :: STDERR
 
-:::: Application > run > route map with default command at root > displays help text for default command
+`;
+
+exports[`Application > run > route map with default command at root > displays help text for default command (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1478,7 +1699,9 @@ basic command
 
 :: STDERR
 
-:::: Application > run > route map with default command at root > displays help text for default command (with flag alias)
+`;
+
+exports[`Application > run > route map with default command at root > displays help text for default command 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1495,54 +1718,70 @@ basic command
 
 :: STDERR
 
-:::: Application > run > route map with default command at root > passes similar route as argument to default command
+`;
+
+exports[`Application > run > route map with default command at root > passes similar route as argument to default command 1`] = `
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mToo many arguments, expected 0 but encountered "commandx"[39m[22m
 
-:::: Application > run > route map with default command at root > passes undefined flag to default command
+`;
+
+exports[`Application > run > route map with default command at root > passes undefined flag to default command 1`] = `
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mNo flag registered for --undefined[39m[22m
 
-:::: Application > run > route map with default command at root > passes undefined route as argument to default command
+`;
+
+exports[`Application > run > route map with default command at root > passes undefined route as argument to default command 1`] = `
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mToo many arguments, expected 0 but encountered "undefined"[39m[22m
 
-:::: Application > run > route map with default command at root > runs default command (implicit)
+`;
+
+exports[`Application > run > route map with default command at root > runs default command (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Application > run > route map with default command at root > runs subcommand directly with alternate route name as argument
+`;
+
+exports[`Application > run > route map with default command at root > runs subcommand directly with alternate route name as argument 1`] = `
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mToo many arguments, expected 0 but encountered "alternate"[39m[22m
 
-:::: Application > run > route map with default command at root > runs subcommand directly with default route name as argument
+`;
+
+exports[`Application > run > route map with default command at root > runs subcommand directly with default route name as argument 1`] = `
 ExitCode=InvalidArgument
 :: STDOUT
 
 :: STDERR
 [1m[31mToo many arguments, expected 0 but encountered "default"[39m[22m
 
-:::: Application > run > route map with default command at root > runs subcommand directly with no arguments
+`;
+
+exports[`Application > run > route map with default command at root > runs subcommand directly with no arguments 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Application > run > route map with default command at root > with full description > display help text for root
+`;
+
+exports[`Application > run > route map with default command at root > with full description > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
 [1mUSAGE[22m
@@ -1560,22 +1799,30 @@ of this route map's behavior.
 
 :: STDERR
 
-:::: Application > run > runs command with original context
+`;
+
+exports[`Application > run > runs command with original context 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 
-:::: Application > run > uses default text when no text loaded for unsupported context locale
+`;
+
+exports[`Application > run > uses default text when no text loaded for unsupported context locale 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 [1m[33mApplication does not support "other" locale, defaulting to "en"[39m[22m
 
-:::: Application > run > uses default text when no text loaded for unsupported context locale, with no ansi color
+`;
+
+exports[`Application > run > uses default text when no text loaded for unsupported context locale, with no ansi color 1`] = `
 ExitCode=Success
 :: STDOUT
 
 :: STDERR
 Application does not support "other" locale, defaulting to "en"
+
+`;

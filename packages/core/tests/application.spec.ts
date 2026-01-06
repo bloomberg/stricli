@@ -3,7 +3,6 @@
 import { expect } from "vitest";
 import { describe, it } from "vitest";
 import {
-    ExitCode,
     buildApplication,
     buildCommand,
     buildRouteMap,
@@ -19,7 +18,6 @@ import {
     type RouteMapBuilderArguments,
     type VersionInfo,
 } from "../src";
-import { compareToBaseline, sanitizeStackTraceReferences, type BaselineFormat } from "./baseline";
 import { buildFakeApplicationText } from "./fakes/config";
 import { buildFakeContext, type FakeContext } from "./fakes/context";
 
@@ -90,7 +88,7 @@ function buildBasicRouteMap(brief: string) {
     });
 }
 
-interface ApplicationRunResult {
+export interface ApplicationRunResult {
     readonly stdout: string;
     readonly stderr: string;
     readonly exitCode: number | string | null | undefined;
@@ -109,95 +107,6 @@ async function runWithInputs(
         exitCode: context.process.exitCode,
     };
 }
-
-function serializeExitCode(exitCode: number | string | null | undefined): string {
-    const knownExitCode = Object.entries(ExitCode).find(([_, value]) => value === exitCode);
-    if (knownExitCode) {
-        return knownExitCode[0];
-    }
-    if (typeof exitCode === "number") {
-        return `Unknown(${exitCode})`;
-    }
-    return "<<No exit code specified>>";
-}
-
-function parseExitCode(exitCodeText: string | undefined): number | undefined {
-    if (!exitCodeText) {
-        return;
-    }
-    const knownExitCode = Object.entries(ExitCode).find(([name]) => name === exitCodeText);
-    if (knownExitCode) {
-        return knownExitCode[1];
-    }
-    if (exitCodeText.startsWith("Unknown")) {
-        return Number(exitCodeText.substring(8, exitCodeText.length - 1));
-    }
-}
-
-const ApplicationRunResultBaselineFormat: BaselineFormat<ApplicationRunResult> = {
-    *serialize(result) {
-        yield `ExitCode=${serializeExitCode(result.exitCode)}`;
-        yield ":: STDOUT";
-        yield result.stdout;
-        yield ":: STDERR";
-        yield sanitizeStackTraceReferences(result.stderr);
-    },
-    parse(lines) {
-        const exitCodeText = lines[0]!.split("=")[1];
-        const exitCode = parseExitCode(exitCodeText);
-        const stdoutStart = lines.indexOf(":: STDOUT");
-        const stderrStart = lines.indexOf(":: STDERR");
-        return {
-            exitCode,
-            stdout: lines.slice(stdoutStart + 1, stderrStart).join("\n"),
-            stderr: lines.slice(stderrStart + 1).join("\n"),
-        };
-    },
-    compare(actual, expected) {
-        expect(actual.exitCode).to.deep.equal(expected.exitCode, "Application exited with unexpected exit code");
-        expect(actual.stdout).to.deep.equal(expected.stdout, "Content of stdout did not match baseline");
-        expect(actual.stderr).to.deep.equal(expected.stderr, "Content of stderr did not match baseline");
-    },
-};
-
-const DocumentedCommandsBaselineFormat: BaselineFormat<readonly DocumentedCommand[]> = {
-    *serialize(routes) {
-        for (const route of routes) {
-            yield `:: ${route[0]}`;
-            yield* route[1].split("\n");
-        }
-    },
-    parse(lines) {
-        const routes: DocumentedCommand[] = [];
-        let currentRoute: string | undefined;
-        let routeLines: string[] = [];
-        for (const line of lines) {
-            if (line.startsWith(":: ")) {
-                if (currentRoute) {
-                    routes.push([currentRoute, routeLines.join("\n")]);
-                    routeLines = [];
-                }
-                currentRoute = line.slice(3);
-            } else {
-                routeLines.push(line);
-            }
-        }
-        if (currentRoute) {
-            routes.push([currentRoute, routeLines.join("\n")]);
-        }
-        return routes;
-    },
-    compare(actual, expected) {
-        const actualRoutes = actual.map(([route]) => route);
-        const expectedRoutes = expected.map(([route]) => route);
-        expect(actualRoutes).to.deep.equal(expectedRoutes, "Set of documented command routes differs");
-        const expectedTextForRoutes = new Map(expected);
-        for (const [route, actualText] of actual) {
-            const expectedText = expectedTextForRoutes.get(route);
-            expect(actualText).to.deep.equal(expectedText, `Help text for route "${route}" did not match baseline`);
-        }
-    },
-};
 
 describe("Application", () => {
     describe("buildApplication", () => {
@@ -478,27 +387,27 @@ describe("Application", () => {
             // WHEN
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root, no color depth", async (context) => {
                 const result = await runWithInputs(app, ["--help"], { colorDepth: void 0 });
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root, color depth < 4", async (context) => {
                 const result = await runWithInputs(app, ["--help"], { colorDepth: 2 });
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root, color depth > 4", async (context) => {
                 const result = await runWithInputs(app, ["--help"], { colorDepth: 8 });
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["-h"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             describe("with current version (as static string)", () => {
@@ -514,12 +423,12 @@ describe("Application", () => {
                 // WHEN
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -536,12 +445,12 @@ describe("Application", () => {
                 // WHEN
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -559,7 +468,7 @@ describe("Application", () => {
                 // WHEN
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -577,12 +486,12 @@ describe("Application", () => {
                 // WHEN
                 it("display help text for root", async (context) => {
                     const result = await runWithInputs(app, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -600,12 +509,12 @@ describe("Application", () => {
                 // WHEN
                 it("display help text for root, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("display help text for root, warn on outdated version, with no ansi color", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"], { colorDepth: void 0 });
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("display help text for root, warn on outdated version, no ansi color with env var", async (context) => {
@@ -615,7 +524,7 @@ describe("Application", () => {
                             STRICLI_NO_COLOR: "",
                         },
                     });
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("display help text for root, warn on outdated version, ansi color with env var set to 0", async (context) => {
@@ -625,12 +534,12 @@ describe("Application", () => {
                             STRICLI_NO_COLOR: "0",
                         },
                     });
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -648,12 +557,12 @@ describe("Application", () => {
                 // WHEN
                 it("display help text for root, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -686,7 +595,7 @@ describe("Application", () => {
 
                 it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -715,7 +624,7 @@ describe("Application", () => {
 
                 it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
         });
@@ -730,17 +639,17 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["-h"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             describe("with current version as static string", () => {
@@ -756,12 +665,12 @@ describe("Application", () => {
                 // WHEN
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -778,12 +687,12 @@ describe("Application", () => {
                 // WHEN
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version (with flag alias)", async (context) => {
                     const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -801,12 +710,12 @@ describe("Application", () => {
                 // WHEN
                 it("display help text for root, no warning", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithUpToDateVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -824,17 +733,17 @@ describe("Application", () => {
                 // WHEN
                 it("display help text for root, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("display help text for subcommand, warn on outdated version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["command", "--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("display help text for root, skip check with env var defined", async (context) => {
@@ -843,7 +752,7 @@ describe("Application", () => {
                             STRICLI_SKIP_VERSION_CHECK: "",
                         },
                     });
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 it("display help text for root, do not skip check with env var set to 0", async (context) => {
@@ -852,7 +761,7 @@ describe("Application", () => {
                             STRICLI_SKIP_VERSION_CHECK: "0",
                         },
                     });
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
 
                 describe("and upgrade command", () => {
@@ -870,7 +779,7 @@ describe("Application", () => {
                     // WHEN
                     it("display help text for root, warn on outdated version", async (context) => {
                         const result = await runWithInputs(appWithOutdatedVersionAndUpgradeCommand, ["--help"]);
-                        compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                        expect(result).toMatchSnapshot();
                     });
 
                     it("display help text for subcommand, warn on outdated version", async (context) => {
@@ -878,29 +787,29 @@ describe("Application", () => {
                             "command",
                             "--help",
                         ]);
-                        compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                        expect(result).toMatchSnapshot();
                     });
 
                     it("request current version", async (context) => {
                         const result = await runWithInputs(appWithOutdatedVersionAndUpgradeCommand, ["--version"]);
-                        compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                        expect(result).toMatchSnapshot();
                     });
                 });
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route, with no ansi color", async (context) => {
                 const result = await runWithInputs(app, ["undefined"], { colorDepth: void 0 });
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route, proposes similar alternative", async (context) => {
                 const result = await runWithInputs(app, ["commandx"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             describe("with custom distance threshold", () => {
@@ -921,7 +830,7 @@ describe("Application", () => {
 
                 it("fails for undefined route, proposes similar alternative", async (context) => {
                     const result = await runWithInputs(appWithCustomDistanceThreshold, ["commandxyz"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
@@ -935,28 +844,28 @@ describe("Application", () => {
 
                 it("fails for undefined route, proposes similar alternative", async (context) => {
                     const result = await runWithInputs(appWithCustomDistanceThreshold, ["commandxyz"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("runs subcommand directly with no arguments", async (context) => {
                 const result = await runWithInputs(app, ["command"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for subcommand", async (context) => {
                 const result = await runWithInputs(app, ["command", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for subcommand (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["command", "-h"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             describe("with full description", () => {
@@ -975,7 +884,7 @@ describe("Application", () => {
 
                 it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
         });
@@ -999,57 +908,57 @@ describe("Application", () => {
             // WHEN
             it("runs default command (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["-h"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("passes undefined route as argument to default command", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("passes similar route as argument to default command", async (context) => {
                 const result = await runWithInputs(app, ["commandx"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("passes undefined flag to default command", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("runs subcommand directly with no arguments", async (context) => {
                 const result = await runWithInputs(app, ["default"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for default command", async (context) => {
                 const result = await runWithInputs(app, ["default", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for default command (with flag alias)", async (context) => {
                 const result = await runWithInputs(app, ["default", "-h"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("runs subcommand directly with default route name as argument", async (context) => {
                 const result = await runWithInputs(app, ["default", "default"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("runs subcommand directly with alternate route name as argument", async (context) => {
                 const result = await runWithInputs(app, ["default", "alternate"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             describe("with full description", () => {
@@ -1068,7 +977,7 @@ describe("Application", () => {
 
                 it("display help text for root", async (context) => {
                     const result = await runWithInputs(appWithAlternateUsage, ["--help"]);
-                    compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                    expect(result).toMatchSnapshot();
                 });
             });
         });
@@ -1086,32 +995,32 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["sub"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map", async (context) => {
                 const result = await runWithInputs(app, ["sub", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -1134,42 +1043,42 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for alias-adjacent route", async (context) => {
                 const result = await runWithInputs(app, ["aliasX"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map with route alias", async (context) => {
                 const result = await runWithInputs(app, ["sub"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map via route alias (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["alias"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map via route alias", async (context) => {
                 const result = await runWithInputs(app, ["alias", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -1196,52 +1105,52 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for alias-adjacent route", async (context) => {
                 const result = await runWithInputs(app, ["aliasX"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map with route alias", async (context) => {
                 const result = await runWithInputs(app, ["sub"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map via route alias (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["aliasFoo"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map via route alias", async (context) => {
                 const result = await runWithInputs(app, ["aliasFoo", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map via route alias kebab-case version (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["alias-foo"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested route map via route alias kebab-case version", async (context) => {
                 const result = await runWithInputs(app, ["alias-foo", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -1283,7 +1192,7 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { forCommand: false });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("fails when context.forCommand throws error", async (context) => {
@@ -1302,7 +1211,7 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("fails when context.forCommand throws error, with no ansi color", async (context) => {
@@ -1321,7 +1230,7 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("fails when context.forCommand throws error (without stack)", async (context) => {
@@ -1342,7 +1251,7 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("fails when context.forCommand throws non-error", async (context) => {
@@ -1362,7 +1271,7 @@ describe("Application", () => {
             });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("loads text for context locale", async (context) => {
@@ -1376,7 +1285,7 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { locale: "en" });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("uses default text when no text loaded for unsupported context locale", async (context) => {
@@ -1395,7 +1304,7 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { locale: "other", colorDepth: 4 });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         it("uses default text when no text loaded for unsupported context locale, with no ansi color", async (context) => {
@@ -1414,7 +1323,7 @@ describe("Application", () => {
             const result = await runWithInputs(app, [], { locale: "other" });
 
             // THEN
-            compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         describe("nested basic route map with hidden routes", () => {
@@ -1438,37 +1347,37 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root including hidden", async (context) => {
                 const result = await runWithInputs(app, ["--help-all"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested hidden route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["subHidden"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -1496,37 +1405,37 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root including hidden", async (context) => {
                 const result = await runWithInputs(app, ["--help-all"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested hidden route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["subHidden"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -1555,37 +1464,37 @@ describe("Application", () => {
             // WHEN
             it("display help text for root (implicit)", async (context) => {
                 const result = await runWithInputs(app, []);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root", async (context) => {
                 const result = await runWithInputs(app, ["--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("display help text for root including hidden", async (context) => {
                 const result = await runWithInputs(app, ["--help-all"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined route", async (context) => {
                 const result = await runWithInputs(app, ["undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("fails for undefined flag", async (context) => {
                 const result = await runWithInputs(app, ["--undefined"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested hidden route map (implicit)", async (context) => {
                 const result = await runWithInputs(app, ["subHidden"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
             it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
-                compareToBaseline(context, ApplicationRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
     });
@@ -2570,7 +2479,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("nested route map", async (context) => {
@@ -2591,7 +2500,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("nested route map skips hidden routes", async (context) => {
@@ -2612,7 +2521,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("nested command, with aliases", async (context) => {
@@ -2638,7 +2547,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("nested commands", async (context) => {
@@ -2660,7 +2569,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("nested commands, with aliases", async (context) => {
@@ -2686,7 +2595,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("multiple commands at different levels", async (context) => {
@@ -2712,7 +2621,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("command at root", async (context) => {
@@ -2741,7 +2650,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("command at root, with usage config", async (context) => {
@@ -2774,7 +2683,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app);
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
 
         it("fails with missing locale", async (context) => {
@@ -2835,7 +2744,7 @@ describe("Application", () => {
             const documentedCommands = generateHelpTextForAllCommands(app, "fake");
 
             // THEN
-            compareToBaseline(context, DocumentedCommandsBaselineFormat, documentedCommands);
+            expect(documentedCommands).toMatchSnapshot();
         });
     });
 });

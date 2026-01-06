@@ -1,5 +1,7 @@
-:::: RouteMap > printHelp > aliased nested route map with aliases > no ANSI color
-USAGE
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RouteMap > printHelp > aliased nested route map with aliases > no ANSI color 1`] = `
+"USAGE
   cli alias1 doNothing
   cli alias1 sub doNothing1|doNothing2 ...
   cli alias1 --help
@@ -18,9 +20,11 @@ FLAGS
 COMMANDS
   doNothing  top command brief
   sub        sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > aliased nested route map with aliases > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > aliased nested route map with aliases > with ANSI color 1`] = `
+"[1mUSAGE[22m
   cli alias1 doNothing
   cli alias1 sub doNothing1|doNothing2 ...
   cli alias1 --help
@@ -39,9 +43,11 @@ route map brief
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
+"
+`;
 
-:::: RouteMap > printHelp > nested route map > no ANSI color
-USAGE
+exports[`RouteMap > printHelp > nested route map > no ANSI color 1`] = `
+"USAGE
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -54,9 +60,11 @@ FLAGS
 COMMANDS
   doNothing  top command brief
   sub        sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route map > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > nested route map > with ANSI color 1`] = `
+"[1mUSAGE[22m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -69,9 +77,11 @@ route map brief
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
+"
+`;
 
-:::: RouteMap > printHelp > nested route map force include hidden routes > no ANSI color
-USAGE
+exports[`RouteMap > printHelp > nested route map force include hidden routes > no ANSI color 1`] = `
+"USAGE
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -86,9 +96,11 @@ FLAGS
 COMMANDS
   doNothing  top command brief
   sub        sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route map force include hidden routes > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > nested route map force include hidden routes > with ANSI color 1`] = `
+"[1mUSAGE[22m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -103,9 +115,11 @@ route map brief
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
   [90msub[39m        [90msub route map brief[39m
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with `convert-camel-to-kebab` display case style > no ANSI color
-USAGE
+exports[`RouteMap > printHelp > nested route map with \`convert-camel-to-kebab\` display case style > no ANSI color 1`] = `
+"USAGE
   prefix do-nothing
   prefix sub do-nothing1|do-nothing2 ...
   prefix --help
@@ -120,9 +134,11 @@ FLAGS
 COMMANDS
   do-nothing  top command brief
   sub         sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with `convert-camel-to-kebab` display case style > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > nested route map with \`convert-camel-to-kebab\` display case style > with ANSI color 1`] = `
+"[1mUSAGE[22m
   prefix do-nothing
   prefix sub do-nothing1|do-nothing2 ...
   prefix --help
@@ -137,9 +153,11 @@ Longer description of this route map's behavior, only printed during --help
 [1mCOMMANDS[22m
   [97mdo-nothing[39m  [03mtop command brief[23m
   [97msub[39m         [03msub route map brief[23m
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with aliases > no ANSI color
-USAGE
+exports[`RouteMap > printHelp > nested route map with aliases > no ANSI color 1`] = `
+"USAGE
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
   cli route --help
@@ -158,9 +176,11 @@ FLAGS
 COMMANDS
   doNothing  top command brief
   sub        sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with aliases > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > nested route map with aliases > with ANSI color 1`] = `
+"[1mUSAGE[22m
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
   cli route --help
@@ -179,9 +199,11 @@ route map brief
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with hidden routes > no ANSI color
-USAGE
+exports[`RouteMap > printHelp > nested route map with hidden routes > no ANSI color 1`] = `
+"USAGE
   prefix doNothing
   prefix --help
   prefix --version
@@ -194,9 +216,11 @@ FLAGS
 
 COMMANDS
   doNothing  top command brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with hidden routes > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > nested route map with hidden routes > with ANSI color 1`] = `
+"[1mUSAGE[22m
   prefix doNothing
   prefix --help
   prefix --version
@@ -209,9 +233,11 @@ route map brief
 
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with version available > no ANSI color
-USAGE
+exports[`RouteMap > printHelp > nested route map with version available > no ANSI color 1`] = `
+"USAGE
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -226,9 +252,11 @@ FLAGS
 COMMANDS
   doNothing  top command brief
   sub        sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route map with version available > with ANSI color
-[1mUSAGE[22m
+exports[`RouteMap > printHelp > nested route map with version available > with ANSI color 1`] = `
+"[1mUSAGE[22m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -243,9 +271,11 @@ Longer description of this route map's behavior, only printed during --help
 [1mCOMMANDS[22m
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
+"
+`;
 
-:::: RouteMap > printHelp > nested route maps with custom header text > no ANSI color
-Usage:
+exports[`RouteMap > printHelp > nested route maps with custom header text > no ANSI color 1`] = `
+"Usage:
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
   cli route --help
@@ -264,9 +294,11 @@ Flags:
 Commands:
   doNothing  top command brief
   sub        sub route map brief
+"
+`;
 
-:::: RouteMap > printHelp > nested route maps with custom header text > with ANSI color
-[1mUsage:[22m
+exports[`RouteMap > printHelp > nested route maps with custom header text > with ANSI color 1`] = `
+"[1mUsage:[22m
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
   cli route --help
@@ -285,3 +317,5 @@ route map brief
 [1mCommands:[22m
   [97mdoNothing[39m  [03mtop command brief[23m
   [97msub[39m        [03msub route map brief[23m
+"
+`;

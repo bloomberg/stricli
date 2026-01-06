@@ -8,12 +8,11 @@ import { formatDocumentationForPositionalParameters } from "../../../src/paramet
 import type { PositionalParameters } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
-import { compareToBaseline, StringArrayBaselineFormat } from "../../baseline";
 
 type DocumentationArgs = Pick<HelpFormattingArguments, "config" | "text">;
 
 function compareDocumentationToBaseline(positional: PositionalParameters, args: DocumentationArgs) {
-    it("with ANSI color", (context) => {
+    it("with ANSI color", () => {
         // WHEN
         const lines = formatDocumentationForPositionalParameters(positional, {
             ...args,
@@ -21,10 +20,10 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, lines);
+        expect(lines).toMatchSnapshot();
     });
 
-    it("no ANSI color", (context) => {
+    it("no ANSI color", () => {
         // WHEN
         const lines = formatDocumentationForPositionalParameters(positional, {
             ...args,
@@ -32,10 +31,10 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, lines);
+        expect(lines).toMatchSnapshot();
     });
 
-    it("text with ANSI matches text without ANSI", (context) => {
+    it("text with ANSI matches text without ANSI", () => {
         // WHEN
         const linesWithAnsiColor = formatDocumentationForPositionalParameters(positional, {
             ...args,

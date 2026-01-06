@@ -4,13 +4,12 @@ import { describe, expect, it } from "vitest";
 import { buildCommand, buildRouteMap, numberParser, text_en, type CommandContext, type RouteMap } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
-import { compareToBaseline, StringArrayBaselineFormat } from "../baseline";
 
 function compareHelpTextToBaseline(
     routeMap: RouteMap<CommandContext>,
     args: Omit<HelpFormattingArguments, "ansiColor">,
 ) {
-    it("with ANSI color", (context) => {
+    it("with ANSI color", () => {
         // WHEN
         const helpText = routeMap.formatHelp({
             ...args,
@@ -18,10 +17,10 @@ function compareHelpTextToBaseline(
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
+        expect(helpText).toMatchSnapshot();
     });
 
-    it("no ANSI color", (context) => {
+    it("no ANSI color", () => {
         // WHEN
         const helpText = routeMap.formatHelp({
             ...args,
@@ -29,10 +28,10 @@ function compareHelpTextToBaseline(
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
+        expect(helpText).toMatchSnapshot();
     });
 
-    it("text with ANSI matches text without ANSI", (context) => {
+    it("text with ANSI matches text without ANSI", () => {
         // WHEN
         const helpTextWithAnsiColor = routeMap.formatHelp({
             ...args,

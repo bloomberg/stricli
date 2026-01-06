@@ -12,17 +12,11 @@ import {
 } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
-import {
-    StringArrayBaselineFormat,
-    compareToBaseline,
-    sanitizeStackTraceReferences,
-    type BaselineFormat,
-} from "../baseline";
-import { buildFakeContext, type FakeContextOptions } from "../fakes/context";
+import { buildFakeContext } from "../fakes/context";
 // eslint-disable-next-line no-restricted-imports
 import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
 
-interface CommandRunResult {
+export interface CommandRunResult {
     readonly stdout: string;
     readonly stderr: string;
     readonly exitCode: number | undefined;
@@ -41,58 +35,8 @@ async function runWithInputs(
     };
 }
 
-function serializeExitCode(exitCode: number | undefined): string {
-    const knownExitCode = Object.entries(ExitCode).find(([_, value]) => value === exitCode);
-    if (knownExitCode) {
-        return knownExitCode[0];
-    }
-    if (typeof exitCode === "number") {
-        return `Unknown(${exitCode})`;
-    }
-    return "<<No exit code specified>>";
-}
-
-function parseExitCode(exitCodeText: string | undefined): number | undefined {
-    if (!exitCodeText) {
-        return;
-    }
-    const knownExitCode = Object.entries(ExitCode).find(([name]) => name === exitCodeText);
-    if (knownExitCode) {
-        return knownExitCode[1];
-    }
-    if (exitCodeText.startsWith("Unknown")) {
-        return Number(exitCodeText.substring(8, exitCodeText.length - 1));
-    }
-}
-
-const CommandRunResultBaselineFormat: BaselineFormat<CommandRunResult> = {
-    *serialize(result) {
-        yield `ExitCode=${serializeExitCode(result.exitCode)}`;
-        yield ":: STDOUT";
-        yield result.stdout;
-        yield ":: STDERR";
-        yield sanitizeStackTraceReferences(result.stderr);
-    },
-    parse(lines) {
-        const exitCodeText = lines[0]!.split("=")[1];
-        const exitCode = parseExitCode(exitCodeText);
-        const stdoutStart = lines.indexOf(":: STDOUT");
-        const stderrStart = lines.indexOf(":: STDERR");
-        return {
-            exitCode,
-            stdout: lines.slice(stdoutStart + 1, stderrStart).join("\n"),
-            stderr: lines.slice(stderrStart + 1).join("\n"),
-        };
-    },
-    compare(actual, expected) {
-        expect(actual.exitCode).to.deep.equal(expected.exitCode, "Application exited with unexpected exit code");
-        expect(actual.stdout).to.deep.equal(expected.stdout, "Content of stdout did not match baseline");
-        expect(actual.stderr).to.deep.equal(expected.stderr, "Content of stderr did not match baseline");
-    },
-};
-
 function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<HelpFormattingArguments, "ansiColor">) {
-    it("with ANSI color", (context) => {
+    it("with ANSI color", () => {
         // WHEN
         const helpText = command.formatHelp({
             ...args,
@@ -100,10 +44,10 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
+        expect(helpText).toMatchSnapshot();
     });
 
-    it("no ANSI color", (context) => {
+    it("no ANSI color", () => {
         // WHEN
         const helpText = command.formatHelp({
             ...args,
@@ -111,10 +55,10 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, helpText.split("\n"));
+        expect(helpText).toMatchSnapshot();
     });
 
-    it("text with ANSI matches text without ANSI", (context) => {
+    it("text with ANSI matches text without ANSI", () => {
         // WHEN
         const helpTextWithAnsiColor = command.formatHelp({
             ...args,
@@ -133,7 +77,7 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
 
 describe("Command", () => {
     describe("buildCommand", () => {
-        it("fails with reserved flag --help", (context) => {
+        it("fails with reserved flag --help", () => {
             expect(() => {
                 // WHEN
                 buildCommand({
@@ -1955,19 +1899,19 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            it("no inputs", async (context) => {
+            it("no inputs", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected input argument", async (context) => {
+            it("unexpected input argument", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected input flag", async (context) => {
+            it("unexpected input flag", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["--foo"] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -1985,17 +1929,17 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            it("no inputs", async (context) => {
+            it("no inputs", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected input argument", async (context) => {
+            it("unexpected input argument", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected input argument, with ansi color", async (context) => {
+            it("unexpected input argument, with ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2004,15 +1948,15 @@ describe("Command", () => {
                     },
                     inputs: ["foo"],
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected input flag", async (context) => {
+            it("unexpected input flag", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["--foo"] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected input flag, with ansi color", async (context) => {
+            it("unexpected input flag, with ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2021,7 +1965,7 @@ describe("Command", () => {
                     },
                     inputs: ["--foo"],
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -2047,22 +1991,22 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            it("no inputs", async (context) => {
+            it("no inputs", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("single input argument", async (context) => {
+            it("single input argument", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("multiple input arguments", async (context) => {
+            it("multiple input arguments", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo", "bar"] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected error", async (context) => {
+            it("unexpected error", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     inputs: [
@@ -2073,10 +2017,10 @@ describe("Command", () => {
                         } as any,
                     ],
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("unexpected error, with ansi color", async (context) => {
+            it("unexpected error, with ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2091,11 +2035,11 @@ describe("Command", () => {
                         } as any,
                     ],
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
-        it("fails to scan missing flags", async (context) => {
+        it("fails to scan missing flags", async () => {
             const command = buildCommand<{ foo: string; bar: string }, []>({
                 loader: async () => {
                     throw new Error("This should not be reached by this test");
@@ -2118,10 +2062,10 @@ describe("Command", () => {
             });
 
             const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-            compareToBaseline(context, CommandRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
-        it("fails to scan missing flags, with ansi color", async (context) => {
+        it("fails to scan missing flags, with ansi color", async () => {
             const command = buildCommand<{ foo: string; bar: string }, []>({
                 loader: async () => {
                     throw new Error("This should not be reached by this test");
@@ -2151,10 +2095,10 @@ describe("Command", () => {
                 },
                 inputs: [],
             });
-            compareToBaseline(context, CommandRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
-        it("fails to parse invalid parameter", async (context) => {
+        it("fails to parse invalid parameter", async () => {
             const command = buildCommand<{}, [boolean]>({
                 loader: async () => {
                     throw new Error("This should not be reached by this test");
@@ -2175,10 +2119,10 @@ describe("Command", () => {
             });
 
             const result = await runWithInputs(command, { ...defaultArgs, inputs: ["nope"] });
-            compareToBaseline(context, CommandRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
-        it("fails to load command module", async (context) => {
+        it("fails to load command module", async () => {
             const command = buildCommand<{}, []>({
                 loader: async () => {
                     throw new Error("This command load purposefully throws an error");
@@ -2191,10 +2135,10 @@ describe("Command", () => {
             });
 
             const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-            compareToBaseline(context, CommandRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
-        it("fails to load command module, with ansi color", async (context) => {
+        it("fails to load command module, with ansi color", async () => {
             const command = buildCommand<{}, []>({
                 loader: async () => {
                     throw new Error("This command load purposefully throws an error");
@@ -2214,7 +2158,7 @@ describe("Command", () => {
                 },
                 inputs: [],
             });
-            compareToBaseline(context, CommandRunResultBaselineFormat, result);
+            expect(result).toMatchSnapshot();
         });
 
         describe("command function throws error", () => {
@@ -2236,12 +2180,12 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            it("with default exit code", async (context) => {
+            it("with default exit code", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("with default exit code, ansi color", async (context) => {
+            it("with default exit code, ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2250,16 +2194,16 @@ describe("Command", () => {
                     },
                     inputs: [],
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("with custom exit code", async (context) => {
+            it("with custom exit code", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     inputs: [],
                     determineExitCode: () => 10,
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
 
@@ -2279,12 +2223,12 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            it("with default exit code", async (context) => {
+            it("with default exit code", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("with default exit code, ansi color", async (context) => {
+            it("with default exit code, ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     documentationConfig: {
@@ -2293,16 +2237,16 @@ describe("Command", () => {
                     },
                     inputs: [],
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
 
-            it("with custom exit code", async (context) => {
+            it("with custom exit code", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
                     inputs: [],
                     determineExitCode: () => 10,
                 });
-                compareToBaseline(context, CommandRunResultBaselineFormat, result);
+                expect(result).toMatchSnapshot();
             });
         });
     });
