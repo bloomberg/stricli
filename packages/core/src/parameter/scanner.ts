@@ -507,9 +507,27 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
                 return flag.default;
             }
             if (flag.kind === "enum") {
+                // Handle variadic enum defaults
+                if ("variadic" in flag && flag.variadic && Array.isArray(flag.default)) {
+                    // Validate all default values
+                    const defaultArray = flag.default as readonly string[];
+                    for (const value of defaultArray) {
+                        if (!flag.values.includes(value)) {
+                            const corrections = filterClosestAlternatives(value, flag.values, config.distanceOptions);
+                            throw new EnumValidationError(externalFlagName, value, flag.values, corrections);
+                        }
+                    }
+                    return flag.default;
+                }
                 return flag.default;
             }
-            return parseInput(externalFlagName, flag, flag.default, context);
+            // Handle variadic parsed defaults
+            if ("variadic" in flag && flag.variadic && Array.isArray(flag.default)) {
+                const defaultArray = flag.default as readonly string[];
+                return Promise.all(defaultArray.map((input) => parseInput(externalFlagName, flag, input, context)));
+            }
+            // At this point, default must be a string (not an array)
+            return parseInput(externalFlagName, flag, flag.default as string, context);
         }
         if (flag.optional) {
             return;

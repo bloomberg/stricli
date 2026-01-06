@@ -149,11 +149,21 @@ import DefaultFlagCode from "./examples/default-flag.txt";
     {DefaultFlagCode}
 </StricliPlayground>
 
+For variadic flags, you can specify an array of default values. Each default value will be validated (for `enum` flags) or parsed (for `parsed` flags) before being passed to the implementation.
+
+import VariadicDefaultFlagCode from "./examples/variadic-default-flag.txt";
+
+<StricliPlayground filename="variadic-default-flag" rootExport="root" appName="run" defaultInput="">
+    {VariadicDefaultFlagCode}
+</StricliPlayground>
+
 ### Variadic
 
 A flag can be variadic when the type it represents is an array of values. In this case, the flag can be specified multiple times and each value is then parsed individually and added to a single array. If the type of a flag is an array it must be set as variadic.
 
 If the `variadic` config property is set to a string, Stricli will use that as a separator and split each input string. This is useful for cases where the input string is a single value that contains multiple values separated by a specific character (like a comma).
+
+Variadic flags support [default values](#defaults) as an array of strings (for `parsed` flags) or an array of valid enum values (for `enum` flags).
 
 import VariadicFlagCode from "./examples/variadic-flag.txt";
 
