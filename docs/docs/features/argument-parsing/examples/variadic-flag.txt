@@ -1,13 +1,18 @@
-import { buildCommand, numberParser, type CommandContext } from "@stricli/core";
-
-interface Flags {
+--help
+--id 5 -i 10 -i 15
+/// impl.ts
+type Flags = {
   id: number[];
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { id }: Flags) {
-    this.process.stdout.write(`Selected following IDs: ${id.join(", ")}`);
-  },
+export default async function({ id }: Flags) {
+  console.log(`Selected following IDs: ${id.join(", ")}`);
+}
+/// spec.ts
+import { buildCommand, numberParser } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       id: {
@@ -30,3 +35,7 @@ export const root = buildCommand({
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

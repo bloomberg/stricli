@@ -1,11 +1,14 @@
 --help
+
+--value foobar
+--value
 /// impl.ts
 type Flags = {
-  lineEnding: "lf" | "crlf";
+  value?: string
 };
 
-export default async function({ lineEnding }: Flags) {
-  console.log(`Switched line ending to ${lineEnding}`);
+export default async function(flags: Flags) {
+  console.log(flags);
 }
 /// spec.ts
 import { buildCommand } from "@stricli/core";
@@ -14,16 +17,17 @@ export default buildCommand({
   loader: () => import("./impl"),
   parameters: {
     flags: {
-      lineEnding: {
-        kind: "enum",
-        values: ["lf", "crlf"],
-        brief: "Line ending characters",
-        default: "lf",
+      value: {
+        kind: "parsed",
+        parse: String,
+        brief: "Exact string value",
+        optional: true,
+        inferEmpty: true,
       },
     },
   },
   docs: {
-    brief: "Example for live playground with flag configured with default value",
+    brief: "Example for live playground with hidden flag"
   },
 });
 /// !app.ts

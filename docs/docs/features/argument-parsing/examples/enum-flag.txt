@@ -1,13 +1,19 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
-
-interface Flags {
+--help
+--level debug
+--level warn
+/// impl.ts
+type Flags = {
   level: "info" | "warn" | "error";
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { level }: Flags) {
-    this.process.stdout.write(`Set logging level to ${level}`);
-  },
+export default async function({ level }: Flags) {
+  console.log(`Set logging level to ${level}`);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       level: {
@@ -24,3 +30,7 @@ export const root = buildCommand({
     brief: "Example for live playground with enum flag"
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

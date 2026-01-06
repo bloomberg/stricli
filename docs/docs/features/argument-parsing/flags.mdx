@@ -10,9 +10,9 @@ Flags are named, non-positional arguments that are passed to a command. They can
 
 ### Case Style
 
-By default, Stricli will ensure that flag names are matched exactly. However, the [`scanner.caseStyle`](../configuration.mdx#scanner-case-style) configuration option allows you to specify `"allow-kebab-for-camel"`. This extends the argument scanner to allow kebab-case versions of camelCase flag names. For example, a flag that is normally passed as `--allowEdits` could also be passed as `--allow-edits`.
+By default, Stricli will ensure that flag names are matched exactly. However, the [`scanner.caseStyle`](../configuration/input-scanning.mdx#scanner-case-style) configuration option allows you to specify `"allow-kebab-for-camel"`. This extends the argument scanner to allow kebab-case versions of camelCase flag names. For example, a flag that is normally passed as `--allowEdits` could also be passed as `--allow-edits`.
 
-There is a separate configuration option [`documentation.caseStyle`](../configuration.mdx#display-case-style) that controls which case style is used when displaying help text and documentation. By default, the documentation option will reflect the scanner option, but this can be manually overridden.
+There is a separate configuration option [`documentation.caseStyle`](../configuration/help-text.mdx#display-case-style) that controls which case style is used when displaying help text and documentation. By default, the documentation option will reflect the scanner option, but this can be manually overridden.
 
 ### Aliases
 
@@ -20,7 +20,7 @@ Within Stricli, aliases refer to the alternate, single-character name of an exis
 
 -   `-h` (reserved for `--help`)
 -   `-H` (reserved for `--helpAll`)
--   `-v` (reserved for `--version` when [version information](../configuration.mdx#version-information) is provided)
+-   `-v` (reserved for `--version` when [version information](../configuration/version-information.mdx) is provided)
 
 ## Types
 
@@ -32,9 +32,7 @@ The base flag type supported by Stricli is `parsed`. To use a parsed flag, you m
 
 import ParsedFlagCode from "./examples/parsed-flag.txt";
 
-<StricliPlayground filename="parsed-flag" rootExport="root" appName="run" defaultInput="--item apple --price 1">
-    {ParsedFlagCode}
-</StricliPlayground>
+<StricliPlayground>{ParsedFlagCode}</StricliPlayground>
 
 ### Enumerations
 
@@ -44,9 +42,7 @@ Given a TypeScript union of string literals (ex: `"a" | "b" | "c"`) the paramete
 
 import EnumFlagCode from "./examples/enum-flag.txt";
 
-<StricliPlayground filename="enum-flag" rootExport="root" appName="run" defaultInput="--level warn">
-    {EnumFlagCode}
-</StricliPlayground>
+<StricliPlayground>{EnumFlagCode}</StricliPlayground>
 
 ### Booleans (with Negation)
 
@@ -63,17 +59,13 @@ This is particularly useful when you want to prevent confusing flag combinations
 
 import BooleanFlagCode from "./examples/boolean-flag.txt";
 
-<StricliPlayground filename="boolean-flag" rootExport="root" appName="run" defaultInput="--noQuiet">
-    {BooleanFlagCode}
-</StricliPlayground>
+<StricliPlayground>{BooleanFlagCode}</StricliPlayground>
 
 Here's an example with `withNegated: false`, where the negated is disabled:
 
 import BooleanFlagNoNegationCode from "./examples/boolean-flag-no-negation.txt";
 
-<StricliPlayground filename="boolean-flag-no-negation" rootExport="root" appName="run" defaultInput="">
-    {BooleanFlagNoNegationCode}
-</StricliPlayground>
+<StricliPlayground>{BooleanFlagNoNegationCode}</StricliPlayground>
 
 ### Counters
 
@@ -83,9 +75,7 @@ This type only applies to integers, not all numbers and is best used when counti
 
 import CounterFlagCode from "./examples/counter-flag.txt";
 
-<StricliPlayground filename="counter-flag" rootExport="root" appName="run" defaultInput="-vv -v">
-    {CounterFlagCode}
-</StricliPlayground>
+<StricliPlayground>{CounterFlagCode}</StricliPlayground>
 
 ## Variants
 
@@ -97,9 +87,7 @@ If a flag property is optional, or is otherwise possibly `undefined` then it mus
 
 import OptionalFlagCode from "./examples/optional-flag.txt";
 
-<StricliPlayground filename="optional-flag" rootExport="root" appName="run" defaultInput="">
-    {OptionalFlagCode}
-</StricliPlayground>
+<StricliPlayground>{OptionalFlagCode}</StricliPlayground>
 
 When a property exists on the type used to define the flags, it must be represented in the specification. In cases where the type that defines the flags is derived from some other type, and you do not want an optional property to be made available as a flag the property should be manually removed (i.e. `Omit<Flags, "unwantedOptional">`).
 
@@ -107,52 +95,9 @@ When a property exists on the type used to define the flags, it must be represen
 
 It can be valuable to distinguish between `--flag` and `--flag value`. For `parsed` flag types, this behavior is available with the `inferEmpty` attribute. When this is true and the flag is encountered without an input, the input is inferred as the empty string `""` instead.
 
-```ts
-// output-next-line
-/// impl.ts
-export default function(flags: { override?: string }) {
-  console.log(flags.override);
-}
+import InferEmptyCodeCode from "./examples/infer-empty-flag.txt";
 
-// output-next-line
-/// command.ts
-buildCommand({
-  loader: async () => import("./impl"),
-  parameters: {
-    flags: {
-      override: {
-        kind: "parsed",
-        parse: String,
-        brief: "Should override be applied, or override value",
-        optional: true,
-        // highlight-next-line
-        inferEmpty: true,
-      },
-    },
-    ...
-  },
-  ...
-});
-```
-
-The command configuration above will produce a command with the following behavior:
-
-```sh
-run
-// output-next-line
-undefined
-run --override
-// output-next-line
-""
-run --override foobar
-// output-next-line
-"foobar"
-run --help
-// output-start
-FLAGS
-  --override  (optional) Should override be applied, or override value
-// output-end
-```
+<StricliPlayground>{InferEmptyCodeCode}</StricliPlayground>
 
 ### Defaults
 
@@ -160,17 +105,13 @@ Any flag can specify a default value as a string. For `parsed` flag types, this 
 
 import DefaultFlagCode from "./examples/default-flag.txt";
 
-<StricliPlayground filename="default-flag" rootExport="root" appName="run" defaultInput="">
-    {DefaultFlagCode}
-</StricliPlayground>
+<StricliPlayground>{DefaultFlagCode}</StricliPlayground>
 
 For variadic flags, you can specify an array of default values. Each default value will be validated (for `enum` flags) or parsed (for `parsed` flags) before being passed to the implementation.
 
 import VariadicDefaultFlagCode from "./examples/variadic-default-flag.txt";
 
-<StricliPlayground filename="variadic-default-flag" rootExport="root" appName="run" defaultInput="">
-    {VariadicDefaultFlagCode}
-</StricliPlayground>
+<StricliPlayground>{VariadicDefaultFlagCode}</StricliPlayground>
 
 ### Variadic
 
@@ -182,9 +123,7 @@ Variadic flags support [default values](#defaults) as an array of strings (for `
 
 import VariadicFlagCode from "./examples/variadic-flag.txt";
 
-<StricliPlayground filename="variadic-flag" rootExport="root" appName="run" defaultInput="--id 5 -i 10 -i 15">
-    {VariadicFlagCode}
-</StricliPlayground>
+<StricliPlayground>{VariadicFlagCode}</StricliPlayground>
 
 ### Hidden
 
@@ -194,6 +133,4 @@ The an additional system flag `--helpAll` (or `--help-all` depending on case sty
 
 import HiddenFlagCode from "./examples/hidden-flag.txt";
 
-<StricliPlayground filename="hidden-flag" rootExport="root" appName="run" defaultInput="--help">
-    {HiddenFlagCode}
-</StricliPlayground>
+<StricliPlayground>{HiddenFlagCode}</StricliPlayground>

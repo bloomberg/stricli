@@ -1,0 +1,24 @@
+/// impl.ts
+import type { CommandContext } from "@stricli/core";
+
+export default async function(this: CommandContext) {
+  this.process.stdout.write(`This string is written to the CommandContext.\n`);
+  this.process.stdout.write(`If \`process\` is passed, it will write to stdout.\n`);
+  this.process.stderr.write(`...or stderr.\n`);
+  this.process.stdout.write(`But you can also stub the context in testing,\n`);
+  this.process.stdout.write(`for easy dependency injection!\n`);
+}
+/// spec.ts
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
+  parameters: {},
+  docs: {
+    brief: "Example for live playground with homogenous positional parameters",
+  },
+});
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

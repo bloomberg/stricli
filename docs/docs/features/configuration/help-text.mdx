@@ -1,0 +1,33 @@
+---
+sidebar_position: 3
+---
+
+# Help Text
+
+The configuration in `documentation` controls how values and names in the application are included in documentation and help text. For information about how to customize the text itself, check out [localization](./localization.mdx).
+
+## Always Show `--helpAll` Flag
+
+Stricli provides a built-in `--help` flag that prints out the help text for a command/route. This help text will never include [hidden flags](../argument-parsing/flags.mdx#hidden), but those can be visualized with the `--helpAll` built-in flag. It will print all flags/routes, but is not listed as a flag in the normal help text. This built-in is always available, but if you want to make it visible to users at all times you can set `alwaysShowHelpAllFlag` to `true`.
+
+## Use Alias in Usage Line
+
+The usage lines for commands are automatically generated from the parameters. If the flag and argument names are overly long, the usage line can become particularly unwieldy. The configuration option `useAliasInUsageLine` defaults to `false`, but if enabled will use any aliases in place of flag names in the usage line.
+
+## Only Required in Usage Line
+
+By default, Stricli will render all flags and arguments in the sample usage line for the help text. If there are many optional flags or arguments, this can often grow too verbose. The configuration option `onlyRequiredInUsageLine` will filter out any runtime-optional flags and arguments from the automatically-generated usage line. This will include required flags that have a default specified. Note that custom usage lines can be provided manually per-command to allow for more specific control.
+
+## Display Case Style
+
+The `caseStyle` configuration here is the documentation-side equivalent of the [scanner case style](./input-scanning.mdx#scanner-case-style). It controls which case style is used when displaying route and flag names. It defaults to the value that matches the corresponding `scanner.caseStyle` value. If the scanner has `allow-kebab-for-camel` then the documentation case style will be `convert-camel-to-kebab` which converts the case style of any camelCase names to kebab-case when they are included in documentation.
+
+:::danger
+
+It is invalid to set `documentation.caseStyle` to `convert-camel-to-kebab` when `scanner.caseStyle` is `original` as this results in documentation that includes names that will not be supported at runtime.
+
+:::
+
+## Disable ANSI Color
+
+Stricli has support for ANSI terminal styling codes, if it is supported by the current streams (with sufficient color depth). Color and styling can be temporarily disabled for each run by setting the `NO_COLOR` or `FORCE_COLOR` common environment variables, or the specific `STRICLI_NO_COLOR` variable which will only affect Stricli applications. The `disableAnsiColor` config value can also be used to forcibly disable ANSI color codes for all runs of an application, no matter what the environment variables are set to.

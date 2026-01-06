@@ -1,18 +1,24 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+--enable
+--enable=false
+--no-enable
 
-interface Flags {
-  enableFeature: boolean;
+/// impl.ts
+type Flags = {
+  enable: boolean;
+};
+
+export default async function({ enable }: Flags) {
+  console.log(enable ? "Feature is enabled" : "Feature is disabled");
 }
+/// spec.ts
+import { buildCommand, numberParser } from "@stricli/core";
 
-export const root = buildCommand({
-  func(this: CommandContext, { enableFeature }: Flags) {
-    this.process.stdout.write(
-      enableFeature ? "Feature is enabled" : "Feature is disabled"
-    );
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
-      enableFeature: {
+      enable: {
         kind: "boolean",
         brief: "Enable the experimental feature",
         default: true,
@@ -24,8 +30,12 @@ export const root = buildCommand({
     brief: "Example for boolean flag with withNegated=false",
     customUsage: [
       { input: "", brief: "Uses default value (true)" },
-      { input: "--enableFeature", brief: "Explicitly enable feature" },
-      { input: "--enableFeature=false", brief: "Disable feature" },
+      { input: "--enable", brief: "Explicitly enable feature" },
+      { input: "--enable=false", brief: "Disable feature" },
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

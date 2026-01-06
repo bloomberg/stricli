@@ -1,0 +1,64 @@
+---
+sidebar_position: 4
+---
+
+# Localization
+
+Every single string of text that is printed by a Stricli application can be customized and controlled by the `localization` configuration. The only exception to this is the internal errors that are thrown by `buildApplication` if the application configuration itself was invalid in some way.
+
+The `context` object provided to the `run` command can optionally include a `locale` property that will be used to control what text is used by the application. For this section, locale roughly refers to [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag), but since application owners provide both the locale and the text loader that interprets the locale, any locale scheme can be used.
+
+## Default Locale
+
+This is the default locale that will be used if the `context` object does not define its own `locale` property. If a default locale is not explicitly set in the configuration, it will be `en`.
+
+## Text Loader
+
+The `loadText` function is responsible for loading the [application text](#application-text) object for the requested locale. It can return `undefined` but doing so will print an error message to stderr and the application will switch to the default locale. If this function returns `undefined` for the default locale, the application will fail with an internal error.
+
+If this function is not specified, it defaults to a function that will return the default `en` application text for all `en` locales.
+
+## Application Text
+
+The text for an application is composed of several static values and several dynamic functions for errors. The static values are primarily used for documentation, which includes the section headers (`USAGE`, `COMMANDS`, `FLAGS`, etc.), keywords (`optional`, `default`, etc.), and built-in briefs (`Print this help information and exit`, etc.).
+
+The following are brief descriptions of all of the dynamic functions that accept some arguments and output a string to be printed to stderr. All of these have default implementations in the included `en` text.
+
+-   `currentVersionIsNotLatest`
+
+    -   Default: `Latest available version is {latestVersion} (currently running {currentVersion})`
+    -   This function is called when [version info](./version-information.mdx) is provided and the current version does not match the latest version. Ideally, this text should include details for how an end user would install that latest version.
+
+-   `noTextAvailableForLocale`
+
+    -   Default: `Application does not support "{requestedLocale}" locale, defaulting to "{defaultLocale}"`
+    -   When the context specifies a custom locale and the [text loader](#text-loader) returned `undefined`, the application will switch to the default locale. This text (assumed to be in the default locale) will be printed to stderr to notify the user that the requested locale is not available.
+
+-   `noCommandRegisteredForInput`
+
+    -   Default: `No command registered for {input}, did you mean {corrections}?`
+    -   This function is called if the scanner is consuming user input and failed to find a command with the provided name. Stricli will internally calculate possible corrections with a [distance calculation](./input-scanning.mdx#distance-calculation) and pass those as an input to this function.
+
+-   `exceptionWhileParsingArguments`
+
+    -   Default: `Unable to parse arguments, {formattedException}`
+    -   This function is called if an exception is thrown while parsing arguments. This generally implies that one of the inputs was invalid. Exceptions intentionally thrown by Stricli while parsing arguments will extend from `ArgumentScannerError`. You can use `formatMessageForArgumentScannerError` to customize error messages for those errors.
+
+-   `exceptionWhileLoadingCommandModule`
+
+    -   Default: `Unable to load command module, {formattedException}`
+    -   This function is called if an exception is thrown while loading the command module. This generally implies that there is something wrong with the application itself and how it was built/structured.
+
+-   `exceptionWhileLoadingCommandContext`
+
+    -   Default: `Unable to load command context, {formattedException}`
+    -   This function is called if an exception is thrown while loading the command context. This will only happen if the context passed to `run` has a `forCommand` method to provide a custom command context. This generally implies that there is something wrong with the application itself and how it was built/structured.
+
+-   `exceptionWhileRunningCommand`
+
+    -   Default: `Command failed, {formattedException}`
+    -   This function is called if an exception is thrown while the implementation function of a command was running. This could be literally anything depending on the implementation of your application and its commands.
+
+-   `commandErrorResult`
+    -   Default: `{err.message}`
+    -   This function is called if the command function safely returned an `Error` instance. Note that if an `Error` is thrown, then Stricli will call `exceptionWhileRunningCommand` instead of this function. The `Error` must be returned from the command function and must satisfy `instanceof Error`.

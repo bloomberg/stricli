@@ -1,9 +1,14 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+a b c
+/// impl.ts
+export default async function(_: {}, ...paths: string[]) {
+  console.log(`Deleting files at ${paths.join(", ")}`);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
 
-export const root = buildCommand({
-  func(this: CommandContext, _: {}, ...paths: string[]) {
-    this.process.stdout.write(`Deleting files at ${paths.join(", ")}`);
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     positional: {
       kind: "array",
@@ -17,3 +22,7 @@ export const root = buildCommand({
     brief: "Example for live playground with homogenous positional parameters",
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });
