@@ -1,6 +1,6 @@
 {
     "name": "@stricli/create-app",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "description": "Generate a new Stricli application",
     "license": "Apache-2.0",
     "repository": {
@@ -44,8 +44,8 @@
         "minify": true
     },
     "dependencies": {
-        "@stricli/auto-complete": "^1.2.4",
-        "@stricli/core": "^1.2.4"
+        "@stricli/auto-complete": "^1.2.5",
+        "@stricli/core": "^1.2.5"
     },
     "devDependencies": {
         "@types/chai": "^4.3.16",

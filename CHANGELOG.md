@@ -1,3 +1,33 @@
+## 1.2.5 (2026-01-06)
+
+### 🚀 Features
+
+- expose fullDescription to DocumentedTarget ([3d0c547](https://github.com/bloomberg/stricli/commit/3d0c547))
+- withNegated for bool flags ([2296154](https://github.com/bloomberg/stricli/commit/2296154))
+- variadic defaults ([35821bb](https://github.com/bloomberg/stricli/commit/35821bb))
+- default values for variadic flags ([956ea07](https://github.com/bloomberg/stricli/commit/956ea07))
+- disable minifiy for @stricli/core ([aae0341](https://github.com/bloomberg/stricli/commit/aae0341))
+- withNegated option for boolean flags ([a300cb2](https://github.com/bloomberg/stricli/commit/a300cb2))
+
+### 🩹 Fixes
+
+- start load after arguments parsed ([5d16238](https://github.com/bloomberg/stricli/commit/5d16238))
+- simplify handling of node version for new package.json ([65c4bc0](https://github.com/bloomberg/stricli/commit/65c4bc0))
+- reset flag when withNegated is false ([044e472](https://github.com/bloomberg/stricli/commit/044e472))
+- more accurate error messages ([40684aa](https://github.com/bloomberg/stricli/commit/40684aa))
+- update docs for withNegated ([6bc3800](https://github.com/bloomberg/stricli/commit/6bc3800))
+- update linting and test baselines ([fc592a0](https://github.com/bloomberg/stricli/commit/fc592a0))
+- always show all defaults ([0e486ab](https://github.com/bloomberg/stricli/commit/0e486ab))
+- take variadic string separator into account ([77e804d](https://github.com/bloomberg/stricli/commit/77e804d))
+- additional test coverage ([3478dc5](https://github.com/bloomberg/stricli/commit/3478dc5))
+
+### ❤️ Thank You
+
+- Jason Yu
+- Jeff Posnick
+- jposnick1
+- mmolisani
+
 ## 1.2.4 (2025-10-14)
 
 This was a version bump only, there were no code changes.
