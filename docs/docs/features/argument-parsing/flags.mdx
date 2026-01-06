@@ -52,12 +52,27 @@ import EnumFlagCode from "./examples/enum-flag.txt";
 
 Instead of parsing a flag value as a raw boolean (`--flag=true/false`), you could instead use the special `boolean` flag type which has a few enhancements.
 
-Since boolean flags can only have two values, the presence of the flag can be used to determine the value instead (`--flag`/`-f`). However, depending on the [default value](#defaults), it may be useful to allow for negation. The framework automatically supports additional flags prefixed with `no` to indicate the opposite value (`--noFlag` or `--no-flag` depending on [case style](#case-style)). This type uses the provided `looseBooleanParser` under the hood to allow for values like `yes`/`y` (for `true`) and `no`/`n` (for `false`).
+Since boolean flags can only have two values, the presence of the flag can be used to determine the value instead (`--flag`/`-f`). However, depending on the [default value](#defaults), it may be useful to allow for negation. By default, Stricli automatically supports additional flags prefixed with `no` to indicate the opposite value (`--noFlag` or `--no-flag` depending on [case style](#case-style)). This type uses the provided `looseBooleanParser` under the hood to allow for values like `yes`/`y` (for `true`) and `no`/`n` (for `false`).
+
+The negation behavior can be controlled using the `withNegated` option:
+
+-   When `withNegated` is not set or set to `true` (default), a negated version of the flag (e.g., `--noQuiet` for `--quiet`) will be genereated
+-   When `withNegated` is set to `false`, the negated flag is disabled and only the base flag name is available
+
+This is particularly useful when you want to prevent confusing flag combinations or when the semantics of the flag don't make sense with negation.
 
 import BooleanFlagCode from "./examples/boolean-flag.txt";
 
 <StricliPlayground filename="boolean-flag" rootExport="root" appName="run" defaultInput="--noQuiet">
     {BooleanFlagCode}
+</StricliPlayground>
+
+Here's an example with `withNegated: false`, where the negated is disabled:
+
+import BooleanFlagNoNegationCode from "./examples/boolean-flag-no-negation.txt";
+
+<StricliPlayground filename="boolean-flag-no-negation" rootExport="root" appName="run" defaultInput="">
+    {BooleanFlagNoNegationCode}
 </StricliPlayground>
 
 ### Counters

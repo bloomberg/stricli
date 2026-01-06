@@ -37,7 +37,7 @@ export function formatDocumentationForFlagParameters(
             .map(([alias]) => `-${alias}`);
 
         let flagName = "--" + formatForDisplay(name, args.config.caseStyle);
-        if (flag.kind === "boolean" && flag.default !== false) {
+        if (flag.kind === "boolean" && flag.default !== false && flag.withNegated !== false) {
             const negatedFlagName = formatAsNegated(name, args.config.caseStyle);
             flagName = `${flagName}/--${negatedFlagName}`;
         }
