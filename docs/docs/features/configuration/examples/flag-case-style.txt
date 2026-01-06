@@ -1,0 +1,44 @@
+--help
+--camel-case one --kebab-case two
+/// impl.ts
+type Flags = {
+  camelCase: string;
+  "kebab-case": string;
+};
+
+export default async function(flags: Flags) {
+  console.log(flags);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
+  parameters: {
+    flags: {
+      camelCase: {
+        kind: "parsed",
+        parse: String,
+        brief: "Flag defined with a camelCase name",
+      },
+      "kebab-case": {
+        kind: "parsed",
+        parse: String,
+        brief: "Flag defined with a kebab-case name",
+      },
+    },
+  },
+  docs: {
+    brief: "Example for live playground with flags using multiple case styles",
+  },
+});
+/// app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, {
+  name: "run",
+  // Only modify properties in this configuration object
+  scanner: {
+    caseStyle: "allow-kebab-for-camel",
+  },
+});

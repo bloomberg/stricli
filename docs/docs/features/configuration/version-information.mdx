@@ -1,0 +1,21 @@
+---
+sidebar_position: 1
+---
+
+import StricliPlayground from "@site/src/components/StricliPlayground";
+
+# Version Information
+
+One common requirement of CLI applications is to display their own current version. This is possible with the `versionInfo` configuration object.
+
+If this object is specified, it will expect either a static `currentVersion` string or a function `getCurrentVersion` which asynchronously returns the current version. If `versionInfo` is provided with this value/function, then Stricli will automatically expose `--version`/`-v` flags to the application root. When `--version` is called, Stricli will print this current version to stdout.
+
+## Update Warnings
+
+Another related requirement is to warn users when their version is outdated and there is an updated version available. In the `versionInfo` object you can also specify a `getLatestVersion` function which optionally accepts `currentVersion` and returns the latest version of the application, if it is available. Stricli will then compare the current version against the latest version and print a warning to stderr. Optionally a command can be provided (`upgradeCommand`) if there is a simple way for end users to upgrade to the latest version.
+
+The text of this warning can be controlled by the [localization](./localization.mdx) but will only happen when `getLatestVersion` is provided and the current version does not match the latest version.
+
+import VersionWarningCode from "./examples/version-warning.txt";
+
+<StricliPlayground>{VersionWarningCode}</StricliPlayground>

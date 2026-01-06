@@ -1,14 +1,19 @@
-import { buildCommand, numberParser, type CommandContext } from "@stricli/core";
-
-interface Flags {
+--help
+--item apple --price 1
+/// impl.ts
+type Flags = {
   item: string;
   price: number;
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { item, price }: Flags) {
-    this.process.stdout.write(`${item}s cost $${price.toFixed(2)}`);
-  },
+export default async function({ item, price }: Flags) {
+  console.log(`${item}s cost $${price.toFixed(2)}`);
+}
+/// spec.ts
+import { buildCommand, numberParser } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       item: {
@@ -32,3 +37,7 @@ export const root = buildCommand({
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

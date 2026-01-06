@@ -1,13 +1,19 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+Firstname
+Firstname Lastname
+/// impl.ts
+export default async function(_: {}, firstName: string, lastName?: string) {
+  if (lastName) {
+    console.log(`Hello ${firstName} ${lastName}!`);
+  } else {
+    console.log(`Hello ${firstName}!`);
+  }
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
 
-export const root = buildCommand({
-  func(this: CommandContext, _: {}, firstName: string, lastName?: string) {
-    if (lastName) {
-      this.process.stdout.write(`Hello ${firstName} ${lastName}!`);
-    } else {
-      this.process.stdout.write(`Hello ${firstName}!`);
-    }
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     positional: {
       kind: "tuple",
@@ -28,3 +34,7 @@ export const root = buildCommand({
     brief: "Example for live playground with optional positional parameter",
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

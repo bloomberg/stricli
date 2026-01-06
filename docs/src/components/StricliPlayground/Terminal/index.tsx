@@ -3,9 +3,13 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Ansi from "./Ansi";
 
-export type TerminalHistoryLine = [text: string, stream: "stdin" | "stdout" | "stderr"];
+export type TerminalHistoryLine =
+    | readonly [text: string, stream: "stdout" | "stderr"]
+    | readonly [text: string, stream: "stdin", prefix: string];
 
 export interface TerminalProps {
+    appLoaded?: boolean;
+    initialInputs?: readonly string[];
     defaultValue?: string;
     commandPrefix?: string;
     commandPrompt?: string;
@@ -19,6 +23,8 @@ export interface TerminalProps {
 const LINE_HEIGHT_EM = 1.25;
 
 export default function Terminal({
+    appLoaded,
+    initialInputs = [],
     defaultValue = "",
     commandPrefix = "",
     commandPrompt = "> ",
@@ -30,11 +36,29 @@ export default function Terminal({
 }: TerminalProps) {
     const inputRef = useRef<HTMLInputElement>();
     const [collapsed, setCollapsed] = useState<boolean>(startCollapsed);
+    const [firstRunComplete, setFirstRunComplete] = useState<boolean>(false);
     const [input, setInput] = useState<string>(defaultValue);
     const [history, setHistory] = useState<readonly TerminalHistoryLine[]>([]);
     const [historyIndex, setHistoryIndex] = useState<number | undefined>(void 0);
     const [completions, setCompletions] = useState<readonly string[]>([]);
     const [completionIndex, setCompletionIndex] = useState<number | undefined>(void 0);
+
+    useEffect(() => {
+        if (appLoaded) {
+            if (!firstRunComplete) {
+                setFirstRunComplete(true);
+                void (async () => {
+                    const initialHistory = [...history];
+                    for (const input of initialInputs) {
+                        const lines = await executeInput(input);
+                        initialHistory.unshift(...lines);
+                    }
+                    setHistory(initialHistory);
+                    setHistoryIndex(void 0);
+                })();
+            }
+        }
+    }, [appLoaded, firstRunComplete, input, history, historyIndex, collapsed]);
 
     const focusInput = useCallback(() => {
         inputRef.current?.focus();
@@ -50,13 +74,13 @@ export default function Terminal({
                 setCompletionIndex(void 0);
             }
 
-            const inputWithPrefix = `${commandPrefix}${input}`;
+            const inputWithPrefix = `${commandPrefix} ${input}`;
             if (e.key === "Enter") {
-                const lines = await executeInput(inputWithPrefix);
-                setHistory([...lines, [input, "stdin"], ...history]);
-                setInput("");
-                setCollapsed(false);
+                const lines = await executeInput(input);
+                setHistory([...lines, ...history]);
                 setHistoryIndex(void 0);
+                setCollapsed(false);
+                setInput("");
             } else if (e.key === "ArrowUp") {
                 setHistoryIndex(typeof historyIndex === "number" ? historyIndex + 1 : 0);
                 e.preventDefault();
@@ -73,7 +97,7 @@ export default function Terminal({
                     setCompletionIndex(completionIndex + 1);
                 } else {
                     const inputCompletions = await completeInput(inputWithPrefix);
-                    const completions = inputCompletions.map((str) => str.slice(commandPrefix.length));
+                    const completions = inputCompletions.map((str) => str.slice(commandPrefix.length + 1));
                     setCompletions(completions);
                     setCompletionIndex(0);
                 }
@@ -112,7 +136,8 @@ export default function Terminal({
     const clearHistory = useCallback(() => {
         setHistory([]);
         setHistoryIndex(void 0);
-    }, [history, historyIndex]);
+        setCollapsed(true);
+    }, [history, historyIndex, collapsed]);
 
     const height = collapsed ? `${LINE_HEIGHT_EM}em` : expandedHeight;
 
@@ -128,20 +153,21 @@ export default function Terminal({
                 <div className="ansi-block terminal-input">
                     <span style={{ display: "inline-flex" }}>
                         {commandPrompt}
-                        {commandPrefix}
+                        {commandPrefix}{" "}
                     </span>
                     <input
                         className="terminal-input-textinput"
                         ref={inputRef}
                         type="text"
                         value={input}
+                        spellCheck={false}
                         onChange={onChange}
                         // eslint-disable-next-line @typescript-eslint/no-misused-promises
                         onKeyDown={onKeyDown}
                     />
                 </div>
                 {history.map((line, i) => {
-                    const text = line[1] === "stdin" ? `${commandPrompt}${commandPrefix}${line[0]}` : line[0];
+                    const text = line[1] === "stdin" ? `${commandPrompt}${line[2]} ${line[0]}` : line[0];
                     return (
                         <Ansi key={`terminal-history-line-${i}`} className={`terminal-${line[1]}`}>
                             {text}

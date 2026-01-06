@@ -1,13 +1,20 @@
-import { buildCommand, numberParser, type CommandContext } from "@stricli/core";
+/// impl.ts
+type Flags = {
+  limit?: number;
+};
+
+export default async function({ limit }: Flags) {
+  console.log(limit ? `Set limit to ${limit}` : "No limit");
+}
+/// spec.ts
+import { buildCommand, numberParser } from "@stricli/core";
 
 interface Flags {
   limit?: number;
 }
 
-export const root = buildCommand({
-  func(this: CommandContext, { limit }: Flags) {
-    this.process.stdout.write(limit ? `Set limit to ${limit}` : "No limit");
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       limit: {
@@ -23,7 +30,10 @@ export const root = buildCommand({
     customUsage: [
       "",
       "--limit 1000",
-      "--noQuiet",
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

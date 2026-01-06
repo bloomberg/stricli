@@ -1,9 +1,13 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+/// impl.ts
+export default async function(_: {}, src: string, dest: string) {
+  console.log(`Copying file from ${src} to ${dest}`);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
 
-export const root = buildCommand({
-  func(this: CommandContext, _: {}, src: string, dest: string) {
-    this.process.stdout.write(`Copying file from ${src} to ${dest}`);
-  },
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     positional: {
       kind: "tuple",
@@ -25,3 +29,7 @@ export const root = buildCommand({
     brief: "Example for live playground with positional arguments labeled by placeholders",
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });

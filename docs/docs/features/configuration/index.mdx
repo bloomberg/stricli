@@ -1,0 +1,19 @@
+# Configuration
+
+The Stricli framework was designed to give applications the maximum amount of flexibility within the predefined constraints. When [building an application](../command-routing/index.mdx), you can specify additional configurations to control the application behavior in different ways.
+
+### `name`
+
+The name of the application, should match the name of the executable that users call.
+
+### `versionInfo` ([Version Information](./version-information.mdx))
+
+### `scanner` ([Input Scanning](./input-scanning.mdx))
+
+### `documentation` ([Help Text](./help-text.mdx))
+
+### `localization` ([Localization](./localization.mdx))
+
+### `determineExitCode` Custom Exit Code
+
+When a command's implementation function throws an exception, that triggers a failure which will force the application to return an exit code of `1`. If you wish to customize this behavior, you can specify a `determineExitCode` function in the application config that reads the exception and returns the requested exit code.

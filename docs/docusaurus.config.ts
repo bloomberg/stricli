@@ -7,25 +7,17 @@ const config: Config = {
     tagline: "Build complex CLIs with type safety and no dependencies",
     favicon: "img/S-logo.svg",
 
-    // Set the production url of your site here
     url: "https://bloomberg.github.io",
-    // Set the /<baseUrl>/ pathname under which your site is served
-    // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: "/stricli",
 
-    // GitHub pages deployment config.
-    // If you aren't using GitHub pages, you don't need these.
-    organizationName: "bloomberg", // Usually your GitHub org/user name.
-    projectName: "stricli", // Usually your repo name.
+    organizationName: "bloomberg",
+    projectName: "stricli",
 
     onBrokenLinks: "throw",
     onBrokenMarkdownLinks: "throw",
     onDuplicateRoutes: "throw",
     trailingSlash: false,
 
-    // Even if you don't use internationalization, you can use this field to set
-    // useful metadata like html lang. For example, if your site is Chinese, you
-    // may want to replace "en" with "zh-Hans".
     i18n: {
         defaultLocale: "en",
         locales: ["en"],
@@ -181,23 +173,6 @@ const config: Config = {
                         },
                     ],
                 },
-                // {
-                //   title: 'Community',
-                //   items: [
-                //     {
-                //       label: 'Stack Overflow',
-                //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-                //     },
-                //     {
-                //       label: 'Discord',
-                //       href: 'https://discordapp.com/invite/docusaurus',
-                //     },
-                //     {
-                //       label: 'Twitter',
-                //       href: 'https://twitter.com/docusaurus',
-                //     },
-                //   ],
-                // },
                 {
                     title: "More",
                     items: [
