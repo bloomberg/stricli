@@ -7093,6 +7093,49 @@ describe("ArgumentScanner", () => {
             });
         });
 
+        describe("required variadic enum flag with invalid default", () => {
+            type Positional = [];
+            type MyEnum = "foo" | "bar" | "baz";
+            type Flags = {
+                readonly mode: MyEnum[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    mode: {
+                        kind: "enum",
+                        values: ["foo", "bar", "baz"],
+                        brief: "mode",
+                        variadic: true,
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        default: ["foo", "invalid"] as any,
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            it("parseArguments throws EnumValidationError for invalid default", async () => {
+                await testArgumentScannerParse<Flags, Positional>({
+                    parameters,
+                    config: defaultScannerConfig,
+                    inputs: [],
+                    expected: {
+                        success: false,
+                        errors: [
+                            {
+                                type: "EnumValidationError",
+                                properties: {
+                                    externalFlagName: "mode",
+                                    input: "invalid",
+                                    values: ["foo", "bar", "baz"],
+                                },
+                            },
+                        ],
+                    },
+                });
+            });
+        });
+
         describe("optional variadic parsed flag with default", () => {
             type Positional = [];
             type Flags = {

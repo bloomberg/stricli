@@ -236,6 +236,14 @@
 [97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with long default[23m          [[90mdefault =[39m one two three four five]
 [97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > no ANSI color
+   [--variadicParsed]...  required variadic parsed flag with empty default         [default = []]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with empty default[23m         [[90mdefault =[39m []]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > no ANSI color
    --variadicParsed...  variadic parsed flag with separator                      [separator = ,]
 -h --help               Print help information and exit

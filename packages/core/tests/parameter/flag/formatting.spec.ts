@@ -686,6 +686,29 @@ describe("formatDocumentationForFlagParameters", () => {
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
 
+        describe("required variadic parsed flag with empty default", () => {
+            // GIVEN
+            type Positional = [];
+            type Flags = {
+                readonly variadicParsed: string[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+                flags: {
+                    variadicParsed: {
+                        kind: "parsed",
+                        parse: String,
+                        variadic: true,
+                        brief: "required variadic parsed flag with empty default",
+                        default: [],
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            compareDocumentationToBaseline(parameters, defaultArgs);
+        });
+
         describe("required array parsed flag", () => {
             // GIVEN
             type Positional = [];
