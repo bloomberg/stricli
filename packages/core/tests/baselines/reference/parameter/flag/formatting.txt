@@ -84,6 +84,22 @@
 [97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m b]
 [97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > enum > variadic enum flag with separator and default > no ANSI color
+   [--format]  Output format(s)                                         [json|xml|yaml, default = json+yaml, separator = +]
+-h  --help     Print help information and exit
+    --         All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > enum > variadic enum flag with separator and default > with ANSI color
+[97m[39m   [97m[--format][39m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json+yaml, [90mseparator =[39m +]
+[97m-h[39m [97m --help[39m     [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m         [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > enum > variadic enum flag without separator and with default > no ANSI color
+   [--format]  Output format(s)                                         [json|xml|yaml, default = json yaml]
+-h  --help     Print help information and exit
+    --         All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > enum > variadic enum flag without separator and with default > with ANSI color
+[97m[39m   [97m[--format][39m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json yaml]
+[97m-h[39m [97m --help[39m     [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m         [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters > no flags > no ANSI color
 -h --help  Print help information and exit
    --      All subsequent inputs should be interpreted as arguments
@@ -150,6 +166,14 @@
 [97m[39m   [97m[--optionalVariadicParsed]...[39m  [03moptional variadic parsed flag[23m
 [97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m
 [97m[39m   [97m --[39m                            [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > no ANSI color
+   [--variadicParsed]...  optional variadic parsed flag with default               [default = foo bar]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03moptional variadic parsed flag with default[23m               [[90mdefault =[39m foo bar]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters > parsed > required array parsed flag > no ANSI color
    --requiredArrayParsed  required array parsed flag
 -h --help                 Print help information and exit
@@ -212,6 +236,22 @@
 [97m[39m   [97m--requiredVariadicParsed...[39m  [03mrequired variadic parsed flag[23m
 [97m-h[39m [97m--help[39m                       [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                           [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > no ANSI color
+   [--variadicParsed]...  required variadic parsed flag with long default          [default = one two three four five]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with long default[23m          [[90mdefault =[39m one two three four five]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > no ANSI color
+   [--variadicParsed]...  required variadic parsed flag with empty default         [default = []]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with empty default[23m         [[90mdefault =[39m []]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m
 :::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > no ANSI color
    --variadicParsed...  variadic parsed flag with separator                      [separator = ,]
 -h --help               Print help information and exit
@@ -220,3 +260,11 @@
 [97m[39m   [97m--variadicParsed...[39m  [03mvariadic parsed flag with separator[23m                      [[90mseparator =[39m ,]
 [97m-h[39m [97m--help[39m               [03mPrint help information and exit[23m
 [97m[39m   [97m--[39m                   [03mAll subsequent inputs should be interpreted as arguments[23m
+:::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator and default > no ANSI color
+   [--variadicParsed]...  variadic parsed flag with separator and default          [default = json+xml, separator = +]
+-h  --help                Print help information and exit
+    --                    All subsequent inputs should be interpreted as arguments
+:::: formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator and default > with ANSI color
+[97m[39m   [97m[--variadicParsed]...[39m  [03mvariadic parsed flag with separator and default[23m          [[90mdefault =[39m json+xml, [90mseparator =[39m +]
+[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m
+[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m

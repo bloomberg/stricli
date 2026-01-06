@@ -1,0 +1,35 @@
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+interface Flags {
+  format?: ("json" | "xml" | "yaml")[];
+}
+
+export const root = buildCommand({
+  func(this: CommandContext, { format }: Flags) {
+    this.process.stdout.write(`Output formats: ${format?.join(", ") ?? "none"}`);
+  },
+  parameters: {
+    flags: {
+      format: {
+        kind: "enum",
+        values: ["json", "xml", "yaml"],
+        brief: "Output format(s)",
+        optional: true,
+        variadic: true,
+        default: ["json", "yaml"],
+      },
+    },
+    aliases: {
+      f: "format",
+    },
+  },
+  docs: {
+    brief: "Example for live playground with variadic flag and default values",
+    customUsage: [
+      "",
+      "--format xml",
+      "--format json --format yaml",
+      "-f xml -f json",
+    ],
+  },
+});
