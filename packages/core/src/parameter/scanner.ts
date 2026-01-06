@@ -383,7 +383,7 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
                 if (flag.withNegated !== false) {
                     return { namedFlag: [camelCaseWithoutNegation, flag], negated: true };
                 } else {
-                    // Clear out theflag match so that it doesn't trigger a false positive.
+                    // Clear out flag match so that it doesn't trigger a false positive.
                     foundFlagWithNegatedFalse = camelCaseWithoutNegation;
                     foundFlagWithNegatedFalseFromKebabConversion = true;
                     flag = void 0;
