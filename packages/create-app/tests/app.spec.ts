@@ -9,8 +9,12 @@ import sinon from "sinon";
 import { app } from "../src/app";
 // eslint-disable-next-line no-restricted-imports
 import type { LocalContext } from "../src/context";
+import { applicationTestResultSerializer } from "./snapshot-serializers";
 import { FakeWritableStream } from "./stream";
 import type { DeepPartial } from "./types";
+
+// Register custom snapshot serializer for ApplicationTestResult
+expect.addSnapshotSerializer(applicationTestResultSerializer);
 
 interface ApplicationTestOptions {
     readonly cwd: string;

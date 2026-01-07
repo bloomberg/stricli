@@ -15,6 +15,10 @@ import type { HelpFormattingArguments } from "../../src/routing/types";
 import { buildFakeContext } from "../fakes/context";
 // eslint-disable-next-line no-restricted-imports
 import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
+import { runResultSerializer } from "../snapshot-serializers";
+
+// Register custom snapshot serializer
+expect.addSnapshotSerializer(runResultSerializer);
 
 export interface CommandRunResult {
     readonly stdout: string;

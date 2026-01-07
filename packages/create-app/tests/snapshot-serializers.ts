@@ -1,9 +1,9 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 /* v8 ignore file -- @preserve */
-import { expect } from "vitest";
 import nodePath from "node:path";
 import url from "node:url";
+import type { SnapshotSerializer } from "vitest";
 import type { PackageJson } from "type-fest";
 import type { ApplicationTestResult } from "./app.spec";
 
@@ -37,7 +37,7 @@ function sanitizeStackTraceReferences(text: string): string {
 const FILE_ENTRY_PREFIX = "::::";
 
 // Serializer for ApplicationTestResult
-expect.addSnapshotSerializer({
+export const applicationTestResultSerializer: SnapshotSerializer = {
     test(val: unknown): val is ApplicationTestResult {
         return (
             typeof val === "object" &&
@@ -75,4 +75,4 @@ expect.addSnapshotSerializer({
 
         return lines.join("\n");
     },
-});
+};

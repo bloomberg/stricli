@@ -20,6 +20,11 @@ import {
 } from "../src";
 import { buildFakeApplicationText } from "./fakes/config";
 import { buildFakeContext, type FakeContext } from "./fakes/context";
+import { runResultSerializer, documentedCommandArraySerializer } from "./snapshot-serializers";
+
+// Register custom snapshot serializers
+expect.addSnapshotSerializer(runResultSerializer);
+expect.addSnapshotSerializer(documentedCommandArraySerializer);
 
 function testCompletions(app: Application<FakeContext>, inputs: string[], expected: readonly InputCompletion[]) {
     const line = inputs.join(" ");

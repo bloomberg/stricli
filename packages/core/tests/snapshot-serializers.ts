@@ -1,9 +1,9 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 /* v8 ignore file -- @preserve */
-import { expect } from "vitest";
 import path from "node:path";
 import url from "node:url";
+import type { SnapshotSerializer } from "vitest";
 import { ExitCode, type DocumentedCommand } from "../src";
 import type { CommandRunResult } from "./routing/command.spec";
 import type { ApplicationRunResult } from "./application.spec";
@@ -47,7 +47,7 @@ function serializeExitCode(exitCode: number | string | null | undefined): string
 }
 
 // Serializer for CommandRunResult and ApplicationRunResult
-expect.addSnapshotSerializer({
+export const runResultSerializer: SnapshotSerializer = {
     test(val: unknown): val is CommandRunResult | ApplicationRunResult {
         return (
             typeof val === "object" &&
@@ -69,10 +69,10 @@ expect.addSnapshotSerializer({
         ];
         return lines.join("\n");
     },
-});
+};
 
 // Serializer for DocumentedCommand arrays
-expect.addSnapshotSerializer({
+export const documentedCommandArraySerializer: SnapshotSerializer = {
     test(val: unknown): val is readonly DocumentedCommand[] {
         return (
             Array.isArray(val) &&
@@ -91,4 +91,4 @@ expect.addSnapshotSerializer({
         }
         return lines.join("\n");
     },
-});
+};
