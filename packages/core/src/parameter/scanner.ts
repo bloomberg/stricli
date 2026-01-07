@@ -353,12 +353,20 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
 ): NamedFlagWithNegation<CONTEXT> {
     const internalFlagName = externalFlagName as string as InternalFlagName;
     let flag = flags[internalFlagName];
+    let foundFlagWithNegatedFalse: InternalFlagName | undefined;
+    let foundFlagWithNegatedFalseFromKebabConversion = false;
     if (!flag) {
         const internalWithoutNegation = undoNegation(internalFlagName);
         if (internalWithoutNegation) {
             flag = flags[internalWithoutNegation];
             if (flag && flag.kind == "boolean") {
-                return { namedFlag: [internalWithoutNegation, flag], negated: true };
+                if (flag.withNegated !== false) {
+                    return { namedFlag: [internalWithoutNegation, flag], negated: true };
+                } else {
+                    // Clear out flag match so that it doesn't trigger a false positive.
+                    foundFlagWithNegatedFalse = internalWithoutNegation;
+                    flag = void 0;
+                }
             }
         }
     }
@@ -372,11 +380,26 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
         if (camelCaseWithoutNegation) {
             flag = flags[camelCaseWithoutNegation];
             if (flag && flag.kind == "boolean") {
-                return { namedFlag: [camelCaseWithoutNegation, flag], negated: true };
+                if (flag.withNegated !== false) {
+                    return { namedFlag: [camelCaseWithoutNegation, flag], negated: true };
+                } else {
+                    // Clear out flag match so that it doesn't trigger a false positive.
+                    foundFlagWithNegatedFalse = camelCaseWithoutNegation;
+                    foundFlagWithNegatedFalseFromKebabConversion = true;
+                    flag = void 0;
+                }
             }
         }
     }
     if (!flag) {
+        if (foundFlagWithNegatedFalse) {
+            // Convert correction to match input's case style
+            let correction = foundFlagWithNegatedFalse;
+            if (foundFlagWithNegatedFalseFromKebabConversion && externalFlagName.includes("-")) {
+                correction = convertCamelCaseToKebabCase(foundFlagWithNegatedFalse) as InternalFlagName;
+            }
+            throw new FlagNotFoundError(externalFlagName, [correction]);
+        }
         if (camelCaseFlagName in flags) {
             throw new FlagNotFoundError(externalFlagName, [camelCaseFlagName]);
         }
