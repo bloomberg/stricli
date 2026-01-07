@@ -2,45 +2,58 @@
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "targetDefaults": {
         "typecheck": {
+            "inputs": ["{projectRoot}/tsconfig.json", "{projectRoot}/src/**/*", "{projectRoot}/tests/**/*"],
             "dependsOn": ["^build"],
             "cache": true
         },
         "build": {
             "dependsOn": ["^build"],
+            "inputs": ["{projectRoot}/tsconfig.json", "{projectRoot}/src/**/*", "{projectRoot}/tests/**/*"],
             "outputs": ["{projectRoot}/dist"],
             "cache": true
         },
         "format": {
-            "inputs": ["{workspaceRoot}/.prettierrc"],
+            "inputs": ["{workspaceRoot}/.prettierrc", "{projectRoot}/**/*"],
             "cache": false
         },
         "format:check": {
-            "inputs": ["{workspaceRoot}/.prettierrc"],
+            "inputs": ["{workspaceRoot}/.prettierrc", "{projectRoot}/**/*"],
             "cache": true
         },
         "lint": {
             "dependsOn": ["^build", "typecheck"],
-            "inputs": ["{workspaceRoot}/eslint.config.mjs"],
+            "inputs": [
+                "{workspaceRoot}/eslint.config.mjs",
+                "{projectRoot}/eslint.config.mjs",
+                "{projectRoot}/src/**/*",
+                "{projectRoot}/tests/**/*"
+            ],
             "cache": true
         },
         "lint:fix": {
             "dependsOn": ["^build", "typecheck"],
-            "inputs": ["{workspaceRoot}/eslint.config.mjs"],
+            "inputs": [
+                "{workspaceRoot}/eslint.config.mjs",
+                "{projectRoot}/eslint.config.mjs",
+                "{projectRoot}/src/**/*",
+                "{projectRoot}/tests/**/*"
+            ],
             "cache": false
         },
         "test": {
             "dependsOn": ["^build", "typecheck"],
-            "inputs": ["{workspaceRoot}/vitest.config.ts"],
+            "inputs": ["{workspaceRoot}/vitest.config.ts", "{projectRoot}/src/**/*", "{projectRoot}/tests/**/*"],
             "cache": true
         },
         "coverage": {
             "dependsOn": ["^build", "typecheck"],
-            "inputs": ["{workspaceRoot}/vitest.config.ts"],
+            "inputs": ["{workspaceRoot}/vitest.config.ts", "{projectRoot}/src/**/*", "{projectRoot}/tests/**/*"],
             "outputs": ["{projectRoot}/coverage"],
             "cache": true
         },
         "build-docs": {
             "dependsOn": ["^build"],
+            "inputs": ["{projectRoot}/**/*"],
             "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"],
             "cache": true
         }
