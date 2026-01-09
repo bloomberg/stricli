@@ -24,8 +24,7 @@
         "lint:fix": "eslint src tests --fix",
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "test": "vitest --run",
-        "test:clear-baseline": "node scripts/clear_baseline",
-        "test:accept-baseline": "node scripts/accept_baseline",
+        "test:update-snapshots": "vitest --run --update",
         "coverage": "vitest --run --coverage.enabled",
         "build": "tsup --silent",
         "prepublishOnly": "npm run build"

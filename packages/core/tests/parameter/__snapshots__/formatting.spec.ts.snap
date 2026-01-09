@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`formatUsageLineForParameters > flags > boolean > optional boolean flag 1`] = `"cli [--optionalBoolean]"`;
+
+exports[`formatUsageLineForParameters > flags > boolean > required boolean flag 1`] = `"cli (--requiredBoolean)"`;
+
+exports[`formatUsageLineForParameters > flags > boolean > required boolean flag with default 1`] = `"cli [--requiredBoolean]"`;
+
+exports[`formatUsageLineForParameters > flags > enum > optional enum flag 1`] = `"cli [--optionalEnum a|b|c]"`;
+
+exports[`formatUsageLineForParameters > flags > enum > optional enum flag with default 1`] = `"cli [--optionalEnum a|b|c]"`;
+
+exports[`formatUsageLineForParameters > flags > enum > required enum flag 1`] = `"cli (--requiredEnum a|b|c)"`;
+
+exports[`formatUsageLineForParameters > flags > enum > required enum flag with default 1`] = `"cli [--requiredEnum a|b|c]"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > optional array parsed flag 1`] = `"cli [--optionalArrayParsed value]"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > optional parsed flag [hidden] 1`] = `"cli"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > optional parsed flag 1`] = `"cli [--optionalParsed value]"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > optional parsed flag with placeholder 1`] = `"cli [--optionalParsed parsed]"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > optional variadic parsed flag 1`] = `"cli [--optionalVariadicParsed value]..."`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required array parsed flag 1`] = `"cli (--requiredArrayParsed value)"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag 1`] = `"cli (--requiredParsed value)"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag with alias 1`] = `"cli (-p value)"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag with default [hidden] 1`] = `"cli"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag with default 1`] = `"cli [--requiredParsed value]"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag with multiple aliases 1`] = `"cli (--requiredParsed value)"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag with no aliases 1`] = `"cli (--requiredParsed value)"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required parsed flag with unused alias 1`] = `"cli (--requiredParsed value)"`;
+
+exports[`formatUsageLineForParameters > flags > parsed > required variadic parsed flag 1`] = `"cli (--requiredVariadicParsed value)..."`;
+
+exports[`formatUsageLineForParameters > positional parameters > homogenous array of positional parameters 1`] = `"cli <parsed>..."`;
+
+exports[`formatUsageLineForParameters > positional parameters > tuple of mixed positional parameters 1`] = `"cli <parsed> [<parsed>] [<parsed>]"`;
+
+exports[`formatUsageLineForParameters > positional parameters > tuple of one optional positional parameter 1`] = `"cli [<parsed>]"`;
+
+exports[`formatUsageLineForParameters > positional parameters > tuple of one required positional parameter 1`] = `"cli <parsed>"`;
+
+exports[`formatUsageLineForParameters > positional parameters > tuple with no positional parameters 1`] = `"cli"`;

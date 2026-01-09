@@ -1,0 +1,543 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolean flag > no ANSI color 1`] = `
+[
+  "-h --help  Print help information and exit",
+  "   --      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolean flag > with ANSI color 1`] = `
+[
+  "[97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolean flag, help all > no ANSI color 1`] = `
+[
+  "   [--optionalBoolean/--noOptionalBoolean]  optional boolean flag",
+  "-h  --help                                  Print help information and exit",
+  "    --                                      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolean flag, help all > with ANSI color 1`] = `
+[
+  "[90m[39m   [90m[--optionalBoolean/--noOptionalBoolean][39m  [90moptional boolean flag[39m",
+  "[97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > optional boolean flag > no ANSI color 1`] = `
+[
+  "   [--optionalBoolean/--noOptionalBoolean]  optional boolean flag",
+  "-h  --help                                  Print help information and exit",
+  "    --                                      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > optional boolean flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--optionalBoolean/--noOptionalBoolean][39m  [03moptional boolean flag[23m",
+  "[97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag > no ANSI color 1`] = `
+[
+  "   --requiredBoolean/--noRequiredBoolean  required boolean flag",
+  "-h --help                                 Print help information and exit",
+  "   --                                     All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--requiredBoolean/--noRequiredBoolean[39m  [03mrequired boolean flag[23m",
+  "[97m-h[39m [97m--help[39m                                 [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                                     [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=false > no ANSI color 1`] = `
+[
+  "   [--requiredBoolean]  required boolean flag                                    [default = false]",
+  "-h  --help              Print help information and exit",
+  "    --                  All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=false > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--requiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m false]",
+  "[97m-h[39m [97m --help[39m              [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                  [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=true > no ANSI color 1`] = `
+[
+  "   [--requiredBoolean/--noRequiredBoolean]  required boolean flag                                    [default = true]",
+  "-h  --help                                  Print help information and exit",
+  "    --                                      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=true > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]",
+  "[97m-h[39m [97m --help[39m                                  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=true and withNegated=false > no ANSI color 1`] = `
+[
+  "   [--requiredBoolean]  required boolean flag                                    [default = true]",
+  "-h  --help              Print help information and exit",
+  "    --                  All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=true and withNegated=false > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--requiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]",
+  "[97m-h[39m [97m --help[39m              [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                  [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > optional enum flag > no ANSI color 1`] = `
+[
+  "   [--optionalEnum]  optional enum flag                                       [a|b|c]",
+  "-h  --help           Print help information and exit",
+  "    --               All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > optional enum flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--optionalEnum][39m  [03moptional enum flag[23m                                       [a|b|c]",
+  "[97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > optional enum flag with default > no ANSI color 1`] = `
+[
+  "   [--optionalEnum]  optional enum flag                                       [a|b|c, default = b]",
+  "-h  --help           Print help information and exit",
+  "    --               All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > optional enum flag with default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--optionalEnum][39m  [03moptional enum flag[23m                                       [a|b|c, [90mdefault =[39m b]",
+  "[97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > required enum flag > no ANSI color 1`] = `
+[
+  "   --requiredEnum  required enum flag                                       [a|b|c]",
+  "-h --help          Print help information and exit",
+  "   --              All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > required enum flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--requiredEnum[39m  [03mrequired enum flag[23m                                       [a|b|c]",
+  "[97m-h[39m [97m--help[39m          [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m              [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > required enum flag with default > no ANSI color 1`] = `
+[
+  "   [--requiredEnum]  required enum flag                                       [a|b|c, default = b]",
+  "-h  --help           Print help information and exit",
+  "    --               All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > required enum flag with default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m b]",
+  "[97m-h[39m [97m --help[39m           [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > variadic enum flag with separator and default > no ANSI color 1`] = `
+[
+  "   [--format]  Output format(s)                                         [json|xml|yaml, default = json+yaml, separator = +]",
+  "-h  --help     Print help information and exit",
+  "    --         All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > variadic enum flag with separator and default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--format][39m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json+yaml, [90mseparator =[39m +]",
+  "[97m-h[39m [97m --help[39m     [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m         [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > variadic enum flag without separator and with default > no ANSI color 1`] = `
+[
+  "   [--format]  Output format(s)                                         [json|xml|yaml, default = json yaml]",
+  "-h  --help     Print help information and exit",
+  "    --         All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > enum > variadic enum flag without separator and with default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--format][39m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json yaml]",
+  "[97m-h[39m [97m --help[39m     [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m         [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > no flags > no ANSI color 1`] = `
+[
+  "-h --help  Print help information and exit",
+  "   --      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > no flags > with ANSI color 1`] = `
+[
+  "[97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > flag with nonstandard character > no ANSI color 1`] = `
+[
+  "   --a.b.c_10  required parsed flag",
+  "-h --help      Print help information and exit",
+  "   --          All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > flag with nonstandard character > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--a.b.c_10[39m  [03mrequired parsed flag[23m",
+  "[97m-h[39m [97m--help[39m      [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m          [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > multipart flag > no ANSI color 1`] = `
+[
+  "   --multi.part  required parsed flag",
+  "-h --help        Print help information and exit",
+  "   --            All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > multipart flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--multi.part[39m  [03mrequired parsed flag[23m",
+  "[97m-h[39m [97m--help[39m        [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m            [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > multiple parsed flags > no ANSI color 1`] = `
+[
+  "   --requiredParsed                        required parsed flag",
+  "   --requiredParsedWithLongerName          required parsed flag with longer name",
+  "   --required-parsed-with-kebab-case-name  required parsed flag with kebab-case name",
+  "-h --help                                  Print help information and exit",
+  "   --                                      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > multiple parsed flags > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--requiredParsed[39m                        [03mrequired parsed flag[23m",
+  "[97m[39m   [97m--requiredParsedWithLongerName[39m          [03mrequired parsed flag with longer name[23m",
+  "[97m[39m   [97m--required-parsed-with-kebab-case-name[39m  [03mrequired parsed flag with kebab-case name[23m",
+  "[97m-h[39m [97m--help[39m                                  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional array parsed flag > no ANSI color 1`] = `
+[
+  "   [--optionalArrayParsed]  optional array parsed flag",
+  "-h  --help                  Print help information and exit",
+  "    --                      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional array parsed flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--optionalArrayParsed][39m  [03moptional array parsed flag[23m",
+  "[97m-h[39m [97m --help[39m                  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag > no ANSI color 1`] = `
+[
+  "   [--optionalParsed]  optional parsed flag",
+  "-h  --help             Print help information and exit",
+  "    --                 All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--optionalParsed][39m  [03moptional parsed flag[23m",
+  "[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag with alias > no ANSI color 1`] = `
+[
+  "-p [--optionalParsed]  optional parsed flag",
+  "-h  --help             Print help information and exit",
+  "    --                 All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag with alias > with ANSI color 1`] = `
+[
+  "[97m-p[39m [97m[--optionalParsed][39m  [03moptional parsed flag[23m",
+  "[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional variadic parsed flag > no ANSI color 1`] = `
+[
+  "   [--optionalVariadicParsed]...  optional variadic parsed flag",
+  "-h  --help                        Print help information and exit",
+  "    --                            All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional variadic parsed flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--optionalVariadicParsed]...[39m  [03moptional variadic parsed flag[23m",
+  "[97m-h[39m [97m --help[39m                        [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                            [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > no ANSI color 1`] = `
+[
+  "   [--variadicParsed]...  optional variadic parsed flag with default               [default = foo bar]",
+  "-h  --help                Print help information and exit",
+  "    --                    All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--variadicParsed]...[39m  [03moptional variadic parsed flag with default[23m               [[90mdefault =[39m foo bar]",
+  "[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required array parsed flag > no ANSI color 1`] = `
+[
+  "   --requiredArrayParsed  required array parsed flag",
+  "-h --help                 Print help information and exit",
+  "   --                     All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required array parsed flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--requiredArrayParsed[39m  [03mrequired array parsed flag[23m",
+  "[97m-h[39m [97m--help[39m                 [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                     [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag > no ANSI color 1`] = `
+[
+  "   --requiredParsed  required parsed flag",
+  "-h --help            Print help information and exit",
+  "   --                All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--requiredParsed[39m  [03mrequired parsed flag[23m",
+  "[97m-h[39m [97m--help[39m            [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with alias > no ANSI color 1`] = `
+[
+  "-p --requiredParsed  required parsed flag",
+  "-h --help            Print help information and exit",
+  "   --                All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with alias > with ANSI color 1`] = `
+[
+  "[97m-p[39m [97m--requiredParsed[39m  [03mrequired parsed flag[23m",
+  "[97m-h[39m [97m--help[39m            [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default > no ANSI color 1`] = `
+[
+  "   [--requiredParsed]  required parsed flag                                     [default = ""]",
+  "-h  --help             Print help information and exit",
+  "    --                 All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m ""]",
+  "[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden] > no ANSI color 1`] = `
+[
+  "-h --help  Print help information and exit",
+  "   --      All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden] > with ANSI color 1`] = `
+[
+  "[97m-h[39m [97m--help[39m  [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden], hide all > no ANSI color 1`] = `
+[
+  "   [--requiredParsed]  required parsed flag                                     [default = 100]",
+  "-h  --help             Print help information and exit",
+  "    --                 All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden], hide all > with ANSI color 1`] = `
+[
+  "[90m[39m   [90m[--requiredParsed][39m  [90mrequired parsed flag[39m                                     [[90mdefault =[39m 100]",
+  "[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default and alias > no ANSI color 1`] = `
+[
+  "-p [--requiredParsed]  required parsed flag                                     [default = 100]",
+  "-h  --help             Print help information and exit",
+  "    --                 All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default and alias > with ANSI color 1`] = `
+[
+  "[97m-p[39m [97m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m 100]",
+  "[97m-h[39m [97m --help[39m             [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag > no ANSI color 1`] = `
+[
+  "   --requiredVariadicParsed...  required variadic parsed flag",
+  "-h --help                       Print help information and exit",
+  "   --                           All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--requiredVariadicParsed...[39m  [03mrequired variadic parsed flag[23m",
+  "[97m-h[39m [97m--help[39m                       [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                           [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > no ANSI color 1`] = `
+[
+  "   [--variadicParsed]...  required variadic parsed flag with long default          [default = one two three four five]",
+  "-h  --help                Print help information and exit",
+  "    --                    All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with long default[23m          [[90mdefault =[39m one two three four five]",
+  "[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > no ANSI color 1`] = `
+[
+  "   [--variadicParsed]...  required variadic parsed flag with empty default         [default = []]",
+  "-h  --help                Print help information and exit",
+  "    --                    All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with empty default[23m         [[90mdefault =[39m []]",
+  "[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > no ANSI color 1`] = `
+[
+  "   --variadicParsed...  variadic parsed flag with separator                      [separator = ,]",
+  "-h --help               Print help information and exit",
+  "   --                   All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m--variadicParsed...[39m  [03mvariadic parsed flag with separator[23m                      [[90mseparator =[39m ,]",
+  "[97m-h[39m [97m--help[39m               [03mPrint help information and exit[23m",
+  "[97m[39m   [97m--[39m                   [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator and default > no ANSI color 1`] = `
+[
+  "   [--variadicParsed]...  variadic parsed flag with separator and default          [default = json+xml, separator = +]",
+  "-h  --help                Print help information and exit",
+  "    --                    All subsequent inputs should be interpreted as arguments",
+]
+`;
+
+exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator and default > with ANSI color 1`] = `
+[
+  "[97m[39m   [97m[--variadicParsed]...[39m  [03mvariadic parsed flag with separator and default[23m          [[90mdefault =[39m json+xml, [90mseparator =[39m +]",
+  "[97m-h[39m [97m --help[39m                [03mPrint help information and exit[23m",
+  "[97m[39m   [97m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+]
+`;

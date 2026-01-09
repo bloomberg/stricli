@@ -1,12 +1,11 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { buildChoiceParser, type CommandContext, numberParser, type TypedCommandParameters } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import { formatUsageLineForParameters, type UsageFormattingArguments } from "../../src/parameter/formatting";
 // eslint-disable-next-line no-restricted-imports
 import type { CommandParameters } from "../../src/parameter/types";
-import { compareToBaseline, StringArrayBaselineFormat } from "../baseline";
 
 describe("formatUsageLineForParameters", () => {
     const defaultArgs: UsageFormattingArguments = {
@@ -22,7 +21,7 @@ describe("formatUsageLineForParameters", () => {
     };
 
     describe("positional parameters", () => {
-        it("tuple with no positional parameters", (context) => {
+        it("tuple with no positional parameters", () => {
             // GIVEN
             type Positional = [];
             type Flags = {};
@@ -36,10 +35,10 @@ describe("formatUsageLineForParameters", () => {
             const line = formatUsageLineForParameters(parameters, defaultArgs);
 
             // THEN
-            compareToBaseline(context, StringArrayBaselineFormat, [line]);
+            expect(line).toMatchSnapshot();
         });
 
-        it("tuple of one required positional parameter", (context) => {
+        it("tuple of one required positional parameter", () => {
             // GIVEN
             type Positional = [string];
             type Flags = {};
@@ -62,10 +61,10 @@ describe("formatUsageLineForParameters", () => {
             const line = formatUsageLineForParameters(parameters, defaultArgs);
 
             // THEN
-            compareToBaseline(context, StringArrayBaselineFormat, [line]);
+            expect(line).toMatchSnapshot();
         });
 
-        it("tuple of one optional positional parameter", (context) => {
+        it("tuple of one optional positional parameter", () => {
             // GIVEN
             type Positional = [string?];
             type Flags = {};
@@ -89,10 +88,10 @@ describe("formatUsageLineForParameters", () => {
             const line = formatUsageLineForParameters(parameters as CommandParameters, defaultArgs);
 
             // THEN
-            compareToBaseline(context, StringArrayBaselineFormat, [line]);
+            expect(line).toMatchSnapshot();
         });
 
-        it("tuple of mixed positional parameters", (context) => {
+        it("tuple of mixed positional parameters", () => {
             // GIVEN
             type Positional = [string, string?, string?];
             type Flags = {};
@@ -127,10 +126,10 @@ describe("formatUsageLineForParameters", () => {
             const line = formatUsageLineForParameters(parameters as CommandParameters, defaultArgs);
 
             // THEN
-            compareToBaseline(context, StringArrayBaselineFormat, [line]);
+            expect(line).toMatchSnapshot();
         });
 
-        it("homogenous array of positional parameters", (context) => {
+        it("homogenous array of positional parameters", () => {
             // GIVEN
             type Positional = string[];
             type Flags = {};
@@ -151,13 +150,13 @@ describe("formatUsageLineForParameters", () => {
             const line = formatUsageLineForParameters(parameters as CommandParameters, defaultArgs);
 
             // THEN
-            compareToBaseline(context, StringArrayBaselineFormat, [line]);
+            expect(line).toMatchSnapshot();
         });
     });
 
     describe("flags", () => {
         describe("boolean", () => {
-            it("required boolean flag", (context) => {
+            it("required boolean flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -178,10 +177,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required boolean flag with default", (context) => {
+            it("required boolean flag with default", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -203,10 +202,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional boolean flag", (context) => {
+            it("optional boolean flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -228,12 +227,12 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
         });
 
         describe("enum", () => {
-            it("required enum flag", (context) => {
+            it("required enum flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -255,10 +254,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required enum flag with default", (context) => {
+            it("required enum flag with default", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -281,10 +280,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional enum flag", (context) => {
+            it("optional enum flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -307,10 +306,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional enum flag with default", (context) => {
+            it("optional enum flag with default", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -334,12 +333,12 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
         });
 
         describe("parsed", () => {
-            it("required parsed flag", (context) => {
+            it("required parsed flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -361,10 +360,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required parsed flag with unused alias", (context) => {
+            it("required parsed flag with unused alias", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -389,10 +388,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required parsed flag with no aliases", (context) => {
+            it("required parsed flag with no aliases", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -420,10 +419,10 @@ describe("formatUsageLineForParameters", () => {
                 });
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required parsed flag with alias", (context) => {
+            it("required parsed flag with alias", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -454,10 +453,10 @@ describe("formatUsageLineForParameters", () => {
                 });
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required parsed flag with multiple aliases", (context) => {
+            it("required parsed flag with multiple aliases", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -489,10 +488,10 @@ describe("formatUsageLineForParameters", () => {
                 });
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required parsed flag with default", (context) => {
+            it("required parsed flag with default", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -515,10 +514,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required parsed flag with default [hidden]", (context) => {
+            it("required parsed flag with default [hidden]", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -542,10 +541,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional parsed flag", (context) => {
+            it("optional parsed flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -568,10 +567,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional parsed flag [hidden]", (context) => {
+            it("optional parsed flag [hidden]", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -595,10 +594,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional parsed flag with placeholder", (context) => {
+            it("optional parsed flag with placeholder", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -622,10 +621,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required variadic parsed flag", (context) => {
+            it("required variadic parsed flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -648,10 +647,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional variadic parsed flag", (context) => {
+            it("optional variadic parsed flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -675,10 +674,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("required array parsed flag", (context) => {
+            it("required array parsed flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -700,10 +699,10 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
 
-            it("optional array parsed flag", (context) => {
+            it("optional array parsed flag", () => {
                 // GIVEN
                 type Positional = [];
                 type Flags = {
@@ -726,7 +725,7 @@ describe("formatUsageLineForParameters", () => {
                 const line = formatUsageLineForParameters(parameters, defaultArgs);
 
                 // THEN
-                compareToBaseline(context, StringArrayBaselineFormat, [line]);
+                expect(line).toMatchSnapshot();
             });
         });
     });

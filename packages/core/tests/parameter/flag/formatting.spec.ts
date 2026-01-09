@@ -8,7 +8,6 @@ import { formatDocumentationForFlagParameters } from "../../../src/parameter/fla
 import type { BaseArgs } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
-import { compareToBaseline, StringArrayBaselineFormat } from "../../baseline";
 
 type DocumentationArgs = Omit<HelpFormattingArguments, "prefix" | "ansiColor">;
 
@@ -16,7 +15,7 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
     parameters: TypedCommandParameters<FLAGS, POSITIONAL, CommandContext>,
     args: DocumentationArgs,
 ) {
-    it("with ANSI color", (context) => {
+    it("with ANSI color", () => {
         // WHEN
         const lines = formatDocumentationForFlagParameters(parameters.flags ?? {}, parameters.aliases ?? {}, {
             ...args,
@@ -24,10 +23,10 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, lines);
+        expect(lines).toMatchSnapshot();
     });
 
-    it("no ANSI color", (context) => {
+    it("no ANSI color", () => {
         // WHEN
         const lines = formatDocumentationForFlagParameters(parameters.flags ?? {}, parameters.aliases ?? {}, {
             ...args,
@@ -35,10 +34,10 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
         });
 
         // THEN
-        compareToBaseline(context, StringArrayBaselineFormat, lines);
+        expect(lines).toMatchSnapshot();
     });
 
-    it("text with ANSI matches text without ANSI", (context) => {
+    it("text with ANSI matches text without ANSI", () => {
         // WHEN
         const linesWithAnsiColor = formatDocumentationForFlagParameters(
             parameters.flags ?? {},

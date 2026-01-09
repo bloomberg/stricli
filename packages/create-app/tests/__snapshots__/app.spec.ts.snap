@@ -1,0 +1,6530 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`creates new application > multi-command > commonjs > additional features > without auto-complete 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+
+export interface LocalContext extends CommandContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > commonjs > package properties > custom bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test-cli install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
+        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > commonjs > package properties > custom metadata 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "Sample Author",
+  "description": "Test CLI",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
+        uninstall: buildUninstallCommand("test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > commonjs > package properties > custom name 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "@org/test-cli": "dist/cli.js",
+    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "@org/test-cli install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("@org/test-cli", { bash: "__@org/test-cli_bash_complete" }),
+        uninstall: buildUninstallCommand("@org/test-cli", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > commonjs > package properties > custom name and bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test-cli install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
+        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > commonjs > with default flags 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
+        uninstall: buildUninstallCommand("test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > module [default] > additional features > without auto-complete 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+
+export interface LocalContext extends CommandContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > module [default] > package properties > custom bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test-cli install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
+        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > module [default] > package properties > custom metadata 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "Sample Author",
+  "description": "Test CLI",
+  "license": "UNLICENSED",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
+        uninstall: buildUninstallCommand("test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > module [default] > package properties > custom name 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "@org/test-cli": "dist/cli.js",
+    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "@org/test-cli install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("@org/test-cli", { bash: "__@org/test-cli_bash_complete" }),
+        uninstall: buildUninstallCommand("@org/test-cli", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > module [default] > package properties > custom name and bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test-cli install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
+        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > multi-command > module [default] > with default flags 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
+        uninstall: buildUninstallCommand("test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/root/test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/root/test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > node version logic > skips node information in package.json if no node version available 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/home/node-version-test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/home/node-version-test/package.json
+{
+  "name": "node-version-test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "node-version-test": "dist/cli.js",
+    "__node-version-test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {},
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node-version-test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/home/node-version-test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("node-version-test", { bash: "__node-version-test_bash_complete" }),
+        uninstall: buildUninstallCommand("node-version-test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/home/node-version-test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/home/node-version-test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/home/node-version-test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/home/node-version-test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/home/node-version-test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/home/node-version-test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/home/node-version-test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/home/node-version-test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > node version logic > use major from process.versions.node 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/home/node-version-test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/home/node-version-test/package.json
+{
+  "name": "node-version-test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "node-version-test": "dist/cli.js",
+    "__node-version-test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=major"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node-version-test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "major.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/home/node-version-test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("node-version-test", { bash: "__node-version-test_bash_complete" }),
+        uninstall: buildUninstallCommand("node-version-test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/home/node-version-test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/home/node-version-test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/home/node-version-test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/home/node-version-test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/home/node-version-test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/home/node-version-test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/home/node-version-test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/home/node-version-test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > node version logic > version discovery skipped when --node-version is provided 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/home/node-version-test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/home/node-version-test/package.json
+{
+  "name": "node-version-test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "node-version-test": "dist/cli.js",
+    "__node-version-test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=major"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node-version-test install"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "major.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/home/node-version-test/src/app.ts
+import { buildApplication, buildRouteMap } from "@stricli/core";
+import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
+import { name, version, description } from "../package.json";
+import { subdirCommand } from "./commands/subdir/command";
+import { nestedRoutes } from "./commands/nested/commands";
+
+const routes = buildRouteMap({
+    routes: {
+        subdir: subdirCommand,
+        nested: nestedRoutes,
+        install: buildInstallCommand("node-version-test", { bash: "__node-version-test_bash_complete" }),
+        uninstall: buildUninstallCommand("node-version-test", { bash: true }),
+    },
+    docs: {
+        brief: description,
+        hideRoute: {
+            install: true,
+            uninstall: true,
+        },
+    },
+});
+
+export const app = buildApplication(routes, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/home/node-version-test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/home/node-version-test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/home/node-version-test/src/commands/nested/commands.ts
+import { buildCommand, buildRouteMap } from "@stricli/core";
+
+export const fooCommand = buildCommand({
+    loader: async () => {
+        const { foo } = await import("./impl");
+        return foo;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested foo command",
+    },
+});
+
+export const barCommand = buildCommand({
+    loader: async () => {
+        const { bar } = await import("./impl");
+        return bar;
+    },
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Nested bar command",
+    },
+});
+
+export const nestedRoutes = buildRouteMap({
+    routes: {
+        foo: fooCommand,
+        bar: barCommand,
+    },
+    docs: {
+        brief: "Nested commands",
+    },
+});
+
+::::/home/node-version-test/src/commands/nested/impl.ts
+import type { LocalContext } from "../../context";
+
+interface FooCommandFlags {
+    // ...
+}
+
+export async function foo(this: LocalContext, flags: FooCommandFlags): Promise<void> {
+    // ...
+}
+
+interface BarCommandFlags {
+    // ...
+}
+
+export async function bar(this: LocalContext, flags: BarCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/home/node-version-test/src/commands/subdir/command.ts
+import { buildCommand } from "@stricli/core";
+
+export const subdirCommand = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [],
+        },
+    },
+    docs: {
+        brief: "Command in subdirectory",
+    },
+});
+
+::::/home/node-version-test/src/commands/subdir/impl.ts
+import type { LocalContext } from "../../context";
+
+interface SubdirCommandFlags {
+    // ...
+}
+
+export default async function(this: LocalContext, flags: SubdirCommandFlags): Promise<void> {
+    // ...
+}
+
+::::/home/node-version-test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/home/node-version-test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > commonjs > additional features > without auto-complete 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+
+export interface LocalContext extends CommandContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > commonjs > package properties > custom bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > commonjs > package properties > custom metadata 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "Sample Author",
+  "description": "Test CLI",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > commonjs > package properties > custom name 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "@org/test-cli": "dist/cli.js",
+    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > commonjs > package properties > custom name and bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > commonjs > with default flags 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
+    for (const { completion } of completions) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+}, () => {
+    // ignore
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+void run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > module [default] > additional features > without auto-complete 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+
+export interface LocalContext extends CommandContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > module [default] > package properties > custom bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > module [default] > package properties > custom metadata 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "Sample Author",
+  "description": "Test CLI",
+  "license": "UNLICENSED",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > module [default] > package properties > custom name 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "@org/test-cli": "dist/cli.js",
+    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > module [default] > package properties > custom name and bin command 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "@org/test-cli",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test-cli": "dist/cli.js",
+    "__test-cli_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
+
+exports[`creates new application > single-command > module [default] > with default flags 1`] = `
+[STDOUT]
+
+[STDERR]
+
+[FILES]
+::::/root/test/.gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.tsbuildinfo
+dist
+
+::::/root/test/package.json
+{
+  "name": "test",
+  "author": "",
+  "description": "Stricli command line application",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "test": "dist/cli.js",
+    "__test_bash_complete": "dist/bash-complete.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prebuild": "tsc -p src/tsconfig.json",
+    "build": "tsup --silent",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+  },
+  "tsup": {
+    "entry": [
+      "src/bin/cli.ts",
+      "src/bin/bash-complete.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "tsconfig": "src/tsconfig.json",
+    "clean": true,
+    "splitting": true,
+    "minify": true
+  },
+  "dependencies": {
+    "@stricli/core": "<self>",
+    "@stricli/auto-complete": "<self>"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "tsup": "^6.7.0",
+    "typescript": "5.6.x"
+  }
+}
+::::/root/test/src/app.ts
+import { buildApplication, buildCommand, numberParser } from "@stricli/core";
+import { name, version, description } from "../package.json";
+
+const command = buildCommand({
+    loader: async () => import("./impl"),
+    parameters: {
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    brief: "Your name",
+                    parse: String,
+                },
+            ],
+        },
+        flags: {
+            count: {
+                kind: "parsed",
+                brief: "Number of times to say hello",
+                parse: numberParser,
+            },
+        },
+    },
+    docs: {
+        brief: description,
+    },
+});
+
+export const app = buildApplication(command, {
+    name,
+    versionInfo: {
+        currentVersion: version,
+    },
+});
+
+::::/root/test/src/bin/bash-complete.ts
+#!/usr/bin/env node
+import { proposeCompletions } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+const inputs = process.argv.slice(3);
+if (process.env["COMP_LINE"]?.endsWith(" ")) {
+    inputs.push("");
+}
+await proposeCompletions(app, inputs, buildContext(process));
+try {
+    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
+        process.stdout.write(\`\${completion}\\n\`);
+    }
+} catch {
+    // ignore
+}
+
+::::/root/test/src/bin/cli.ts
+#!/usr/bin/env node
+import { run } from "@stricli/core";
+import { buildContext } from "../context";
+import { app } from "../app";
+await run(app, process.argv.slice(2), buildContext(process));
+
+::::/root/test/src/context.ts
+import type { CommandContext } from "@stricli/core";
+import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
+    readonly process: NodeJS.Process;
+    // ...
+}
+
+export function buildContext(process: NodeJS.Process): LocalContext {
+    return {
+        process,
+        os,
+        fs,
+        path,
+    };
+}
+
+::::/root/test/src/impl.ts
+import type { LocalContext } from "./context";
+
+interface CommandFlags {
+    readonly count: number;
+}
+
+export default async function(this: LocalContext, flags: CommandFlags, name: string): Promise<void> {
+    this.process.stdout.write(\`Hello \${name}!\\n\`.repeat(flags.count));
+}
+
+::::/root/test/src/tsconfig.json
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "..",
+        "types": [
+            "node"
+        ],
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": []
+}
+`;
