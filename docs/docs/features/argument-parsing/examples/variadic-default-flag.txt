@@ -1,13 +1,20 @@
-import { buildCommand, type CommandContext } from "@stricli/core";
+--help
+--format xml
+--format json --format yaml
 
-interface Flags {
+/// impl.ts
+type Flags = {
   format?: ("json" | "xml" | "yaml")[];
-}
+};
 
-export const root = buildCommand({
-  func(this: CommandContext, { format }: Flags) {
-    this.process.stdout.write(`Output formats: ${format?.join(", ") ?? "none"}`);
-  },
+export default async function({ format }: Flags) {
+  console.log(`Output formats: ${format?.join(", ") ?? "none"}`);
+}
+/// spec.ts
+import { buildCommand } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
   parameters: {
     flags: {
       format: {
@@ -33,3 +40,7 @@ export const root = buildCommand({
     ],
   },
 });
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import root from "./spec.ts";
+export default buildApplication(root, { name: "run" });
