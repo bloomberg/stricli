@@ -13,6 +13,7 @@ export type JoinGrammar = ConjuctiveJoin;
 /**
  * @internal
  */
+/* v8 ignore next -- @preserve */
 export function joinWithGrammar(parts: readonly string[], grammar: JoinGrammar): string {
     if (parts.length <= 1) {
         return parts[0] ?? "";
