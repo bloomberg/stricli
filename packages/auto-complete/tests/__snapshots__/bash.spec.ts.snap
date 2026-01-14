@@ -1,0 +1,415 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`bash > [app] > install > adds section to .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(BASH_CMD $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [app] > install > fails if .bashrc not found 1`] = `
+[STDOUT]
+
+[STDERR]
+Command failed, Error: Expected to edit ~/.bashrc but unable to read file.
+
+`;
+
+exports[`bash > [app] > install > updates section in .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(BASH_CMD $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [app] > install-all > adds section to .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(AUTC_CMD bash $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [app] > install-all > does nothing if bash not active 1`] = `
+[STDOUT]
+Skipping bash as it is not active.
+
+[STDERR]
+
+`;
+
+exports[`bash > [app] > install-all > updates section in .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(AUTC_CMD bash $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [app] > uninstall > fails if .bashrc not found 1`] = `
+[STDOUT]
+
+[STDERR]
+Command failed, Error: Expected to edit ~/.bashrc but unable to read file.
+
+`;
+
+exports[`bash > [app] > uninstall > ignores empty .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+`;
+
+exports[`bash > [app] > uninstall > removes section in .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [app] > uninstall-all > does nothing if bash not active 1`] = `
+[STDOUT]
+Skipping bash as it is not active.
+
+[STDERR]
+
+`;
+
+exports[`bash > [app] > uninstall-all > ignores empty .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+`;
+
+exports[`bash > [app] > uninstall-all > removes section in .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [command] > buildInstallAllCommand > (help text) 1`] = `
+[STDOUT]
+USAGE
+  install-target
+  install-target --help
+
+Installs autocomplete support for TARGET_CMD on all shell types.
+
+FLAGS
+  -h --help  Print help information and exit
+
+[STDERR]
+
+`;
+
+exports[`bash > [command] > buildInstallAllCommand > adds section to .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(AUTC_CMD bash $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [command] > buildInstallAllCommand > does nothing if bash not active 1`] = `
+[STDOUT]
+Skipping bash as it is not active.
+
+[STDERR]
+
+`;
+
+exports[`bash > [command] > buildInstallAllCommand > updates section in .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(AUTC_CMD bash $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [command] > buildInstallCommand > (help text) 1`] = `
+[STDOUT]
+USAGE
+  install-target-bash
+  install-target-bash --help
+
+Installs bash autocomplete support for TARGET_CMD.
+
+FLAGS
+  -h --help  Print help information and exit
+
+[STDERR]
+
+`;
+
+exports[`bash > [command] > buildInstallCommand > adds section to .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(BASH_CMD $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [command] > buildInstallCommand > fails if .bashrc not found 1`] = `
+[STDOUT]
+
+[STDERR]
+Command failed, Error: Expected to edit ~/.bashrc but unable to read file.
+
+`;
+
+exports[`bash > [command] > buildInstallCommand > updates section in .bashrc 1`] = `
+[STDOUT]
+Installed autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+# @stricli/auto-complete START [TARGET_CMD]
+__TARGET_CMD_complete() { export COMP_LINE; COMPREPLY=( $(BASH_CMD $COMP_LINE) ); return 0; }
+complete -o default -o nospace -F __TARGET_CMD_complete TARGET_CMD
+# @stricli/auto-complete END
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [command] > buildUninstallAllCommand > (help text) 1`] = `
+[STDOUT]
+USAGE
+  uninstall-target
+  uninstall-target --help
+
+Uninstalls autocomplete support for TARGET_CMD on all shell types.
+
+FLAGS
+  -h --help  Print help information and exit
+
+[STDERR]
+
+`;
+
+exports[`bash > [command] > buildUninstallAllCommand > does nothing if bash not active 1`] = `
+[STDOUT]
+Skipping bash as it is not active.
+
+[STDERR]
+
+`;
+
+exports[`bash > [command] > buildUninstallAllCommand > ignores empty .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+`;
+
+exports[`bash > [command] > buildUninstallAllCommand > removes section in .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [command] > buildUninstallCommand > (help text) 1`] = `
+[STDOUT]
+USAGE
+  uninstall-target-bash
+  uninstall-target-bash --help
+
+Uninstalls bash autocomplete support for TARGET_CMD.
+
+FLAGS
+  -h --help  Print help information and exit
+
+[STDERR]
+
+`;
+
+exports[`bash > [command] > buildUninstallCommand > fails if .bashrc not found 1`] = `
+[STDOUT]
+
+[STDERR]
+Command failed, Error: Expected to edit ~/.bashrc but unable to read file.
+
+`;
+
+exports[`bash > [command] > buildUninstallCommand > ignores empty .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+`;
+
+exports[`bash > [command] > buildUninstallCommand > removes section in .bashrc 1`] = `
+[STDOUT]
+Uninstalled autocomplete support for TARGET_CMD in bash.
+Restart bash shell or run \`source ~/.bashrc\` to load changes.
+
+[STDERR]
+
+[FILES]
+:: ~/.bashrc
+# .bashrc
+
+# @stricli/auto-complete START [OTHER_TARGET_CMD]
+UNRELATED SECTION FOR A DIFFERENT TARGET COMMAND
+# @stricli/auto-complete END
+`;
+
+exports[`bash > [internal] > handleCompletions > ignores errors 1`] = `
+[STDOUT]
+
+[STDERR]
+
+`;
+
+exports[`bash > [internal] > handleCompletions > ignores errors 2`] = `
+[STDOUT]
+
+[STDERR]
+
+`;
+
+exports[`bash > [internal] > handleCompletions > prints command suggestions for multi-command app 1`] = `
+[STDOUT]
+foo
+bar
+baz
+
+[STDERR]
+
+`;
+
+exports[`bash > [internal] > handleCompletions > prints flag suggestions for multi-command app 1`] = `
+[STDOUT]
+--foo
+--bar
+--baz
+
+[STDERR]
+
+`;
