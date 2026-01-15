@@ -196,6 +196,11 @@ a.button {
     background-color: rgba(171, 70, 66, 10%);
 }
 
+.terminal-history-selected {
+    font-weight: bold;
+    filter: drop-shadow(0 0 0.1rem rgba(161, 181, 108));
+}
+
 .ansi-block {
     white-space: pre;
     font-family: "JetBrains Mono", monospace;
