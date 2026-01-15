@@ -14,8 +14,6 @@ import * as lightTheme from "./themes/light.json";
 
 import styles from "./styles.module.css";
 
-import { useUpdate } from "../../util/hooks";
-
 export type TextFile = {
     readonly name: string;
     readonly initialValue: string;
@@ -63,52 +61,123 @@ export default function TypeScriptPlayground({
     const tsRef = useRef<typescript.TypeScriptWorker>();
     const [isEditorReady, setIsEditorReady] = useState(false);
 
-    const [emittedFiles, setEmittedFiles] = useState<Record<string, string>>({});
-
-    const afterMount = useCallback<OnMount>((editor, monaco: Monaco) => {
-        editorRef.current = editor;
-        monacoRef.current = monaco;
-        const uris: Uri[] = [];
-        for (const file of files) {
-            const uri = monaco.Uri.parse(`file:///${rootDirectory}/${file.name}`);
-            monaco.editor.createModel(file.initialValue, file.language, uri);
-            uris.push(uri);
-        }
-        for (const [packageName, content] of Object.entries(libraries)) {
-            monaco.typescript.typescriptDefaults.addExtraLib(content, `node_modules/@types/${packageName}/index.d.ts`);
-        }
-        monaco.typescript.typescriptDefaults.setEagerModelSync(true);
-        monaco.typescript.typescriptDefaults.setCompilerOptions(compilerOptions);
-        defineThemes(monaco);
-        monaco.editor.setTheme(asMonacoTheme(colorMode));
-        setIsEditorReady(true);
-        void monaco.typescript.getTypeScriptWorker().then(async (getWorker) => {
-            const worker = await getWorker(...uris);
-            tsRef.current = worker;
-            const outputs = await Promise.all(uris.map((uri) => worker.getEmitOutput(uri.toString())));
-            const outputFiles = outputs.flatMap((output) => output.outputFiles);
-            const newData = Object.fromEntries(outputFiles.map((file) => [file.name, file.text]));
-            onEmit(newData);
-            setEmittedFiles({ ...emittedFiles, ...newData });
-        });
-    }, []);
-
-    if (onEmit) {
-        useEffect(() => {
-            onEmit(emittedFiles);
-        }, [isEditorReady, emittedFiles]);
-    }
-
-    // File Switching
+    const [collapsed, setCollapsed] = useState<boolean>(true);
 
     const [activeFileName, setActiveFileName] = useState(files[0].name);
+
+    const [emittedFiles, setEmittedFiles] = useState<Record<string, string>>({});
+
+    const switchToNextFile = useCallback(() => {
+        setActiveFileName((active) => {
+            const visibleFiles = files.filter((file) => !file.hidden);
+            const index = visibleFiles.findIndex((file) => file.name === active);
+            const nextIndex = (index + 1) % visibleFiles.length;
+            return visibleFiles[nextIndex].name;
+        });
+    }, [files]);
+
+    const switchToPreviousFile = useCallback(() => {
+        setActiveFileName((active) => {
+            const visibleFiles = files.filter((file) => !file.hidden);
+            const index = visibleFiles.findIndex((file) => file.name === active);
+            const previousIndex = (visibleFiles.length + index - 1) % visibleFiles.length;
+            return visibleFiles[previousIndex].name;
+        });
+    }, [files]);
+
+    const expandEditor = useCallback(() => {
+        setCollapsed(false);
+    }, []);
+
+    const collapseEditor = useCallback(() => {
+        setCollapsed(true);
+    }, []);
+
+    const { colorMode } = useColorMode();
+
+    const afterMount = useCallback<OnMount>(
+        (editor, monaco: Monaco) => {
+            console.log("afterMount");
+            editorRef.current = editor;
+            monacoRef.current = monaco;
+            const uris: Uri[] = [];
+            for (const file of files) {
+                const uri = monaco.Uri.parse(`file:///${rootDirectory}/${file.name}`);
+                monaco.editor.createModel(file.initialValue, file.language, uri);
+                uris.push(uri);
+            }
+            editor.addAction({
+                id: "switchToNextFile",
+                label: "Switch to Next File",
+                keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.RightArrow],
+                run: switchToNextFile,
+            });
+            editor.addAction({
+                id: "switchToPreviousFile",
+                label: "Switch to Previous File",
+                keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.LeftArrow],
+                run: switchToPreviousFile,
+            });
+            editor.addAction({
+                id: "expandEditor",
+                label: "Switch to Next File",
+                keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.DownArrow],
+                run: expandEditor,
+            });
+            editor.addAction({
+                id: "collapseEditor",
+                label: "Switch to Previous File",
+                keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.UpArrow],
+                run: collapseEditor,
+            });
+            for (const [packageName, content] of Object.entries(libraries)) {
+                monaco.typescript.typescriptDefaults.addExtraLib(
+                    content,
+                    `node_modules/@types/${packageName}/index.d.ts`,
+                );
+            }
+            monaco.typescript.typescriptDefaults.setEagerModelSync(true);
+            monaco.typescript.typescriptDefaults.setCompilerOptions(compilerOptions);
+            defineThemes(monaco);
+            monaco.editor.setTheme(asMonacoTheme(colorMode));
+            setIsEditorReady(true);
+            void monaco.typescript.getTypeScriptWorker().then(async (getWorker) => {
+                const worker = await getWorker(...uris);
+                tsRef.current = worker;
+                const outputs = await Promise.all(uris.map((uri) => worker.getEmitOutput(uri.toString())));
+                const outputFiles = outputs.flatMap((output) => output.outputFiles);
+                const newData = Object.fromEntries(outputFiles.map((file) => [file.name, file.text]));
+                onEmit?.(newData);
+                setEmittedFiles({ ...emittedFiles, ...newData });
+            });
+        },
+        [
+            colorMode,
+            compilerOptions,
+            emittedFiles,
+            files,
+            switchToNextFile,
+            switchToPreviousFile,
+            expandEditor,
+            collapseEditor,
+            libraries,
+            onEmit,
+            rootDirectory,
+        ],
+    );
+
+    useEffect(() => {
+        onEmit?.(emittedFiles);
+    }, [isEditorReady, onEmit, emittedFiles]);
+
+    // File Switching
 
     const onChange = useCallback<OnChange>(() => {
         void tsRef.current.getEmitOutput(`file:///${rootDirectory}/${activeFileName}`).then((output) => {
             const newData = Object.fromEntries(output.outputFiles.map((file) => [file.name, file.text]));
             setEmittedFiles({ ...emittedFiles, ...newData });
         });
-    }, [tsRef, emittedFiles]);
+    }, [tsRef, rootDirectory, activeFileName, emittedFiles]);
 
     useEffect(() => {
         if (isEditorReady) {
@@ -116,20 +185,14 @@ export default function TypeScriptPlayground({
             const model = monacoRef.current.editor.getModel(activeUri);
             editorRef.current.setModel(model);
         }
-    }, [isEditorReady, activeFileName]);
+    }, [isEditorReady, rootDirectory, activeFileName]);
 
     // Styling
 
-    const { colorMode } = useColorMode();
-    useUpdate(
-        () => {
-            monacoRef.current?.editor.setTheme(asMonacoTheme(colorMode));
-        },
-        [colorMode],
-        isEditorReady,
-    );
+    useEffect(() => {
+        monacoRef.current?.editor.setTheme(asMonacoTheme(colorMode));
+    }, [colorMode]);
 
-    const [collapsed, setCollapsed] = useState<boolean>(true);
     const toggleHeight = useCallback(() => {
         setCollapsed(!collapsed);
     }, [collapsed]);
@@ -138,12 +201,21 @@ export default function TypeScriptPlayground({
 
     return (
         <div>
-            <div className={styles.header}>
+            <div className={styles.header} role="tablist">
                 {files
                     .filter((file) => !file.hidden)
                     .map((file) => {
                         return (
+                            /* eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Keyboard listener is handled by focused editor via action */
                             <div
+                                role="tab"
+                                tabIndex={0}
+                                aria-selected={file.name === activeFileName}
+                                aria-keyshortcuts={
+                                    file.name === activeFileName
+                                        ? ""
+                                        : "Control+ArrowRight Meta+ArrowRight Control+ArrowLeft Meta+ArrowLeft"
+                                }
                                 key={file.name}
                                 className={clsx(styles.fileTab, { [styles.active]: file.name === activeFileName })}
                                 onClick={() => {
@@ -155,7 +227,17 @@ export default function TypeScriptPlayground({
                         );
                     })}
                 <div className={styles.headerRight}>
-                    <div className={styles.sizeToggleButton} onClick={toggleHeight}>
+                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Keyboard listener is handled by focused editor via action */}
+                    <div
+                        role="switch"
+                        tabIndex={0}
+                        aria-checked={collapsed}
+                        aria-keyshortcuts={
+                            collapsed ? "Control+ArrowDown Meta+ArrowDown" : "Control+ArrowUp Meta+ArrowUp"
+                        }
+                        className={styles.sizeToggleButton}
+                        onClick={toggleHeight}
+                    >
                         <IconArrow style={{ transform: collapsed ? "rotate(90deg)" : "rotate(-90deg)" }} />
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 // Distributed under the terms of the Apache 2.0 license.
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Ansi from "./Ansi";
+import clsx from "clsx";
 
 export type TerminalHistoryLine =
     | readonly [text: string, stream: "stdout" | "stderr"]
@@ -40,14 +41,15 @@ export default function Terminal({
     const [input, setInput] = useState<string>(defaultValue);
     const [history, setHistory] = useState<readonly TerminalHistoryLine[]>([]);
     const [historyIndex, setHistoryIndex] = useState<number | undefined>(void 0);
-    const [completions, setCompletions] = useState<readonly string[]>([]);
-    const [completionIndex, setCompletionIndex] = useState<number | undefined>(void 0);
+    const autocomplete = useRef<[index: number, completions: readonly string[]] | undefined>(void 0);
+
+    const selectedStdinIndex = typeof historyIndex === "number" ? historyIndex * 2 + 1 : void 0;
 
     useEffect(() => {
         if (appLoaded) {
             if (!firstRunComplete) {
-                setFirstRunComplete(true);
                 void (async () => {
+                    setFirstRunComplete(true);
                     const initialHistory = [...history];
                     for (const input of initialInputs) {
                         const lines = await executeInput(input);
@@ -58,7 +60,7 @@ export default function Terminal({
                 })();
             }
         }
-    }, [appLoaded, firstRunComplete, input, history, historyIndex, collapsed]);
+    }, [appLoaded, firstRunComplete, initialInputs, executeInput, history]);
 
     const focusInput = useCallback(() => {
         inputRef.current?.focus();
@@ -68,76 +70,95 @@ export default function Terminal({
         setInput(e.target.value);
     }, []);
 
-    const onKeyDown = useCallback(
-        async (e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key !== "Tab" && typeof completionIndex === "number") {
-                setCompletionIndex(void 0);
-            }
+    const onInputSubmit = useCallback(async () => {
+        const lines = await executeInput(input);
+        setHistory([...lines, ...history]);
+        setHistoryIndex(void 0);
+        setCollapsed(false);
+        setInput("");
+    }, [input, executeInput, history]);
 
-            const inputWithPrefix = `${commandPrefix} ${input}`;
-            if (e.key === "Enter") {
-                const lines = await executeInput(input);
-                setHistory([...lines, ...history]);
-                setHistoryIndex(void 0);
-                setCollapsed(false);
-                setInput("");
-            } else if (e.key === "ArrowUp") {
-                setHistoryIndex(typeof historyIndex === "number" ? historyIndex + 1 : 0);
-                e.preventDefault();
-            } else if (e.key === "ArrowDown") {
-                if (historyIndex === 0) {
-                    setInput("");
-                    setHistoryIndex(void 0);
-                } else if (typeof historyIndex === "number") {
-                    setHistoryIndex(historyIndex - 1);
-                }
-                e.preventDefault();
-            } else if (e.key === "Tab" && completeInput) {
-                if (typeof completionIndex === "number") {
-                    setCompletionIndex(completionIndex + 1);
-                } else {
-                    const inputCompletions = await completeInput(inputWithPrefix);
-                    const completions = inputCompletions.map((str) => str.slice(commandPrefix.length + 1));
-                    setCompletions(completions);
-                    setCompletionIndex(0);
-                }
-                e.preventDefault();
-            }
-        },
-        [input, history, historyIndex, completionIndex],
-    );
-
-    useEffect(() => {
-        if (typeof historyIndex === "number") {
+    const setInputToHistoryAtIndex = useCallback(
+        (index: number) => {
             const stdinHistory = history.filter((line) => line[1] === "stdin");
-            const historySelection = stdinHistory[historyIndex];
+            const historySelection = stdinHistory[index];
             if (historySelection) {
                 setInput(historySelection[0]);
             } else {
                 setInput("");
-                setHistoryIndex(void 0);
             }
-        }
-    }, [history, historyIndex]);
+        },
+        [history],
+    );
 
-    useEffect(() => {
-        if (typeof completionIndex === "number") {
-            const completionSelection = completions[completionIndex];
-            if (completionSelection) {
-                setInput(completionSelection);
-            } else if (completions.length > 0) {
-                setCompletionIndex(completionIndex % completions.length);
-            } else {
-                setCompletionIndex(void 0);
+    const onScrollHistoryUp = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            const newIndex = typeof historyIndex === "number" ? (historyIndex + 1) % (history.length / 2) : 0;
+            setHistoryIndex(newIndex);
+            setInputToHistoryAtIndex(newIndex);
+            e.preventDefault();
+        },
+        [history, historyIndex, setInputToHistoryAtIndex],
+    );
+
+    const onScrollHistoryDown = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (historyIndex === 0) {
+                setInput("");
+                setHistoryIndex(void 0);
+            } else if (typeof historyIndex === "number") {
+                const newIndex = historyIndex - 1;
+                setHistoryIndex(newIndex);
+                setInputToHistoryAtIndex(newIndex);
             }
-        }
-    }, [completions, completionIndex]);
+            e.preventDefault();
+        },
+        [historyIndex, setInputToHistoryAtIndex],
+    );
+
+    const onToggleAutocomplete = useCallback(
+        async (e: React.KeyboardEvent<HTMLInputElement>) => {
+            let currentIndex: number;
+            let completions: readonly string[];
+            if (autocomplete.current) {
+                [currentIndex, completions] = autocomplete.current;
+            } else {
+                completions = await completeInput(input);
+                currentIndex = -1;
+                autocomplete.current = [0, completions];
+            }
+            const nextIndex = (currentIndex + 1) % completions.length;
+            setInput(completions[nextIndex]);
+            autocomplete.current = [nextIndex, completions];
+            e.preventDefault();
+        },
+        [autocomplete, input, completeInput],
+    );
+
+    const onKeyDown = useCallback(
+        async (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key !== "Tab" && autocomplete) {
+                autocomplete.current = void 0;
+            }
+
+            if (e.key === "Enter") {
+                await onInputSubmit();
+            } else if (e.key === "ArrowUp") {
+                onScrollHistoryUp(e);
+            } else if (e.key === "ArrowDown") {
+                onScrollHistoryDown(e);
+            } else if (e.key === "Tab") {
+                await onToggleAutocomplete(e);
+            }
+        },
+        [autocomplete, onInputSubmit, onScrollHistoryUp, onScrollHistoryDown, onToggleAutocomplete],
+    );
 
     const clearHistory = useCallback(() => {
         setHistory([]);
         setHistoryIndex(void 0);
         setCollapsed(true);
-    }, [history, historyIndex, collapsed]);
+    }, []);
 
     const height = collapsed ? `${LINE_HEIGHT_EM}em` : expandedHeight;
 
@@ -149,6 +170,7 @@ export default function Terminal({
                     Clear
                 </button>
             </div>
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events -- Click handler exists to focus on actual input element */}
             <div className="terminal-output" style={{ height }} onClick={focusInput}>
                 <div className="ansi-block terminal-input">
                     <span style={{ display: "inline-flex" }}>
@@ -169,7 +191,13 @@ export default function Terminal({
                 {history.map((line, i) => {
                     const text = line[1] === "stdin" ? `${commandPrompt}${line[2]} ${line[0]}` : line[0];
                     return (
-                        <Ansi key={`terminal-history-line-${i}`} className={`terminal-${line[1]}`}>
+                        <Ansi
+                            key={`terminal-history-line-${i}`}
+                            className={clsx({
+                                [`terminal-${line[1]}`]: true,
+                                [`terminal-history-selected`]: i === selectedStdinIndex,
+                            })}
+                        >
                             {text}
                         </Ansi>
                     );

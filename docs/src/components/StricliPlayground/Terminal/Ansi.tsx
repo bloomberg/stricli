@@ -2,7 +2,6 @@
 // Distributed under the terms of the Apache 2.0 license.
 import { riffle } from "@site/src/util/array";
 import { ansiToJson } from "anser";
-import React from "react";
 
 export interface AnsiProps {
     children?: string;

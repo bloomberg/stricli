@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Tippy from "@tippyjs/react";
 import Admonition from "@theme/Admonition";
 
@@ -62,9 +62,8 @@ export default function StricliPlayground({
     editorHeight = "250px",
     terminalHeight = "250px",
 }: StricliPlaygroundProps): React.JSX.Element {
-    const appRef = useRef<core.Application<core.CommandContext> | undefined>(void 0);
+    const [loadedApp, setLoadedApp] = useState<core.Application<core.CommandContext> | undefined>(void 0);
     const [lastLoaded, setLastLoaded] = useState<Date | undefined>();
-    const [appName, setAppName] = useState<string>("loading...");
 
     const id = useMemo(() => crypto.randomUUID(), []);
     const modelDirectory = `code_${id}`;
@@ -86,17 +85,16 @@ export default function StricliPlayground({
                 if (exports) {
                     const app = exports.default as PlaygroundApp;
                     app.consoleRedirect = consoleRedirect;
-                    appRef.current = app;
+                    setLoadedApp(app);
                     setLastLoaded(new Date());
-                    setAppName(app.config.name);
                 } else {
-                    appRef.current = void 0;
+                    setLoadedApp(void 0);
                 }
             } else {
-                appRef.current = void 0;
+                setLoadedApp(void 0);
             }
         },
-        [appRef],
+        [modelDirectory],
     );
 
     const lastLoadedTimestamp = useMemo(() => {
@@ -147,25 +145,23 @@ export default function StricliPlayground({
                 onEmit={onWorkspaceChange}
             ></TypeScriptPlayground>
             <Terminal
-                appLoaded={Boolean(appRef.current)}
+                appLoaded={Boolean(loadedApp)}
                 startCollapsed={collapsed}
                 height={terminalHeight}
-                commandPrefix={appName}
+                commandPrefix={loadedApp?.config.name ?? "loading..."}
                 initialInputs={initialInputs.slice(0, -1)}
                 defaultValue={initialInputs.at(-1)}
                 executeInput={async (input) => {
-                    const app = appRef.current;
-                    if (!app) {
+                    if (!loadedApp) {
                         return [["Application not loaded, check for type errors above ^", "stderr"]];
                     }
                     const argv = parseArgv(input);
-                    const lines = await runApplication(app, argv);
+                    const lines = await runApplication(loadedApp, argv);
                     const reversed = [...lines].reverse();
-                    return [...reversed, [input, "stdin", app.config.name]];
+                    return [...reversed, [input, "stdin", loadedApp.config.name]];
                 }}
                 completeInput={async (input) => {
-                    const app = appRef.current;
-                    if (!app) {
+                    if (!loadedApp) {
                         console.error("Application not loaded");
                         return [];
                     }
@@ -175,7 +171,9 @@ export default function StricliPlayground({
                         finalInput = "";
                         argv.push("");
                     }
-                    const completions = await proposeCompletions(app, argv);
+                    console.log("completeInput", argv);
+                    const completions = await proposeCompletions(loadedApp, argv);
+                    console.log("completions", completions);
                     if (finalInput === "") {
                         return completions.map((completion) => `${input}${completion}`);
                     }
