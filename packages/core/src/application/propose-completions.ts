@@ -40,22 +40,10 @@ export async function proposeCompletionsForApplication<CONTEXT extends CommandCo
         return [];
     }
 
-    let commandContext: CONTEXT;
-    if ("forCommand" in context) {
-        try {
-            commandContext = await context.forCommand({ prefix: result.prefix });
-        } catch {
-            return [];
-        }
-    } else {
-        commandContext = context;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const partial = rawInputs[rawInputs.length - 1]!;
     if (result.target.kind === RouteMapSymbol) {
         return proposeCompletionsForRouteMap(result.target, {
-            context: commandContext,
             partial,
             scannerConfig: config.scanner,
             completionConfig: config.completion,
@@ -63,7 +51,13 @@ export async function proposeCompletionsForApplication<CONTEXT extends CommandCo
     }
 
     return proposeCompletionsForCommand(result.target, {
-        context: commandContext,
+        loadCommandContext: async () => {
+            if ("forCommand" in context) {
+                return context.forCommand({ prefix: result.prefix });
+            } else {
+                return context;
+            }
+        },
         inputs: result.unprocessedInputs,
         partial,
         scannerConfig: config.scanner,
