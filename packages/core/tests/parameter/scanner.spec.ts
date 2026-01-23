@@ -22,7 +22,7 @@ import {
     UnsatisfiedPositionalError,
 } from "../../src";
 // eslint-disable-next-line no-restricted-imports
-import type { BaseArgs, PositionalParameters } from "../../src/parameter/positional/types";
+import type { BaseArgs, PositionalParameter, PositionalParameters } from "../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import {
     type ArgumentCompletion,
@@ -41,7 +41,12 @@ function formatPositionalParameters(positional: PositionalParameters): string {
     if (positional.kind === "array") {
         return `${positional.parameter.placeholder ?? "args"}...`;
     }
-    return positional.parameters.map((def, i) => def.placeholder ?? `arg${i + 1}`).join(", ");
+    if (positional.kind === "enum") {
+        return `${positional.placeholder ?? "arg"}(${positional.values.join("|")})`;
+    }
+    return positional.parameters
+        .map((def: PositionalParameter, i: number) => def.placeholder ?? `arg${i + 1}`)
+        .join(", ");
 }
 
 type ExpectedArgumentScannerError = {
