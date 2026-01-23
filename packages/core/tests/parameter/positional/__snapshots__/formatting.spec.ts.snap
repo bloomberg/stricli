@@ -100,7 +100,7 @@ exports[`formatDocumentationForPositionalParameters > required enum positional p
 
 exports[`formatDocumentationForPositionalParameters > required enum positional parameter > with ANSI color 1`] = `
 [
-  "[97msize[39m (small|medium|large)  [3mSize selection[23m",
+  "[7m[27m[97msize[7m[27m[39m (small|medium|large)  [7m[27m[3mSize selection[7m[27m[23m",
 ]
 `;
 
@@ -112,7 +112,7 @@ exports[`formatDocumentationForPositionalParameters > optional enum positional p
 
 exports[`formatDocumentationForPositionalParameters > optional enum positional parameter > with ANSI color 1`] = `
 [
-  "[97m[size[39m (small|medium|large)]  [3mSize selection[23m",
+  "[7m[27m[97m[size[7m[27m[39m [7m[27m(small|medium|large)]  [7m[27m[3mSize selection[7m[27m[23m",
 ]
 `;
 
@@ -124,7 +124,7 @@ exports[`formatDocumentationForPositionalParameters > enum positional parameter 
 
 exports[`formatDocumentationForPositionalParameters > enum positional parameter with default > with ANSI color 1`] = `
 [
-  "[97msize[39m (small|medium|large, default medium)  [3mSize selection[23m",
+  "[7m[27m[97msize[7m[27m[39m (small|medium|large, default medium)  [7m[27m[3mSize selection[7m[27m[23m",
 ]
 `;
 
@@ -136,7 +136,7 @@ exports[`formatDocumentationForPositionalParameters > enum positional parameter 
 
 exports[`formatDocumentationForPositionalParameters > enum positional parameter with default, with alt text > with ANSI color 1`] = `
 [
-  "[97msize[39m (small|medium|large, [90mdef[39m medium)  [3mSize selection[23m",
+  "[7m[27m[97msize[7m[27m[39m (small|medium|large, [7m[27m[90mdef[7m[27m[39m medium)  [7m[27m[3mSize selection[7m[27m[23m",
 ]
 `;
 
@@ -148,7 +148,7 @@ exports[`formatDocumentationForPositionalParameters > optional enum positional p
 
 exports[`formatDocumentationForPositionalParameters > optional enum positional parameter with default > with ANSI color 1`] = `
 [
-  "[97m[size[39m (small|medium|large, default medium)]  [3mSize selection[23m",
+  "[7m[27m[97m[size[7m[27m[39m (small|medium|large, default medium)]  [7m[27m[3mSize selection[7m[27m[23m",
 ]
 `;
 
@@ -160,6 +160,6 @@ exports[`formatDocumentationForPositionalParameters > enum positional with multi
 
 exports[`formatDocumentationForPositionalParameters > enum positional with multi-word values > with ANSI color 1`] = `
 [
-  "[97mmode[39m (build-only|test-only|all)  [3mOperation mode[23m",
+  "[7m[27m[97mmode[7m[27m[39m (build-only|test-only|all)  [7m[27m[3mOperation mode[7m[27m[23m",
 ]
 `;
