@@ -92,9 +92,15 @@ export function formatUsageLineForParameters(parameters: CommandParameters, args
         if (positional.kind === "array") {
             positionalUsage = [wrapVariadicParameter(positional.parameter.placeholder ?? "args")];
         } else if (positional.kind === "enum") {
-            const argName = positional.parameter.placeholder ?? "arg";
-            const suffix = `(${positional.values.join("|")})`;
-            positionalUsage = [positional.parameter.optional ? wrapOptionalParameter(argName + " " + suffix) : wrapRequiredParameter(argName + " " + suffix)];
+            if (args.config.onlyRequiredInUsageLine && (positional.optional || typeof positional.default !== "undefined")) {
+                // Skip optional enum positionals when onlyRequiredInUsageLine is true
+                positionalUsage = [];
+            } else {
+                const argName = positional.placeholder ?? "arg";
+                const suffix = `(${positional.values.join("|")})`;
+                const isOptional = positional.optional || typeof positional.default !== "undefined";
+                positionalUsage = [isOptional ? wrapOptionalParameter(argName + " " + suffix) : wrapRequiredParameter(argName + " " + suffix)];
+            }
         } else {
             let parameters = positional.parameters;
             if (args.config.onlyRequiredInUsageLine) {

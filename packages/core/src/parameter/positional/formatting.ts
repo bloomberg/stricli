@@ -12,13 +12,16 @@ export function formatDocumentationForPositionalParameters(
     args: Pick<HelpFormattingArguments, "config" | "text" | "ansiColor">,
 ): readonly string[] {
     if (positional.kind === "enum") {
-        const name = positional.parameter.placeholder ?? "arg";
-        let suffix = `(${positional.values.join("|")})`;
-        if (positional.parameter.optional) {
-            suffix = `[${suffix}]`;
+        const name = positional.placeholder ?? "arg";
+        const enumValues = `(${positional.values.join("|")})`;
+        const suffixParts: string[] = [enumValues];
+        if (positional.default) {
+            const defaultKeyword = args.ansiColor ? `\x1B[90m${args.text.keywords.default}\x1B[39m` : args.text.keywords.default;
+            suffixParts.push(`${defaultKeyword} ${positional.default}`);
         }
+        const suffix = positional.optional ? `[${suffixParts.join(", ")}]` : suffixParts.join(", ");
         const argName = args.ansiColor ? `\x1B[97m${name}\x1B[39m` : name;
-        const brief = args.ansiColor ? `\x1B[3m${positional.parameter.brief}\x1B[23m` : positional.parameter.brief;
+        const brief = args.ansiColor ? `\x1B[3m${positional.brief}\x1B[23m` : positional.brief;
         return formatRowsWithColumns([[argName + " " + suffix, brief]], ["  "]);
     }
     if (positional.kind === "array") {

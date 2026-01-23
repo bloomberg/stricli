@@ -142,7 +142,9 @@ export class AliasNotFoundError extends ArgumentScannerError {
 
 export type Placeholder = string & { readonly __Placeholder: unique symbol };
 
-function getPlaceholder(param: PositionalParameter, index?: number): Placeholder {
+type PlaceholderSource = PositionalParameter | BaseEnumPositionalParameter<string>;
+
+function getPlaceholder(param: PlaceholderSource, index?: number): Placeholder {
     if (param.placeholder) {
         return param.placeholder as Placeholder;
     }
@@ -829,25 +831,25 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             let positionalValues_p: Promise<PromiseSettledOrElseResult<ARGS>>;
             if (positional.kind === "enum") {
                 // Handle enum positional parameter
-                const placeholder = getPlaceholder(positional.parameter);
+                const placeholder = getPlaceholder(positional);
                 const input = positionalInputs[0];
                 if (input === undefined) {
                     // No input provided
-                    if (typeof positional.parameter.default === "string") {
+                    if (typeof positional.default === "string") {
                         // Validate default value
-                        if (!positional.values.includes(positional.parameter.default)) {
+                        if (!positional.values.includes(positional.default)) {
                             const corrections = filterClosestAlternatives(
-                                positional.parameter.default,
+                                positional.default,
                                 positional.values,
                                 config.distanceOptions,
                             );
-                            throw new EnumValidationError(placeholder as unknown as ExternalFlagName, positional.parameter.default, positional.values, corrections);
+                            throw new EnumValidationError(placeholder as unknown as ExternalFlagName, positional.default, positional.values, corrections);
                         }
                         positionalValues_p = Promise.resolve({
                             status: "fulfilled",
-                            value: [positional.parameter.default],
+                            value: [positional.default],
                         }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
-                    } else if (positional.parameter.optional) {
+                    } else if (positional.optional) {
                         positionalValues_p = Promise.resolve({
                             status: "fulfilled",
                             value: [undefined],
@@ -1063,7 +1065,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         return {
                             kind: "argument:value",
                             completion: value,
-                            brief: positional.parameter.brief,
+                            brief: positional.brief,
                         };
                     }),
                 );

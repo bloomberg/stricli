@@ -46,11 +46,8 @@ describe("Positional Enum Parameter", () => {
             positional: {
                 kind: "enum",
                 values: ["small", "medium", "large"] as const,
-                parameter: {
-                    brief: "Size selection",
-                    placeholder: "size",
-                    parse: String,
-                },
+                brief: "Size selection",
+                placeholder: "size",
             },
         };
 
@@ -170,12 +167,9 @@ describe("Positional Enum Parameter", () => {
             positional: {
                 kind: "enum",
                 values: ["small", "medium", "large"] as const,
-                parameter: {
-                    brief: "Size selection",
-                    placeholder: "size",
-                    optional: true,
-                    parse: String,
-                },
+                brief: "Size selection",
+                placeholder: "size",
+                optional: true,
             },
         };
 
@@ -236,12 +230,9 @@ describe("Positional Enum Parameter", () => {
             positional: {
                 kind: "enum",
                 values: ["small", "medium", "large"] as const,
-                parameter: {
-                    brief: "Size selection",
-                    placeholder: "size",
-                    default: "medium",
-                    parse: String,
-                },
+                brief: "Size selection",
+                placeholder: "size",
+                default: "medium",
             },
         };
 
@@ -283,13 +274,10 @@ describe("Positional Enum Parameter", () => {
                 positional: {
                     kind: "enum",
                     values: ["small", "medium", "large"] as const,
-                    parameter: {
-                        brief: "Size selection",
-                        placeholder: "size",
-                        parse: String,
-                        // Note: "xlarge" is not in the enum values - this will be caught at runtime
-                        default: "xlarge",
-                    },
+                    brief: "Size selection",
+                placeholder: "size",
+                // Note: "xlarge" is not in the enum values - this will be caught at runtime
+                default: "xlarge",
                 },
             };
 
@@ -322,11 +310,8 @@ describe("Positional Enum Parameter", () => {
             positional: {
                 kind: "enum",
                 values: ["small", "medium", "large"] as const,
-                parameter: {
-                    brief: "Size selection",
-                    placeholder: "size",
-                    parse: String,
-                },
+                brief: "Size selection",
+                placeholder: "size",
             },
         };
 
@@ -394,6 +379,30 @@ describe("Positional Enum Parameter", () => {
                 expect(completion.brief).to.equal("Size selection");
             }
         });
+
+        it("should not provide completions when positional is already satisfied", async () => {
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
+                parameters,
+                defaultScannerConfig,
+            );
+            const text = buildFakeApplicationText();
+
+            // Provide the required positional value
+            scanner.next("small");
+
+            // Now completions should not include the enum values since the positional is satisfied
+            const completions = await scanner.proposeCompletions({
+                partial: "",
+                completionConfig: defaultCompletionConfig,
+                text,
+                context: { process: { stdout: { write: () => {} }, stderr: { write: () => {} } } },
+                includeVersionFlag: false,
+            });
+            const positionalCompletions = completions.filter((c) => c.kind === "argument:value");
+
+            // No positional completions should be provided when the positional is already satisfied
+            expect(positionalCompletions).to.have.length(0);
+        });
     });
 
     describe("enum positional with various enum types", () => {
@@ -406,10 +415,7 @@ describe("Positional Enum Parameter", () => {
                 positional: {
                     kind: "enum",
                     values: ["enable", "disable"] as const,
-                    parameter: {
-                        brief: "Toggle state",
-                        parse: String,
-                    },
+                    brief: "Toggle state",
                 },
             };
 
@@ -436,10 +442,7 @@ describe("Positional Enum Parameter", () => {
                 positional: {
                     kind: "enum",
                     values: ["build-only", "test-only", "all"] as const,
-                    parameter: {
-                        brief: "Operation mode",
-                        parse: String,
-                    },
+                    brief: "Operation mode",
                 },
             };
 
@@ -466,10 +469,7 @@ describe("Positional Enum Parameter", () => {
                 positional: {
                     kind: "enum",
                     values: ["build-only", "test-only", "all"] as const,
-                    parameter: {
-                        brief: "Operation mode",
-                        parse: String,
-                    },
+                    brief: "Operation mode",
                 },
             };
 

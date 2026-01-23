@@ -54,6 +54,10 @@ interface PositionalParameterArray<T, CONTEXT extends CommandContext> {
 /**
  * Positional parameter constrained to a specific set of string values.
  * Values are validated at runtime and proposed as completions.
+ *
+ * FLAT structure - all parameter properties are directly on this interface,
+ * not nested under a `parameter` property. This matches the pattern used by
+ * BaseEnumFlagParameter.
  */
 export interface BaseEnumPositionalParameter<T extends string, CONTEXT extends CommandContext = CommandContext> {
     /**
@@ -65,9 +69,23 @@ export interface BaseEnumPositionalParameter<T extends string, CONTEXT extends C
      */
     readonly values: readonly T[];
     /**
-     * Parameter definition including brief, optional, placeholder, etc.
+     * In-line documentation for this parameter.
      */
-    readonly parameter: PositionalParameter;
+    readonly brief: string;
+    /**
+     * String that serves as placeholder for the value in the generated usage line.
+     * Defaults to "arg" if not specified.
+     */
+    readonly placeholder?: string;
+    /**
+     * Default input value if one is not provided at runtime.
+     * Must be one of the values in the values array.
+     */
+    readonly default?: T;
+    /**
+     * Whether this parameter is optional.
+     */
+    readonly optional?: boolean;
 }
 
 type PositionalParametersForTuple<T, CONTEXT extends CommandContext> = {
