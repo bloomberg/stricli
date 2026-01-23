@@ -51,6 +51,25 @@ interface PositionalParameterArray<T, CONTEXT extends CommandContext> {
     readonly maximum?: number;
 }
 
+/**
+ * Positional parameter constrained to a specific set of string values.
+ * Values are validated at runtime and proposed as completions.
+ */
+export interface BaseEnumPositionalParameter<T extends string, CONTEXT extends CommandContext = CommandContext> {
+    /**
+     * Indicates positional should be constrained to enumeration values.
+     */
+    readonly kind: "enum";
+    /**
+     * Array of all possible enumerations supported by this positional.
+     */
+    readonly values: readonly T[];
+    /**
+     * Parameter definition including brief, optional, placeholder, etc.
+     */
+    readonly parameter: PositionalParameter;
+}
+
 type PositionalParametersForTuple<T, CONTEXT extends CommandContext> = {
     readonly [K in keyof T]: TypedPositionalParameter<T[K], CONTEXT>;
 };
@@ -68,7 +87,7 @@ export type BaseArgs = readonly unknown[];
 
 /**
  * Definition of all positional parameters.
- * Required properties may vary depending on the type argument `T`.
+ * Required properties may vary depending on the type argument `T.
  */
 export type TypedPositionalParameters<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer E)[]]
     ? number extends T["length"]
@@ -83,4 +102,5 @@ export type TypedPositionalParameters<T, CONTEXT extends CommandContext> = [T] e
  */
 export type PositionalParameters =
     | PositionalParameterArray<unknown, CommandContext>
-    | PositionalParameterTuple<readonly PositionalParameter[]>;
+    | PositionalParameterTuple<readonly PositionalParameter[]>
+    | BaseEnumPositionalParameter<string, CommandContext>;

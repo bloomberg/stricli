@@ -19,7 +19,7 @@ import type {
 } from "./flag/types";
 import { looseBooleanParser } from "./parser/boolean";
 import { numberParser } from "./parser/number";
-import type { BaseArgs, PositionalParameter } from "./positional/types";
+import type { BaseArgs, BaseEnumPositionalParameter, PositionalParameter } from "./positional/types";
 import type {
     Aliases,
     AvailableAlias,
@@ -805,7 +805,12 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 storeInput(flagInputs, config.caseStyle, activeFlag, input);
                 activeFlag = void 0;
             } else {
-                if (positional.kind === "tuple") {
+                if (positional.kind === "enum") {
+                    // Enum positionals only accept a single value
+                    if (positionalIndex >= 1) {
+                        throw new UnexpectedPositionalError(1, input);
+                    }
+                } else if (positional.kind === "tuple") {
                     if (positionalIndex >= positional.parameters.length) {
                         throw new UnexpectedPositionalError(positional.parameters.length, input);
                     }
@@ -822,7 +827,46 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             const errors: ArgumentScannerError[] = [];
 
             let positionalValues_p: Promise<PromiseSettledOrElseResult<ARGS>>;
-            if (positional.kind === "array") {
+            if (positional.kind === "enum") {
+                // Handle enum positional parameter
+                const placeholder = getPlaceholder(positional.parameter);
+                const input = positionalInputs[0];
+                if (input === undefined) {
+                    // No input provided
+                    if (typeof positional.parameter.default === "string") {
+                        // Validate default value
+                        if (!positional.values.includes(positional.parameter.default)) {
+                            const corrections = filterClosestAlternatives(
+                                positional.parameter.default,
+                                positional.values,
+                                config.distanceOptions,
+                            );
+                            throw new EnumValidationError(placeholder as unknown as ExternalFlagName, positional.parameter.default, positional.values, corrections);
+                        }
+                        positionalValues_p = Promise.resolve({
+                            status: "fulfilled",
+                            value: [positional.parameter.default],
+                        }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
+                    } else if (positional.parameter.optional) {
+                        positionalValues_p = Promise.resolve({
+                            status: "fulfilled",
+                            value: [undefined],
+                        }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
+                    } else {
+                        throw new UnsatisfiedPositionalError(placeholder);
+                    }
+                } else {
+                    // Validate input value
+                    if (!positional.values.includes(input)) {
+                        const corrections = filterClosestAlternatives(input, positional.values, config.distanceOptions);
+                        throw new EnumValidationError(placeholder as unknown as ExternalFlagName, input, positional.values, corrections);
+                    }
+                    positionalValues_p = Promise.resolve({
+                        status: "fulfilled",
+                        value: [input],
+                    }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
+                }
+            } else if (positional.kind === "array") {
                 if (typeof positional.minimum === "number" && positionalIndex < positional.minimum) {
                     errors.push(
                         new UnsatisfiedPositionalError(getPlaceholder(positional.parameter), [
@@ -836,7 +880,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const placeholder = getPlaceholder(positional.parameter, i + 1);
                         return parseInput(placeholder, positional.parameter, input, context);
                     }),
-                ) as Promise<PromiseSettledOrElseResult<ARGS>>;
+                ) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
             } else {
                 positionalValues_p = allSettledOrElse(
                     positional.parameters.map(async (param, i) => {
@@ -853,7 +897,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         }
                         return parseInput(placeholder, param, input, context);
                     }),
-                ) as Promise<PromiseSettledOrElseResult<ARGS>>;
+                ) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
             }
 
             if (activeFlag && activeFlag[1].kind === "parsed" && activeFlag[1].inferEmpty) {
@@ -1012,7 +1056,18 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                     );
                 }
             }
-            if (positional.kind === "array") {
+            if (positional.kind === "enum") {
+                // Provide enum values as completions
+                completions.push(
+                    ...positional.values.map<ArgumentCompletion>((value) => {
+                        return {
+                            kind: "argument:value",
+                            completion: value,
+                            brief: positional.parameter.brief,
+                        };
+                    }),
+                );
+            } else if (positional.kind === "array") {
                 if (positional.parameter.proposeCompletions) {
                     if (typeof positional.maximum !== "number" || positionalIndex < positional.maximum) {
                         const positionalCompletions = await positional.parameter.proposeCompletions.call(

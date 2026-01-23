@@ -69,7 +69,7 @@ export function* generateCommandHelpLines(
         yield `  ${line}`;
     }
     const positional = parameters.positional ?? { kind: "tuple", parameters: [] };
-    if (positional.kind === "array" || positional.parameters.length > 0) {
+    if (positional.kind === "array" || positional.kind === "enum" || positional.parameters.length > 0) {
         yield "";
         yield args.ansiColor ? `\x1B[4m${headers.arguments}\x1B[24m` : headers.arguments;
         for (const line of formatDocumentationForPositionalParameters(positional, args)) {
