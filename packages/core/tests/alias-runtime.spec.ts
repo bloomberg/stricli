@@ -51,10 +51,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { verbose: boolean }) => {
-                                if (flags.verbose) {
-                                    return "verbose mode";
-                                }
-                                return "normal mode";
+                                // Command executed successfully
                             },
                         }),
                         parameters: {
@@ -85,7 +82,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { output: string }) => {
-                                return `Output: ${flags.output}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -115,7 +112,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { output: string }) => {
-                                return `Output: ${flags.output}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -145,7 +142,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { alpha: boolean; bravo: boolean; charlie: boolean }) => {
-                                return `${flags.alpha}-${flags.bravo}-${flags.charlie}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -232,7 +229,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { quiet: boolean }) => {
-                                return flags.quiet ? "quiet" : "loud";
+                                // Command executed
                             },
                         }),
                         parameters: {
@@ -258,7 +255,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { number: number }) => {
-                                return `number: ${flags.number}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -288,7 +285,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { verbose: number }) => {
-                                return `verbosity: ${flags.verbose}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -316,8 +313,8 @@ describe("Alias Runtime Tests", () => {
                 () =>
                     buildCommand({
                         loader: async () => ({
-                            default: (flags: { logLevel: string }) => {
-                                return `log level: ${flags.logLevel}`;
+                            default: (flags: { logLevel: "info" | "debug" | "error" }) => {
+                                return;
                             },
                         }),
                         parameters: {
@@ -325,8 +322,8 @@ describe("Alias Runtime Tests", () => {
                             flags: {
                                 logLevel: {
                                     kind: "enum",
+                                    values: ["info", "debug", "error"] as const,
                                     brief: "Log level",
-                                    values: ["info", "debug", "error"],
                                 },
                             },
                             aliases: {
@@ -399,7 +396,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { colorOutput: boolean }) => {
-                                return `color: ${flags.colorOutput}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -428,7 +425,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { colorOutput: boolean }) => {
-                                return `color: ${flags.colorOutput}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -454,7 +451,7 @@ describe("Alias Runtime Tests", () => {
             const command = buildCommand({
                 loader: async () => ({
                     default: (flags: { colorOutput: boolean }) => {
-                        return `color: ${flags.colorOutput}`;
+                        return;
                     },
                 }),
                 parameters: {
@@ -573,7 +570,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { files: string[] }) => {
-                                return `files: ${flags.files.join(", ")}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -604,7 +601,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { numbers: number[] }) => {
-                                return `numbers: ${flags.numbers.join(", ")}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -780,7 +777,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { optional?: string }) => {
-                                return `value: ${flags.optional ?? "default"}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -811,7 +808,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { optional?: string }) => {
-                                return `value: ${flags.optional ?? "default"}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -844,7 +841,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { count: number }) => {
-                                return `count: ${flags.count}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -875,7 +872,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { count: number }) => {
-                                return `count: ${flags.count}`;
+                                return;
                             },
                         }),
                         parameters: {
@@ -908,7 +905,7 @@ describe("Alias Runtime Tests", () => {
                     buildCommand({
                         loader: async () => ({
                             default: (flags: { verbose: boolean }, arg1: string, arg2: string) => {
-                                return `${flags.verbose}, ${arg1}, ${arg2}`;
+                                return;
                             },
                         }),
                         parameters: {
