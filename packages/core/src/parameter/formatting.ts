@@ -111,9 +111,11 @@ export function formatUsageLineForParameters(parameters: CommandParameters, args
         } else {
             let parameters = positional.parameters;
             if (args.config.onlyRequiredInUsageLine) {
-                parameters = parameters.filter((param) => !param.optional && typeof param.default === "undefined");
+                parameters = parameters.filter(
+                    (param: PositionalParameter) => !param.optional && typeof param.default === "undefined",
+                );
             }
-            positionalUsage = parameters.map((param: PositionalParameter, i) => {
+            positionalUsage = parameters.map((param: PositionalParameter, i: number) => {
                 const argName = param.placeholder ?? `arg${i + 1}`;
                 return param.optional || typeof param.default !== "undefined"
                     ? wrapOptionalParameter(argName)

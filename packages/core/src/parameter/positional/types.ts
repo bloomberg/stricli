@@ -59,7 +59,7 @@ interface PositionalParameterArray<T, CONTEXT extends CommandContext> {
  * not nested under a `parameter` property. This matches the pattern used by
  * BaseEnumFlagParameter.
  */
-export interface BaseEnumPositionalParameter<T extends string, CONTEXT extends CommandContext = CommandContext> {
+export interface BaseEnumPositionalParameter<T extends string> {
     /**
      * Indicates positional should be constrained to enumeration values.
      */
@@ -121,4 +121,4 @@ export type TypedPositionalParameters<T, CONTEXT extends CommandContext> = [T] e
 export type PositionalParameters =
     | PositionalParameterArray<unknown, CommandContext>
     | PositionalParameterTuple<readonly PositionalParameter[]>
-    | BaseEnumPositionalParameter<string, CommandContext>;
+    | BaseEnumPositionalParameter<string>;

@@ -2,7 +2,7 @@
 // Distributed under the terms of the Apache 2.0 license.
 import type { HelpFormattingArguments } from "../../routing/types";
 import { formatRowsWithColumns } from "../../util/formatting";
-import type { BaseEnumPositionalParameter, PositionalParameter, PositionalParameters } from "./types";
+import type { PositionalParameter, PositionalParameters } from "./types";
 
 /**
  * @internal
@@ -33,9 +33,9 @@ export function formatDocumentationForPositionalParameters(
         return formatRowsWithColumns([[argName, brief]], ["  "]);
     }
     const { keywords } = args.text;
-    const atLeastOneOptional = positional.parameters.some((def) => def.optional);
+    const atLeastOneOptional = positional.parameters.some((def: PositionalParameter) => def.optional);
     return formatRowsWithColumns(
-        positional.parameters.map((def: PositionalParameter, i) => {
+        positional.parameters.map((def: PositionalParameter, i: number) => {
             let name = def.placeholder ?? `arg${i + 1}`;
             let suffix: string | undefined;
             if (def.optional) {

@@ -14,6 +14,7 @@ import {
 } from "../../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { CommandParameters } from "../../../src/parameter/types";
+// eslint-disable-next-line no-restricted-imports
 import { buildArgumentScanner } from "../../../src/parameter/scanner";
 import { buildFakeApplicationText } from "../../fakes/config";
 
@@ -143,7 +144,9 @@ describe("Positional Enum Parameter", () => {
 
             scanner.next("small");
             // Extra value should throw during next()
-            expect(() => scanner.next("medium")).to.throw(UnexpectedPositionalError);
+            expect(() => {
+                scanner.next("medium");
+            }).to.throw(UnexpectedPositionalError);
         });
     });
 
