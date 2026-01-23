@@ -52,13 +52,12 @@ describe("Positional Enum Parameter", () => {
         };
 
         it("should accept valid enum value", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("small");
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -76,7 +75,9 @@ describe("Positional Enum Parameter", () => {
                 );
 
                 scanner.next(value);
-                const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+                const result = await scanner.parseArguments({
+                    process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+                });
 
                 expect(result.success).to.equal(true);
                 if (result.success) {
@@ -86,10 +87,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should reject invalid enum value with suggestions", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("smal"); // typo: missing 'l'
             let threw = false;
@@ -108,10 +106,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should reject value when no similar suggestion exists", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("xyz"); // completely different
             let threw = false;
@@ -131,10 +126,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should reject missing required positional", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             let threw = false;
             try {
@@ -147,10 +139,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should reject multiple values", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("small");
             // Extra value should throw during next()
@@ -174,13 +163,12 @@ describe("Positional Enum Parameter", () => {
         };
 
         it("should accept valid enum value", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("medium");
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -189,12 +177,11 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should accept missing optional positional", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -203,16 +190,15 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should reject invalid enum value even when optional", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("invalid");
             let result;
             let threw = false;
             try {
-                result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+                result = await scanner.parseArguments({
+                    process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+                });
             } catch (exc) {
                 threw = true;
                 expect(exc).to.be.instanceof(EnumValidationError);
@@ -237,12 +223,11 @@ describe("Positional Enum Parameter", () => {
         };
 
         it("should use default value when not provided", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -251,13 +236,12 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should override default with provided value", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("large");
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -275,9 +259,9 @@ describe("Positional Enum Parameter", () => {
                     kind: "enum",
                     values: ["small", "medium", "large"] as const,
                     brief: "Size selection",
-                placeholder: "size",
-                // Note: "xlarge" is not in the enum values - this will be caught at runtime
-                default: "xlarge",
+                    placeholder: "size",
+                    // Note: "xlarge" is not in the enum values - this will be caught at runtime
+                    default: "xlarge",
                 },
             };
 
@@ -316,10 +300,7 @@ describe("Positional Enum Parameter", () => {
         };
 
         it("should provide all enum values as completions", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
             const text = buildFakeApplicationText();
 
             const completions = await scanner.proposeCompletions({
@@ -337,10 +318,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should filter completions by partial input", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
             const text = buildFakeApplicationText();
 
             const completions = await scanner.proposeCompletions({
@@ -360,10 +338,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should include brief in completions", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
             const text = buildFakeApplicationText();
 
             const completions = await scanner.proposeCompletions({
@@ -381,10 +356,7 @@ describe("Positional Enum Parameter", () => {
         });
 
         it("should not provide completions when positional is already satisfied", async () => {
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
             const text = buildFakeApplicationText();
 
             // Provide the required positional value
@@ -419,13 +391,12 @@ describe("Positional Enum Parameter", () => {
                 },
             };
 
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("enable");
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -446,13 +417,12 @@ describe("Positional Enum Parameter", () => {
                 },
             };
 
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("build-only");
-            const result = await scanner.parseArguments({ process: { stdout: { write: () => {} }, stderr: { write: () => {} } } });
+            const result = await scanner.parseArguments({
+                process: { stdout: { write: () => {} }, stderr: { write: () => {} } },
+            });
 
             expect(result.success).to.equal(true);
             if (result.success) {
@@ -473,10 +443,7 @@ describe("Positional Enum Parameter", () => {
                 },
             };
 
-            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(
-                parameters,
-                defaultScannerConfig,
-            );
+            const scanner = buildArgumentScanner<Flags, Positional, CommandContext>(parameters, defaultScannerConfig);
 
             scanner.next("bulid-only"); // typo: swapped i and u
             let threw = false;

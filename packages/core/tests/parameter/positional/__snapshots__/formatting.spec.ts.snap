@@ -91,3 +91,75 @@ exports[`formatDocumentationForPositionalParameters > tuple of one required posi
 exports[`formatDocumentationForPositionalParameters > tuple with no positional parameters > no ANSI color 1`] = `[]`;
 
 exports[`formatDocumentationForPositionalParameters > tuple with no positional parameters > with ANSI color 1`] = `[]`;
+
+exports[`formatDocumentationForPositionalParameters > required enum positional parameter > no ANSI color 1`] = `
+[
+  "size (small|medium|large)  Size selection",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > required enum positional parameter > with ANSI color 1`] = `
+[
+  "[97msize[39m (small|medium|large)  [3mSize selection[23m",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > optional enum positional parameter > no ANSI color 1`] = `
+[
+  "[size (small|medium|large)]  Size selection",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > optional enum positional parameter > with ANSI color 1`] = `
+[
+  "[97m[size[39m (small|medium|large)]  [3mSize selection[23m",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > enum positional parameter with default > no ANSI color 1`] = `
+[
+  "size (small|medium|large, default medium)  Size selection",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > enum positional parameter with default > with ANSI color 1`] = `
+[
+  "[97msize[39m (small|medium|large, default medium)  [3mSize selection[23m",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > enum positional parameter with default, with alt text > no ANSI color 1`] = `
+[
+  "size (small|medium|large, def medium)  Size selection",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > enum positional parameter with default, with alt text > with ANSI color 1`] = `
+[
+  "[97msize[39m (small|medium|large, [90mdef[39m medium)  [3mSize selection[23m",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > optional enum positional parameter with default > no ANSI color 1`] = `
+[
+  "[size (small|medium|large, default medium)]  Size selection",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > optional enum positional parameter with default > with ANSI color 1`] = `
+[
+  "[97m[size[39m (small|medium|large, default medium)]  [3mSize selection[23m",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > enum positional with multi-word values > no ANSI color 1`] = `
+[
+  "mode (build-only|test-only|all)  Operation mode",
+]
+`;
+
+exports[`formatDocumentationForPositionalParameters > enum positional with multi-word values > with ANSI color 1`] = `
+[
+  "[97mmode[39m (build-only|test-only|all)  [3mOperation mode[23m",
+]
+`;

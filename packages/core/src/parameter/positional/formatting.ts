@@ -16,7 +16,9 @@ export function formatDocumentationForPositionalParameters(
         const enumValues = `(${positional.values.join("|")})`;
         const suffixParts: string[] = [enumValues];
         if (positional.default) {
-            const defaultKeyword = args.ansiColor ? `\x1B[90m${args.text.keywords.default}\x1B[39m` : args.text.keywords.default;
+            const defaultKeyword = args.ansiColor
+                ? `\x1B[90m${args.text.keywords.default}\x1B[39m`
+                : args.text.keywords.default;
             suffixParts.push(`${defaultKeyword} ${positional.default}`);
         }
         const suffix = positional.optional ? `[${suffixParts.join(", ")}]` : suffixParts.join(", ");

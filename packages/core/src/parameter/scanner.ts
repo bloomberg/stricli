@@ -843,7 +843,12 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                                 positional.values,
                                 config.distanceOptions,
                             );
-                            throw new EnumValidationError(placeholder as unknown as ExternalFlagName, positional.default, positional.values, corrections);
+                            throw new EnumValidationError(
+                                placeholder as unknown as ExternalFlagName,
+                                positional.default,
+                                positional.values,
+                                corrections,
+                            );
                         }
                         positionalValues_p = Promise.resolve({
                             status: "fulfilled",
@@ -861,7 +866,12 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                     // Validate input value
                     if (!positional.values.includes(input)) {
                         const corrections = filterClosestAlternatives(input, positional.values, config.distanceOptions);
-                        throw new EnumValidationError(placeholder as unknown as ExternalFlagName, input, positional.values, corrections);
+                        throw new EnumValidationError(
+                            placeholder as unknown as ExternalFlagName,
+                            input,
+                            positional.values,
+                            corrections,
+                        );
                     }
                     positionalValues_p = Promise.resolve({
                         status: "fulfilled",
@@ -1059,16 +1069,18 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 }
             }
             if (positional.kind === "enum") {
-                // Provide enum values as completions
-                completions.push(
-                    ...positional.values.map<ArgumentCompletion>((value) => {
-                        return {
-                            kind: "argument:value",
-                            completion: value,
-                            brief: positional.brief,
-                        };
-                    }),
-                );
+                // Provide enum values as completions only if positional not yet satisfied
+                if (positionalIndex === 0) {
+                    completions.push(
+                        ...positional.values.map<ArgumentCompletion>((value) => {
+                            return {
+                                kind: "argument:value",
+                                completion: value,
+                                brief: positional.brief,
+                            };
+                        }),
+                    );
+                }
             } else if (positional.kind === "array") {
                 if (positional.parameter.proposeCompletions) {
                     if (typeof positional.maximum !== "number" || positionalIndex < positional.maximum) {
