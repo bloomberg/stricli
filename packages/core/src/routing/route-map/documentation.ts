@@ -92,7 +92,7 @@ export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
                 return [row.routeName, row.brief];
             }
             return [
-                row.hidden ? `\x1B[90m${row.routeName}\x1B[39m` : `\x1B[97m${row.routeName}\x1B[39m`,
+                row.hidden ? `\x1B[90m${row.routeName}\x1B[39m` : `\x1B[36m${row.routeName}\x1B[39m`,
                 row.hidden ? `\x1B[90m${row.brief}\x1B[39m` : `\x1B[03m${row.brief}\x1B[23m`,
             ];
         }),

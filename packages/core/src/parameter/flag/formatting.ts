@@ -122,8 +122,8 @@ export function formatDocumentationForFlagParameters(
                 return [row.aliases, row.flagName, row.brief, row.suffix ?? ""];
             }
             return [
-                row.hidden ? `\x1B[90m${row.aliases}\x1B[39m` : `\x1B[97m${row.aliases}\x1B[39m`,
-                row.hidden ? `\x1B[90m${row.flagName}\x1B[39m` : `\x1B[97m${row.flagName}\x1B[39m`,
+                row.hidden ? `\x1B[90m${row.aliases}\x1B[39m` : `\x1B[36m${row.aliases}\x1B[39m`,
+                row.hidden ? `\x1B[90m${row.flagName}\x1B[39m` : `\x1B[36m${row.flagName}\x1B[39m`,
                 row.hidden ? `\x1B[90m${row.brief}\x1B[39m` : `\x1B[03m${row.brief}\x1B[23m`,
                 row.suffix ?? "",
             ];
