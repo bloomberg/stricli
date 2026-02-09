@@ -9,8 +9,8 @@ exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolea
 
 exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolean flag > with ANSI color 1`] = `
 [
-  "[36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -25,8 +25,8 @@ exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolea
 exports[`formatDocumentationForFlagParameters > boolean > hidden optional boolean flag, help all > with ANSI color 1`] = `
 [
   "[90m[39m   [90m[--optionalBoolean/--noOptionalBoolean][39m  [90moptional boolean flag[39m",
-  "[36m-h[39m [36m --help[39m                                  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-h[22m [01m --help[22m                                  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -40,9 +40,9 @@ exports[`formatDocumentationForFlagParameters > boolean > optional boolean flag 
 
 exports[`formatDocumentationForFlagParameters > boolean > optional boolean flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--optionalBoolean/--noOptionalBoolean][39m  [03moptional boolean flag[23m",
-  "[36m-h[39m [36m --help[39m                                  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--optionalBoolean/--noOptionalBoolean][22m  [03moptional boolean flag[23m",
+  "[01m-h[22m [01m --help[22m                                  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -56,9 +56,9 @@ exports[`formatDocumentationForFlagParameters > boolean > required boolean flag 
 
 exports[`formatDocumentationForFlagParameters > boolean > required boolean flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--requiredBoolean/--noRequiredBoolean[39m  [03mrequired boolean flag[23m",
-  "[36m-h[39m [36m--help[39m                                 [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                                     [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--requiredBoolean/--noRequiredBoolean[22m  [03mrequired boolean flag[23m",
+  "[01m-h[22m [01m--help[22m                                 [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                                     [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -72,9 +72,9 @@ exports[`formatDocumentationForFlagParameters > boolean > required boolean flag 
 
 exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=false > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--requiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m false]",
-  "[36m-h[39m [36m --help[39m              [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                  [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--requiredBoolean][22m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m false]",
+  "[01m-h[22m [01m --help[22m              [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                  [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -88,9 +88,9 @@ exports[`formatDocumentationForFlagParameters > boolean > required boolean flag 
 
 exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=true > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--requiredBoolean/--noRequiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]",
-  "[36m-h[39m [36m --help[39m                                  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--requiredBoolean/--noRequiredBoolean][22m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]",
+  "[01m-h[22m [01m --help[22m                                  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -104,9 +104,9 @@ exports[`formatDocumentationForFlagParameters > boolean > required boolean flag 
 
 exports[`formatDocumentationForFlagParameters > boolean > required boolean flag with default=true and withNegated=false > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--requiredBoolean][39m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]",
-  "[36m-h[39m [36m --help[39m              [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                  [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--requiredBoolean][22m  [03mrequired boolean flag[23m                                    [[90mdefault =[39m true]",
+  "[01m-h[22m [01m --help[22m              [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                  [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -120,9 +120,9 @@ exports[`formatDocumentationForFlagParameters > enum > optional enum flag > no A
 
 exports[`formatDocumentationForFlagParameters > enum > optional enum flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--optionalEnum][39m  [03moptional enum flag[23m                                       [a|b|c]",
-  "[36m-h[39m [36m --help[39m           [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--optionalEnum][22m  [03moptional enum flag[23m                                       [a|b|c]",
+  "[01m-h[22m [01m --help[22m           [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m               [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -136,9 +136,9 @@ exports[`formatDocumentationForFlagParameters > enum > optional enum flag with d
 
 exports[`formatDocumentationForFlagParameters > enum > optional enum flag with default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--optionalEnum][39m  [03moptional enum flag[23m                                       [a|b|c, [90mdefault =[39m b]",
-  "[36m-h[39m [36m --help[39m           [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--optionalEnum][22m  [03moptional enum flag[23m                                       [a|b|c, [90mdefault =[39m b]",
+  "[01m-h[22m [01m --help[22m           [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m               [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -152,9 +152,9 @@ exports[`formatDocumentationForFlagParameters > enum > required enum flag > no A
 
 exports[`formatDocumentationForFlagParameters > enum > required enum flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--requiredEnum[39m  [03mrequired enum flag[23m                                       [a|b|c]",
-  "[36m-h[39m [36m--help[39m          [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m              [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--requiredEnum[22m  [03mrequired enum flag[23m                                       [a|b|c]",
+  "[01m-h[22m [01m--help[22m          [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m              [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -168,9 +168,9 @@ exports[`formatDocumentationForFlagParameters > enum > required enum flag with d
 
 exports[`formatDocumentationForFlagParameters > enum > required enum flag with default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--requiredEnum][39m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m b]",
-  "[36m-h[39m [36m --help[39m           [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m               [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--requiredEnum][22m  [03mrequired enum flag[23m                                       [a|b|c, [90mdefault =[39m b]",
+  "[01m-h[22m [01m --help[22m           [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m               [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -184,9 +184,9 @@ exports[`formatDocumentationForFlagParameters > enum > variadic enum flag with s
 
 exports[`formatDocumentationForFlagParameters > enum > variadic enum flag with separator and default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--format][39m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json+yaml, [90mseparator =[39m +]",
-  "[36m-h[39m [36m --help[39m     [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m         [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--format][22m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json+yaml, [90mseparator =[39m +]",
+  "[01m-h[22m [01m --help[22m     [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m         [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -200,9 +200,9 @@ exports[`formatDocumentationForFlagParameters > enum > variadic enum flag withou
 
 exports[`formatDocumentationForFlagParameters > enum > variadic enum flag without separator and with default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--format][39m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json yaml]",
-  "[36m-h[39m [36m --help[39m     [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m         [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--format][22m  [03mOutput format(s)[23m                                         [json|xml|yaml, [90mdefault =[39m json yaml]",
+  "[01m-h[22m [01m --help[22m     [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m         [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -215,8 +215,8 @@ exports[`formatDocumentationForFlagParameters > no flags > no ANSI color 1`] = `
 
 exports[`formatDocumentationForFlagParameters > no flags > with ANSI color 1`] = `
 [
-  "[36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -230,9 +230,9 @@ exports[`formatDocumentationForFlagParameters > parsed > flag with nonstandard c
 
 exports[`formatDocumentationForFlagParameters > parsed > flag with nonstandard character > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--a.b.c_10[39m  [03mrequired parsed flag[23m",
-  "[36m-h[39m [36m--help[39m      [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m          [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--a.b.c_10[22m  [03mrequired parsed flag[23m",
+  "[01m-h[22m [01m--help[22m      [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m          [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -246,9 +246,9 @@ exports[`formatDocumentationForFlagParameters > parsed > multipart flag > no ANS
 
 exports[`formatDocumentationForFlagParameters > parsed > multipart flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--multi.part[39m  [03mrequired parsed flag[23m",
-  "[36m-h[39m [36m--help[39m        [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m            [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--multi.part[22m  [03mrequired parsed flag[23m",
+  "[01m-h[22m [01m--help[22m        [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m            [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -264,11 +264,11 @@ exports[`formatDocumentationForFlagParameters > parsed > multiple parsed flags >
 
 exports[`formatDocumentationForFlagParameters > parsed > multiple parsed flags > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--requiredParsed[39m                        [03mrequired parsed flag[23m",
-  "[36m[39m   [36m--requiredParsedWithLongerName[39m          [03mrequired parsed flag with longer name[23m",
-  "[36m[39m   [36m--required-parsed-with-kebab-case-name[39m  [03mrequired parsed flag with kebab-case name[23m",
-  "[36m-h[39m [36m--help[39m                                  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--requiredParsed[22m                        [03mrequired parsed flag[23m",
+  "[01m[22m   [01m--requiredParsedWithLongerName[22m          [03mrequired parsed flag with longer name[23m",
+  "[01m[22m   [01m--required-parsed-with-kebab-case-name[22m  [03mrequired parsed flag with kebab-case name[23m",
+  "[01m-h[22m [01m--help[22m                                  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                                      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -282,9 +282,9 @@ exports[`formatDocumentationForFlagParameters > parsed > optional array parsed f
 
 exports[`formatDocumentationForFlagParameters > parsed > optional array parsed flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--optionalArrayParsed][39m  [03moptional array parsed flag[23m",
-  "[36m-h[39m [36m --help[39m                  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--optionalArrayParsed][22m  [03moptional array parsed flag[23m",
+  "[01m-h[22m [01m --help[22m                  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -298,9 +298,9 @@ exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag > 
 
 exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--optionalParsed][39m  [03moptional parsed flag[23m",
-  "[36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--optionalParsed][22m  [03moptional parsed flag[23m",
+  "[01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -314,9 +314,9 @@ exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > optional parsed flag with alias > with ANSI color 1`] = `
 [
-  "[36m-p[39m [36m[--optionalParsed][39m  [03moptional parsed flag[23m",
-  "[36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-p[22m [01m[--optionalParsed][22m  [03moptional parsed flag[23m",
+  "[01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -330,9 +330,9 @@ exports[`formatDocumentationForFlagParameters > parsed > optional variadic parse
 
 exports[`formatDocumentationForFlagParameters > parsed > optional variadic parsed flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--optionalVariadicParsed]...[39m  [03moptional variadic parsed flag[23m",
-  "[36m-h[39m [36m --help[39m                        [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                            [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--optionalVariadicParsed]...[22m  [03moptional variadic parsed flag[23m",
+  "[01m-h[22m [01m --help[22m                        [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                            [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -346,9 +346,9 @@ exports[`formatDocumentationForFlagParameters > parsed > optional variadic parse
 
 exports[`formatDocumentationForFlagParameters > parsed > optional variadic parsed flag with default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--variadicParsed]...[39m  [03moptional variadic parsed flag with default[23m               [[90mdefault =[39m foo bar]",
-  "[36m-h[39m [36m --help[39m                [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--variadicParsed]...[22m  [03moptional variadic parsed flag with default[23m               [[90mdefault =[39m foo bar]",
+  "[01m-h[22m [01m --help[22m                [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -362,9 +362,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required array parsed f
 
 exports[`formatDocumentationForFlagParameters > parsed > required array parsed flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--requiredArrayParsed[39m  [03mrequired array parsed flag[23m",
-  "[36m-h[39m [36m--help[39m                 [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                     [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--requiredArrayParsed[22m  [03mrequired array parsed flag[23m",
+  "[01m-h[22m [01m--help[22m                 [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                     [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -378,9 +378,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required parsed flag > 
 
 exports[`formatDocumentationForFlagParameters > parsed > required parsed flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--requiredParsed[39m  [03mrequired parsed flag[23m",
-  "[36m-h[39m [36m--help[39m            [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--requiredParsed[22m  [03mrequired parsed flag[23m",
+  "[01m-h[22m [01m--help[22m            [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -394,9 +394,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with alias > with ANSI color 1`] = `
 [
-  "[36m-p[39m [36m--requiredParsed[39m  [03mrequired parsed flag[23m",
-  "[36m-h[39m [36m--help[39m            [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-p[22m [01m--requiredParsed[22m  [03mrequired parsed flag[23m",
+  "[01m-h[22m [01m--help[22m            [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -410,9 +410,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m ""]",
-  "[36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--requiredParsed][22m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m ""]",
+  "[01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -425,8 +425,8 @@ exports[`formatDocumentationForFlagParameters > parsed > required parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden] > with ANSI color 1`] = `
 [
-  "[36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m      [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m      [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -441,8 +441,8 @@ exports[`formatDocumentationForFlagParameters > parsed > required parsed flag wi
 exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default [hidden], hide all > with ANSI color 1`] = `
 [
   "[90m[39m   [90m[--requiredParsed][39m  [90mrequired parsed flag[39m                                     [[90mdefault =[39m 100]",
-  "[36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -456,9 +456,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > required parsed flag with default and alias > with ANSI color 1`] = `
 [
-  "[36m-p[39m [36m[--requiredParsed][39m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m 100]",
-  "[36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m-p[22m [01m[--requiredParsed][22m  [03mrequired parsed flag[23m                                     [[90mdefault =[39m 100]",
+  "[01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                 [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -472,9 +472,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required variadic parse
 
 exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--requiredVariadicParsed...[39m  [03mrequired variadic parsed flag[23m",
-  "[36m-h[39m [36m--help[39m                       [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                           [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--requiredVariadicParsed...[22m  [03mrequired variadic parsed flag[23m",
+  "[01m-h[22m [01m--help[22m                       [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                           [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -488,9 +488,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required variadic parse
 
 exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag with default (long) > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with long default[23m          [[90mdefault =[39m one two three four five]",
-  "[36m-h[39m [36m --help[39m                [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--variadicParsed]...[22m  [03mrequired variadic parsed flag with long default[23m          [[90mdefault =[39m one two three four five]",
+  "[01m-h[22m [01m --help[22m                [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -504,9 +504,9 @@ exports[`formatDocumentationForFlagParameters > parsed > required variadic parse
 
 exports[`formatDocumentationForFlagParameters > parsed > required variadic parsed flag with empty default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--variadicParsed]...[39m  [03mrequired variadic parsed flag with empty default[23m         [[90mdefault =[39m []]",
-  "[36m-h[39m [36m --help[39m                [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--variadicParsed]...[22m  [03mrequired variadic parsed flag with empty default[23m         [[90mdefault =[39m []]",
+  "[01m-h[22m [01m --help[22m                [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -520,9 +520,9 @@ exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m--variadicParsed...[39m  [03mvariadic parsed flag with separator[23m                      [[90mseparator =[39m ,]",
-  "[36m-h[39m [36m--help[39m               [03mPrint help information and exit[23m",
-  "[36m[39m   [36m--[39m                   [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m--variadicParsed...[22m  [03mvariadic parsed flag with separator[23m                      [[90mseparator =[39m ,]",
+  "[01m-h[22m [01m--help[22m               [03mPrint help information and exit[23m",
+  "[01m[22m   [01m--[22m                   [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;
 
@@ -536,8 +536,8 @@ exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag wi
 
 exports[`formatDocumentationForFlagParameters > parsed > variadic parsed flag with separator and default > with ANSI color 1`] = `
 [
-  "[36m[39m   [36m[--variadicParsed]...[39m  [03mvariadic parsed flag with separator and default[23m          [[90mdefault =[39m json+xml, [90mseparator =[39m +]",
-  "[36m-h[39m [36m --help[39m                [03mPrint help information and exit[23m",
-  "[36m[39m   [36m --[39m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
+  "[01m[22m   [01m[--variadicParsed]...[22m  [03mvariadic parsed flag with separator and default[23m          [[90mdefault =[39m json+xml, [90mseparator =[39m +]",
+  "[01m-h[22m [01m --help[22m                [03mPrint help information and exit[23m",
+  "[01m[22m   [01m --[22m                    [03mAll subsequent inputs should be interpreted as arguments[23m",
 ]
 `;

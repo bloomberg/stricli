@@ -8,7 +8,7 @@ exports[`formatDocumentationForPositionalParameters > homogenous array of positi
 
 exports[`formatDocumentationForPositionalParameters > homogenous array of positional parameters > with ANSI color 1`] = `
 [
-  "[36mparsed...[39m  [3mrequired positional parameter[23m",
+  "[01mparsed...[22m  [3mrequired positional parameter[23m",
 ]
 `;
 
@@ -22,9 +22,9 @@ exports[`formatDocumentationForPositionalParameters > tuple of multiple position
 
 exports[`formatDocumentationForPositionalParameters > tuple of multiple positional parameters > with ANSI color 1`] = `
 [
-  "[36mparsed[39m             [3mrequired positional parameter[23m",
-  "[36mparsedLonger[39m       [3mrequired positional parameter with longer placeholder[23m",
-  "[36mparsed-kebab-case[39m  [3mrequired positional parameter with kebab-case placeholder[23m",
+  "[1mparsed[22m             [3mrequired positional parameter[23m",
+  "[1mparsedLonger[22m       [3mrequired positional parameter with longer placeholder[23m",
+  "[1mparsed-kebab-case[22m  [3mrequired positional parameter with kebab-case placeholder[23m",
 ]
 `;
 
@@ -36,7 +36,7 @@ exports[`formatDocumentationForPositionalParameters > tuple of one optional posi
 
 exports[`formatDocumentationForPositionalParameters > tuple of one optional positional parameter > with ANSI color 1`] = `
 [
-  "[36m[parsed][39m  [3moptional positional parameter[23m",
+  "[1m[parsed][22m  [3moptional positional parameter[23m",
 ]
 `;
 
@@ -48,7 +48,7 @@ exports[`formatDocumentationForPositionalParameters > tuple of one optional posi
 
 exports[`formatDocumentationForPositionalParameters > tuple of one optional positional parameter with default > with ANSI color 1`] = `
 [
-  "[36m[parsed][39m  [3moptional positional parameter[23m [[90mdefault =[39m 1001]",
+  "[1m[parsed][22m  [3moptional positional parameter[23m [[90mdefault =[39m 1001]",
 ]
 `;
 
@@ -60,7 +60,7 @@ exports[`formatDocumentationForPositionalParameters > tuple of one positional pa
 
 exports[`formatDocumentationForPositionalParameters > tuple of one positional parameter with default > with ANSI color 1`] = `
 [
-  "[36mparsed[39m  [3mrequired positional parameter[23m [[90mdefault =[39m 1001]",
+  "[1mparsed[22m  [3mrequired positional parameter[23m [[90mdefault =[39m 1001]",
 ]
 `;
 
@@ -72,7 +72,7 @@ exports[`formatDocumentationForPositionalParameters > tuple of one positional pa
 
 exports[`formatDocumentationForPositionalParameters > tuple of one positional parameter with default, with alt text > with ANSI color 1`] = `
 [
-  "[36mparsed[39m  [3mrequired positional parameter[23m [[90mdef =[39m 1001]",
+  "[1mparsed[22m  [3mrequired positional parameter[23m [[90mdef =[39m 1001]",
 ]
 `;
 
@@ -84,7 +84,7 @@ exports[`formatDocumentationForPositionalParameters > tuple of one required posi
 
 exports[`formatDocumentationForPositionalParameters > tuple of one required positional parameter > with ANSI color 1`] = `
 [
-  "[36mparsed[39m  [3mrequired positional parameter[23m",
+  "[1mparsed[22m  [3mrequired positional parameter[23m",
 ]
 `;
 

@@ -37,12 +37,12 @@ route map brief
   cli alias2
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
-  [36msub[39m        [03msub route map brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
+  [01msub[32m        [03msub route map brief[23m
 "
 `;
 
@@ -72,11 +72,11 @@ exports[`RouteMap > printHelp > nested route map > with ANSI color 1`] = `
 route map brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m
+  [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
-  [36msub[39m        [03msub route map brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
+  [01msub[32m        [03msub route map brief[23m
 "
 `;
 
@@ -109,11 +109,11 @@ exports[`RouteMap > printHelp > nested route map force include hidden routes > w
 route map brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
   [90msub[39m        [90msub route map brief[39m
 "
 `;
@@ -147,12 +147,12 @@ exports[`RouteMap > printHelp > nested route map with \`convert-camel-to-kebab\`
 Longer description of this route map's behavior, only printed during --help
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdo-nothing[39m  [03mtop command brief[23m
-  [36msub[39m         [03msub route map brief[23m
+  [01mdo-nothing[32m  [03mtop command brief[23m
+  [01msub[32m         [03msub route map brief[23m
 "
 `;
 
@@ -193,12 +193,12 @@ route map brief
   cli alias2
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
-  [36msub[39m        [03msub route map brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
+  [01msub[32m        [03msub route map brief[23m
 "
 `;
 
@@ -228,11 +228,11 @@ exports[`RouteMap > printHelp > nested route map with hidden routes > with ANSI 
 route map brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
 "
 `;
 
@@ -265,12 +265,12 @@ exports[`RouteMap > printHelp > nested route map with version available > with A
 Longer description of this route map's behavior, only printed during --help
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCOMMANDS[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
-  [36msub[39m        [03msub route map brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
+  [01msub[32m        [03msub route map brief[23m
 "
 `;
 
@@ -311,11 +311,11 @@ route map brief
   cli alias2
 
 [1mFlags:[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
-  [36m-v[39m [36m--version[39m  [03mPrint version information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
+  [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
 [1mCommands:[22m
-  [36mdoNothing[39m  [03mtop command brief[23m
-  [36msub[39m        [03msub route map brief[23m
+  [01mdoNothing[32m  [03mtop command brief[23m
+  [01msub[32m        [03msub route map brief[23m
 "
 `;
