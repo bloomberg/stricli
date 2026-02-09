@@ -1,21 +1,14 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { describe, expect, it } from "vitest";
-import {
-    ExitCode,
-    booleanParser,
-    buildCommand,
-    numberParser,
-    text_en,
-    type Command,
-    type CommandContext,
-} from "../../src";
+import { booleanParser, buildCommand, numberParser, text_en, type Command, type CommandContext } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
 import { buildFakeContext } from "../fakes/context";
 // eslint-disable-next-line no-restricted-imports
 import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
 import { runResultSerializer } from "../snapshot-serializers";
+import { stripAnsiCodes } from "../util/ansi";
 
 // Register custom snapshot serializer
 expect.addSnapshotSerializer(runResultSerializer);
@@ -68,7 +61,7 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
             ...args,
             ansiColor: true,
         });
-        const helpTextWithAnsiColorStrippedOut = helpTextWithAnsiColor.replace(/\x1B\[[0-9;]*m/g, "");
+        const helpTextWithAnsiColorStrippedOut = stripAnsiCodes(helpTextWithAnsiColor);
         const helpTextWithoutAnsiColor = command.formatHelp({
             ...args,
             ansiColor: false,

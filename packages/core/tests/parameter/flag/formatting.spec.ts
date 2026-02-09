@@ -8,6 +8,7 @@ import { formatDocumentationForFlagParameters } from "../../../src/parameter/fla
 import type { BaseArgs } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
+import { stripAnsiCodes } from "../../util/ansi";
 
 type DocumentationArgs = Omit<HelpFormattingArguments, "prefix" | "ansiColor">;
 
@@ -47,7 +48,7 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
                 ansiColor: true,
             },
         );
-        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map((line) => line.replace(/\x1B\[[0-9;]*m/g, ""));
+        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map(stripAnsiCodes);
         const linesWithoutAnsiColor = formatDocumentationForFlagParameters(
             parameters.flags ?? {},
             parameters.aliases ?? {},
@@ -847,5 +848,46 @@ describe("formatDocumentationForFlagParameters", () => {
 
             compareDocumentationToBaseline(parameters, defaultArgs);
         });
+    });
+
+    it("help text for hidden flags with ANSI matches text without ANSI", () => {
+        // GIVEN
+        type Positional = [];
+        type Flags = {
+            bool?: boolean;
+        };
+
+        const publicFlags = {
+            bool: {
+                kind: "boolean",
+                brief: "optional boolean flag",
+                optional: true,
+            },
+        } satisfies TypedCommandParameters<Flags, Positional, CommandContext>["flags"];
+        const hiddenFlags = {
+            bool: {
+                ...publicFlags.bool,
+                hidden: true,
+            },
+        } satisfies TypedCommandParameters<Flags, Positional, CommandContext>["flags"];
+
+        const aliases = {
+            b: "bool",
+        } satisfies TypedCommandParameters<Flags, Positional, CommandContext>["aliases"];
+
+        // WHEN
+        const publicLines = formatDocumentationForFlagParameters(publicFlags, aliases, {
+            ...defaultArgs,
+            ansiColor: true,
+            includeHidden: true,
+        }).map(stripAnsiCodes);
+        const hiddenLines = formatDocumentationForFlagParameters(hiddenFlags, aliases, {
+            ...defaultArgs,
+            ansiColor: true,
+            includeHidden: true,
+        }).map(stripAnsiCodes);
+
+        // THEN
+        expect(publicLines).to.deep.equal(hiddenLines);
     });
 });
