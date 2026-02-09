@@ -28,15 +28,15 @@ exports[`Command > printHelp > mixed parameters > with ANSI color 1`] = `
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -68,15 +68,15 @@ exports[`Command > printHelp > mixed parameters with \`convert-camel-to-kebab\` 
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha-flag[39m                  [03malpha flag brief[23m
-  [36m[39m   [36m --bravo-flag...[39m               [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie-flag][39m               [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta-flag/--no-delta-flag[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m                        [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha-flag[22m                  [03malpha flag brief[23m
+  [01m[22m   [01m --bravo-flag...[22m               [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie-flag][22m               [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta-flag/--no-delta-flag[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m                        [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -108,15 +108,15 @@ exports[`Command > printHelp > mixed parameters with \`convert-camel-to-kebab\` 
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha-flag[39m                  [03malpha flag brief[23m
-  [36m[39m   [36m --bravo-flag...[39m               [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie-flag][39m               [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta-flag/--no-delta-flag[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m                        [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha-flag[22m                  [03malpha flag brief[23m
+  [01m[22m   [01m --bravo-flag...[22m               [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie-flag][22m               [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta-flag/--no-delta-flag[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m                        [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -148,15 +148,15 @@ exports[`Command > printHelp > mixed parameters with \`original\` display case s
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alphaFlag[39m                [03malpha flag brief[23m
-  [36m[39m   [36m --bravoFlag...[39m             [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlieFlag][39m             [03mcharlie flag brief[23m
-  [36m-d[39m [36m --deltaFlag/--noDeltaFlag[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m                     [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alphaFlag[22m                [03malpha flag brief[23m
+  [01m[22m   [01m --bravoFlag...[22m             [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlieFlag][22m             [03mcharlie flag brief[23m
+  [01m-d[22m [01m --deltaFlag/--noDeltaFlag[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m                     [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -188,15 +188,15 @@ exports[`Command > printHelp > mixed parameters with \`original\` display case s
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alphaFlag[39m                [03malpha flag brief[23m
-  [36m[39m   [36m --bravoFlag...[39m             [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlieFlag][39m             [03mcharlie flag brief[23m
-  [36m-d[39m [36m --deltaFlag/--noDeltaFlag[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m                     [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alphaFlag[22m                [03malpha flag brief[23m
+  [01m[22m   [01m --bravoFlag...[22m             [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlieFlag][22m             [03mcharlie flag brief[23m
+  [01m-d[22m [01m --deltaFlag/--noDeltaFlag[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m                     [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -239,16 +239,16 @@ brief
   cli alias2
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
-  [36m-v[39m [36m --version[39m          [03mPrint version information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
+  [01m-v[22m [01m --version[22m          [03mPrint version information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -291,16 +291,16 @@ brief
   cli alias2
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
-  [36m-v[39m [36m --version[39m          [03mPrint version information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
+  [01m-v[22m [01m --version[22m          [03mPrint version information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -343,16 +343,16 @@ brief
   cli alias2
 
 [1mFlags:[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
-  [36m-v[39m [36m --version[39m          [03mPrint version information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
+  [01m-v[22m [01m --version[22m          [03mPrint version information and exit[23m
 
 [1mArguments:[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -395,16 +395,16 @@ brief
   cli alias2
 
 [1mFlags:[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
-  [36m-v[39m [36m --version[39m          [03mPrint version information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
+  [01m-v[22m [01m --version[22m          [03mPrint version information and exit[23m
 
 [1mArguments:[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -439,16 +439,16 @@ exports[`Command > printHelp > mixed parameters with version available > with AN
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
-  [36m-v[39m [36m --version[39m          [03mPrint version information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
+  [01m-v[22m [01m --version[22m          [03mPrint version information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -483,16 +483,16 @@ exports[`Command > printHelp > mixed parameters with version available, only req
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
-  [36m-v[39m [36m --version[39m          [03mPrint version information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
+  [01m-v[22m [01m --version[22m          [03mPrint version information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -525,14 +525,14 @@ exports[`Command > printHelp > mixed parameters, custom usage > with ANSI color 
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -569,14 +569,14 @@ exports[`Command > printHelp > mixed parameters, enhanced custom usage > with AN
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -607,14 +607,14 @@ exports[`Command > printHelp > mixed parameters, force include hidden > with ANS
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
   [90m[39m   [90m --bravo...[39m         [90mbravo flag brief[39m
   [90m[39m   [90m[--charlie][39m         [90mcharlie flag brief[39m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -645,14 +645,14 @@ exports[`Command > printHelp > mixed parameters, full description > with ANSI co
 Longer description of this command's behavior, only printed during --help
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -683,14 +683,14 @@ exports[`Command > printHelp > mixed parameters, full description, only required
 Longer description of this command's behavior, only printed during --help
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -724,15 +724,15 @@ exports[`Command > printHelp > mixed parameters, help all, force alias in usage 
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
   [90m-H[39m [90m --helpAll[39m          [90mPrint help information (including hidden commands/flags) and exit[39m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -777,14 +777,14 @@ exports[`Command > printHelp > mixed parameters, mixed custom usage > with ANSI 
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -816,15 +816,15 @@ exports[`Command > printHelp > mixed parameters, only required in usage line > w
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m --alpha[39m            [03malpha flag brief[23m
-  [36m[39m   [36m --bravo...[39m         [03mbravo flag brief[23m
-  [36m[39m   [36m[--charlie][39m         [03mcharlie flag brief[23m
-  [36m-d[39m [36m --delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m --help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m --alpha[22m            [03malpha flag brief[23m
+  [01m[22m   [01m --bravo...[22m         [03mbravo flag brief[23m
+  [01m[22m   [01m[--charlie][22m         [03mcharlie flag brief[23m
+  [01m-d[22m [01m --delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m --help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36m arg1[39m   [3mfirst argument brief[23m
-  [36m[arg2][39m  [3msecond argument brief[23m
+  [1m arg1[22m   [3mfirst argument brief[23m
+  [1m[arg2][22m  [3msecond argument brief[23m
 "
 `;
 
@@ -853,12 +853,12 @@ exports[`Command > printHelp > mixed parameters, skips hidden > with ANSI color 
 brief
 
 [1mFLAGS[22m
-  [36m-a[39m [36m--alpha[39m            [03malpha flag brief[23m
-  [36m-d[39m [36m--delta/--noDelta[39m  [03mdelta flag brief[23m
-  [36m-h[39m [36m--help[39m             [03mPrint help information and exit[23m
+  [01m-a[22m [01m--alpha[22m            [03malpha flag brief[23m
+  [01m-d[22m [01m--delta/--noDelta[22m  [03mdelta flag brief[23m
+  [01m-h[22m [01m--help[22m             [03mPrint help information and exit[23m
 
 [1mARGUMENTS[22m
-  [36margs...[39m  [3mstring array brief[23m
+  [01margs...[22m  [3mstring array brief[23m
 "
 `;
 
@@ -885,10 +885,10 @@ exports[`Command > printHelp > multiple boolean flags > with ANSI color 1`] = `
 brief
 
 [1mFLAGS[22m
-  [36m[39m   [36m --alpha/--noAlpha[39m      [03malpha flag brief[23m
-  [36m[39m   [36m[--bravo/--noBravo][39m     [03mbravo flag brief[23m
-  [36m-c[39m [36m --charlie/--noCharlie[39m  [03mcharlie flag brief[23m
-  [36m-h[39m [36m --help[39m                 [03mPrint help information and exit[23m
+  [01m[22m   [01m --alpha/--noAlpha[22m      [03malpha flag brief[23m
+  [01m[22m   [01m[--bravo/--noBravo][22m     [03mbravo flag brief[23m
+  [01m-c[22m [01m --charlie/--noCharlie[22m  [03mcharlie flag brief[23m
+  [01m-h[22m [01m --help[22m                 [03mPrint help information and exit[23m
 "
 `;
 
@@ -915,10 +915,10 @@ exports[`Command > printHelp > multiple boolean flags, kebab-case > with ANSI co
 brief
 
 [1mFLAGS[22m
-  [36m[39m   [36m --alpha/--no-alpha[39m      [03malpha flag brief[23m
-  [36m[39m   [36m[--bravo/--no-bravo][39m     [03mbravo flag brief[23m
-  [36m-c[39m [36m --charlie/--no-charlie[39m  [03mcharlie flag brief[23m
-  [36m-h[39m [36m --help[39m                  [03mPrint help information and exit[23m
+  [01m[22m   [01m --alpha/--no-alpha[22m      [03malpha flag brief[23m
+  [01m[22m   [01m[--bravo/--no-bravo][22m     [03mbravo flag brief[23m
+  [01m-c[22m [01m --charlie/--no-charlie[22m  [03mcharlie flag brief[23m
+  [01m-h[22m [01m --help[22m                  [03mPrint help information and exit[23m
 "
 `;
 
@@ -945,10 +945,10 @@ exports[`Command > printHelp > multiple boolean flags, kebab-case, only required
 brief
 
 [1mFLAGS[22m
-  [36m[39m   [36m --alpha/--no-alpha[39m      [03malpha flag brief[23m
-  [36m[39m   [36m[--bravo/--no-bravo][39m     [03mbravo flag brief[23m
-  [36m-c[39m [36m --charlie/--no-charlie[39m  [03mcharlie flag brief[23m
-  [36m-h[39m [36m --help[39m                  [03mPrint help information and exit[23m
+  [01m[22m   [01m --alpha/--no-alpha[22m      [03malpha flag brief[23m
+  [01m[22m   [01m[--bravo/--no-bravo][22m     [03mbravo flag brief[23m
+  [01m-c[22m [01m --charlie/--no-charlie[22m  [03mcharlie flag brief[23m
+  [01m-h[22m [01m --help[22m                  [03mPrint help information and exit[23m
 "
 `;
 
@@ -975,10 +975,10 @@ exports[`Command > printHelp > multiple boolean flags, only required in usage li
 brief
 
 [1mFLAGS[22m
-  [36m[39m   [36m --alpha/--noAlpha[39m      [03malpha flag brief[23m
-  [36m[39m   [36m[--bravo/--noBravo][39m     [03mbravo flag brief[23m
-  [36m-c[39m [36m --charlie/--noCharlie[39m  [03mcharlie flag brief[23m
-  [36m-h[39m [36m --help[39m                 [03mPrint help information and exit[23m
+  [01m[22m   [01m --alpha/--noAlpha[22m      [03malpha flag brief[23m
+  [01m[22m   [01m[--bravo/--noBravo][22m     [03mbravo flag brief[23m
+  [01m-c[22m [01m --charlie/--noCharlie[22m  [03mcharlie flag brief[23m
+  [01m-h[22m [01m --help[22m                 [03mPrint help information and exit[23m
 "
 `;
 
@@ -1002,7 +1002,7 @@ exports[`Command > printHelp > no parameters > with ANSI color 1`] = `
 brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m
+  [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 "
 `;
 
@@ -1026,7 +1026,7 @@ exports[`Command > printHelp > no parameters, dropped empty flag spec > with ANS
 brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m
+  [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 "
 `;
 
@@ -1050,7 +1050,7 @@ exports[`Command > printHelp > no parameters, dropped empty positional spec > wi
 brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m
+  [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 "
 `;
 
@@ -1074,7 +1074,7 @@ exports[`Command > printHelp > no parameters, dropped empty specs > with ANSI co
 brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m  [03mPrint help information and exit[23m
+  [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 "
 `;
 
@@ -1101,7 +1101,7 @@ exports[`Command > printHelp > no parameters, help all, force alias in usage lin
 brief
 
 [1mFLAGS[22m
-  [36m-h[39m [36m--help[39m     [03mPrint help information and exit[23m
+  [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [90m-H[39m [90m--helpAll[39m  [90mPrint help information (including hidden commands/flags) and exit[39m
 "
 `;
