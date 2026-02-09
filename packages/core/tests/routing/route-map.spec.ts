@@ -1,9 +1,17 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { describe, expect, it } from "vitest";
-import { buildCommand, buildRouteMap, numberParser, text_en, type CommandContext, type RouteMap } from "../../src";
+import {
+    buildCommand,
+    buildRouteMap,
+    text_en,
+    type CommandContext,
+    type RouteMap,
+    type RouteMapBuilderArguments,
+} from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
+import { stripAnsiCodes } from "../util/ansi";
 
 function compareHelpTextToBaseline(
     routeMap: RouteMap<CommandContext>,
@@ -37,7 +45,7 @@ function compareHelpTextToBaseline(
             ...args,
             ansiColor: true,
         });
-        const helpTextWithAnsiColorStrippedOut = helpTextWithAnsiColor.replace(/\x1B\[[0-9;]*m/g, "");
+        const helpTextWithAnsiColorStrippedOut = stripAnsiCodes(helpTextWithAnsiColor);
         const helpTextWithoutAnsiColor = routeMap.formatHelp({
             ...args,
             ansiColor: false,
@@ -316,6 +324,41 @@ describe("RouteMap", () => {
                     },
                 },
             });
+        });
+
+        it("help text for hidden routes with ANSI matches text without ANSI", () => {
+            // GIVEN
+            const routeMapArgs = {
+                routes: { doNothing: topCommand, sub: subRouteMap },
+                docs: {
+                    brief: "route map brief",
+                },
+            } satisfies RouteMapBuilderArguments<"doNothing" | "sub", CommandContext>;
+            const publicRouteMap = buildRouteMap(routeMapArgs);
+            const hiddenRouteMap = buildRouteMap({
+                ...routeMapArgs,
+                docs: {
+                    ...routeMapArgs.docs,
+                    hideRoute: {
+                        doNothing: true,
+                    },
+                },
+            });
+
+            // WHEN
+            const publicHelpText = publicRouteMap.formatHelp({
+                ...defaultArgs,
+                ansiColor: true,
+                includeHidden: true,
+            });
+            const hiddenHelpText = hiddenRouteMap.formatHelp({
+                ...defaultArgs,
+                ansiColor: true,
+                includeHidden: true,
+            });
+
+            // THEN
+            expect(stripAnsiCodes(publicHelpText)).to.deep.equal(stripAnsiCodes(hiddenHelpText));
         });
     });
 

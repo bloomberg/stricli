@@ -8,6 +8,7 @@ import { formatDocumentationForPositionalParameters } from "../../../src/paramet
 import type { PositionalParameters } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
+import { stripAnsiCodes } from "../../util/ansi";
 
 type DocumentationArgs = Pick<HelpFormattingArguments, "config" | "text">;
 
@@ -40,7 +41,7 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
             ...args,
             ansiColor: true,
         });
-        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map((line) => line.replace(/\x1B\[[0-9;]*m/g, ""));
+        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map(stripAnsiCodes);
         const linesWithoutAnsiColor = formatDocumentationForPositionalParameters(positional, {
             ...args,
             ansiColor: false,
