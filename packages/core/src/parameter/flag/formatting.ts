@@ -58,7 +58,7 @@ export function formatDocumentationForFlagParameters(
             suffixParts.push(choices);
         }
         if (hasDefault(flag)) {
-            const defaultKeyword = args.ansiColor ? `\x1B[90m${keywords.default}\x1B[39m` : keywords.default;
+            const defaultKeyword = args.ansiColor ? `\x1B[2m${keywords.default}\x1B[22m` : keywords.default;
             let defaultValue: string;
             if (Array.isArray(flag.default)) {
                 // Format array defaults
@@ -75,7 +75,7 @@ export function formatDocumentationForFlagParameters(
             suffixParts.push(`${defaultKeyword} ${defaultValue}`);
         }
         if ("variadic" in flag && typeof flag.variadic === "string") {
-            const separatorKeyword = args.ansiColor ? `\x1B[90m${keywords.separator}\x1B[39m` : keywords.separator;
+            const separatorKeyword = args.ansiColor ? `\x1B[2m${keywords.separator}\x1B[22m` : keywords.separator;
             suffixParts.push(`${separatorKeyword} ${flag.variadic}`);
         }
         const suffix = suffixParts.length > 0 ? `[${suffixParts.join(", ")}]` : void 0;
@@ -122,9 +122,9 @@ export function formatDocumentationForFlagParameters(
                 return [row.aliases, row.flagName, row.brief, row.suffix ?? ""];
             }
             return [
-                row.hidden ? `\x1B[90m${row.aliases}\x1B[39m` : `\x1B[01m${row.aliases}\x1B[22m`,
-                row.hidden ? `\x1B[90m${row.flagName}\x1B[39m` : `\x1B[01m${row.flagName}\x1B[22m`,
-                row.hidden ? `\x1B[90m${row.brief}\x1B[39m` : `\x1B[03m${row.brief}\x1B[23m`,
+                row.hidden ? `\x1B[2m${row.aliases}\x1B[22m` : `\x1B[1m${row.aliases}\x1B[22m`,
+                row.hidden ? `\x1B[2m${row.flagName}\x1B[22m` : `\x1B[1m${row.flagName}\x1B[22m`,
+                row.hidden ? `\x1B[2;3m${row.brief}\x1B[22;23m` : `\x1B[003m${row.brief}\x1B[00023m`,
                 row.suffix ?? "",
             ];
         }),

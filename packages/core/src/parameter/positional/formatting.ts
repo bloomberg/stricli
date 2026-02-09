@@ -13,7 +13,7 @@ export function formatDocumentationForPositionalParameters(
 ): readonly string[] {
     if (positional.kind === "array") {
         const name = positional.parameter.placeholder ?? "args";
-        const argName = args.ansiColor ? `\x1B[01m${name}...\x1B[22m` : `${name}...`;
+        const argName = args.ansiColor ? `\x1B[1m${name}...\x1B[22m` : `${name}...`;
         const brief = args.ansiColor ? `\x1B[3m${positional.parameter.brief}\x1B[23m` : positional.parameter.brief;
         return formatRowsWithColumns([[argName, brief]], ["  "]);
     }
@@ -29,7 +29,7 @@ export function formatDocumentationForPositionalParameters(
                 name = ` ${name}`;
             }
             if (def.default) {
-                const defaultKeyword = args.ansiColor ? `\x1B[90m${keywords.default}\x1B[39m` : keywords.default;
+                const defaultKeyword = args.ansiColor ? `\x1B[2m${keywords.default}\x1B[22m` : keywords.default;
                 suffix = `[${defaultKeyword} ${def.default}]`;
             }
             return [
