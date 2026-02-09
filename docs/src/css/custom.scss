@@ -226,8 +226,16 @@ a.button {
     filter: drop-shadow(0 0 0.1rem color-mix(in srgb, currentColor 50%, transparent));
 }
 
+.ansi-dim {
+    opacity: 40%;
+}
+
 .ansi-italic {
     font-style: italic;
+}
+
+.ansi-underline {
+    text-decoration: underline;
 }
 
 .ansi-black {
