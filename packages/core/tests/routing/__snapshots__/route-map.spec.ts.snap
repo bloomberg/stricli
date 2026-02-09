@@ -24,7 +24,7 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > aliased nested route map with aliases > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   cli alias1 doNothing
   cli alias1 sub doNothing1|doNothing2 ...
   cli alias1 --help
@@ -32,15 +32,15 @@ exports[`RouteMap > printHelp > aliased nested route map with aliases > with ANS
 
 route map brief
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli route
   cli alias2
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdoNothing[32m  [03mtop command brief[23m
   [01msub[32m        [03msub route map brief[23m
 "
@@ -64,17 +64,17 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > nested route map > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
 
 route map brief
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdoNothing[32m  [03mtop command brief[23m
   [01msub[32m        [03msub route map brief[23m
 "
@@ -100,7 +100,7 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > nested route map force include hidden routes > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -108,11 +108,11 @@ exports[`RouteMap > printHelp > nested route map force include hidden routes > w
 
 route map brief
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdoNothing[32m  [03mtop command brief[23m
   [90msub[39m        [90msub route map brief[39m
 "
@@ -138,7 +138,7 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > nested route map with \`convert-camel-to-kebab\` display case style > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   prefix do-nothing
   prefix sub do-nothing1|do-nothing2 ...
   prefix --help
@@ -146,11 +146,11 @@ exports[`RouteMap > printHelp > nested route map with \`convert-camel-to-kebab\`
 
 Longer description of this route map's behavior, only printed during --help
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdo-nothing[32m  [03mtop command brief[23m
   [01msub[32m         [03msub route map brief[23m
 "
@@ -180,7 +180,7 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > nested route map with aliases > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
   cli route --help
@@ -188,15 +188,15 @@ exports[`RouteMap > printHelp > nested route map with aliases > with ANSI color 
 
 route map brief
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli alias1
   cli alias2
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdoNothing[32m  [03mtop command brief[23m
   [01msub[32m        [03msub route map brief[23m
 "
@@ -220,18 +220,18 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > nested route map with hidden routes > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   prefix doNothing
   prefix --help
   prefix --version
 
 route map brief
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdoNothing[32m  [03mtop command brief[23m
 "
 `;
@@ -256,7 +256,7 @@ COMMANDS
 `;
 
 exports[`RouteMap > printHelp > nested route map with version available > with ANSI color 1`] = `
-"[1mUSAGE[22m
+"[4mUSAGE[24m
   prefix doNothing
   prefix sub doNothing1|doNothing2 ...
   prefix --help
@@ -264,11 +264,11 @@ exports[`RouteMap > printHelp > nested route map with version available > with A
 
 Longer description of this route map's behavior, only printed during --help
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdoNothing[32m  [03mtop command brief[23m
   [01msub[32m        [03msub route map brief[23m
 "
@@ -298,7 +298,7 @@ Commands:
 `;
 
 exports[`RouteMap > printHelp > nested route maps with custom header text > with ANSI color 1`] = `
-"[1mUsage:[22m
+"[4mUsage:[24m
   cli route doNothing
   cli route sub doNothing1|doNothing2 ...
   cli route --help
@@ -306,15 +306,15 @@ exports[`RouteMap > printHelp > nested route maps with custom header text > with
 
 route map brief
 
-[1mAliases:[22m
+[4mAliases:[24m
   cli alias1
   cli alias2
 
-[1mFlags:[22m
+[4mFlags:[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCommands:[22m
+[4mCommands:[24m
   [01mdoNothing[32m  [03mtop command brief[23m
   [01msub[32m        [03msub route map brief[23m
 "

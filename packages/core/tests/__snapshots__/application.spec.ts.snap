@@ -166,13 +166,13 @@ FLAGS
 exports[`Application > run > basic command at root > display help text for root (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -182,13 +182,13 @@ basic command
 exports[`Application > run > basic command at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -214,13 +214,13 @@ FLAGS
 exports[`Application > run > basic command at root > display help text for root, color depth > 4 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -282,7 +282,7 @@ ExitCode=Success
 exports[`Application > run > basic command at root > with custom usage > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli custom usage 1
   cli custom-two
     [3menhanced custom usage 2[23m
@@ -291,7 +291,7 @@ ExitCode=Success
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -301,14 +301,14 @@ basic command
 exports[`Application > run > basic command at root > with full description > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
 
 This is a full description
 of this command's behavior.
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -318,13 +318,13 @@ of this command's behavior.
 exports[`Application > run > basic command at root > with missing latest version info > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -343,14 +343,14 @@ ExitCode=Success
 exports[`Application > run > basic command at root > with outdated version info (as async callback) > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
   cli --version
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
@@ -372,14 +372,14 @@ ExitCode=Success
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli
   cli --help
   cli --version
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
@@ -467,16 +467,16 @@ ExitCode=Success
 exports[`Application > run > basic route map at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
 
 root
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -486,16 +486,16 @@ root
 exports[`Application > run > basic route map at root > display help text for root (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
 
 root
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -505,16 +505,16 @@ root
 exports[`Application > run > basic route map at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
 
 root
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -524,13 +524,13 @@ root
 exports[`Application > run > basic route map at root > displays help text for subcommand (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli command --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -540,13 +540,13 @@ basic command
 exports[`Application > run > basic route map at root > displays help text for subcommand 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli command --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -654,17 +654,17 @@ ExitCode=UnknownCommand
 exports[`Application > run > basic route map at root > with full description > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
 
 This is a full description
 of this route map's behavior.
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -674,18 +674,18 @@ of this route map's behavior.
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
   cli --version
 
 root
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -696,13 +696,13 @@ root
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for subcommand, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli command --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -742,18 +742,18 @@ ExitCode=Success
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
   cli --version
 
 root
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -764,13 +764,13 @@ root
 exports[`Application > run > basic route map at root > with outdated version info > display help text for subcommand, warn on outdated version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli command --help
 
 basic command
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -791,18 +791,18 @@ ExitCode=Success
 exports[`Application > run > basic route map at root > with up-to-date version info > display help text for root, no warning 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
   cli --version
 
 root
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-v[22m [01m--version[22m  [03mPrint version information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -871,16 +871,16 @@ ExitCode=Success
 exports[`Application > run > nested basic route map at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -890,16 +890,16 @@ root route map
 exports[`Application > run > nested basic route map at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -909,16 +909,16 @@ root route map
 exports[`Application > run > nested basic route map at root > displays help text for nested route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command
   cli sub --help
 
 sub
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -928,16 +928,16 @@ sub
 exports[`Application > run > nested basic route map at root > displays help text for nested route map 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command
   cli sub --help
 
 sub
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -965,16 +965,16 @@ ExitCode=UnknownCommand
 exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -984,16 +984,16 @@ root route map
 exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1003,20 +1003,20 @@ root route map
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli aliasFoo command
   cli aliasFoo --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli sub
   cli alias-bar
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1026,20 +1026,20 @@ sub
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli aliasFoo command
   cli aliasFoo --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli sub
   cli alias-bar
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1049,20 +1049,20 @@ sub
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli alias-foo command
   cli alias-foo --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli sub
   cli alias-bar
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1072,20 +1072,20 @@ sub
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli alias-foo command
   cli alias-foo --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli sub
   cli alias-bar
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1095,20 +1095,20 @@ sub
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map with route alias 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command
   cli sub --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli alias-foo
   cli alias-bar
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1145,16 +1145,16 @@ ExitCode=UnknownCommand
 exports[`Application > run > nested basic route map with hidden routes > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1164,16 +1164,16 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1183,7 +1183,7 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes > display help text for root including hidden 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli subHidden command ...
   cli --help
@@ -1191,11 +1191,11 @@ ExitCode=Success
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [90m-H[39m [90m--helpAll[39m  [90mPrint help information (including hidden commands/flags) and exit[39m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m        [03msub[23m
   [90msubHidden[39m  [90msubHidden[39m
 
@@ -1206,16 +1206,16 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli subHidden command
   cli subHidden --help
 
 subHidden
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1225,16 +1225,16 @@ subHidden
 exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli subHidden command
   cli subHidden --help
 
 subHidden
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1262,18 +1262,18 @@ ExitCode=UnknownCommand
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli -h
   cli -H
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1283,18 +1283,18 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli -h
   cli -H
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1304,7 +1304,7 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root including hidden 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli subHidden command ...
   cli -h
@@ -1312,11 +1312,11 @@ ExitCode=Success
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m        [03msub[23m
   [90msubHidden[39m  [90msubHidden[39m
 
@@ -1327,18 +1327,18 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli subHidden command
   cli subHidden -h
   cli subHidden -H
 
 subHidden
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1348,18 +1348,18 @@ subHidden
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli subHidden command
   cli subHidden -h
   cli subHidden -H
 
 subHidden
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1387,18 +1387,18 @@ ExitCode=UnknownCommand
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
   cli --helpAll
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1408,18 +1408,18 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
   cli --helpAll
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1429,7 +1429,7 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root including hidden 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli subHidden command ...
   cli --help
@@ -1437,11 +1437,11 @@ ExitCode=Success
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m        [03msub[23m
   [90msubHidden[39m  [90msubHidden[39m
 
@@ -1452,18 +1452,18 @@ root route map
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli subHidden command
   cli subHidden --help
   cli subHidden --helpAll
 
 subHidden
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1473,18 +1473,18 @@ subHidden
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli subHidden command
   cli subHidden --help
   cli subHidden --helpAll
 
 subHidden
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m     [03mPrint help information and exit[23m
   [01m-H[22m [01m--helpAll[22m  [03mPrint help information (including hidden commands/flags) and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1512,16 +1512,16 @@ ExitCode=UnknownCommand
 exports[`Application > run > nested basic route map with route alias at root > display help text for root (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1531,16 +1531,16 @@ root route map
 exports[`Application > run > nested basic route map with route alias at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command ...
   cli --help
 
 root route map
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01msub[32m  [03msub[23m
 
 :: STDERR
@@ -1550,19 +1550,19 @@ root route map
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias (implicit) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli alias command
   cli alias --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli sub
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1572,19 +1572,19 @@ sub
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli alias command
   cli alias --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli sub
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1594,19 +1594,19 @@ sub
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map with route alias 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli sub command
   cli sub --help
 
 sub
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli alias
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
@@ -1643,17 +1643,17 @@ ExitCode=UnknownCommand
 exports[`Application > run > route map with default command at root > display help text for root (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli default
   cli alternate
   cli --help
 
 route map with default command brief
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdefault[32m    [03mbasic command[23m
   [01malternate[32m  [03mbasic command[23m
 
@@ -1664,17 +1664,17 @@ route map with default command brief
 exports[`Application > run > route map with default command at root > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli default
   cli alternate
   cli --help
 
 route map with default command brief
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mdefault[32m    [03mbasic command[23m
   [01malternate[32m  [03mbasic command[23m
 
@@ -1685,16 +1685,16 @@ route map with default command brief
 exports[`Application > run > route map with default command at root > displays help text for default command (with flag alias) 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli default
   cli default --help
 
 basic command
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli 
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -1704,16 +1704,16 @@ basic command
 exports[`Application > run > route map with default command at root > displays help text for default command 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli default
   cli default --help
 
 basic command
 
-[1mALIASES[22m
+[4mALIASES[24m
   cli 
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
 :: STDERR
@@ -1784,17 +1784,17 @@ ExitCode=Success
 exports[`Application > run > route map with default command at root > with full description > display help text for root 1`] = `
 ExitCode=Success
 :: STDOUT
-[1mUSAGE[22m
+[4mUSAGE[24m
   cli command
   cli --help
 
 This is a full description
 of this route map's behavior.
 
-[1mFLAGS[22m
+[4mFLAGS[24m
   [01m-h[22m [01m--help[22m  [03mPrint help information and exit[23m
 
-[1mCOMMANDS[22m
+[4mCOMMANDS[24m
   [01mcommand[32m  [03mbasic command[23m
 
 :: STDERR
