@@ -42,7 +42,7 @@ export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
 ): Generator<string> {
     const { brief, fullDescription, hideRoute } = docs;
     const { headers } = args.text;
-    yield args.ansiColor ? `\x1B[1m${headers.usage}\x1B[22m` : headers.usage;
+    yield args.ansiColor ? `\x1B[4m${headers.usage}\x1B[24m` : headers.usage;
     for (const [name, route] of Object.entries(routes)) {
         if (!hideRoute || !hideRoute[name] || args.includeHidden) {
             const externalRouteName =
@@ -62,19 +62,19 @@ export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
     if (args.aliases && args.aliases.length > 0) {
         const aliasPrefix = args.prefix.slice(0, -1).join(" ");
         yield "";
-        yield args.ansiColor ? `\x1B[1m${headers.aliases}\x1B[22m` : headers.aliases;
+        yield args.ansiColor ? `\x1B[4m${headers.aliases}\x1B[24m` : headers.aliases;
         for (const alias of args.aliases) {
             yield `  ${aliasPrefix} ${alias}`;
         }
     }
     yield "";
-    yield args.ansiColor ? `\x1B[1m${headers.flags}\x1B[22m` : headers.flags;
+    yield args.ansiColor ? `\x1B[4m${headers.flags}\x1B[24m` : headers.flags;
     // Print "empty" parameters to document built-in flags
     for (const line of formatDocumentationForFlagParameters({}, {}, args)) {
         yield `  ${line}`;
     }
     yield "";
-    yield args.ansiColor ? `\x1B[1m${headers.commands}\x1B[22m` : headers.commands;
+    yield args.ansiColor ? `\x1B[4m${headers.commands}\x1B[24m` : headers.commands;
     const visibleRoutes = Object.entries(routes).filter(
         ([name]) => !hideRoute || !hideRoute[name] || args.includeHidden,
     );

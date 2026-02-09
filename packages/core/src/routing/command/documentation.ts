@@ -37,7 +37,7 @@ export function* generateCommandHelpLines(
     const { brief, fullDescription, customUsage } = docs;
     const { headers } = args.text;
     const prefix = args.prefix.join(" ");
-    yield args.ansiColor ? `\x1B[1m${headers.usage}\x1B[22m` : headers.usage;
+    yield args.ansiColor ? `\x1B[4m${headers.usage}\x1B[24m` : headers.usage;
     if (customUsage) {
         for (const usage of customUsage) {
             if (typeof usage === "string") {
@@ -58,20 +58,20 @@ export function* generateCommandHelpLines(
     if (args.aliases && args.aliases.length > 0) {
         const aliasPrefix = args.prefix.slice(0, -1).join(" ");
         yield "";
-        yield args.ansiColor ? `\x1B[1m${headers.aliases}\x1B[22m` : headers.aliases;
+        yield args.ansiColor ? `\x1B[4m${headers.aliases}\x1B[24m` : headers.aliases;
         for (const alias of args.aliases) {
             yield `  ${aliasPrefix} ${alias}`;
         }
     }
     yield "";
-    yield args.ansiColor ? `\x1B[1m${headers.flags}\x1B[22m` : headers.flags;
+    yield args.ansiColor ? `\x1B[4m${headers.flags}\x1B[24m` : headers.flags;
     for (const line of formatDocumentationForFlagParameters(parameters.flags ?? {}, parameters.aliases ?? {}, args)) {
         yield `  ${line}`;
     }
     const positional = parameters.positional ?? { kind: "tuple", parameters: [] };
     if (positional.kind === "array" || positional.parameters.length > 0) {
         yield "";
-        yield args.ansiColor ? `\x1B[1m${headers.arguments}\x1B[22m` : headers.arguments;
+        yield args.ansiColor ? `\x1B[4m${headers.arguments}\x1B[24m` : headers.arguments;
         for (const line of formatDocumentationForPositionalParameters(positional, args)) {
             yield `  ${line}`;
         }
