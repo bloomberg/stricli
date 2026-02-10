@@ -173,7 +173,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -189,7 +189,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -221,7 +221,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -292,7 +292,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -309,7 +309,7 @@ This is a full description
 of this command's behavior.
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -325,7 +325,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -351,8 +351,8 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-v[22m [1m--version[22m  [003mPrint version information and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
@@ -380,8 +380,8 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-v[22m [1m--version[22m  [003mPrint version information and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
@@ -474,10 +474,10 @@ ExitCode=Success
 root
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -493,10 +493,10 @@ ExitCode=Success
 root
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -512,10 +512,10 @@ ExitCode=Success
 root
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -531,7 +531,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -547,7 +547,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -662,10 +662,10 @@ This is a full description
 of this route map's behavior.
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -682,11 +682,11 @@ ExitCode=Success
 root
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-v[22m [1m--version[22m  [003mPrint version information and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
@@ -703,7 +703,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
@@ -750,11 +750,11 @@ ExitCode=Success
 root
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-v[22m [1m--version[22m  [003mPrint version information and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
@@ -771,7 +771,7 @@ ExitCode=Success
 basic command
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
@@ -799,11 +799,11 @@ ExitCode=Success
 root
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-v[22m [1m--version[22m  [003mPrint version information and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -878,10 +878,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -897,10 +897,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -916,10 +916,10 @@ ExitCode=Success
 sub
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -935,10 +935,10 @@ ExitCode=Success
 sub
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -972,10 +972,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -991,10 +991,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1014,10 +1014,10 @@ sub
   cli alias-bar
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1037,10 +1037,10 @@ sub
   cli alias-bar
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1060,10 +1060,10 @@ sub
   cli alias-bar
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1083,10 +1083,10 @@ sub
   cli alias-bar
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1106,10 +1106,10 @@ sub
   cli alias-bar
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1152,10 +1152,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1171,10 +1171,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1192,11 +1192,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
   [2m-H[22m [2m--helpAll[22m  [2;3mPrint help information (including hidden commands/flags) and exit[22;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m        [003msub[00023m
+  [1msub[32m        [;;3msub[;;;23m
   [2msubHidden[22m  [2;3msubHidden[22;23m
 
 :: STDERR
@@ -1213,10 +1213,10 @@ ExitCode=Success
 subHidden
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1232,10 +1232,10 @@ ExitCode=Success
 subHidden
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1270,11 +1270,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1291,11 +1291,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1313,11 +1313,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m        [003msub[00023m
+  [1msub[32m        [;;3msub[;;;23m
   [2msubHidden[22m  [2;3msubHidden[22;23m
 
 :: STDERR
@@ -1335,11 +1335,11 @@ ExitCode=Success
 subHidden
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1356,11 +1356,11 @@ ExitCode=Success
 subHidden
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1395,11 +1395,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1416,11 +1416,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1438,11 +1438,11 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m        [003msub[00023m
+  [1msub[32m        [;;3msub[;;;23m
   [2msubHidden[22m  [2;3msubHidden[22;23m
 
 :: STDERR
@@ -1460,11 +1460,11 @@ ExitCode=Success
 subHidden
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1481,11 +1481,11 @@ ExitCode=Success
 subHidden
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [003mPrint help information and exit[00023m
-  [1m-H[22m [1m--helpAll[22m  [003mPrint help information (including hidden commands/flags) and exit[00023m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1519,10 +1519,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1538,10 +1538,10 @@ ExitCode=Success
 root route map
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [003msub[00023m
+  [1msub[32m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1560,10 +1560,10 @@ sub
   cli sub
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1582,10 +1582,10 @@ sub
   cli sub
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1604,10 +1604,10 @@ sub
   cli alias
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1651,11 +1651,11 @@ ExitCode=Success
 route map with default command brief
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdefault[32m    [003mbasic command[00023m
-  [1malternate[32m  [003mbasic command[00023m
+  [1mdefault[32m    [;;3mbasic command[;;;23m
+  [1malternate[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1672,11 +1672,11 @@ ExitCode=Success
 route map with default command brief
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdefault[32m    [003mbasic command[00023m
-  [1malternate[32m  [003mbasic command[00023m
+  [1mdefault[32m    [;;3mbasic command[;;;23m
+  [1malternate[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1695,7 +1695,7 @@ basic command
   cli 
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -1714,7 +1714,7 @@ basic command
   cli 
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 :: STDERR
 
@@ -1792,10 +1792,10 @@ This is a full description
 of this route map's behavior.
 
 [4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [003mPrint help information and exit[00023m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [003mbasic command[00023m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
