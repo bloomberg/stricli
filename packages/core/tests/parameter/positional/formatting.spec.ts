@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+import { stripVTControlCharacters } from "node:util";
 import { describe, expect, it } from "vitest";
 import { type CommandContext, text_en, type TypedPositionalParameters } from "../../../src";
 // eslint-disable-next-line no-restricted-imports
@@ -8,7 +9,6 @@ import { formatDocumentationForPositionalParameters } from "../../../src/paramet
 import type { PositionalParameters } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
-import { stripAnsiCodes } from "../../util/ansi";
 
 type DocumentationArgs = Pick<HelpFormattingArguments, "config" | "text">;
 
@@ -41,7 +41,7 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
             ...args,
             ansiColor: true,
         });
-        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map(stripAnsiCodes);
+        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map(stripVTControlCharacters);
         const linesWithoutAnsiColor = formatDocumentationForPositionalParameters(positional, {
             ...args,
             ansiColor: false,

@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+import { stripVTControlCharacters } from "node:util";
 import { describe, expect, it } from "vitest";
 import { type CommandContext, text_en, type TypedCommandParameters } from "../../../src";
 // eslint-disable-next-line no-restricted-imports
@@ -8,7 +9,6 @@ import { formatDocumentationForFlagParameters } from "../../../src/parameter/fla
 import type { BaseArgs } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
-import { stripAnsiCodes } from "../../util/ansi";
 
 type DocumentationArgs = Omit<HelpFormattingArguments, "prefix" | "ansiColor">;
 
@@ -48,7 +48,7 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
                 ansiColor: true,
             },
         );
-        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map(stripAnsiCodes);
+        const linesWithAnsiColorStrippedOut = linesWithAnsiColor.map(stripVTControlCharacters);
         const linesWithoutAnsiColor = formatDocumentationForFlagParameters(
             parameters.flags ?? {},
             parameters.aliases ?? {},
@@ -880,14 +880,16 @@ describe("formatDocumentationForFlagParameters", () => {
             ...defaultArgs,
             ansiColor: true,
             includeHidden: true,
-        }).map(stripAnsiCodes);
+        }).map(stripVTControlCharacters);
         const hiddenLines = formatDocumentationForFlagParameters(hiddenFlags, aliases, {
             ...defaultArgs,
             ansiColor: true,
             includeHidden: true,
-        }).map(stripAnsiCodes);
+        }).map(stripVTControlCharacters);
 
         // THEN
+        console.log(JSON.stringify(publicLines));
+        console.log(JSON.stringify(hiddenLines));
         expect(publicLines).to.deep.equal(hiddenLines);
     });
 });

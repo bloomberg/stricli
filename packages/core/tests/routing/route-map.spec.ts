@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+import { stripVTControlCharacters } from "node:util";
 import { describe, expect, it } from "vitest";
 import {
     buildCommand,
@@ -11,7 +12,6 @@ import {
 } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
-import { stripAnsiCodes } from "../util/ansi";
 
 function compareHelpTextToBaseline(
     routeMap: RouteMap<CommandContext>,
@@ -45,7 +45,7 @@ function compareHelpTextToBaseline(
             ...args,
             ansiColor: true,
         });
-        const helpTextWithAnsiColorStrippedOut = stripAnsiCodes(helpTextWithAnsiColor);
+        const helpTextWithAnsiColorStrippedOut = stripVTControlCharacters(helpTextWithAnsiColor);
         const helpTextWithoutAnsiColor = routeMap.formatHelp({
             ...args,
             ansiColor: false,
@@ -358,7 +358,7 @@ describe("RouteMap", () => {
             });
 
             // THEN
-            expect(stripAnsiCodes(publicHelpText)).to.deep.equal(stripAnsiCodes(hiddenHelpText));
+            expect(stripVTControlCharacters(publicHelpText)).to.deep.equal(stripVTControlCharacters(hiddenHelpText));
         });
     });
 
