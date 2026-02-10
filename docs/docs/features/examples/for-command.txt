@@ -1,0 +1,90 @@
+/// types.ts
+interface DatabaseConnection {
+  readonly connected: boolean;
+  readonly database: string;
+  connect(): Promise<void>;
+  query(sql: string): Promise<unknown[]>;
+  close(): void;
+}
+
+interface CustomContext extends CommandContext {
+  readonly db?: DatabaseConnection;
+  readonly commandPath?: readonly string[];
+}
+/// impl.ts
+import type { CustomContext } from "./types";
+
+export default async function(this: CustomContext, name: string) {
+  if (this.db) {
+    this.process.stdout.write(`Connected to database: ${this.db.database}\n`);
+    this.process.stdout.write(`Running command on: ${this.commandPath?.join(" ") || "root"}\n`);
+  } else {
+    this.process.stdout.write(`No database connection for this command\n`);
+  }
+}
+/// spec.ts
+import { buildCommand, type CommandContext } from "@stricli/core";
+
+export default buildCommand({
+  loader: () => import("./impl"),
+  parameters: {
+    positional: {
+      kind: "parsed",
+      parse: String,
+      docs: {
+        brief: "Name of the resource to query",
+      },
+    },
+  },
+  docs: {
+    brief: "Query a resource from the database",
+  },
+});
+/// !app.ts
+import { buildApplication } from "@stricli/core";
+import type { ApplicationContext, CommandInfo } from "@stricli/core";
+import type { CustomContext, DatabaseConnection } from "./types";
+import root from "./spec.ts";
+
+// Simulated database connection
+const dbConnection: DatabaseConnection = {
+  connected: false,
+  database: "main",
+  async connect() {
+    this.connected = true;
+  },
+  async query(sql: string) {
+    return [{ result: "data" }];
+  },
+  close() {
+    this.connected = false;
+  },
+};
+
+export default buildApplication(root, {
+  name: "run",
+  // forCommand: Dynamically builds context based on which command is being executed
+  async forCommand(this: ApplicationContext, info: CommandInfo): Promise<CustomContext> {
+    const commandPath = info.prefix;
+
+    // Only connect to database for specific commands
+    const needsDb = commandPath.includes("query") || commandPath.includes("db");
+
+    if (needsDb) {
+      await dbConnection.connect();
+      return {
+        process: this.process,
+        locale: this.locale,
+        db: dbConnection,
+        commandPath,
+      };
+    }
+
+    // Return base context for commands that don't need database
+    return {
+      process: this.process,
+      locale: this.locale,
+      commandPath,
+    };
+  },
+});
