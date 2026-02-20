@@ -292,7 +292,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -301,12 +301,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test-cli install"
+    "postinstall": "test-cli autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -327,8 +327,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -337,14 +337,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test-cli", { autocompleteCommand: "__test-cli_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -356,22 +354,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -472,8 +461,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -571,7 +560,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -580,12 +569,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test install"
+    "postinstall": "test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -606,8 +595,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -616,14 +605,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
-        uninstall: buildUninstallCommand("test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test", { autocompleteCommand: "__test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -635,22 +622,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -751,8 +729,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -850,7 +828,7 @@ dist
   ],
   "bin": {
     "@org/test-cli": "dist/cli.js",
-    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+    "__@org/test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -859,12 +837,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "@org/test-cli install"
+    "postinstall": "@org/test-cli autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -885,8 +863,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -895,14 +873,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("@org/test-cli", { bash: "__@org/test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("@org/test-cli", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("@org/test-cli", { autocompleteCommand: "__@org/test-cli_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -914,22 +890,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -1030,8 +997,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -1129,7 +1096,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -1138,12 +1105,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test-cli install"
+    "postinstall": "test-cli autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -1164,8 +1131,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -1174,14 +1141,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test-cli", { autocompleteCommand: "__test-cli_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -1193,22 +1158,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -1309,8 +1265,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -1408,7 +1364,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -1417,12 +1373,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test install"
+    "postinstall": "test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -1443,8 +1399,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -1453,14 +1409,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
-        uninstall: buildUninstallCommand("test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test", { autocompleteCommand: "__test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -1472,22 +1426,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -1588,8 +1533,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -1931,7 +1876,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -1940,12 +1885,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test-cli install"
+    "postinstall": "test-cli autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -1966,8 +1911,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -1976,14 +1921,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test-cli", { autocompleteCommand: "__test-cli_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -1995,23 +1938,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -2112,8 +2045,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -2211,7 +2144,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -2220,12 +2153,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test install"
+    "postinstall": "test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -2246,8 +2179,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -2256,14 +2189,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
-        uninstall: buildUninstallCommand("test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test", { autocompleteCommand: "__test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -2275,23 +2206,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -2392,8 +2313,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -2491,7 +2412,7 @@ dist
   ],
   "bin": {
     "@org/test-cli": "dist/cli.js",
-    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+    "__@org/test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -2500,12 +2421,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "@org/test-cli install"
+    "postinstall": "@org/test-cli autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -2526,8 +2447,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -2536,14 +2457,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("@org/test-cli", { bash: "__@org/test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("@org/test-cli", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("@org/test-cli", { autocompleteCommand: "__@org/test-cli_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -2555,23 +2474,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -2672,8 +2581,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -2771,7 +2680,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -2780,12 +2689,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test-cli install"
+    "postinstall": "test-cli autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -2806,8 +2715,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -2816,14 +2725,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test-cli", { bash: "__test-cli_bash_complete" }),
-        uninstall: buildUninstallCommand("test-cli", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test-cli", { autocompleteCommand: "__test-cli_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -2835,23 +2742,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -2952,8 +2849,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -3051,7 +2948,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -3060,12 +2957,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "test install"
+    "postinstall": "test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -3086,8 +2983,8 @@ dist
   }
 }
 ::::/root/test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -3096,14 +2993,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("test", { bash: "__test_bash_complete" }),
-        uninstall: buildUninstallCommand("test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("test", { autocompleteCommand: "__test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -3115,23 +3010,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -3232,8 +3117,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -3331,19 +3216,19 @@ dist
   ],
   "bin": {
     "node-version-test": "dist/cli.js",
-    "__node-version-test_bash_complete": "dist/bash-complete.js"
+    "__node-version-test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {},
   "scripts": {
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "node-version-test install"
+    "postinstall": "node-version-test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -3363,8 +3248,8 @@ dist
   }
 }
 ::::/home/node-version-test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -3373,14 +3258,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("node-version-test", { bash: "__node-version-test_bash_complete" }),
-        uninstall: buildUninstallCommand("node-version-test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("node-version-test", { autocompleteCommand: "__node-version-test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -3392,23 +3275,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/home/node-version-test/src/bin/bash-complete.ts
+::::/home/node-version-test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/home/node-version-test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -3509,8 +3382,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/home/node-version-test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -3608,7 +3481,7 @@ dist
   ],
   "bin": {
     "node-version-test": "dist/cli.js",
-    "__node-version-test_bash_complete": "dist/bash-complete.js"
+    "__node-version-test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=major"
@@ -3617,12 +3490,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "node-version-test install"
+    "postinstall": "node-version-test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -3643,8 +3516,8 @@ dist
   }
 }
 ::::/home/node-version-test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -3653,14 +3526,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("node-version-test", { bash: "__node-version-test_bash_complete" }),
-        uninstall: buildUninstallCommand("node-version-test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("node-version-test", { autocompleteCommand: "__node-version-test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -3672,23 +3543,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/home/node-version-test/src/bin/bash-complete.ts
+::::/home/node-version-test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/home/node-version-test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -3789,8 +3650,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/home/node-version-test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -3888,7 +3749,7 @@ dist
   ],
   "bin": {
     "node-version-test": "dist/cli.js",
-    "__node-version-test_bash_complete": "dist/bash-complete.js"
+    "__node-version-test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=major"
@@ -3897,12 +3758,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "node-version-test install"
+    "postinstall": "node-version-test autocomplete install"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -3923,8 +3784,8 @@ dist
   }
 }
 ::::/home/node-version-test/src/app.ts
+import { buildUnifiedAutocompleteRouteMap } from "@stricli/auto-complete";
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { buildInstallCommand, buildUninstallCommand } from "@stricli/auto-complete";
 import { name, version, description } from "../package.json";
 import { subdirCommand } from "./commands/subdir/command";
 import { nestedRoutes } from "./commands/nested/commands";
@@ -3933,14 +3794,12 @@ const routes = buildRouteMap({
     routes: {
         subdir: subdirCommand,
         nested: nestedRoutes,
-        install: buildInstallCommand("node-version-test", { bash: "__node-version-test_bash_complete" }),
-        uninstall: buildUninstallCommand("node-version-test", { bash: true }),
+        autocomplete: buildUnifiedAutocompleteRouteMap("node-version-test", { autocompleteCommand: "__node-version-test_auto_complete", onlyActiveShells: true }),
     },
     docs: {
         brief: description,
         hideRoute: {
-            install: true,
-            uninstall: true,
+            autocomplete: true,
         },
     },
 });
@@ -3952,23 +3811,13 @@ export const app = buildApplication(routes, {
     },
 });
 
-::::/home/node-version-test/src/bin/bash-complete.ts
+::::/home/node-version-test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/home/node-version-test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -4069,8 +3918,8 @@ export default async function(this: LocalContext, flags: SubdirCommandFlags): Pr
 }
 
 ::::/home/node-version-test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -4345,7 +4194,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -4354,12 +4203,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test-cli --autocomplete-command __test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -4415,22 +4264,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -4440,8 +4280,8 @@ import { app } from "../app";
 void run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -4550,7 +4390,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -4559,12 +4399,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test --autocomplete-command __test_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -4620,22 +4460,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -4645,8 +4476,8 @@ import { app } from "../app";
 void run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -4755,7 +4586,7 @@ dist
   ],
   "bin": {
     "@org/test-cli": "dist/cli.js",
-    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+    "__@org/test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -4764,12 +4595,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all @org/test-cli --autocomplete-command __@org/test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -4825,22 +4656,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -4850,8 +4672,8 @@ import { app } from "../app";
 void run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -4960,7 +4782,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -4969,12 +4791,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test-cli --autocomplete-command __test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -5030,22 +4852,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -5055,8 +4868,8 @@ import { app } from "../app";
 void run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -5165,7 +4978,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -5174,12 +4987,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test --autocomplete-command __test_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "cjs"
@@ -5235,22 +5048,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-void proposeCompletions(app, inputs, buildContext(process)).then((completions) => {
-    for (const { completion } of completions) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-}, () => {
-    // ignore
-});
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+void handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -5260,8 +5064,8 @@ import { app } from "../app";
 void run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -5547,7 +5351,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -5556,12 +5360,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test-cli --autocomplete-command __test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -5617,23 +5421,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -5643,8 +5437,8 @@ import { app } from "../app";
 await run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -5753,7 +5547,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -5762,12 +5556,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test --autocomplete-command __test_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -5823,23 +5617,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -5849,8 +5633,8 @@ import { app } from "../app";
 await run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -5959,7 +5743,7 @@ dist
   ],
   "bin": {
     "@org/test-cli": "dist/cli.js",
-    "__@org/test-cli_bash_complete": "dist/bash-complete.js"
+    "__@org/test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -5968,12 +5752,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install @org/test-cli --bash __@org/test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all @org/test-cli --autocomplete-command __@org/test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -6029,23 +5813,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -6055,8 +5829,8 @@ import { app } from "../app";
 await run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -6165,7 +5939,7 @@ dist
   ],
   "bin": {
     "test-cli": "dist/cli.js",
-    "__test-cli_bash_complete": "dist/bash-complete.js"
+    "__test-cli_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -6174,12 +5948,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test-cli --bash __test-cli_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test-cli --autocomplete-command __test-cli_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -6235,23 +6009,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -6261,8 +6025,8 @@ import { app } from "../app";
 await run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -6371,7 +6135,7 @@ dist
   ],
   "bin": {
     "test": "dist/cli.js",
-    "__test_bash_complete": "dist/bash-complete.js"
+    "__test_auto_complete": "dist/auto-complete.js"
   },
   "engines": {
     "node": ">=20"
@@ -6380,12 +6144,12 @@ dist
     "prebuild": "tsc -p src/tsconfig.json",
     "build": "tsup --silent",
     "prepublishOnly": "npm run build",
-    "postinstall": "npx @stricli/auto-complete@latest install test --bash __test_bash_complete"
+    "postinstall": "npx @stricli/auto-complete@latest install-all test --autocomplete-command __test_auto_complete"
   },
   "tsup": {
     "entry": [
       "src/bin/cli.ts",
-      "src/bin/bash-complete.ts"
+      "src/bin/auto-complete.ts"
     ],
     "format": [
       "esm"
@@ -6441,23 +6205,13 @@ export const app = buildApplication(command, {
     },
 });
 
-::::/root/test/src/bin/bash-complete.ts
+::::/root/test/src/bin/auto-complete.ts
 #!/usr/bin/env node
-import { proposeCompletions } from "@stricli/core";
+import { handleCompletionsForShell, type Shell } from "@stricli/auto-complete";
 import { buildContext } from "../context";
 import { app } from "../app";
-const inputs = process.argv.slice(3);
-if (process.env["COMP_LINE"]?.endsWith(" ")) {
-    inputs.push("");
-}
-await proposeCompletions(app, inputs, buildContext(process));
-try {
-    for (const { completion } of await proposeCompletions(app, inputs, buildContext(process))) {
-        process.stdout.write(\`\${completion}\\n\`);
-    }
-} catch {
-    // ignore
-}
+const [shell, _cmd, ...inputs] = process.argv.slice(2);
+await handleCompletionsForShell(shell as Shell, app, inputs, buildContext(process));
 
 ::::/root/test/src/bin/cli.ts
 #!/usr/bin/env node
@@ -6467,8 +6221,8 @@ import { app } from "../app";
 await run(app, process.argv.slice(2), buildContext(process));
 
 ::::/root/test/src/context.ts
-import type { CommandContext } from "@stricli/core";
 import type { StricliAutoCompleteContext } from "@stricli/auto-complete";
+import type { CommandContext } from "@stricli/core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";

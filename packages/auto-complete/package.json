@@ -17,20 +17,23 @@
         "require": "./dist/index.cjs"
     },
     "types": "dist/index.d.ts",
-    "bin": "dist/bin/cli.js",
+    "bin": "dist/cli/bin.js",
     "scripts": {
         "format": "prettier --config ../../.prettierrc -w .",
         "format:check": "prettier --config ../../.prettierrc -c .",
         "lint": "eslint src",
         "lint:fix": "eslint src --fix",
         "typecheck": "tsc -p tsconfig.json --noEmit",
+        "test": "vitest --run",
+        "test:update-snapshots": "vitest --run --update",
+        "coverage": "vitest --run --coverage.enabled",
         "build": "tsup --silent",
         "prepublishOnly": "npm run build"
     },
     "tsup": {
         "entry": [
             "src/index.ts",
-            "src/bin/cli.ts"
+            "src/cli/bin.ts"
         ],
         "format": [
             "esm",
@@ -42,13 +45,16 @@
         "clean": true
     },
     "devDependencies": {
+        "@types/sinon": "^17.0.4",
         "@typescript-eslint/eslint-plugin": "^8.2.0",
         "@typescript-eslint/parser": "^8.2.0",
         "eslint": "^8.57.0",
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-prettier": "^5.0.0",
         "prettier": "^3.0.0",
+        "sinon": "^19.0.2",
         "tsup": "^6.7.0",
+        "tsx": "^4.19.3",
         "typescript": "5.6.x"
     },
     "dependencies": {
