@@ -1,3 +1,25 @@
+## 1.2.6 (2026-02-20)
+
+### 🚀 Features
+
+- enhance site with multi-file playground ([8a3dc5b](https://github.com/bloomberg/stricli/commit/8a3dc5b))
+
+### 🩹 Fixes
+
+- add inputs to nx.json ([6258944](https://github.com/bloomberg/stricli/commit/6258944))
+- add `inputs` to `nx.json` to fix `nx` cache invalidation ([7240891](https://github.com/bloomberg/stricli/commit/7240891))
+- enable and fix new eslint rules ([7b185c2](https://github.com/bloomberg/stricli/commit/7b185c2))
+- use cyan in help text ([041c2bc](https://github.com/bloomberg/stricli/commit/041c2bc))
+- switch flags/commands to bold ([c9e290f](https://github.com/bloomberg/stricli/commit/c9e290f))
+- switch help text headers to underline ([9af611f](https://github.com/bloomberg/stricli/commit/9af611f))
+- switch keywords/hidden to dim ([05446d2](https://github.com/bloomberg/stricli/commit/05446d2))
+
+### ❤️ Thank You
+
+- Jeff Posnick
+- jposnick1
+- mmolisani
+
 ## 1.2.5 (2026-01-06)
 
 ### 🚀 Features
