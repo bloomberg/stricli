@@ -78,7 +78,30 @@ interface TypedCommandFlagParameters_<FLAGS extends BaseFlags, CONTEXT extends C
 export type TypedCommandFlagParameters<FLAGS extends BaseFlags, CONTEXT extends CommandContext> = [
     keyof FLAGS,
 ] extends [never]
-    ? Partial<TypedCommandFlagParameters_<FLAGS, CONTEXT>>
+    ? {
+          /**
+           * Typed definitions for all flag parameters.
+           */
+          readonly flags?: FlagParametersForType<FLAGS, CONTEXT>;
+          /**
+           * Object that aliases single characters to flag names.
+           *
+           * When FLAGS cannot be inferred (e.g., when func has an explicit type annotation
+           * or when flags is empty), the type system allows any string as an alias target.
+           * Invalid alias targets will still be caught at runtime.
+           *
+           * @example
+           * // This pattern is now supported:
+           * buildCommand({
+           *   func: async (flags: { repo?: string }) => {},
+           *   parameters: {
+           *     flags: { repo: { kind: "parsed", parse: String } },
+           *     aliases: { r: "repo" }  // OK: type system allows when FLAGS is explicit
+           *   }
+           * })
+           */
+          readonly aliases?: Aliases<string>;
+      }
     : TypedCommandFlagParameters_<FLAGS, CONTEXT>;
 
 interface TypedCommandPositionalParameters_<ARGS extends BaseArgs, CONTEXT extends CommandContext> {
