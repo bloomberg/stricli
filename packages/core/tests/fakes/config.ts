@@ -19,6 +19,7 @@ export function buildFakeApplicationText(): SinonStubbedInstance<ApplicationText
             stub<[{ currentVersion: string; latestVersion: string; ansiColor: boolean }]>().returns(
                 "currentVersionIsNotLatest",
             ),
+        formatException: stub<[unknown]>().returns("formatException"),
         exceptionWhileParsingArguments: stub<[unknown, boolean]>().returns("exceptionWhileParsingArguments"),
         exceptionWhileLoadingCommandFunction: stub<[unknown, boolean]>().returns(
             "exceptionWhileLoadingCommandFunction",
