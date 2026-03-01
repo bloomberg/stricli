@@ -1160,6 +1160,15 @@ ExitCode=CommandRunError
 
 `;
 
+exports[`Command > run > command function throws error > with default exit code, custom exception formatting 1`] = `
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+[1m[31mCommand failed, FORMATTED_EXCEPTION[39m[22m
+
+`;
+
 exports[`Command > run > doNothing (loader returns function) > no inputs 1`] = `
 ExitCode=Success
 :: STDOUT
@@ -1287,6 +1296,15 @@ ExitCode=InvalidArgument
 
 `;
 
+exports[`Command > run > echoArguments > unexpected error, with custom exception formatting 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to parse arguments, FORMATTED_EXCEPTION[39m[22m
+
+`;
+
 exports[`Command > run > fails to load command module 1`] = `
 ExitCode=CommandLoadError
 :: STDOUT
@@ -1310,6 +1328,15 @@ ExitCode=CommandLoadError
     at runCommand (#/src/routing/command/run.ts:?:?)
     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
     at #/tests/routing/command.spec.ts:?:?
+
+`;
+
+exports[`Command > run > fails to load command module, with custom exception formatting 1`] = `
+ExitCode=CommandLoadError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnable to load command function, FORMATTED_EXCEPTION[39m[22m
 
 `;
 
