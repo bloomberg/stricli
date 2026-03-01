@@ -839,6 +839,14 @@ ExitCode=ContextLoadError
     at #/tests/application.spec.ts:?:?
 `;
 
+exports[`Application > run > fails when context.forCommand throws error, with custom exception formatting 1`] = `
+ExitCode=ContextLoadError
+:: STDOUT
+
+:: STDERR
+Unable to load command context, FORMATTED_EXCEPTION
+`;
+
 exports[`Application > run > fails when context.forCommand throws error, with no ansi color 1`] = `
 ExitCode=ContextLoadError
 :: STDOUT

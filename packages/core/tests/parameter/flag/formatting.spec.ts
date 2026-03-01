@@ -888,8 +888,6 @@ describe("formatDocumentationForFlagParameters", () => {
         }).map(stripVTControlCharacters);
 
         // THEN
-        console.log(JSON.stringify(publicLines));
-        console.log(JSON.stringify(hiddenLines));
         expect(publicLines).to.deep.equal(hiddenLines);
     });
 });

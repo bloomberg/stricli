@@ -110,9 +110,22 @@ export interface DocumentationText {
 }
 
 /**
+ * Methods to customize the formatting of thrown exceptions.
+ */
+export interface ExceptionFormatting {
+    /**
+     * Formatted message to display this thrown exception in the terminal.
+     * The default behavior returns the `stack` property if the object extends from `Error`, and otherwise calls `String()`.
+     *
+     * This method should never throw and should not include any ANSI terminal codes in the resulting string.
+     */
+    readonly formatException?: (exc: unknown) => string;
+}
+
+/**
  * Methods to customize the formatting of stderr messages handled by command execution.
  */
-export interface CommandErrorFormatting {
+export interface CommandErrorFormatting extends ExceptionFormatting {
     /**
      * Formatted error message for the case where some exception was thrown while parsing the arguments.
      *
@@ -123,7 +136,7 @@ export interface CommandErrorFormatting {
      * If `ansiColor` is true, this string can use ANSI terminal codes.
      * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
      */
-    readonly exceptionWhileParsingArguments: (exc: unknown, ansiColor: boolean) => string;
+    readonly exceptionWhileParsingArguments: (this: ExceptionFormatting, exc: unknown, ansiColor: boolean) => string;
     /**
      * Formatted error message for the case where some exception was thrown while loading the command function.
      * This likely indicates an issue with the application itself or possibly the user's installation of the application.
@@ -131,7 +144,11 @@ export interface CommandErrorFormatting {
      * If `ansiColor` is true, this string can use ANSI terminal codes.
      * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
      */
-    readonly exceptionWhileLoadingCommandFunction: (exc: unknown, ansiColor: boolean) => string;
+    readonly exceptionWhileLoadingCommandFunction: (
+        this: ExceptionFormatting,
+        exc: unknown,
+        ansiColor: boolean,
+    ) => string;
     /**
      * Formatted error message for the case where some exception was thrown while loading the context for the command run.
      * This likely indicates an issue with the application itself or possibly the user's installation of the application.
@@ -139,7 +156,11 @@ export interface CommandErrorFormatting {
      * If `ansiColor` is true, this string can use ANSI terminal codes.
      * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
      */
-    readonly exceptionWhileLoadingCommandContext: (exc: unknown, ansiColor: boolean) => string;
+    readonly exceptionWhileLoadingCommandContext: (
+        this: ExceptionFormatting,
+        exc: unknown,
+        ansiColor: boolean,
+    ) => string;
     /**
      * Formatted error message for the case where some exception was thrown while running the command.
      * Users are most likely to hit this case, so make sure that the error text provides practical, usable feedback.
@@ -147,7 +168,7 @@ export interface CommandErrorFormatting {
      * If `ansiColor` is true, this string can use ANSI terminal codes.
      * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
      */
-    readonly exceptionWhileRunningCommand: (exc: unknown, ansiColor: boolean) => string;
+    readonly exceptionWhileRunningCommand: (this: ExceptionFormatting, exc: unknown, ansiColor: boolean) => string;
     /**
      * Formatted error message for the case where an Error was safely returned from the command.
      * Users are most likely to hit this case, so make sure that the error text provides practical, usable feedback.
@@ -155,7 +176,7 @@ export interface CommandErrorFormatting {
      * If `ansiColor` is true, this string can use ANSI terminal codes.
      * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
      */
-    readonly commandErrorResult: (err: Error, ansiColor: boolean) => string;
+    readonly commandErrorResult: (this: ExceptionFormatting, err: Error, ansiColor: boolean) => string;
 }
 
 /**
@@ -228,7 +249,7 @@ export const text_en: ApplicationText = {
         version: "Print version information and exit",
         argumentEscapeSequence: "All subsequent inputs should be interpreted as arguments",
     },
-    noCommandRegisteredForInput: ({ input, corrections }) => {
+    noCommandRegisteredForInput({ input, corrections }) {
         const errorMessage = `No command registered for \`${input}\``;
         if (corrections.length > 0) {
             const formattedCorrections = joinWithGrammar(corrections, {
@@ -241,28 +262,28 @@ export const text_en: ApplicationText = {
             return errorMessage;
         }
     },
-    noTextAvailableForLocale: ({ requestedLocale, defaultLocale }) => {
+    noTextAvailableForLocale({ requestedLocale, defaultLocale }) {
         return `Application does not support "${requestedLocale}" locale, defaulting to "${defaultLocale}"`;
     },
-    exceptionWhileParsingArguments: (exc) => {
+    exceptionWhileParsingArguments(exc) {
         if (exc instanceof ArgumentScannerError) {
             return formatMessageForArgumentScannerError(exc, {});
         }
-        return `Unable to parse arguments, ${formatException(exc)}`;
+        return `Unable to parse arguments, ${(this.formatException ?? formatException)(exc)}`;
     },
-    exceptionWhileLoadingCommandFunction: (exc) => {
-        return `Unable to load command function, ${formatException(exc)}`;
+    exceptionWhileLoadingCommandFunction(exc) {
+        return `Unable to load command function, ${(this.formatException ?? formatException)(exc)}`;
     },
-    exceptionWhileLoadingCommandContext: (exc) => {
-        return `Unable to load command context, ${formatException(exc)}`;
+    exceptionWhileLoadingCommandContext(exc) {
+        return `Unable to load command context, ${(this.formatException ?? formatException)(exc)}`;
     },
-    exceptionWhileRunningCommand: (exc) => {
-        return `Command failed, ${formatException(exc)}`;
+    exceptionWhileRunningCommand(exc) {
+        return `Command failed, ${(this.formatException ?? formatException)(exc)}`;
     },
-    commandErrorResult: (err) => {
+    commandErrorResult(err) {
         return err.message;
     },
-    currentVersionIsNotLatest: ({ currentVersion, latestVersion, upgradeCommand }) => {
+    currentVersionIsNotLatest({ currentVersion, latestVersion, upgradeCommand }) {
         if (upgradeCommand) {
             return `Latest available version is ${latestVersion} (currently running ${currentVersion}), upgrade with "${upgradeCommand}"`;
         }
