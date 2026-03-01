@@ -1826,3 +1826,12 @@ ExitCode=Success
 Application does not support "other" locale, defaulting to "en"
 
 `;
+
+exports[`Application > run > uses provided text, disregards unsupported context locale 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+[1m[33mApplication does not support "other" locale, defaulting to "en"[39m[22m
+
+`;

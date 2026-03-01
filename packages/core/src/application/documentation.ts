@@ -45,7 +45,7 @@ export function generateHelpTextForAllCommands(
     locale?: string,
 ): readonly DocumentedCommand[] {
     let text = defaultText;
-    if (locale) {
+    if (locale && "loadText" in config.localization) {
         const localeText = config.localization.loadText(locale);
         if (localeText) {
             text = localeText;

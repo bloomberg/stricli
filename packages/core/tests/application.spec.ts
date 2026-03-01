@@ -346,7 +346,7 @@ describe("Application", () => {
             ).to.throw('No text available for the default locale "en"');
         });
 
-        it("fails if no text for custom default locale", async () => {
+        it("default text with no loader disables locale support", async () => {
             // GIVEN
             const command = buildCommand({
                 loader: async () => {
@@ -367,17 +367,12 @@ describe("Application", () => {
             });
 
             // WHEN
-            expect(() =>
-                buildApplication(command, {
-                    name: "cli",
-                    localization: {
-                        defaultLocale: "eo",
-                        loadText: (): undefined => {
-                            return;
-                        },
-                    },
-                }),
-            ).to.throw('No text available for the default locale "eo"');
+            buildApplication(command, {
+                name: "cli",
+                localization: {
+                    text: text_en,
+                },
+            });
         });
     });
 
@@ -1326,6 +1321,23 @@ describe("Application", () => {
 
             // WHEN
             const result = await runWithInputs(app, [], { locale: "other" });
+
+            // THEN
+            expect(result).toMatchSnapshot();
+        });
+
+        it("uses provided text, disregards unsupported context locale", async (context) => {
+            // GIVEN
+            const command = buildBasicCommand();
+            const app = buildApplication(command, {
+                name: "cli",
+                localization: {
+                    text: text_en,
+                },
+            });
+
+            // WHEN
+            const result = await runWithInputs(app, [], { locale: "other", colorDepth: 4 });
 
             // THEN
             expect(result).toMatchSnapshot();
