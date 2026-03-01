@@ -1,7 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { describe, expect, it } from "vitest";
-import { buildApplication, buildCommand, type VersionInfo } from "../../src";
+import { buildApplication, buildCommand, text_en, type VersionInfo } from "../../src";
 import { buildBasicRouteMap, buildRouteMapForFakeContext } from "../application";
 
 describe("buildApplication", () => {
@@ -236,7 +236,7 @@ describe("buildApplication", () => {
         ).to.throw('No text available for the default locale "en"');
     });
 
-    it("fails if no text for custom default locale", async () => {
+    it("default text with no loader disables locale support", async () => {
         // GIVEN
         const command = buildCommand({
             loader: async () => {
@@ -257,16 +257,11 @@ describe("buildApplication", () => {
         });
 
         // WHEN
-        expect(() =>
-            buildApplication(command, {
-                name: "cli",
-                localization: {
-                    defaultLocale: "eo",
-                    loadText: (): undefined => {
-                        return;
-                    },
-                },
-            }),
-        ).to.throw('No text available for the default locale "eo"');
+        buildApplication(command, {
+            name: "cli",
+            localization: {
+                text: text_en,
+            },
+        });
     });
 });

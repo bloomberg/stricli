@@ -6,6 +6,7 @@ import type { CommandContext } from "../context";
 import { CommandSymbol, type Command } from "../routing/command/types";
 import type { RouteMap } from "../routing/route-map/types";
 import type { RoutingTarget } from "../routing/types";
+import type { ApplicationText } from "../text";
 import { InternalError } from "../util/error";
 import type { Application } from "./types";
 
@@ -36,9 +37,15 @@ export function buildApplication<CONTEXT extends CommandContext>(
             throw new InternalError("Unable to use command with alias -v as root when version info is supplied");
         }
     }
-    const defaultText = config.localization.loadText(config.localization.defaultLocale);
-    if (!defaultText) {
-        throw new InternalError(`No text available for the default locale "${config.localization.defaultLocale}"`);
+    let defaultText: ApplicationText;
+    if ("text" in config.localization) {
+        defaultText = config.localization.text;
+    } else {
+        const text = config.localization.loadText(config.localization.defaultLocale);
+        if (!text) {
+            throw new InternalError(`No text available for the default locale "${config.localization.defaultLocale}"`);
+        }
+        defaultText = text;
     }
     return {
         root,
