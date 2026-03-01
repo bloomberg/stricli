@@ -19,7 +19,7 @@ export async function runApplication<CONTEXT extends CommandContext>(
     context: StricliDynamicCommandContext<CONTEXT>,
 ): Promise<number> {
     let text = defaultText;
-    if (context.locale) {
+    if (context.locale && "loadText" in config.localization) {
         const localeText = config.localization.loadText(context.locale);
         if (localeText) {
             text = localeText;

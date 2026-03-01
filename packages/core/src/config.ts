@@ -180,21 +180,30 @@ export interface CompletionConfiguration {
 /**
  * Configuration for controlling the localization behavior.
  */
-export interface LocalizationConfiguration {
-    /**
-     * The default locale that should be used if the context does not have a locale.
-     *
-     * If unspecified, will default to `en`.
-     */
-    readonly defaultLocale: string;
-    /**
-     * Mapping of locale to application text.
-     * Locale is optionally provided at runtime by the context.
-     *
-     * If unspecified, will return the default English implementation {@link text_en} for all "en" locales.
-     */
-    readonly loadText: (locale: string) => ApplicationText | undefined;
-}
+export type LocalizationConfiguration =
+    | {
+          /**
+           * Single application text object for the intended locale.
+           * If provided, it will be the only text used for this application.
+           * It should only be used when custom locale support is not needed.
+           */
+          readonly text: ApplicationText;
+      }
+    | {
+          /**
+           * The default locale that should be used if the context does not have a locale.
+           *
+           * If unspecified, will default to `en`.
+           */
+          readonly defaultLocale: string;
+          /**
+           * Mapping of locale to application text.
+           * Locale is optionally provided at runtime by the context.
+           *
+           * If unspecified, will return the default English implementation {@link text_en} for all "en" locales.
+           */
+          readonly loadText: (locale: string) => ApplicationText | undefined;
+      };
 
 /**
  * Configuration for controlling the runtime behavior of the application.
