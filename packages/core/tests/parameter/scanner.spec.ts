@@ -113,7 +113,9 @@ function testCompletionError<FLAGS extends BaseFlags, ARGS extends BaseArgs>({
                 partial,
                 completionConfig,
                 text,
-                context: { process },
+                async loadCommandContext() {
+                    throw new Error("Did not expect test to require command context to propose completions");
+                },
                 includeVersionFlag: false,
             });
         } catch (exc) {
@@ -203,10 +205,15 @@ export async function testArgumentScannerParse<FLAGS extends BaseFlags, ARGS ext
     }
 }
 
-async function proposeCompletionsForPartial<FLAGS extends BaseFlags, ARGS extends BaseArgs>(
-    parameters: TypedCommandParameters<FLAGS, ARGS, CommandContext>,
+async function proposeCompletionsForPartial<
+    FLAGS extends BaseFlags,
+    ARGS extends BaseArgs,
+    CONTEXT extends CommandContext,
+>(
+    parameters: TypedCommandParameters<FLAGS, ARGS, CONTEXT>,
     scannerConfig: ScannerConfiguration,
     completionConfig: CompletionConfiguration,
+    loadCommandContext: () => Promise<CONTEXT>,
     inputs: string[],
     partial: string,
 ) {
@@ -219,36 +226,58 @@ async function proposeCompletionsForPartial<FLAGS extends BaseFlags, ARGS extend
         partial,
         completionConfig,
         text,
-        context: { process },
+        loadCommandContext,
         includeVersionFlag: false,
     });
 }
 
-interface ArgumentScannerCompletionTestArguments<FLAGS extends BaseFlags, ARGS extends BaseArgs> {
-    readonly parameters: TypedCommandParameters<FLAGS, ARGS, CommandContext>;
-    readonly inputs: string[];
-    readonly partial: string;
+interface ArgumentScannerCompletionTestArguments<
+    FLAGS extends BaseFlags,
+    ARGS extends BaseArgs,
+    CONTEXT extends CommandContext = CommandContext,
+> {
+    readonly parameters: TypedCommandParameters<FLAGS, ARGS, CONTEXT>;
     readonly scannerConfig: ScannerConfiguration;
     readonly completionConfig: CompletionConfiguration;
+    readonly context?: CONTEXT;
+    readonly inputs: string[];
+    readonly partial: string;
     readonly expected: readonly ArgumentCompletion[];
 }
 
-async function testCompletions<FLAGS extends BaseFlags, ARGS extends BaseArgs>({
+async function testCompletions<
+    FLAGS extends BaseFlags,
+    ARGS extends BaseArgs,
+    CONTEXT extends CommandContext = CommandContext,
+>({
     parameters,
-    inputs,
-    partial,
     scannerConfig,
     completionConfig,
+    context,
+    inputs,
+    partial,
     expected,
-}: ArgumentScannerCompletionTestArguments<FLAGS, ARGS>): Promise<void> {
-    const completions = await proposeCompletionsForPartial<FLAGS, ARGS>(
+}: ArgumentScannerCompletionTestArguments<FLAGS, ARGS, CONTEXT>): Promise<void> {
+    let contextLoaded: boolean = false;
+    const completions = await proposeCompletionsForPartial<FLAGS, ARGS, CONTEXT>(
         parameters,
         scannerConfig,
         completionConfig,
+        async () => {
+            if (!context) {
+                throw new Error("Did not expect test to require command context to propose completions");
+            }
+            contextLoaded = true;
+            return context;
+        },
         inputs,
         partial,
     );
     expect(completions).to.have.deep.members(expected);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (context && !contextLoaded) {
+        throw new Error("Custom command context was provided, but never loaded by test");
+    }
 }
 
 const defaultScannerConfig: ScannerConfiguration = {
@@ -890,6 +919,7 @@ describe("ArgumentScanner", () => {
             it("proposeCompletions", async () => {
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: [],
                     partial: "",
                     scannerConfig: defaultScannerConfig,
@@ -901,6 +931,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: [],
                     partial: "1",
                     scannerConfig: defaultScannerConfig,
@@ -912,6 +943,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: ["1"],
                     partial: "2",
                     scannerConfig: defaultScannerConfig,
@@ -960,6 +992,7 @@ describe("ArgumentScanner", () => {
             it("proposeCompletions", async () => {
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: [],
                     partial: "",
                     scannerConfig: defaultScannerConfig,
@@ -971,6 +1004,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: [],
                     partial: "1",
                     scannerConfig: defaultScannerConfig,
@@ -982,6 +1016,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: ["1"],
                     partial: "2",
                     scannerConfig: defaultScannerConfig,
@@ -9852,6 +9887,7 @@ describe("ArgumentScanner", () => {
 
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: ["--foo"],
                     partial: "",
                     scannerConfig: defaultScannerConfig,
@@ -9863,6 +9899,7 @@ describe("ArgumentScanner", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters,
+                    context: {} as CommandContext,
                     inputs: ["--foo"],
                     partial: "1",
                     scannerConfig: defaultScannerConfig,
@@ -9993,6 +10030,7 @@ describe("ArgumentScanner", () => {
 
                     await testCompletions<Flags, Positional>({
                         parameters: parametersWithAlias,
+                        context: {} as CommandContext,
                         inputs: ["-f"],
                         partial: "",
                         scannerConfig: defaultScannerConfig,
@@ -10004,6 +10042,7 @@ describe("ArgumentScanner", () => {
                     });
                     await testCompletions<Flags, Positional>({
                         parameters: parametersWithAlias,
+                        context: {} as CommandContext,
                         inputs: ["-f"],
                         partial: "1",
                         scannerConfig: defaultScannerConfig,
@@ -10058,6 +10097,64 @@ describe("ArgumentScanner", () => {
                             { kind: "argument:flag", completion: "--baz", brief: "baz" },
                         ],
                     });
+                });
+            });
+        });
+
+        describe("parsed flag with custom completions (using command context)", () => {
+            type Positional = [];
+            type Flags = {
+                readonly project: string;
+            };
+            type CustomContext = CommandContext & {
+                getUserProjects(): readonly string[];
+            };
+
+            const parameters: TypedCommandParameters<Flags, Positional, CustomContext> = {
+                flags: {
+                    project: {
+                        kind: "parsed",
+                        parse: String,
+                        brief: "project",
+                        proposeCompletions(this: CustomContext, partial: string) {
+                            return this.getUserProjects().filter((project) => project.startsWith(partial));
+                        },
+                    },
+                },
+                positional: { kind: "tuple", parameters: [] },
+            };
+
+            const context = {
+                getUserProjects() {
+                    return ["my-project-a", "my-project-b", "extra-project"];
+                },
+            } as unknown as CustomContext;
+
+            it("proposeCompletions", async () => {
+                await testCompletions<Flags, Positional, CustomContext>({
+                    parameters,
+                    context,
+                    inputs: ["--project"],
+                    partial: "",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [
+                        { kind: "argument:value", completion: "my-project-a", brief: "project" },
+                        { kind: "argument:value", completion: "my-project-b", brief: "project" },
+                        { kind: "argument:value", completion: "extra-project", brief: "project" },
+                    ],
+                });
+                await testCompletions<Flags, Positional, CustomContext>({
+                    parameters,
+                    context,
+                    inputs: ["--project"],
+                    partial: "my",
+                    scannerConfig: defaultScannerConfig,
+                    completionConfig: defaultCompletionConfig,
+                    expected: [
+                        { kind: "argument:value", completion: "my-project-a", brief: "project" },
+                        { kind: "argument:value", completion: "my-project-b", brief: "project" },
+                    ],
                 });
             });
         });
