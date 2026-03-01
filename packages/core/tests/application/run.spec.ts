@@ -1029,6 +1029,23 @@ describe("run", () => {
         expect(result).toMatchSnapshot();
     });
 
+    it("uses provided text, disregards unsupported context locale", async (context) => {
+        // GIVEN
+        const command = buildBasicCommand();
+        const app = buildApplication(command, {
+            name: "cli",
+            localization: {
+                text: text_en,
+            },
+        });
+
+        // WHEN
+        const result = await runWithInputs(app, [], { locale: "other", colorDepth: 4 });
+
+        // THEN
+        expect(result).toMatchSnapshot();
+    });
+
     describe("nested basic route map with hidden routes", () => {
         // GIVEN
         const rootRouteMap = buildRouteMapForFakeContext({
