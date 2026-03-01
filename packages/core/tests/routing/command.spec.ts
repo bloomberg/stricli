@@ -2034,6 +2034,29 @@ describe("Command", () => {
                 });
                 expect(result).toMatchSnapshot();
             });
+
+            it("unexpected error, with custom exception formatting", async () => {
+                const error = {
+                    toString() {
+                        throw new Error("Unexpected error thrown by input");
+                    },
+                };
+                const result = await runWithInputs(command, {
+                    ...defaultArgs,
+                    documentationConfig: {
+                        ...defaultArgs.documentationConfig,
+                        disableAnsiColor: false,
+                    },
+                    errorFormatting: {
+                        ...defaultArgs.errorFormatting,
+                        formatException() {
+                            return "FORMATTED_EXCEPTION";
+                        },
+                    },
+                    inputs: [error as any],
+                });
+                expect(result).toMatchSnapshot();
+            });
         });
 
         it("fails to scan missing flags", async () => {
@@ -2158,6 +2181,35 @@ describe("Command", () => {
             expect(result).toMatchSnapshot();
         });
 
+        it("fails to load command module, with custom exception formatting", async () => {
+            const command = buildCommand<{}, []>({
+                loader: async () => {
+                    throw new Error("This command load purposefully throws an error");
+                },
+                parameters: {
+                    positional: { kind: "tuple", parameters: [] },
+                    flags: {},
+                },
+                docs: { brief: "brief" },
+            });
+
+            const result = await runWithInputs(command, {
+                ...defaultArgs,
+                documentationConfig: {
+                    ...defaultArgs.documentationConfig,
+                    disableAnsiColor: false,
+                },
+                errorFormatting: {
+                    ...defaultArgs.errorFormatting,
+                    formatException() {
+                        return "FORMATTED_EXCEPTION";
+                    },
+                },
+                inputs: [],
+            });
+            expect(result).toMatchSnapshot();
+        });
+
         describe("command function throws error", () => {
             class ErrorWithoutStack extends Error {
                 override stack = void 0;
@@ -2188,6 +2240,24 @@ describe("Command", () => {
                     documentationConfig: {
                         ...defaultArgs.documentationConfig,
                         disableAnsiColor: false,
+                    },
+                    inputs: [],
+                });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("with default exit code, custom exception formatting", async () => {
+                const result = await runWithInputs(command, {
+                    ...defaultArgs,
+                    documentationConfig: {
+                        ...defaultArgs.documentationConfig,
+                        disableAnsiColor: false,
+                    },
+                    errorFormatting: {
+                        ...defaultArgs.errorFormatting,
+                        formatException() {
+                            return "FORMATTED_EXCEPTION";
+                        },
                     },
                     inputs: [],
                 });

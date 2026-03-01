@@ -13,7 +13,6 @@ import {
     text_en,
     type Application,
     type CommandContext,
-    type DocumentedCommand,
     type InputCompletion,
     type RouteMapBuilderArguments,
     type VersionInfo,
@@ -1224,6 +1223,35 @@ describe("Application", () => {
             const command = buildBasicCommand();
             const app = buildApplication(command, {
                 name: "cli",
+            });
+
+            // WHEN
+            const result = await runWithInputs(app, [], {
+                forCommand: () => {
+                    throw new Error("This function purposefully throws an error");
+                },
+                colorDepth: void 0,
+            });
+
+            // THEN
+            expect(result).toMatchSnapshot();
+        });
+
+        it("fails when context.forCommand throws error, with custom exception formatting", async (context) => {
+            // GIVEN
+            const command = buildBasicCommand();
+            const app = buildApplication(command, {
+                name: "cli",
+                localization: {
+                    loadText() {
+                        return {
+                            ...text_en,
+                            formatException() {
+                                return "FORMATTED_EXCEPTION";
+                            },
+                        };
+                    },
+                },
             });
 
             // WHEN

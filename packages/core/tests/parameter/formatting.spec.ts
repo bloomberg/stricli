@@ -1,7 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { describe, expect, it } from "vitest";
-import { buildChoiceParser, type CommandContext, numberParser, type TypedCommandParameters } from "../../src";
+import type { CommandContext, TypedCommandParameters } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import { formatUsageLineForParameters, type UsageFormattingArguments } from "../../src/parameter/formatting";
 // eslint-disable-next-line no-restricted-imports
