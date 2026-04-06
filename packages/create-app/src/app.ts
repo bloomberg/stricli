@@ -74,6 +74,12 @@ const command = buildCommand({
                 optional: true,
                 hidden: true,
             },
+            bundler: {
+                kind: "enum",
+                brief: "Whether to use tsdown (beta - uses Rolldown) or tsup (deprecated - uses esbuild)",
+                values: ["tsdown", "tsup"],
+                default: "tsdown",
+            },
         },
         aliases: {
             n: "name",
