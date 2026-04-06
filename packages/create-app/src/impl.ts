@@ -54,7 +54,7 @@ function buildPackageJson(
         version: "0.0.0",
         files: ["dist"],
         bin: {
-            [commandName]: "dist/cli.js",
+            [commandName]: "dist/cli.mjs",
         },
         engines: {
             node: nodeMajorVersion && `>=${nodeMajorVersion}`,
