@@ -22,7 +22,7 @@ import {
 } from "./files";
 import srcTsconfig from "./tsconfig.json";
 
-interface TsupConfig {
+interface BundlerConfig {
     entry?: string[];
     format?: ("cjs" | "esm" | "iife")[];
     tsconfig?: string;
@@ -32,20 +32,22 @@ interface TsupConfig {
 }
 
 interface LocalPackageJson extends PackageJson.PackageJsonStandard, PackageJson.TypeScriptConfiguration {
-    tsup?: TsupConfig;
+    tsdown?: BundlerConfig;
+    tsup?: BundlerConfig;
 }
 
 function calculateBashCompletionCommand(command: string): string {
     return `__${command}_bash_complete`;
 }
 
-type PackageJsonTemplateValues = Pick<PackageJson.PackageJsonStandard, "name"> &
-    Required<Pick<PackageJson.PackageJsonStandard, "author" | "description" | "license" | "type">>;
+type PackageJsonTemplateValues = Pick<LocalPackageJson, "name"> &
+    Required<Pick<LocalPackageJson, "author" | "description" | "license" | "type">>;
 
 function buildPackageJson(
     values: PackageJsonTemplateValues,
     commandName: string,
     nodeMajorVersion: string | undefined,
+    bundler: "tsdown" | "tsup",
 ): LocalPackageJson {
     return {
         ...values,
@@ -59,10 +61,10 @@ function buildPackageJson(
         },
         scripts: {
             prebuild: "tsc -p src/tsconfig.json",
-            build: "tsup --silent",
+            build: `${bundler} --silent`,
             prepublishOnly: "npm run build",
         },
-        tsup: {
+        [bundler]: {
             entry: ["src/bin/cli.ts"],
             format: [values.type === "commonjs" ? "cjs" : "esm"],
             tsconfig: "src/tsconfig.json",
@@ -75,13 +77,17 @@ function buildPackageJson(
         },
         devDependencies: {
             "@types/node": nodeMajorVersion && `${nodeMajorVersion}.x`,
-            tsup: self.devDependencies.tsup,
+            [bundler]: self.devDependencies[bundler],
             typescript: self.devDependencies.typescript,
         },
     };
 }
 
-function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandName: string): LocalPackageJson {
+function addAutoCompleteBin(
+    packageJson: LocalPackageJson,
+    bashCompleteCommandName: string,
+    bundler: CreateProjectFlags["bundler"],
+): LocalPackageJson {
     return {
         ...packageJson,
         dependencies: {
@@ -92,10 +98,10 @@ function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandNa
             ...(packageJson.bin as Record<string, string>),
             [bashCompleteCommandName]: "dist/bash-complete.js",
         },
-        tsup: {
-            ...packageJson.tsup,
+        [bundler]: {
+            ...packageJson[bundler],
             /* v8 ignore next -- @preserve */
-            entry: [...(packageJson.tsup?.entry ?? []), "src/bin/bash-complete.ts"],
+            entry: [...(packageJson?.[bundler]?.entry ?? []), "src/bin/bash-complete.ts"],
         },
     };
 }
@@ -115,6 +121,7 @@ export interface CreateProjectFlags extends PackageJsonTemplateValues {
     readonly autoComplete: boolean;
     readonly command?: string;
     readonly nodeVersion?: string;
+    readonly bundler: "tsdown" | "tsup";
 }
 
 export default async function (this: LocalContext, flags: CreateProjectFlags, directoryPath: string): Promise<void> {
@@ -151,12 +158,13 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         },
         commandName,
         nodeMajorVersion,
+        flags.bundler,
     );
 
     const bashCommandName = calculateBashCompletionCommand(commandName);
 
     if (flags.autoComplete) {
-        packageJson = addAutoCompleteBin(packageJson, bashCommandName);
+        packageJson = addAutoCompleteBin(packageJson, bashCommandName, flags.bundler);
         if (flags.template === "multi") {
             packageJson = addPostinstallScript(packageJson, `${commandName} install`);
         } else {
