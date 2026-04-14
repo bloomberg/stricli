@@ -25,7 +25,7 @@
         "lint:fix": "eslint src tests --fix",
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "test": "vitest --run",
-        "test:update-snapshots": "vitest --run --update",
+        "test:update": "vitest --run --update",
         "coverage": "vitest --run --coverage.enabled",
         "build": "tsup --silent",
         "prepublishOnly": "npm run build"
@@ -47,6 +47,7 @@
         "@stricli/core": "^1.2.6"
     },
     "devDependencies": {
+        "@stricli/test.utils": "*",
         "@types/chai": "^4.3.16",
         "@types/node": "^18.19.33",
         "@types/sinon": "^17.0.3",

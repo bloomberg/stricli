@@ -3106,7 +3106,7 @@ exports[`Application > run > basic command at root > display help text for root 
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root 1`] = `
@@ -3118,7 +3118,7 @@ exports[`Application > run > basic command at root > display help text for root 
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root, color depth < 4 1`] = `
@@ -3130,7 +3130,7 @@ exports[`Application > run > basic command at root > display help text for root,
 [stdout]
 [stdout] FLAGS
 [stdout]   -h --help  Print help information and exit
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root, color depth > 4 1`] = `
@@ -3142,7 +3142,7 @@ exports[`Application > run > basic command at root > display help text for root,
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root, no color depth 1`] = `
@@ -3154,27 +3154,27 @@ exports[`Application > run > basic command at root > display help text for root,
 [stdout]
 [stdout] FLAGS
 [stdout]   -h --help  Print help information and exit
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as async callback) > request current version (with flag alias) 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as async callback) > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as static string) > request current version (with flag alias) 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as static string) > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with custom usage > display help text for root 1`] = `
@@ -3189,7 +3189,7 @@ exports[`Application > run > basic command at root > with custom usage > display
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with full description > display help text for root 1`] = `
@@ -3202,7 +3202,7 @@ exports[`Application > run > basic command at root > with full description > dis
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with missing latest version info > display help text for root 1`] = `
@@ -3214,12 +3214,12 @@ exports[`Application > run > basic command at root > with missing latest version
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with missing latest version info > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as async callback) > display help text for root, warn on outdated version 1`] = `
@@ -3234,13 +3234,13 @@ exports[`Application > run > basic command at root > with outdated version info 
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
 [stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as async callback) > request current version 1`] = `
 [stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version 1`] = `
@@ -3255,7 +3255,7 @@ exports[`Application > run > basic command at root > with outdated version info 
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
 [stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to 0 1`] = `
@@ -3270,7 +3270,7 @@ exports[`Application > run > basic command at root > with outdated version info 
 [stdout] FLAGS
 [stdout]   -h --help     Print help information and exit
 [stdout]   -v --version  Print version information and exit
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, no ansi color with env var 1`] = `
@@ -3285,7 +3285,7 @@ exports[`Application > run > basic command at root > with outdated version info 
 [stdout] FLAGS
 [stdout]   -h --help     Print help information and exit
 [stdout]   -v --version  Print version information and exit
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, with no ansi color 1`] = `
@@ -3300,18 +3300,18 @@ exports[`Application > run > basic command at root > with outdated version info 
 [stdout] FLAGS
 [stdout]   -h --help     Print help information and exit
 [stdout]   -v --version  Print version information and exit
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > request current version 1`] = `
 [stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with up-to-date version info > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > display help text for root (implicit) 1`] = `
@@ -3326,7 +3326,7 @@ exports[`Application > run > basic route map at root > display help text for roo
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > display help text for root (with flag alias) 1`] = `
@@ -3341,7 +3341,7 @@ exports[`Application > run > basic route map at root > display help text for roo
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > display help text for root 1`] = `
@@ -3356,7 +3356,7 @@ exports[`Application > run > basic route map at root > display help text for roo
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > displays help text for subcommand (with flag alias) 1`] = `
@@ -3368,7 +3368,7 @@ exports[`Application > run > basic route map at root > displays help text for su
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > displays help text for subcommand 1`] = `
@@ -3380,62 +3380,62 @@ exports[`Application > run > basic route map at root > displays help text for su
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined route, proposes similar alternative 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`commandx\`, did you mean \`command\`?␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined route, with no ansi color 1`] = `
 [stderr] No command registered for \`undefined\`
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > runs subcommand directly with no arguments 1`] = `
 
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with allow-kebab-for-camel > fails for undefined route, proposes similar alternative 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`commandxyz\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > with current version as async callback > request current version (with flag alias) 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with current version as async callback > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with current version as static string > request current version (with flag alias) 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with current version as static string > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with custom distance threshold > fails for undefined route, proposes similar alternative 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`commandxyz\`, did you mean \`command\`?␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > with full description > display help text for root 1`] = `
@@ -3451,7 +3451,7 @@ exports[`Application > run > basic route map at root > with full description > d
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for root, warn on outdated version 1`] = `
@@ -3469,7 +3469,7 @@ exports[`Application > run > basic route map at root > with outdated version inf
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for subcommand, warn on outdated version 1`] = `
@@ -3482,24 +3482,24 @@ exports[`Application > run > basic route map at root > with outdated version inf
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > request current version 1`] = `
 [stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"␛[39m␛[22m
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, do not skip check with env var set to 0 1`] = `
 [stderr] Latest available version is 1.1.0 (currently running 1.0.0)
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, skip check with env var defined 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, warn on outdated version 1`] = `
@@ -3517,7 +3517,7 @@ exports[`Application > run > basic route map at root > with outdated version inf
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for subcommand, warn on outdated version 1`] = `
@@ -3530,13 +3530,13 @@ exports[`Application > run > basic route map at root > with outdated version inf
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > request current version 1`] = `
 [stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with up-to-date version info > display help text for root, no warning 1`] = `
@@ -3553,17 +3553,17 @@ exports[`Application > run > basic route map at root > with up-to-date version i
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with up-to-date version info > request current version 1`] = `
 [stdout] 1.0.0
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > fails when context.forCommand throws error (without stack) 1`] = `
 [stderr] ␛[1m␛[31mUnable to load command context, Error: This function purposefully throws an error␛[39m␛[22m
-::exit:: -3 (ContextLoadError)
+[:exit:] -3 (ContextLoadError)
 `;
 
 exports[`Application > run > fails when context.forCommand throws error 1`] = `
@@ -3573,7 +3573,8 @@ exports[`Application > run > fails when context.forCommand throws error 1`] = `
 [stderr]     at run (#/src/index.ts:?:?)
 [stderr]     at runWithInputs (#/tests/application.spec.ts:?:?)
 [stderr]     at #/tests/application.spec.ts:?:?
-::exit:: -3 (ContextLoadError)
+[stderr]     at new Promise (<anonymous>)␛[39m␛[22m
+[:exit:] -3 (ContextLoadError)
 `;
 
 exports[`Application > run > fails when context.forCommand throws error, with no ansi color 1`] = `
@@ -3583,17 +3584,18 @@ exports[`Application > run > fails when context.forCommand throws error, with no
 [stderr]     at run (#/src/index.ts:?:?)
 [stderr]     at runWithInputs (#/tests/application.spec.ts:?:?)
 [stderr]     at #/tests/application.spec.ts:?:?
-::exit:: -3 (ContextLoadError)
+[stderr]     at new Promise (<anonymous>)
+[:exit:] -3 (ContextLoadError)
 `;
 
 exports[`Application > run > fails when context.forCommand throws non-error 1`] = `
 [stderr] ␛[1m␛[31mUnable to load command context, This function purposefully throws an error␛[39m␛[22m
-::exit:: -3 (ContextLoadError)
+[:exit:] -3 (ContextLoadError)
 `;
 
 exports[`Application > run > loads text for context locale 1`] = `
 
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > display help text for root (implicit) 1`] = `
@@ -3608,7 +3610,7 @@ exports[`Application > run > nested basic route map at root > display help text 
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > display help text for root 1`] = `
@@ -3623,7 +3625,7 @@ exports[`Application > run > nested basic route map at root > display help text 
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > displays help text for nested route map (implicit) 1`] = `
@@ -3638,7 +3640,7 @@ exports[`Application > run > nested basic route map at root > displays help text
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > displays help text for nested route map 1`] = `
@@ -3653,17 +3655,17 @@ exports[`Application > run > nested basic route map at root > displays help text
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map at root > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root (implicit) 1`] = `
@@ -3678,7 +3680,7 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root 1`] = `
@@ -3693,7 +3695,7 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias (implicit) 1`] = `
@@ -3712,7 +3714,7 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias 1`] = `
@@ -3731,7 +3733,7 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version (implicit) 1`] = `
@@ -3750,7 +3752,7 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version 1`] = `
@@ -3769,7 +3771,7 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map with route alias 1`] = `
@@ -3788,22 +3790,22 @@ exports[`Application > run > nested basic route map with camelCase route aliases
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for alias-adjacent route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`aliasX\`, did you mean \`aliasBar\` or \`aliasFoo\`?␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > display help text for root (implicit) 1`] = `
@@ -3818,7 +3820,7 @@ exports[`Application > run > nested basic route map with hidden routes > display
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > display help text for root 1`] = `
@@ -3833,7 +3835,7 @@ exports[`Application > run > nested basic route map with hidden routes > display
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > display help text for root including hidden 1`] = `
@@ -3852,7 +3854,7 @@ exports[`Application > run > nested basic route map with hidden routes > display
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m        ␛[;;3msub␛[;;;23m
 [stdout]   ␛[2msubHidden␛[22m  ␛[2;3msubHidden␛[22;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map (implicit) 1`] = `
@@ -3867,7 +3869,7 @@ exports[`Application > run > nested basic route map with hidden routes > display
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map 1`] = `
@@ -3882,17 +3884,17 @@ exports[`Application > run > nested basic route map with hidden routes > display
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root (implicit) 1`] = `
@@ -3909,7 +3911,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root 1`] = `
@@ -3926,7 +3928,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root including hidden 1`] = `
@@ -3945,7 +3947,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m        ␛[;;3msub␛[;;;23m
 [stdout]   ␛[2msubHidden␛[22m  ␛[2;3msubHidden␛[22;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map (implicit) 1`] = `
@@ -3962,7 +3964,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map 1`] = `
@@ -3979,17 +3981,17 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root (implicit) 1`] = `
@@ -4006,7 +4008,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root 1`] = `
@@ -4023,7 +4025,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root including hidden 1`] = `
@@ -4042,7 +4044,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m        ␛[;;3msub␛[;;;23m
 [stdout]   ␛[2msubHidden␛[22m  ␛[2;3msubHidden␛[22;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map (implicit) 1`] = `
@@ -4059,7 +4061,7 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map 1`] = `
@@ -4076,17 +4078,17 @@ exports[`Application > run > nested basic route map with hidden routes, always s
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > display help text for root (implicit) 1`] = `
@@ -4101,7 +4103,7 @@ exports[`Application > run > nested basic route map with route alias at root > d
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > display help text for root 1`] = `
@@ -4116,7 +4118,7 @@ exports[`Application > run > nested basic route map with route alias at root > d
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias (implicit) 1`] = `
@@ -4134,7 +4136,7 @@ exports[`Application > run > nested basic route map with route alias at root > d
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias 1`] = `
@@ -4152,7 +4154,7 @@ exports[`Application > run > nested basic route map with route alias at root > d
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map with route alias 1`] = `
@@ -4170,22 +4172,22 @@ exports[`Application > run > nested basic route map with route alias at root > d
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > fails for alias-adjacent route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`aliasX\`, did you mean \`alias\`?␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > fails for undefined flag 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > fails for undefined route 1`] = `
 [stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
-::exit:: -5 (UnknownCommand)
+[:exit:] -5 (UnknownCommand)
 `;
 
 exports[`Application > run > route map with default command at root > display help text for root (with flag alias) 1`] = `
@@ -4202,7 +4204,7 @@ exports[`Application > run > route map with default command at root > display he
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mdefault␛[32m    ␛[;;3mbasic command␛[;;;23m
 [stdout]   ␛[1malternate␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > display help text for root 1`] = `
@@ -4219,7 +4221,7 @@ exports[`Application > run > route map with default command at root > display he
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mdefault␛[32m    ␛[;;3mbasic command␛[;;;23m
 [stdout]   ␛[1malternate␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > displays help text for default command (with flag alias) 1`] = `
@@ -4234,7 +4236,7 @@ exports[`Application > run > route map with default command at root > displays h
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > displays help text for default command 1`] = `
@@ -4249,42 +4251,42 @@ exports[`Application > run > route map with default command at root > displays h
 [stdout]
 [stdout] ␛[4mFLAGS␛[24m
 [stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > passes similar route as argument to default command 1`] = `
 [stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "commandx"␛[39m␛[22m
-::exit:: -4 (InvalidArgument)
+[:exit:] -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > passes undefined flag to default command 1`] = `
 [stderr] ␛[1m␛[31mNo flag registered for --undefined␛[39m␛[22m
-::exit:: -4 (InvalidArgument)
+[:exit:] -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > passes undefined route as argument to default command 1`] = `
 [stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "undefined"␛[39m␛[22m
-::exit:: -4 (InvalidArgument)
+[:exit:] -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > runs default command (implicit) 1`] = `
 
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > runs subcommand directly with alternate route name as argument 1`] = `
 [stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "alternate"␛[39m␛[22m
-::exit:: -4 (InvalidArgument)
+[:exit:] -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > runs subcommand directly with default route name as argument 1`] = `
 [stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "default"␛[39m␛[22m
-::exit:: -4 (InvalidArgument)
+[:exit:] -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > runs subcommand directly with no arguments 1`] = `
 
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > with full description > display help text for root 1`] = `
@@ -4300,20 +4302,20 @@ exports[`Application > run > route map with default command at root > with full 
 [stdout]
 [stdout] ␛[4mCOMMANDS␛[24m
 [stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > runs command with original context 1`] = `
 
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > uses default text when no text loaded for unsupported context locale 1`] = `
 [stderr] ␛[1m␛[33mApplication does not support "other" locale, defaulting to "en"␛[39m␛[22m
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;
 
 exports[`Application > run > uses default text when no text loaded for unsupported context locale, with no ansi color 1`] = `
 [stderr] Application does not support "other" locale, defaulting to "en"
-::exit:: 0 (Success)
+[:exit:] 0 (Success)
 `;

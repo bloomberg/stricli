@@ -1,7 +1,8 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { expect } from "vitest";
-import { describe, it } from "vitest";
+import { buildFakeContext, buildProcessResultSerializer, type FakeContext, type FakeTerminal } from "@stricli/test.utils";
+import url from "node:url";
+import { describe, expect, it } from "vitest";
 import {
     buildApplication,
     buildCommand,
@@ -13,19 +14,15 @@ import {
     text_en,
     type Application,
     type CommandContext,
-    type DocumentedCommand,
     type InputCompletion,
     type RouteMapBuilderArguments,
-    type VersionInfo,
+    type VersionInfo
 } from "../src";
 import { buildFakeApplicationText } from "./fakes/config";
-import { buildFakeContext, type FakeContext } from "./fakes/context";
-import type { FakeTerminal } from "./fakes/terminal";
-import runResultSerializer from "./serializers/run-result";
 import documentedCommandArraySerializer from "./serializers/documented-commands";
 
 // Register custom snapshot serializers
-expect.addSnapshotSerializer(runResultSerializer);
+expect.addSnapshotSerializer(buildProcessResultSerializer({ root: new url.URL("..", import.meta.url) }));
 expect.addSnapshotSerializer(documentedCommandArraySerializer);
 
 function testCompletions(app: Application<FakeContext>, inputs: string[], expected: readonly InputCompletion[]) {

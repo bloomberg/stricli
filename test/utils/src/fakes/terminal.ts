@@ -16,7 +16,7 @@ export class FakeTerminal {
         return Boolean(val && typeof val === "object" && "__FakeTerminal" in val);
     }
     #line: StreamLine = ["stdout", ""];
-    #lines: StreamLine[] = [];
+    readonly #lines: StreamLine[] = [];
     write(stream: StreamKind, str: string): void {
         if (this.#line[0] !== stream) {
             if (this.#line[1]) {

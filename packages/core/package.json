@@ -43,6 +43,7 @@
         "clean": true
     },
     "devDependencies": {
+        "@stricli/test.utils": "*",
         "@types/chai": "^4.3.11",
         "@types/fs-extra": "^11.0.4",
         "@types/sinon": "^17.0.2",

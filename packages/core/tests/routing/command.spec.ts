@@ -6,14 +6,12 @@ import { booleanParser, buildCommand, numberParser, text_en, type Command, type 
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
 // eslint-disable-next-line no-restricted-imports
+import { buildFakeContext, buildProcessResultSerializer, type FakeTerminal } from "@stricli/test.utils";
+import url from "node:url";
 import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
-import { buildFakeContext } from "../fakes/context";
-import type { FakeTerminal } from "../fakes/terminal";
-import CommandRunResultSerializer from "../serializers/run-result";
-
 
 // Register custom snapshot serializers
-expect.addSnapshotSerializer(CommandRunResultSerializer);
+expect.addSnapshotSerializer(buildProcessResultSerializer({ root: new url.URL("../..", import.meta.url) }));
 
 export interface CommandRunResult {
     readonly terminal: FakeTerminal;
@@ -1898,14 +1896,14 @@ describe("Command", () => {
 
             it("no inputs", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                expect(result).toMatchInlineSnapshot(`::exit:: 0 (Success)`);
+                expect(result).toMatchInlineSnapshot(`[:exit:] 0 (Success)`);
             });
 
             it("unexpected input argument", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] Too many arguments, expected 0 but encountered "foo"
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
 
@@ -1913,7 +1911,7 @@ describe("Command", () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["--foo"] });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] No flag registered for --foo
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
         });
@@ -1934,14 +1932,14 @@ describe("Command", () => {
 
             it("no inputs", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                expect(result).toMatchInlineSnapshot(`::exit:: 0 (Success)`);
+                expect(result).toMatchInlineSnapshot(`[:exit:] 0 (Success)`);
             });
 
             it("unexpected input argument", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] Too many arguments, expected 0 but encountered "foo"
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
 
@@ -1956,7 +1954,7 @@ describe("Command", () => {
                 });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "foo"␛[39m␛[22m
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
 
@@ -1964,7 +1962,7 @@ describe("Command", () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["--foo"] });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] No flag registered for --foo
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
 
@@ -1979,7 +1977,7 @@ describe("Command", () => {
                 });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] ␛[1m␛[31mNo flag registered for --foo␛[39m␛[22m
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
         });
@@ -2008,14 +2006,14 @@ describe("Command", () => {
 
             it("no inputs", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
-                expect(result).toMatchInlineSnapshot(`::exit:: 0 (Success)`);
+                expect(result).toMatchInlineSnapshot(`[:exit:] 0 (Success)`);
             });
 
             it("single input argument", async () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: ["foo"] });
                 expect(result).toMatchInlineSnapshot(`
                   [stdout] foo
-                  ::exit:: 0 (Success)
+                  [:exit:] 0 (Success)
                 `);
             });
 
@@ -2024,7 +2022,7 @@ describe("Command", () => {
                 expect(result).toMatchInlineSnapshot(`
                   [stdout] foo
                   [stdout] bar
-                  ::exit:: 0 (Success)
+                  [:exit:] 0 (Success)
                 `);
             });
 
@@ -2048,7 +2046,7 @@ describe("Command", () => {
                   [stderr]     at runCommand (#/src/routing/command/run.ts:?:?)
                   [stderr]     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
                   [stderr]     at #/tests/routing/command.spec.ts:?:?
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
 
@@ -2076,7 +2074,7 @@ describe("Command", () => {
                   [stderr]     at runCommand (#/src/routing/command/run.ts:?:?)
                   [stderr]     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
                   [stderr]     at #/tests/routing/command.spec.ts:?:?
-                  ::exit:: -4 (InvalidArgument)
+                  [:exit:] -4 (InvalidArgument)
                 `);
             });
         });
@@ -2107,7 +2105,7 @@ describe("Command", () => {
             expect(result).toMatchInlineSnapshot(`
               [stderr] Expected input for flag --foo
               [stderr] Expected input for flag --bar
-              ::exit:: -4 (InvalidArgument)
+              [:exit:] -4 (InvalidArgument)
             `);
         });
 
@@ -2144,7 +2142,7 @@ describe("Command", () => {
             expect(result).toMatchInlineSnapshot(`
               [stderr] ␛[1m␛[31mExpected input for flag --foo␛[39m␛[22m
               [stderr] ␛[1m␛[31mExpected input for flag --bar␛[39m␛[22m
-              ::exit:: -4 (InvalidArgument)
+              [:exit:] -4 (InvalidArgument)
             `);
         });
 
@@ -2171,7 +2169,7 @@ describe("Command", () => {
             const result = await runWithInputs(command, { ...defaultArgs, inputs: ["nope"] });
             expect(result).toMatchInlineSnapshot(`
               [stderr] Failed to parse "nope" for arg1: Cannot convert nope to a boolean
-              ::exit:: -4 (InvalidArgument)
+              [:exit:] -4 (InvalidArgument)
             `);
         });
 
@@ -2194,7 +2192,7 @@ describe("Command", () => {
               [stderr]     at runCommand (#/src/routing/command/run.ts:?:?)
               [stderr]     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
               [stderr]     at #/tests/routing/command.spec.ts:?:?
-              ::exit:: -2 (CommandLoadError)
+              [:exit:] -2 (CommandLoadError)
             `);
         });
 
@@ -2224,7 +2222,7 @@ describe("Command", () => {
               [stderr]     at runCommand (#/src/routing/command/run.ts:?:?)
               [stderr]     at runWithInputs (#/tests/routing/command.spec.ts:?:?)
               [stderr]     at #/tests/routing/command.spec.ts:?:?
-              ::exit:: -2 (CommandLoadError)
+              [:exit:] -2 (CommandLoadError)
             `);
         });
 
@@ -2251,7 +2249,7 @@ describe("Command", () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] Command failed, Error: This action purposefully throws an error
-                  ::exit:: 1 (CommandRunError)
+                  [:exit:] 1 (CommandRunError)
                 `);
             });
 
@@ -2266,7 +2264,7 @@ describe("Command", () => {
                 });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] ␛[1m␛[31mCommand failed, Error: This action purposefully throws an error␛[39m␛[22m
-                  ::exit:: 1 (CommandRunError)
+                  [:exit:] 1 (CommandRunError)
                 `);
             });
 
@@ -2278,7 +2276,7 @@ describe("Command", () => {
                 });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] Command failed, Error: This action purposefully throws an error
-                  ::exit:: 10 (Unknown)
+                  [:exit:] 10 (Unknown)
                 `);
             });
         });
@@ -2303,7 +2301,7 @@ describe("Command", () => {
                 const result = await runWithInputs(command, { ...defaultArgs, inputs: [] });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] This action purposefully throws an error
-                  ::exit:: 1 (CommandRunError)
+                  [:exit:] 1 (CommandRunError)
                 `);
             });
 
@@ -2318,7 +2316,7 @@ describe("Command", () => {
                 });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] ␛[1m␛[31mThis action purposefully throws an error␛[39m␛[22m
-                  ::exit:: 1 (CommandRunError)
+                  [:exit:] 1 (CommandRunError)
                 `);
             });
 
@@ -2330,7 +2328,7 @@ describe("Command", () => {
                 });
                 expect(result).toMatchInlineSnapshot(`
                   [stderr] This action purposefully throws an error
-                  ::exit:: 10 (Unknown)
+                  [:exit:] 10 (Unknown)
                 `);
             });
         });
