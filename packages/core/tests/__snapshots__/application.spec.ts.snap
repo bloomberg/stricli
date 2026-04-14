@@ -163,1666 +163,4157 @@ FLAGS
 
 `;
 
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "100 100 1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "100 100 1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [] for "100 100 1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [--foo,-f,--bar,-b] for "-" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [--foo,-f,--bar,-b] for "-" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [--foo,-f,--bar,-b] for "-" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [100,150,200,--foo,-f,--bar,-b] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [100,150,200,--foo,-f,--bar,-b] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [100,150,200,--foo,-f,--bar,-b] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [100,150] for "1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [100,150] for "1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with aliases > proposes [100,150] for "1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "100 100 1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "100 100 1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [] for "100 100 1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [--foo,--bar] for "-" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [--foo,--bar] for "-" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [--foo,--bar] for "-" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [100,150,200,--foo,--bar] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [100,150,200,--foo,--bar] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [100,150,200,--foo,--bar] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [100,150] for "1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [100,150] for "1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root with ignored aliases > proposes [100,150] for "1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "100 100 1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "100 100 1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [] for "100 100 1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [--foo,--bar] for "-" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [--foo,--bar] for "-" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [--foo,--bar] for "-" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [100,150,200,--foo,--bar] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [100,150,200,--foo,--bar] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [100,150,200,--foo,--bar] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [100,150] for "1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [100,150] for "1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > command at root without aliases > proposes [100,150] for "1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--help " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--help " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--help " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--version " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--version " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--version " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "foo --help " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "foo --help " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "foo --help " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "foo --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "foo --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "foo --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [bar,baz] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [bar,baz] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [bar,baz] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [baz] for "baz" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [baz] for "baz" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [baz] for "baz" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [command] for "baz " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [command] for "baz " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [command] for "baz " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [foo,bar,baz] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [foo,bar,baz] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root > proposes [foo,bar,baz] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "foo --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "foo --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "foo --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [bar,baz] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [bar,baz] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [bar,baz] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [baz] for "baz" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [baz] for "baz" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [baz] for "baz" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [command] for "b " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [command] for "b " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [command] for "b " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [command] for "baz " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [command] for "baz " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [command] for "baz " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [foo,bar,baz] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [foo,bar,baz] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root exclude aliases > proposes [foo,bar,baz] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "baz" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "baz" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "baz" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "foo --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "foo --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "foo --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [bar,b] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [bar,b] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [bar,b] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [command] for "b " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [command] for "b " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [command] for "b " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [command] for "baz " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [command] for "baz " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [command] for "baz " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [foo,doFoo,bar,b] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [foo,doFoo,bar,b] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root excluding hidden routes > proposes [foo,doFoo,bar,b] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "foo --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "foo --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "foo --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [bar,b,baz,bz] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [bar,b,baz,bz] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [bar,b,baz,bz] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [baz] for "baz" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [baz] for "baz" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [baz] for "baz" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [command] for "b " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [command] for "b " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [command] for "b " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [command] for "baz " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [command] for "baz " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [command] for "baz " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [foo,doFoo,bar,b,baz,bz] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [foo,doFoo,bar,b,baz,bz] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including aliases > proposes [foo,doFoo,bar,b,baz,bz] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "foo --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "foo --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "foo --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [bar,b,baz,bz] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [bar,b,baz,bz] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [bar,b,baz,bz] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [baz] for "baz" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [baz] for "baz" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [baz] for "baz" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [command] for "b " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [command] for "b " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [command] for "b " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [command] for "baz " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [command] for "baz " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [command] for "baz " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [foo,doFoo,bar,b,baz,bz] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [foo,doFoo,bar,b,baz,bz] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root including hidden routes > proposes [foo,doFoo,bar,b,baz,bz] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fooFlag --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fooFlag --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "fooFlag --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [barFlag,bazFlag] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [barFlag,bazFlag] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [barFlag,bazFlag] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [bazFlag] for "bazFlag" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [bazFlag] for "bazFlag" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [bazFlag] for "bazFlag" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [command] for "bazFlag " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [command] for "bazFlag " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [command] for "bazFlag " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [fooFlag,barFlag,bazFlag] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [fooFlag,barFlag,bazFlag] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names > proposes [fooFlag,barFlag,bazFlag] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "foo-flag --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "foo-flag --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "foo-flag --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [bar-flag,baz-flag] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [bar-flag,baz-flag] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [bar-flag,baz-flag] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [baz-flag] for "baz-flag" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [baz-flag] for "baz-flag" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [baz-flag] for "baz-flag" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [command] for "baz-flag " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [command] for "baz-flag " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [command] for "baz-flag " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [foo-flag,bar-flag,baz-flag] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [foo-flag,bar-flag,baz-flag] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with camelCase route names, \`allow-kebab-for-camel\` parse case style > proposes [foo-flag,bar-flag,baz-flag] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "fake " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "fake " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "fake " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "fake" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "fake" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "fake" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "foo-flag --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "foo-flag --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "foo-flag --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "g" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "g" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [] for "g" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [bar-flag,baz-flag] for "b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [bar-flag,baz-flag] for "b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [bar-flag,baz-flag] for "b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [baz-flag] for "baz-flag" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [baz-flag] for "baz-flag" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [baz-flag] for "baz-flag" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [command] for "baz-flag " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [command] for "baz-flag " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [command] for "baz-flag " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [foo-flag,bar-flag,baz-flag] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [foo-flag,bar-flag,baz-flag] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > for route map at root with kebab-case route names, \`original\` parse case style > proposes [foo-flag,bar-flag,baz-flag] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "nested --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "nested --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "nested --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "nested -h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "nested -h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [] for "nested -h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [--foo] for "nested -" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [--foo] for "nested -" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [--foo] for "nested -" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [100,150,200,--foo] for "nested " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [100,150,200,--foo] for "nested " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [100,150,200,--foo] for "nested " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [100,150] for "nested 1" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [100,150] for "nested 1" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [100,150] for "nested 1" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [nested] for "nested" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [nested] for "nested" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested command > proposes [nested] for "nested" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "--help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "--help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "--help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "--version" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "--version" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "--version" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "-h" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "-h" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "-h" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "-v" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "-v" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "-v" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "nested --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "nested --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "nested --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "nested foo --help" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "nested foo --help" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [] for "nested foo --help" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [bar,baz] for "nested b" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [bar,baz] for "nested b" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [bar,baz] for "nested b" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [command] for "nested baz " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [command] for "nested baz " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [command] for "nested baz " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [foo,bar,baz] for "nested " > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [foo,bar,baz] for "nested " > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [foo,bar,baz] for "nested " > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [nested] for "" > dynamic context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [nested] for "" > error loading context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
+exports[`Application > proposeCompletions > nested route map > proposes [nested] for "" > static context 1`] = `
+FakeTerminal {
+  "__FakeTerminal": undefined,
+}
+`;
+
 exports[`Application > run > basic command at root > display help text for root (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root, color depth < 4 1`] = `
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-
-basic command
-
-FLAGS
-  -h --help  Print help information and exit
-
-:: STDERR
-
+[stdout] USAGE
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] FLAGS
+[stdout]   -h --help  Print help information and exit
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root, color depth > 4 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > display help text for root, no color depth 1`] = `
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-
-basic command
-
-FLAGS
-  -h --help  Print help information and exit
-
-:: STDERR
-
+[stdout] USAGE
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] FLAGS
+[stdout]   -h --help  Print help information and exit
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as async callback) > request current version (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as async callback) > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as static string) > request current version (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with current version (as static string) > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with custom usage > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli custom usage 1
-  cli custom-two
-    [3menhanced custom usage 2[23m
-  cli custom usage 3
-  cli --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli custom usage 1
+[stdout]   cli custom-two
+[stdout]     ␛[3menhanced custom usage 2␛[23m
+[stdout]   cli custom usage 3
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with full description > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-
-This is a full description
-of this command's behavior.
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] This is a full description
+[stdout] of this command's behavior.
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with missing latest version info > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with missing latest version info > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as async callback) > display help text for root, warn on outdated version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as async callback) > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to 0 1`] = `
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-FLAGS
-  -h --help     Print help information and exit
-  -v --version  Print version information and exit
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
+[stderr] Latest available version is 1.1.0 (currently running 1.0.0)
+[stdout] USAGE
+[stdout]   cli
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] FLAGS
+[stdout]   -h --help     Print help information and exit
+[stdout]   -v --version  Print version information and exit
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, no ansi color with env var 1`] = `
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-FLAGS
-  -h --help     Print help information and exit
-  -v --version  Print version information and exit
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
+[stderr] Latest available version is 1.1.0 (currently running 1.0.0)
+[stdout] USAGE
+[stdout]   cli
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] FLAGS
+[stdout]   -h --help     Print help information and exit
+[stdout]   -v --version  Print version information and exit
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, with no ansi color 1`] = `
-ExitCode=Success
-:: STDOUT
-USAGE
-  cli
-  cli --help
-  cli --version
-
-basic command
-
-FLAGS
-  -h --help     Print help information and exit
-  -v --version  Print version information and exit
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
+[stderr] Latest available version is 1.1.0 (currently running 1.0.0)
+[stdout] USAGE
+[stdout]   cli
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] FLAGS
+[stdout]   -h --help     Print help information and exit
+[stdout]   -v --version  Print version information and exit
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with outdated version info (as static string) > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic command at root > with up-to-date version info > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-
-root
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]
+[stdout] root
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > display help text for root (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-
-root
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]
+[stdout] root
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-
-root
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]
+[stdout] root
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > displays help text for subcommand (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli command --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli command --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > displays help text for subcommand 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli command --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli command --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined route, proposes similar alternative 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`commandx\`, did you mean \`command\`?[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`commandx\`, did you mean \`command\`?␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > fails for undefined route, with no ansi color 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-No command registered for \`undefined\`
-
+[stderr] No command registered for \`undefined\`
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > runs subcommand directly with no arguments 1`] = `
-ExitCode=Success
-:: STDOUT
 
-:: STDERR
-
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with allow-kebab-for-camel > fails for undefined route, proposes similar alternative 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`commandxyz\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`commandxyz\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > with current version as async callback > request current version (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with current version as async callback > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with current version as static string > request current version (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with current version as static string > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with custom distance threshold > fails for undefined route, proposes similar alternative 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`commandxyz\`, did you mean \`command\`?[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`commandxyz\`, did you mean \`command\`?␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > basic route map at root > with full description > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-
-This is a full description
-of this route map's behavior.
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]
+[stdout] This is a full description
+[stdout] of this route map's behavior.
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for root, warn on outdated version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-  cli --version
-
-root
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"␛[39m␛[22m
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] root
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > display help text for subcommand, warn on outdated version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli command --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"␛[39m␛[22m
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli command --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > and upgrade command > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"␛[39m␛[22m
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, do not skip check with env var set to 0 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-Latest available version is 1.1.0 (currently running 1.0.0)
-
+[stderr] Latest available version is 1.1.0 (currently running 1.0.0)
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, skip check with env var defined 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for root, warn on outdated version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-  cli --version
-
-root
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] root
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > display help text for subcommand, warn on outdated version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli command --help
-
-basic command
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli command --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with outdated version info > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
-
+[stderr] ␛[1m␛[33mLatest available version is 1.1.0 (currently running 1.0.0)␛[39m␛[22m
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with up-to-date version info > display help text for root, no warning 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-  cli --version
-
-root
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]   cli --version
+[stdout]
+[stdout] root
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-v␛[22m ␛[1m--version␛[22m  ␛[;;3mPrint version information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > basic route map at root > with up-to-date version info > request current version 1`] = `
-ExitCode=Success
-:: STDOUT
-1.0.0
-
-:: STDERR
-
+[stdout] 1.0.0
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > fails when context.forCommand throws error (without stack) 1`] = `
-ExitCode=ContextLoadError
-:: STDOUT
-
-:: STDERR
-[1m[31mUnable to load command context, Error: This function purposefully throws an error[39m[22m
+[stderr] ␛[1m␛[31mUnable to load command context, Error: This function purposefully throws an error␛[39m␛[22m
+::exit:: -3 (ContextLoadError)
 `;
 
 exports[`Application > run > fails when context.forCommand throws error 1`] = `
-ExitCode=ContextLoadError
-:: STDOUT
-
-:: STDERR
-[1m[31mUnable to load command context, Error: This function purposefully throws an error
-    at Object.forCommand (#/tests/application.spec.ts:?:?)
-    at runApplication (#/src/application/run.ts:?:?)
-    at run (#/src/index.ts:?:?)
-    at runWithInputs (#/tests/application.spec.ts:?:?)
-    at #/tests/application.spec.ts:?:?
+[stderr] ␛[1m␛[31mUnable to load command context, Error: This function purposefully throws an error
+[stderr]     at Object.forCommand (#/tests/application.spec.ts:?:?)
+[stderr]     at runApplication (#/src/application/run.ts:?:?)
+[stderr]     at run (#/src/index.ts:?:?)
+[stderr]     at runWithInputs (#/tests/application.spec.ts:?:?)
+[stderr]     at #/tests/application.spec.ts:?:?
+::exit:: -3 (ContextLoadError)
 `;
 
 exports[`Application > run > fails when context.forCommand throws error, with no ansi color 1`] = `
-ExitCode=ContextLoadError
-:: STDOUT
-
-:: STDERR
-Unable to load command context, Error: This function purposefully throws an error
-    at Object.forCommand (#/tests/application.spec.ts:?:?)
-    at runApplication (#/src/application/run.ts:?:?)
-    at run (#/src/index.ts:?:?)
-    at runWithInputs (#/tests/application.spec.ts:?:?)
-    at #/tests/application.spec.ts:?:?
+[stderr] Unable to load command context, Error: This function purposefully throws an error
+[stderr]     at Object.forCommand (#/tests/application.spec.ts:?:?)
+[stderr]     at runApplication (#/src/application/run.ts:?:?)
+[stderr]     at run (#/src/index.ts:?:?)
+[stderr]     at runWithInputs (#/tests/application.spec.ts:?:?)
+[stderr]     at #/tests/application.spec.ts:?:?
+::exit:: -3 (ContextLoadError)
 `;
 
 exports[`Application > run > fails when context.forCommand throws non-error 1`] = `
-ExitCode=ContextLoadError
-:: STDOUT
-
-:: STDERR
-[1m[31mUnable to load command context, This function purposefully throws an error[39m[22m
+[stderr] ␛[1m␛[31mUnable to load command context, This function purposefully throws an error␛[39m␛[22m
+::exit:: -3 (ContextLoadError)
 `;
 
 exports[`Application > run > loads text for context locale 1`] = `
-ExitCode=Success
-:: STDOUT
 
-:: STDERR
-
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > displays help text for nested route map (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command
-  cli sub --help
-
-sub
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command
+[stdout]   cli sub --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > displays help text for nested route map 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command
-  cli sub --help
-
-sub
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command
+[stdout]   cli sub --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map at root > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map at root > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli aliasFoo command
-  cli aliasFoo --help
-
-sub
-
-[4mALIASES[24m
-  cli sub
-  cli alias-bar
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli aliasFoo command
+[stdout]   cli aliasFoo --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli sub
+[stdout]   cli alias-bar
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli aliasFoo command
-  cli aliasFoo --help
-
-sub
-
-[4mALIASES[24m
-  cli sub
-  cli alias-bar
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli aliasFoo command
+[stdout]   cli aliasFoo --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli sub
+[stdout]   cli alias-bar
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli alias-foo command
-  cli alias-foo --help
-
-sub
-
-[4mALIASES[24m
-  cli sub
-  cli alias-bar
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli alias-foo command
+[stdout]   cli alias-foo --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli sub
+[stdout]   cli alias-bar
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map via route alias kebab-case version 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli alias-foo command
-  cli alias-foo --help
-
-sub
-
-[4mALIASES[24m
-  cli sub
-  cli alias-bar
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli alias-foo command
+[stdout]   cli alias-foo --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli sub
+[stdout]   cli alias-bar
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > displays help text for nested route map with route alias 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command
-  cli sub --help
-
-sub
-
-[4mALIASES[24m
-  cli alias-foo
-  cli alias-bar
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command
+[stdout]   cli sub --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli alias-foo
+[stdout]   cli alias-bar
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for alias-adjacent route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`aliasX\`, did you mean \`aliasBar\` or \`aliasFoo\`?[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`aliasX\`, did you mean \`aliasBar\` or \`aliasFoo\`?␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with camelCase route aliases at root > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > display help text for root including hidden 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli subHidden command ...
-  cli --help
-  cli --helpAll
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [2m-H[22m [2m--helpAll[22m  [2;3mPrint help information (including hidden commands/flags) and exit[22;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m        [;;3msub[;;;23m
-  [2msubHidden[22m  [2;3msubHidden[22;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli subHidden command ...
+[stdout]   cli --help
+[stdout]   cli --helpAll
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[2m-H␛[22m ␛[2m--helpAll␛[22m  ␛[2;3mPrint help information (including hidden commands/flags) and exit␛[22;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m        ␛[;;3msub␛[;;;23m
+[stdout]   ␛[2msubHidden␛[22m  ␛[2;3msubHidden␛[22;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli subHidden command
-  cli subHidden --help
-
-subHidden
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli subHidden command
+[stdout]   cli subHidden --help
+[stdout]
+[stdout] subHidden
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > displays help text for nested hidden route map 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli subHidden command
-  cli subHidden --help
-
-subHidden
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli subHidden command
+[stdout]   cli subHidden --help
+[stdout]
+[stdout] subHidden
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli -h
-  cli -H
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli -h
+[stdout]   cli -H
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli -h
-  cli -H
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli -h
+[stdout]   cli -H
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > display help text for root including hidden 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli subHidden command ...
-  cli -h
-  cli -H
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m        [;;3msub[;;;23m
-  [2msubHidden[22m  [2;3msubHidden[22;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli subHidden command ...
+[stdout]   cli -h
+[stdout]   cli -H
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m        ␛[;;3msub␛[;;;23m
+[stdout]   ␛[2msubHidden␛[22m  ␛[2;3msubHidden␛[22;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli subHidden command
-  cli subHidden -h
-  cli subHidden -H
-
-subHidden
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli subHidden command
+[stdout]   cli subHidden -h
+[stdout]   cli subHidden -H
+[stdout]
+[stdout] subHidden
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > displays help text for nested hidden route map 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli subHidden command
-  cli subHidden -h
-  cli subHidden -H
-
-subHidden
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli subHidden command
+[stdout]   cli subHidden -h
+[stdout]   cli subHidden -H
+[stdout]
+[stdout] subHidden
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-  cli --helpAll
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]   cli --helpAll
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-  cli --helpAll
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]   cli --helpAll
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > display help text for root including hidden 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli subHidden command ...
-  cli --help
-  cli --helpAll
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m        [;;3msub[;;;23m
-  [2msubHidden[22m  [2;3msubHidden[22;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli subHidden command ...
+[stdout]   cli --help
+[stdout]   cli --helpAll
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m        ␛[;;3msub␛[;;;23m
+[stdout]   ␛[2msubHidden␛[22m  ␛[2;3msubHidden␛[22;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli subHidden command
-  cli subHidden --help
-  cli subHidden --helpAll
-
-subHidden
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli subHidden command
+[stdout]   cli subHidden --help
+[stdout]   cli subHidden --helpAll
+[stdout]
+[stdout] subHidden
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > displays help text for nested hidden route map 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli subHidden command
-  cli subHidden --help
-  cli subHidden --helpAll
-
-subHidden
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
-  [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli subHidden command
+[stdout]   cli subHidden --help
+[stdout]   cli subHidden --helpAll
+[stdout]
+[stdout] subHidden
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m     ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]   ␛[1m-H␛[22m ␛[1m--helpAll␛[22m  ␛[;;3mPrint help information (including hidden commands/flags) and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with hidden routes, always show help-all > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > display help text for root (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command ...
-  cli --help
-
-root route map
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command ...
+[stdout]   cli --help
+[stdout]
+[stdout] root route map
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1msub␛[32m  ␛[;;3msub␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli alias command
-  cli alias --help
-
-sub
-
-[4mALIASES[24m
-  cli sub
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli alias command
+[stdout]   cli alias --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli sub
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map via route alias 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli alias command
-  cli alias --help
-
-sub
-
-[4mALIASES[24m
-  cli sub
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli alias command
+[stdout]   cli alias --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli sub
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > displays help text for nested route map with route alias 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli sub command
-  cli sub --help
-
-sub
-
-[4mALIASES[24m
-  cli alias
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli sub command
+[stdout]   cli sub --help
+[stdout]
+[stdout] sub
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli alias
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > fails for alias-adjacent route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`aliasX\`, did you mean \`alias\`?[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`aliasX\`, did you mean \`alias\`?␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > fails for undefined flag 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`--undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`--undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > nested basic route map with route alias at root > fails for undefined route 1`] = `
-ExitCode=UnknownCommand
-:: STDOUT
-
-:: STDERR
-[1m[31mNo command registered for \`undefined\`[39m[22m
-
+[stderr] ␛[1m␛[31mNo command registered for \`undefined\`␛[39m␛[22m
+::exit:: -5 (UnknownCommand)
 `;
 
 exports[`Application > run > route map with default command at root > display help text for root (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli default
-  cli alternate
-  cli --help
-
-route map with default command brief
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mdefault[32m    [;;3mbasic command[;;;23m
-  [1malternate[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli default
+[stdout]   cli alternate
+[stdout]   cli --help
+[stdout]
+[stdout] route map with default command brief
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mdefault␛[32m    ␛[;;3mbasic command␛[;;;23m
+[stdout]   ␛[1malternate␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli default
-  cli alternate
-  cli --help
-
-route map with default command brief
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mdefault[32m    [;;3mbasic command[;;;23m
-  [1malternate[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli default
+[stdout]   cli alternate
+[stdout]   cli --help
+[stdout]
+[stdout] route map with default command brief
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mdefault␛[32m    ␛[;;3mbasic command␛[;;;23m
+[stdout]   ␛[1malternate␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > displays help text for default command (with flag alias) 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli default
-  cli default --help
-
-basic command
-
-[4mALIASES[24m
-  cli 
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli default
+[stdout]   cli default --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > displays help text for default command 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli default
-  cli default --help
-
-basic command
-
-[4mALIASES[24m
-  cli 
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli default
+[stdout]   cli default --help
+[stdout]
+[stdout] basic command
+[stdout]
+[stdout] ␛[4mALIASES␛[24m
+[stdout]   cli
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > passes similar route as argument to default command 1`] = `
-ExitCode=InvalidArgument
-:: STDOUT
-
-:: STDERR
-[1m[31mToo many arguments, expected 0 but encountered "commandx"[39m[22m
-
+[stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "commandx"␛[39m␛[22m
+::exit:: -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > passes undefined flag to default command 1`] = `
-ExitCode=InvalidArgument
-:: STDOUT
-
-:: STDERR
-[1m[31mNo flag registered for --undefined[39m[22m
-
+[stderr] ␛[1m␛[31mNo flag registered for --undefined␛[39m␛[22m
+::exit:: -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > passes undefined route as argument to default command 1`] = `
-ExitCode=InvalidArgument
-:: STDOUT
-
-:: STDERR
-[1m[31mToo many arguments, expected 0 but encountered "undefined"[39m[22m
-
+[stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "undefined"␛[39m␛[22m
+::exit:: -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > runs default command (implicit) 1`] = `
-ExitCode=Success
-:: STDOUT
 
-:: STDERR
-
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > runs subcommand directly with alternate route name as argument 1`] = `
-ExitCode=InvalidArgument
-:: STDOUT
-
-:: STDERR
-[1m[31mToo many arguments, expected 0 but encountered "alternate"[39m[22m
-
+[stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "alternate"␛[39m␛[22m
+::exit:: -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > runs subcommand directly with default route name as argument 1`] = `
-ExitCode=InvalidArgument
-:: STDOUT
-
-:: STDERR
-[1m[31mToo many arguments, expected 0 but encountered "default"[39m[22m
-
+[stderr] ␛[1m␛[31mToo many arguments, expected 0 but encountered "default"␛[39m␛[22m
+::exit:: -4 (InvalidArgument)
 `;
 
 exports[`Application > run > route map with default command at root > runs subcommand directly with no arguments 1`] = `
-ExitCode=Success
-:: STDOUT
 
-:: STDERR
-
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > route map with default command at root > with full description > display help text for root 1`] = `
-ExitCode=Success
-:: STDOUT
-[4mUSAGE[24m
-  cli command
-  cli --help
-
-This is a full description
-of this route map's behavior.
-
-[4mFLAGS[24m
-  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
-
-[4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
-
-:: STDERR
-
+[stdout] ␛[4mUSAGE␛[24m
+[stdout]   cli command
+[stdout]   cli --help
+[stdout]
+[stdout] This is a full description
+[stdout] of this route map's behavior.
+[stdout]
+[stdout] ␛[4mFLAGS␛[24m
+[stdout]   ␛[1m-h␛[22m ␛[1m--help␛[22m  ␛[;;3mPrint help information and exit␛[;;;23m
+[stdout]
+[stdout] ␛[4mCOMMANDS␛[24m
+[stdout]   ␛[1mcommand␛[32m  ␛[;;3mbasic command␛[;;;23m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > runs command with original context 1`] = `
-ExitCode=Success
-:: STDOUT
 
-:: STDERR
-
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > uses default text when no text loaded for unsupported context locale 1`] = `
-ExitCode=Success
-:: STDOUT
-
-:: STDERR
-[1m[33mApplication does not support "other" locale, defaulting to "en"[39m[22m
-
+[stderr] ␛[1m␛[33mApplication does not support "other" locale, defaulting to "en"␛[39m␛[22m
+::exit:: 0 (Success)
 `;
 
 exports[`Application > run > uses default text when no text loaded for unsupported context locale, with no ansi color 1`] = `
-ExitCode=Success
-:: STDOUT
-
-:: STDERR
-Application does not support "other" locale, defaulting to "en"
-
+[stderr] Application does not support "other" locale, defaulting to "en"
+::exit:: 0 (Success)
 `;

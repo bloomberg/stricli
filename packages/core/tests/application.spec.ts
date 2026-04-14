@@ -20,7 +20,9 @@ import {
 } from "../src";
 import { buildFakeApplicationText } from "./fakes/config";
 import { buildFakeContext, type FakeContext } from "./fakes/context";
-import { runResultSerializer, documentedCommandArraySerializer } from "./snapshot-serializers";
+import type { FakeTerminal } from "./fakes/terminal";
+import runResultSerializer from "./serializers/run-result";
+import documentedCommandArraySerializer from "./serializers/documented-commands";
 
 // Register custom snapshot serializers
 expect.addSnapshotSerializer(runResultSerializer);
@@ -33,14 +35,14 @@ function testCompletions(app: Application<FakeContext>, inputs: string[], expect
             const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
             const completions = await proposeCompletions(app, inputs, context);
             expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+            expect(context.process.terminal).toMatchSnapshot();
         });
 
         it("dynamic context", async () => {
             const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
             const completions = await proposeCompletions(app, inputs, context);
             expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+            expect(context.process.terminal).toMatchSnapshot();
         });
 
         it("error loading context", async () => {
@@ -51,9 +53,7 @@ function testCompletions(app: Application<FakeContext>, inputs: string[], expect
                 colorDepth: void 0,
             });
             await proposeCompletions(app, inputs, context);
-            const completions = context.process.stdout.write.args.flat(2)[0]?.split("\n") ?? [];
-            expect(completions).to.have.deep.members([]);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+            expect(context.process.terminal).toMatchSnapshot();
         });
     });
 }
@@ -94,8 +94,7 @@ function buildBasicRouteMap(brief: string) {
 }
 
 export interface ApplicationRunResult {
-    readonly stdout: string;
-    readonly stderr: string;
+    readonly terminal: FakeTerminal;
     readonly exitCode: number | string | null | undefined;
 }
 
@@ -107,8 +106,7 @@ async function runWithInputs(
     const context = buildFakeContext(...args);
     await run(app, inputs, context);
     return {
-        stdout: context.process.stdout.write.args.map(([text]) => text).join(""),
-        stderr: context.process.stderr.write.args.map(([text]) => text).join(""),
+        terminal: context.process.terminal,
         exitCode: context.process.exitCode,
     };
 }

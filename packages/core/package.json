@@ -24,7 +24,7 @@
         "lint:fix": "eslint src tests --fix",
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "test": "vitest --run",
-        "test:update-snapshots": "vitest --run --update",
+        "test:update": "vitest --run --update",
         "coverage": "vitest --run --coverage.enabled",
         "build": "tsup --silent",
         "prepublishOnly": "npm run build"

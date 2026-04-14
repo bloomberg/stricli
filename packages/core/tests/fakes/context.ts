@@ -9,13 +9,10 @@ import type {
     StricliDynamicCommandContext,
     StricliProcess,
 } from "../../src";
+import { FakeTerminal } from "./terminal";
 
-interface FakeWritable {
-    readonly write: SinonStub<[string], void>;
-}
 interface FakeProcess extends StricliProcess {
-    readonly stdout: FakeWritable;
-    readonly stderr: FakeWritable;
+    readonly terminal: FakeTerminal;
     readonly exit: (code: number) => void;
 }
 
@@ -34,28 +31,12 @@ export interface FakeContextOptions {
 export function buildFakeContext(options: FakeContextOptions = { forCommand: true, colorDepth: 4 }): FakeContext {
     const colorDepth = options.colorDepth;
     let exitCode!: number;
+    const terminal = new FakeTerminal();
     const context: FakeContext = {
         process: {
-            stdout: {
-                write: stub(),
-                ...(colorDepth
-                    ? {
-                          getColorDepth() {
-                              return colorDepth;
-                          },
-                      }
-                    : {}),
-            },
-            stderr: {
-                write: stub(),
-                ...(colorDepth
-                    ? {
-                          getColorDepth() {
-                              return colorDepth;
-                          },
-                      }
-                    : {}),
-            },
+            terminal,
+            stdout: terminal.stdout({ colorDepth }),
+            stderr: terminal.stderr({ colorDepth }),
             env: options.env,
             exit: (code) => {
                 exitCode = code;
