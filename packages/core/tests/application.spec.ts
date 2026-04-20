@@ -6,12 +6,14 @@ import {
     buildApplication,
     buildCommand,
     buildRouteMap,
+    ExitCode,
     generateHelpTextForAllCommands,
     numberParser,
     proposeCompletions,
     run,
     text_en,
     type Application,
+    type ApplicationContext,
     type CommandContext,
     type DocumentedCommand,
     type InputCompletion,
@@ -1499,6 +1501,65 @@ describe("Application", () => {
 
             it("displays help text for nested hidden route map", async (context) => {
                 const result = await runWithInputs(app, ["subHidden", "--help"]);
+                expect(result).toMatchSnapshot();
+            });
+        });
+
+        describe("sets exit code", () => {
+            const echoExitCodeCommand = buildCommand({
+                func: function (this: ApplicationContext, { fail, exitCode }: { fail: boolean; exitCode: number }) {
+                    this.process.exitCode = exitCode;
+                    if (fail) {
+                        throw new Error(`Command failed with exit code ${exitCode}`);
+                    }
+                },
+                docs: {
+                    brief: "Echoes the provided exit code by setting it on the context's process",
+                },
+                parameters: {
+                    flags: {
+                        fail: {
+                            brief: "Whether to throw an error after setting the exit code",
+                            kind: "boolean",
+                            default: false,
+                        },
+                        exitCode: {
+                            kind: "parsed",
+                            brief: "Exit code to set",
+                            parse: numberParser,
+                        },
+                    },
+                },
+            });
+            const echoExitCodeApp = buildApplication(echoExitCodeCommand, {
+                name: "cli",
+                documentation: {
+                    alwaysShowHelpAllFlag: true,
+                    useAliasInUsageLine: true,
+                },
+            });
+
+            it("to Success when no error thrown", async (context) => {
+                const result = await runWithInputs(echoExitCodeApp, ["--exitCode", `${ExitCode.Success}`]);
+                expect(result).toMatchSnapshot();
+            });
+
+            it("to Success, even if error is thrown", async (context) => {
+                const result = await runWithInputs(echoExitCodeApp, ["--exitCode", `${ExitCode.Success}`, "--fail"]);
+                expect(result).toMatchSnapshot();
+            });
+
+            it("to CommandRunError when no error thrown", async (context) => {
+                const result = await runWithInputs(echoExitCodeApp, ["--exitCode", `${ExitCode.CommandRunError}`]);
+                expect(result).toMatchSnapshot();
+            });
+
+            it("to CommandRunError, even if error is thrown", async (context) => {
+                const result = await runWithInputs(echoExitCodeApp, [
+                    "--exitCode",
+                    `${ExitCode.CommandRunError}`,
+                    "--fail",
+                ]);
                 expect(result).toMatchSnapshot();
             });
         });

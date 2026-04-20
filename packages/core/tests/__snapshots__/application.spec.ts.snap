@@ -1809,6 +1809,50 @@ ExitCode=Success
 
 `;
 
+exports[`Application > run > sets exit code > to CommandRunError when no error thrown 1`] = `
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`Application > run > sets exit code > to CommandRunError, even if error is thrown 1`] = `
+ExitCode=CommandRunError
+:: STDOUT
+
+:: STDERR
+[1m[31mCommand failed, Error: Command failed with exit code 1
+    at Object.func (#/tests/application.spec.ts:?:?)
+    at runCommand (#/src/routing/command/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application.spec.ts:?:?)
+    at #/tests/application.spec.ts:?:?
+
+`;
+
+exports[`Application > run > sets exit code > to Success when no error thrown 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`Application > run > sets exit code > to Success, even if error is thrown 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+[1m[31mCommand failed, Error: Command failed with exit code 0
+    at Object.func (#/tests/application.spec.ts:?:?)
+    at runCommand (#/src/routing/command/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application.spec.ts:?:?)
+    at #/tests/application.spec.ts:?:?
+
+`;
+
 exports[`Application > run > uses default text when no text loaded for unsupported context locale 1`] = `
 ExitCode=Success
 :: STDOUT
