@@ -21,14 +21,13 @@ jobs:
         permissions:
             id-token: write # needed for provenance data generation
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
               with:
                   fetch-depth: 0
                   fetch-tags: true
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
-                  node-version: 22
                   cache: "npm"
                   registry-url: "https://registry.npmjs.org/"
 
@@ -37,7 +36,7 @@ jobs:
               run: npm install -g npm@latest
 
             - run: npm ci --legacy-peer-deps
-            - uses: nrwl/nx-set-shas@v4
+            - uses: nrwl/nx-set-shas@v5
 
             - run: npx nx release publish ${{ inputs.dry-run == 'true' && '--dry-run' || '' }}
               env:
