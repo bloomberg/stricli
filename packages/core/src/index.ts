@@ -78,7 +78,7 @@ export async function run<CONTEXT extends CommandContext>(
 ): Promise<void> {
     const exitCode = await runApplication(app, inputs, context);
 
-    // We set the exit code instead of calling exit() so as not
-    // to cancel any pending tasks (e.g. stdout writes)
-    context.process.exitCode = exitCode;
+    // Update exit code to indicate failure without immediately exiting,
+    // only if it hasn't already been set by the application itself.
+    context.process.exitCode ??= exitCode;
 }
