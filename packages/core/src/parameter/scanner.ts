@@ -19,7 +19,7 @@ import type {
 } from "./flag/types";
 import { looseBooleanParser } from "./parser/boolean";
 import { numberParser } from "./parser/number";
-import type { BaseArgs, PositionalParameter } from "./positional/types";
+import type { BaseArgs, BaseEnumPositionalParameter, PositionalParameter } from "./positional/types";
 import type {
     Aliases,
     AvailableAlias,
@@ -142,7 +142,9 @@ export class AliasNotFoundError extends ArgumentScannerError {
 
 export type Placeholder = string & { readonly __Placeholder: unique symbol };
 
-function getPlaceholder(param: PositionalParameter, index?: number): Placeholder {
+type PlaceholderSource = PositionalParameter | BaseEnumPositionalParameter<string>;
+
+function getPlaceholder(param: PlaceholderSource, index?: number): Placeholder {
     if (param.placeholder) {
         return param.placeholder as Placeholder;
     }
@@ -805,7 +807,12 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 storeInput(flagInputs, config.caseStyle, activeFlag, input);
                 activeFlag = void 0;
             } else {
-                if (positional.kind === "tuple") {
+                if (positional.kind === "enum") {
+                    // Enum positionals only accept a single value
+                    if (positionalIndex >= 1) {
+                        throw new UnexpectedPositionalError(1, input);
+                    }
+                } else if (positional.kind === "tuple") {
                     if (positionalIndex >= positional.parameters.length) {
                         throw new UnexpectedPositionalError(positional.parameters.length, input);
                     }
@@ -822,7 +829,56 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             const errors: ArgumentScannerError[] = [];
 
             let positionalValues_p: Promise<PromiseSettledOrElseResult<ARGS>>;
-            if (positional.kind === "array") {
+            if (positional.kind === "enum") {
+                // Handle enum positional parameter
+                const placeholder = getPlaceholder(positional);
+                const input = positionalInputs[0];
+                if (input === undefined) {
+                    // No input provided
+                    if (typeof positional.default === "string") {
+                        // Validate default value
+                        if (!positional.values.includes(positional.default)) {
+                            const corrections = filterClosestAlternatives(
+                                positional.default,
+                                positional.values,
+                                config.distanceOptions,
+                            );
+                            throw new EnumValidationError(
+                                placeholder as unknown as ExternalFlagName,
+                                positional.default,
+                                positional.values,
+                                corrections,
+                            );
+                        }
+                        positionalValues_p = Promise.resolve({
+                            status: "fulfilled",
+                            value: [positional.default],
+                        }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
+                    } else if (positional.optional) {
+                        positionalValues_p = Promise.resolve({
+                            status: "fulfilled",
+                            value: [undefined],
+                        }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
+                    } else {
+                        throw new UnsatisfiedPositionalError(placeholder);
+                    }
+                } else {
+                    // Validate input value
+                    if (!positional.values.includes(input)) {
+                        const corrections = filterClosestAlternatives(input, positional.values, config.distanceOptions);
+                        throw new EnumValidationError(
+                            placeholder as unknown as ExternalFlagName,
+                            input,
+                            positional.values,
+                            corrections,
+                        );
+                    }
+                    positionalValues_p = Promise.resolve({
+                        status: "fulfilled",
+                        value: [input],
+                    }) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
+                }
+            } else if (positional.kind === "array") {
                 if (typeof positional.minimum === "number" && positionalIndex < positional.minimum) {
                     errors.push(
                         new UnsatisfiedPositionalError(getPlaceholder(positional.parameter), [
@@ -836,10 +892,10 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const placeholder = getPlaceholder(positional.parameter, i + 1);
                         return parseInput(placeholder, positional.parameter, input, context);
                     }),
-                ) as Promise<PromiseSettledOrElseResult<ARGS>>;
+                ) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
             } else {
                 positionalValues_p = allSettledOrElse(
-                    positional.parameters.map(async (param, i) => {
+                    positional.parameters.map(async (param: PositionalParameter, i: number) => {
                         const placeholder = getPlaceholder(param, i + 1);
                         const input = positionalInputs[i];
                         if (typeof input !== "string") {
@@ -853,7 +909,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         }
                         return parseInput(placeholder, param, input, context);
                     }),
-                ) as Promise<PromiseSettledOrElseResult<ARGS>>;
+                ) as unknown as Promise<PromiseSettledOrElseResult<ARGS>>;
             }
 
             if (activeFlag && activeFlag[1].kind === "parsed" && activeFlag[1].inferEmpty) {
@@ -1012,7 +1068,20 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                     );
                 }
             }
-            if (positional.kind === "array") {
+            if (positional.kind === "enum") {
+                // Provide enum values as completions only if positional not yet satisfied
+                if (positionalIndex === 0) {
+                    completions.push(
+                        ...positional.values.map<ArgumentCompletion>((value: string) => {
+                            return {
+                                kind: "argument:value",
+                                completion: value,
+                                brief: positional.brief,
+                            };
+                        }),
+                    );
+                }
+            } else if (positional.kind === "array") {
                 if (positional.parameter.proposeCompletions) {
                     if (typeof positional.maximum !== "number" || positionalIndex < positional.maximum) {
                         const positionalCompletions = await positional.parameter.proposeCompletions.call(
@@ -1020,7 +1089,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                             partial,
                         );
                         completions.push(
-                            ...positionalCompletions.map<ArgumentCompletion>((value) => {
+                            ...positionalCompletions.map<ArgumentCompletion>((value: string) => {
                                 return {
                                     kind: "argument:value",
                                     completion: value,
@@ -1035,7 +1104,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 if (nextPositional?.proposeCompletions) {
                     const positionalCompletions = await nextPositional.proposeCompletions.call(context, partial);
                     completions.push(
-                        ...positionalCompletions.map<ArgumentCompletion>((value) => {
+                        ...positionalCompletions.map<ArgumentCompletion>((value: string) => {
                             return {
                                 kind: "argument:value",
                                 completion: value,

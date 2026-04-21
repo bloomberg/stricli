@@ -224,4 +224,90 @@ describe("formatDocumentationForPositionalParameters", () => {
 
         compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
     });
+
+    describe("required enum positional parameter", () => {
+        // GIVEN
+        const positional: PositionalParameters = {
+            kind: "enum",
+            values: ["small", "medium", "large"] as const,
+            brief: "Size selection",
+            placeholder: "size",
+        };
+
+        compareDocumentationToBaseline(positional, defaultArgs);
+    });
+
+    describe("optional enum positional parameter", () => {
+        // GIVEN
+        const positional: PositionalParameters = {
+            kind: "enum",
+            values: ["small", "medium", "large"] as const,
+            brief: "Size selection",
+            placeholder: "size",
+            optional: true,
+        };
+
+        compareDocumentationToBaseline(positional, defaultArgs);
+    });
+
+    describe("enum positional parameter with default", () => {
+        // GIVEN
+        const positional: PositionalParameters = {
+            kind: "enum",
+            values: ["small", "medium", "large"] as const,
+            brief: "Size selection",
+            placeholder: "size",
+            default: "medium",
+        };
+
+        compareDocumentationToBaseline(positional, defaultArgs);
+    });
+
+    describe("enum positional parameter with default, with alt text", () => {
+        // GIVEN
+        const positional: PositionalParameters = {
+            kind: "enum",
+            values: ["small", "medium", "large"] as const,
+            brief: "Size selection",
+            placeholder: "size",
+            default: "medium",
+        };
+
+        compareDocumentationToBaseline(positional, {
+            ...defaultArgs,
+            text: {
+                ...defaultArgs.text,
+                keywords: {
+                    ...defaultArgs.text.keywords,
+                    default: "def =",
+                },
+            },
+        });
+    });
+
+    describe("optional enum positional parameter with default", () => {
+        // GIVEN
+        const positional: PositionalParameters = {
+            kind: "enum",
+            values: ["small", "medium", "large"] as const,
+            brief: "Size selection",
+            placeholder: "size",
+            optional: true,
+            default: "medium",
+        };
+
+        compareDocumentationToBaseline(positional, defaultArgs);
+    });
+
+    describe("enum positional with multi-word values", () => {
+        // GIVEN
+        const positional: PositionalParameters = {
+            kind: "enum",
+            values: ["build-only", "test-only", "all"] as const,
+            brief: "Operation mode",
+            placeholder: "mode",
+        };
+
+        compareDocumentationToBaseline(positional, defaultArgs);
+    });
 });

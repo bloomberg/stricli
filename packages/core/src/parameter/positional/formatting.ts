@@ -11,6 +11,21 @@ export function formatDocumentationForPositionalParameters(
     positional: PositionalParameters,
     args: Pick<HelpFormattingArguments, "config" | "text" | "ansiColor">,
 ): readonly string[] {
+    if (positional.kind === "enum") {
+        const name = positional.placeholder ?? "arg";
+        const enumValues = `(${positional.values.join("|")})`;
+        const suffixParts: string[] = [enumValues];
+        if (positional.default) {
+            const defaultKeyword = args.ansiColor
+                ? `\x1B[90m${args.text.keywords.default}\x1B[39m`
+                : args.text.keywords.default;
+            suffixParts.push(`${defaultKeyword} ${positional.default}`);
+        }
+        const suffix = positional.optional ? `[${suffixParts.join(", ")}]` : suffixParts.join(", ");
+        const argName = args.ansiColor ? `\x1B[97m${name}\x1B[39m` : name;
+        const brief = args.ansiColor ? `\x1B[3m${positional.brief}\x1B[23m` : positional.brief;
+        return formatRowsWithColumns([[argName + " " + suffix, brief]], ["  "]);
+    }
     if (positional.kind === "array") {
         const name = positional.parameter.placeholder ?? "args";
         const argName = args.ansiColor ? `\x1B[1m${name}...\x1B[22m` : `${name}...`;
@@ -18,9 +33,9 @@ export function formatDocumentationForPositionalParameters(
         return formatRowsWithColumns([[argName, brief]], ["  "]);
     }
     const { keywords } = args.text;
-    const atLeastOneOptional = positional.parameters.some((def) => def.optional);
+    const atLeastOneOptional = positional.parameters.some((def: PositionalParameter) => def.optional);
     return formatRowsWithColumns(
-        positional.parameters.map((def: PositionalParameter, i) => {
+        positional.parameters.map((def: PositionalParameter, i: number) => {
             let name = def.placeholder ?? `arg${i + 1}`;
             let suffix: string | undefined;
             if (def.optional) {

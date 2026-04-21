@@ -91,12 +91,31 @@ export function formatUsageLineForParameters(parameters: CommandParameters, args
     if (positional) {
         if (positional.kind === "array") {
             positionalUsage = [wrapVariadicParameter(positional.parameter.placeholder ?? "args")];
+        } else if (positional.kind === "enum") {
+            if (
+                args.config.onlyRequiredInUsageLine &&
+                (positional.optional || typeof positional.default !== "undefined")
+            ) {
+                // Skip optional enum positionals when onlyRequiredInUsageLine is true
+                positionalUsage = [];
+            } else {
+                const argName = positional.placeholder ?? "arg";
+                const suffix = `(${positional.values.join("|")})`;
+                const isOptional = positional.optional || typeof positional.default !== "undefined";
+                positionalUsage = [
+                    isOptional
+                        ? wrapOptionalParameter(argName + " " + suffix)
+                        : wrapRequiredParameter(argName + " " + suffix),
+                ];
+            }
         } else {
             let parameters = positional.parameters;
             if (args.config.onlyRequiredInUsageLine) {
-                parameters = parameters.filter((param) => !param.optional && typeof param.default === "undefined");
+                parameters = parameters.filter(
+                    (param: PositionalParameter) => !param.optional && typeof param.default === "undefined",
+                );
             }
-            positionalUsage = parameters.map((param: PositionalParameter, i) => {
+            positionalUsage = parameters.map((param: PositionalParameter, i: number) => {
                 const argName = param.placeholder ?? `arg${i + 1}`;
                 return param.optional || typeof param.default !== "undefined"
                     ? wrapOptionalParameter(argName)
