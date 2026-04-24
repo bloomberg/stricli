@@ -24,6 +24,10 @@ The text for an application is composed of several static values and several dyn
 
 The following are brief descriptions of all of the dynamic functions that accept some arguments and output a string to be printed to stderr. All of these have default implementations in the included `en` text.
 
+-   `formatException` (optional)
+
+    -   This function is used to format any exception that is thrown during the loading or running of a command. It is used to generate the `{formattedException}` value that is passed to several of the error functions described below. If this function is not provided, Stricli will attempt to use the stack trace of the exception if it exists, and if not it will just convert the exception to a string.
+
 -   `currentVersionIsNotLatest`
 
     -   Default: `Latest available version is {latestVersion} (currently running {currentVersion})`
