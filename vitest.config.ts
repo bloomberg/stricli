@@ -5,7 +5,13 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
     test: {
         include: ["tests/**/*.spec.ts"],
+        typecheck: {
+            enabled: true,
+        },
         coverage: {
+            exclude: [
+                "tests/**/*.ts",
+            ],
             provider: "v8",
             thresholds: {
                 "100": true,
