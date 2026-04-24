@@ -1,0 +1,164 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`generateHelpTextForAllCommands > command at root 1`] = `
+:: cli
+USAGE
+  cli
+  cli --help
+  cli --version
+
+command brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > command at root, with alternate locale 1`] = `
+:: cli
+USAGE
+  cli
+  cli -h
+
+command brief
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > command at root, with usage config 1`] = `
+:: cli
+USAGE
+  cli
+  cli -h
+  cli -v
+
+command brief
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > multiple commands at different levels 1`] = `
+:: cli sub command
+USAGE
+  cli sub command
+  cli sub command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: cli command
+USAGE
+  cli command
+  cli command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > nested command, with aliases 1`] = `
+:: cli sub
+USAGE
+  cli sub
+  cli sub --help
+
+basic command
+
+ALIASES
+  cli alias1
+  cli alias2
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > nested commands 1`] = `
+:: cli sub1
+USAGE
+  cli sub1
+  cli sub1 --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: cli sub2
+USAGE
+  cli sub2
+  cli sub2 --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > nested commands, with aliases 1`] = `
+:: cli sub1
+USAGE
+  cli sub1
+  cli sub1 --help
+
+basic command
+
+ALIASES
+  cli alias1
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: cli sub2
+USAGE
+  cli sub2
+  cli sub2 --help
+
+basic command
+
+ALIASES
+  cli alias2
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > nested route map 1`] = `
+:: cli sub command
+USAGE
+  cli sub command
+  cli sub command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;
+
+exports[`generateHelpTextForAllCommands > nested route map skips hidden routes 1`] = `[]`;
+
+exports[`generateHelpTextForAllCommands > route map at root 1`] = `
+:: cli command
+USAGE
+  cli command
+  cli command --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+`;

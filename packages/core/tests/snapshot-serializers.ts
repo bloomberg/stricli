@@ -6,7 +6,6 @@ import url from "node:url";
 import type { SnapshotSerializer } from "vitest";
 import { ExitCode, type DocumentedCommand } from "../src";
 import type { CommandRunResult } from "./routing/command.spec";
-import type { ApplicationRunResult } from "./application.spec";
 
 const repoRootUrl = new url.URL("..", import.meta.url);
 const repoRootPath = url.fileURLToPath(repoRootUrl);
@@ -44,6 +43,12 @@ function serializeExitCode(exitCode: number | string | null | undefined): string
         return `Unknown(${exitCode})`;
     }
     return "<<No exit code specified>>";
+}
+
+export interface ApplicationRunResult {
+    readonly stdout: string;
+    readonly stderr: string;
+    readonly exitCode: number | string | null | undefined;
 }
 
 // Serializer for CommandRunResult and ApplicationRunResult
