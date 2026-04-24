@@ -9,13 +9,14 @@ import { filterClosestAlternatives } from "../util/distance";
 import { InternalError } from "../util/error";
 import { joinWithGrammar } from "../util/formatting";
 import { allSettledOrElse, type PromiseSettledOrElseResult } from "../util/promise";
-import type {
-    BaseEnumFlagParameter,
-    BaseParsedFlagParameter,
-    BooleanFlagParameter,
-    CounterFlagParameter,
-    FlagParameter,
-    FlagParameters,
+import {
+    hasDefault,
+    type BaseEnumFlagParameter,
+    type BaseParsedFlagParameter,
+    type BooleanFlagParameter,
+    type CounterFlagParameter,
+    type FlagParameter,
+    type FlagParameters,
 } from "./flag/types";
 import { looseBooleanParser } from "./parser/boolean";
 import { numberParser } from "./parser/number";
@@ -525,32 +526,37 @@ async function parseInputsForFlag<CONTEXT extends CommandContext>(
     context: CONTEXT,
 ): Promise<unknown> {
     if (!inputs) {
-        if ("default" in flag && typeof flag.default !== "undefined") {
-            if (flag.kind === "boolean") {
-                return flag.default;
-            }
-            if (flag.kind === "enum") {
-                // Handle variadic enum defaults
-                if ("variadic" in flag && flag.variadic && Array.isArray(flag.default)) {
-                    // Validate all default values
-                    const defaultArray = flag.default as readonly string[];
-                    for (const value of defaultArray) {
-                        if (!flag.values.includes(value)) {
-                            const corrections = filterClosestAlternatives(value, flag.values, config.distanceOptions);
-                            throw new EnumValidationError(externalFlagName, value, flag.values, corrections);
-                        }
-                    }
-                    return flag.default;
+        if (hasDefault(flag)) {
+            const defaultValue = await (typeof flag.default === "object" && "load" in flag.default ? flag.default.load.call(context) : flag.default);
+            if (typeof defaultValue !== "undefined") {
+                if (flag.kind === "boolean") {
+                    return defaultValue;
                 }
-                return flag.default;
+                if (flag.kind === "enum") {
+                    // Handle variadic enum defaults
+                    if ("variadic" in flag && flag.variadic && Array.isArray(defaultValue)) {
+                        // Validate all default values
+                        for (const value of defaultValue) {
+                            if (!flag.values.includes(value)) {
+                                const corrections = filterClosestAlternatives(value, flag.values, config.distanceOptions);
+                                throw new EnumValidationError(externalFlagName, value, flag.values, corrections);
+                            }
+                        }
+                        return defaultValue;
+                    }
+                    if (!flag.values.includes(defaultValue as string)) {
+                        const corrections = filterClosestAlternatives(defaultValue as string, flag.values, config.distanceOptions);
+                        throw new EnumValidationError(externalFlagName, defaultValue as string, flag.values, corrections);
+                    }
+                    return defaultValue;
+                }
+                // Handle variadic parsed defaults
+                if ("variadic" in flag && flag.variadic && Array.isArray(defaultValue)) {
+                    return Promise.all(defaultValue.map((input) => parseInput(externalFlagName, flag, input, context)));
+                }
+                // At this point, default must be a string (not an array)
+                return parseInput(externalFlagName, flag as ParsedParameter<unknown, CONTEXT>, defaultValue as string, context);
             }
-            // Handle variadic parsed defaults
-            if ("variadic" in flag && flag.variadic && Array.isArray(flag.default)) {
-                const defaultArray = flag.default as readonly string[];
-                return Promise.all(defaultArray.map((input) => parseInput(externalFlagName, flag, input, context)));
-            }
-            // At this point, default must be a string (not an array)
-            return parseInput(externalFlagName, flag, flag.default as string, context);
         }
         if (flag.optional) {
             return;

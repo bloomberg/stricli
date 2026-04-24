@@ -1,7 +1,8 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-
 import { looseBooleanParser } from "./parameter/parser/boolean";
+
+export type EnvironmentVariables = Readonly<Partial<Record<string, string>>>;
 
 /**
  * Minimal expected interface for an output stream; used to narrow the types of NodeJS's stdout/stderr.
@@ -15,7 +16,7 @@ export interface Writable {
      * Determine the available color depth of the underlying stream.
      * Environment variables are also provided to control or suppress color output.
      */
-    readonly getColorDepth?: (env?: Readonly<Partial<Record<string, string>>>) => number;
+    readonly getColorDepth?: (env?: EnvironmentVariables) => number;
 }
 
 interface WritableStreams {
@@ -30,14 +31,6 @@ interface WritableStreams {
 }
 
 /**
- * Command-level context that provides necessary process information and is available to all command runs.
- * This type should be extended to include context specific to your command implementations.
- */
-export interface CommandContext {
-    readonly process: WritableStreams;
-}
-
-/**
  * Simple interface that mirrors NodeJS.Process but only requires the minimum API required by Stricli.
  */
 export interface StricliProcess extends WritableStreams {
@@ -46,11 +39,19 @@ export interface StricliProcess extends WritableStreams {
      *
      * @see {@link EnvironmentVariableName} for variable names used by Stricli.
      */
-    readonly env?: Readonly<Partial<Record<string, string>>>;
+    readonly env?: EnvironmentVariables;
     /**
      * A number which will be the process exit code.
      */
     exitCode?: number | string | null;
+}
+
+/**
+ * Command-level context that provides necessary process information and is available to all command runs.
+ * This type should be extended to include context specific to your command implementations.
+ */
+export interface CommandContext {
+    readonly process: StricliProcess;
 }
 
 /**

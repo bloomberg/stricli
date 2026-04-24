@@ -59,20 +59,24 @@ export function formatDocumentationForFlagParameters(
         }
         if (hasDefault(flag)) {
             const defaultKeyword = args.ansiColor ? `\x1B[2m${keywords.default}\x1B[22m` : keywords.default;
-            let defaultValue: string;
-            if (Array.isArray(flag.default)) {
-                // Format array defaults
-                if (flag.default.length === 0) {
-                    defaultValue = "[]";
-                } else {
-                    // Use custom separator if provided, otherwise use space
-                    const separator = "variadic" in flag && typeof flag.variadic === "string" ? flag.variadic : " ";
-                    defaultValue = flag.default.join(separator);
-                }
+            if (typeof flag.default === "object" && "load" in flag.default) {
+                suffixParts.push(`${defaultKeyword} ${flag.default.brief}`);
             } else {
-                defaultValue = flag.default === "" ? `""` : String(flag.default);
+                let defaultValue: string;
+                if (Array.isArray(flag.default)) {
+                    // Format array defaults
+                    if (flag.default.length === 0) {
+                        defaultValue = "[]";
+                    } else {
+                        // Use custom separator if provided, otherwise use space
+                        const separator = "variadic" in flag && typeof flag.variadic === "string" ? flag.variadic : " ";
+                        defaultValue = flag.default.join(separator);
+                    }
+                } else {
+                    defaultValue = flag.default === "" ? `""` : String(flag.default);
+                }
+                suffixParts.push(`${defaultKeyword} ${defaultValue}`);
             }
-            suffixParts.push(`${defaultKeyword} ${defaultValue}`);
         }
         if ("variadic" in flag && typeof flag.variadic === "string") {
             const separatorKeyword = args.ansiColor ? `\x1B[2m${keywords.separator}\x1B[22m` : keywords.separator;

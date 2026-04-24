@@ -23,6 +23,21 @@ export interface ParsedParameter<T, CONTEXT extends CommandContext> {
     readonly proposeCompletions?: (this: CONTEXT, partial: string) => readonly string[] | Promise<readonly string[]>;
 }
 
+export interface DefaultValueLoader<T> {
+    /**
+     * In-line documentation that describes the source of this default value in generated usage lines.
+     */
+    readonly brief: string;
+    /**
+     * Function that asynchronously loads a default value for this flag at runtime.
+     */
+    readonly load: (this: CommandContext) => T | Promise<T>;
+}
+
+export type RequiredDefaultValue<T> = T | DefaultValueLoader<T>;
+
+export type PossibleDefaultValue<T> = T | DefaultValueLoader<T | undefined> | undefined;
+
 type LowercaseLetter =
     | "a"
     | "b"

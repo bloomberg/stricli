@@ -1,7 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import type { CommandContext } from "../../context";
-import type { ParsedParameter } from "../types";
+import type { RequiredDefaultValue, ParsedParameter, PossibleDefaultValue } from "../types";
 
 interface BaseFlagParameter {
     /**
@@ -25,7 +25,7 @@ interface BaseBooleanFlagParameter extends BaseFlagParameter {
      *
      * If no value is provided, boolean flags default to `false`.
      */
-    readonly default?: boolean;
+    readonly default?: PossibleDefaultValue<boolean>;
     /**
      * Whether to generate a negated version of this flag (e.g., `--no-foo` for `--foo`).
      *
@@ -53,7 +53,7 @@ type RequiredBooleanFlagParameter = BaseBooleanFlagParameter & {
               /**
                * Default input value if one is not provided at runtime.
                */
-              readonly default: boolean;
+              readonly default: RequiredDefaultValue<boolean>;
               /**
                * Parameter should be hidden from all help text and proposed completions.
                * Only available for runtime-optional parameters.
@@ -72,11 +72,6 @@ interface OptionalBooleanFlagParameter extends BaseBooleanFlagParameter {
      * Only available for optional parameters.
      */
     readonly hidden?: boolean;
-    /**
-     * Optional parameters should not have default values.
-     * This flag should be required if a value will always be provided.
-     */
-    readonly default?: undefined;
 }
 
 export type BooleanFlagParameter = RequiredBooleanFlagParameter | OptionalBooleanFlagParameter;
@@ -127,7 +122,7 @@ export interface BaseEnumFlagParameter<T extends string> extends BaseFlagParamet
      * Default input value if one is not provided at runtime.
      * For variadic flags, this can be an array of default values.
      */
-    readonly default?: T | readonly T[];
+    readonly default?: PossibleDefaultValue<T | readonly T[]>;
     readonly optional?: boolean;
     readonly hidden?: boolean;
     readonly variadic?: boolean | string;
@@ -169,7 +164,7 @@ interface OptionalVariadicEnumFlagParameter<T extends string> extends BaseEnumFl
      * Default values to use if no arguments are provided at runtime.
      * Values must be valid members of the enum values array.
      */
-    readonly default?: readonly T[];
+    readonly default?: PossibleDefaultValue<readonly T[]>;
     /**
      * Optional variadic parameter will parse to an empty array if no arguments are found.
      */
@@ -194,7 +189,7 @@ interface RequiredVariadicEnumFlagParameter<T extends string> extends BaseEnumFl
      * Values must be valid members of the enum values array.
      * If a default is provided, the parameter becomes optional at runtime.
      */
-    readonly default?: readonly T[];
+    readonly default?: RequiredDefaultValue<readonly T[]>;
     /**
      * Parameter is required and cannot be set as optional.
      * Expects at least one value to be satisfied.
@@ -225,7 +220,7 @@ export interface BaseParsedFlagParameter<T, CONTEXT extends CommandContext>
      * Default input value if one is not provided at runtime.
      * For variadic flags, this can be an array of input strings to be parsed.
      */
-    readonly default?: string | readonly string[];
+    readonly default?: PossibleDefaultValue<string | readonly string[]>;
     /**
      * If flag is specified with no corresponding input, infer an empty string `""` as the input.
      */
@@ -255,7 +250,7 @@ type RequiredParsedFlagParameter<T, CONTEXT extends CommandContext> = BaseParsed
               /**
                * Default input value if one is not provided at runtime.
                */
-              readonly default: string;
+              readonly default: RequiredDefaultValue<string>;
               /**
                * Parameter should be hidden from all help text and proposed completions.
                * Only available for runtime-optional parameters.
@@ -269,11 +264,6 @@ interface OptionalParsedFlagParameter<T, CONTEXT extends CommandContext> extends
      * Parameter is optional and must be specified as such.
      */
     readonly optional: true;
-    /**
-     * Optional parameters should not have default values.
-     * This flag should be required if a value will always be provided.
-     */
-    readonly default?: undefined;
     /**
      * Parameter does not extend array and cannot be set as variadic.
      */
@@ -303,7 +293,7 @@ interface OptionalVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
      * Default input values to parse if no arguments are provided at runtime.
      * These will be parsed using the flag's parse function.
      */
-    readonly default?: readonly string[];
+    readonly default?: PossibleDefaultValue<readonly string[]>;
 }
 
 interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
@@ -326,7 +316,7 @@ interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
      * These will be parsed using the flag's parse function.
      * If a default is provided, the parameter becomes optional at runtime.
      */
-    readonly default?: readonly string[];
+    readonly default?: RequiredDefaultValue<readonly string[]>;
 }
 
 type TypedFlagParameter_Optional<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer A)[]]
@@ -393,7 +383,7 @@ export type FlagParameters<CONTEXT extends CommandContext = CommandContext> = Re
 
 export function hasDefault<CONTEXT extends CommandContext>(
     flag: FlagParameter<CONTEXT>,
-): flag is FlagParameter<CONTEXT> & { default: string | boolean | readonly string[] } {
+): flag is FlagParameter<CONTEXT> & { default: PossibleDefaultValue<string | boolean | readonly string[]> } {
     return "default" in flag && typeof flag.default !== "undefined";
 }
 
