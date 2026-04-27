@@ -1,6 +1,8 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 
+import { looseBooleanParser } from "./parameter/parser/boolean";
+
 /**
  * Minimal expected interface for an output stream; used to narrow the types of NodeJS's stdout/stderr.
  */
@@ -64,7 +66,7 @@ export type EnvironmentVariableName = "STRICLI_SKIP_VERSION_CHECK" | "STRICLI_NO
  */
 export function checkEnvironmentVariable(process: StricliProcess, varName: EnvironmentVariableName): boolean {
     const value = process.env?.[varName];
-    return typeof value === "string" && value !== "0";
+    return typeof value === "string" && looseBooleanParser(value);
 }
 
 /**
