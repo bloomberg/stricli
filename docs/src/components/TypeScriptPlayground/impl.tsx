@@ -97,7 +97,6 @@ export default function TypeScriptPlayground({
 
     const afterMount = useCallback<OnMount>(
         (editor, monaco: Monaco) => {
-            console.log("afterMount");
             editorRef.current = editor;
             monacoRef.current = monaco;
             const uris: Uri[] = [];
