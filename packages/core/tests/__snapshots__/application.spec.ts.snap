@@ -407,6 +407,25 @@ Latest available version is 1.1.0 (currently running 1.0.0)
 
 `;
 
+exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to yes 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
 exports[`Application > run > basic command at root > with outdated version info (as static string) > display help text for root, warn on outdated version, no ansi color with env var 1`] = `
 ExitCode=Success
 :: STDOUT
@@ -727,6 +746,15 @@ ExitCode=Success
 
 :: STDERR
 Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`Application > run > basic route map at root > with outdated version info > display help text for root, do not skip check with env var set to yes 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
 
 `;
 

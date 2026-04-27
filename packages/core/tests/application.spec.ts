@@ -544,6 +544,16 @@ describe("Application", () => {
                     expect(result).toMatchSnapshot();
                 });
 
+                it("display help text for root, warn on outdated version, ansi color with env var set to yes", async (context) => {
+                    const result = await runWithInputs(appWithOutdatedVersion, ["--help"], {
+                        colorDepth: void 0,
+                        env: {
+                            STRICLI_NO_COLOR: "yes",
+                        },
+                    });
+                    expect(result).toMatchSnapshot();
+                });
+
                 it("request current version", async (context) => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
                     expect(result).toMatchSnapshot();
@@ -766,6 +776,15 @@ describe("Application", () => {
                     const result = await runWithInputs(appWithOutdatedVersion, ["--version"], {
                         env: {
                             STRICLI_SKIP_VERSION_CHECK: "0",
+                        },
+                    });
+                    expect(result).toMatchSnapshot();
+                });
+
+                it("display help text for root, do not skip check with env var set to yes", async (context) => {
+                    const result = await runWithInputs(appWithOutdatedVersion, ["--version"], {
+                        env: {
+                            STRICLI_SKIP_VERSION_CHECK: "yes",
                         },
                     });
                     expect(result).toMatchSnapshot();
