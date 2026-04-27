@@ -171,9 +171,7 @@ export default function StricliPlayground({
                         finalInput = "";
                         argv.push("");
                     }
-                    console.log("completeInput", argv);
                     const completions = await proposeCompletions(loadedApp, argv);
-                    console.log("completions", completions);
                     if (finalInput === "") {
                         return completions.map((completion) => `${input}${completion}`);
                     }
