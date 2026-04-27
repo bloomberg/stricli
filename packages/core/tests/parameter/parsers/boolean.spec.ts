@@ -56,6 +56,7 @@ describe("loose boolean parser", () => {
         ["off", false],
         ["OFF", false],
         ["Off", false],
+        ["", true],
     ]);
 
     testParserError(looseBooleanParser, [
