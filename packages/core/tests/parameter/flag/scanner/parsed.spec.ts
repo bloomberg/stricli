@@ -4620,6 +4620,7 @@ describe("ArgumentScanner (parsed flags)", () => {
 
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: ["--foo"],
                 partial: "",
                 scannerConfig: defaultScannerConfig,
@@ -4631,6 +4632,7 @@ describe("ArgumentScanner (parsed flags)", () => {
             });
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: ["--foo"],
                 partial: "1",
                 scannerConfig: defaultScannerConfig,
@@ -4761,6 +4763,7 @@ describe("ArgumentScanner (parsed flags)", () => {
 
                 await testCompletions<Flags, Positional>({
                     parameters: parametersWithAlias,
+                    context: {} as CommandContext,
                     inputs: ["-f"],
                     partial: "",
                     scannerConfig: defaultScannerConfig,
@@ -4772,6 +4775,7 @@ describe("ArgumentScanner (parsed flags)", () => {
                 });
                 await testCompletions<Flags, Positional>({
                     parameters: parametersWithAlias,
+                    context: {} as CommandContext,
                     inputs: ["-f"],
                     partial: "1",
                     scannerConfig: defaultScannerConfig,
@@ -4826,6 +4830,64 @@ describe("ArgumentScanner (parsed flags)", () => {
                         { kind: "argument:flag", completion: "--baz", brief: "baz" },
                     ],
                 });
+            });
+        });
+    });
+
+    describe("with custom completions (using command context)", () => {
+        type Positional = [];
+        type Flags = {
+            readonly project: string;
+        };
+        type CustomContext = CommandContext & {
+            getUserProjects(): readonly string[];
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CustomContext> = {
+            flags: {
+                project: {
+                    kind: "parsed",
+                    parse: String,
+                    brief: "project",
+                    proposeCompletions(this: CustomContext, partial: string) {
+                        return this.getUserProjects().filter((project) => project.startsWith(partial));
+                    },
+                },
+            },
+            positional: { kind: "tuple", parameters: [] },
+        };
+
+        const context = {
+            getUserProjects() {
+                return ["my-project-a", "my-project-b", "extra-project"];
+            },
+        } as unknown as CustomContext;
+
+        it("proposeCompletions", async () => {
+            await testCompletions<Flags, Positional, CustomContext>({
+                parameters,
+                context,
+                inputs: ["--project"],
+                partial: "",
+                scannerConfig: defaultScannerConfig,
+                completionConfig: defaultCompletionConfig,
+                expected: [
+                    { kind: "argument:value", completion: "my-project-a", brief: "project" },
+                    { kind: "argument:value", completion: "my-project-b", brief: "project" },
+                    { kind: "argument:value", completion: "extra-project", brief: "project" },
+                ],
+            });
+            await testCompletions<Flags, Positional, CustomContext>({
+                parameters,
+                context,
+                inputs: ["--project"],
+                partial: "my",
+                scannerConfig: defaultScannerConfig,
+                completionConfig: defaultCompletionConfig,
+                expected: [
+                    { kind: "argument:value", completion: "my-project-a", brief: "project" },
+                    { kind: "argument:value", completion: "my-project-b", brief: "project" },
+                ],
             });
         });
     });

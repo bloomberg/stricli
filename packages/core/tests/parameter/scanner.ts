@@ -99,7 +99,9 @@ export function testCompletionError<FLAGS extends BaseFlags, ARGS extends BaseAr
                 partial,
                 completionConfig,
                 text,
-                context: { process },
+                async loadCommandContext() {
+                    throw new Error("Did not expect test to require command context to propose completions");
+                },
                 includeVersionFlag: false,
             });
         } catch (exc) {
@@ -189,10 +191,15 @@ export async function testArgumentScannerParse<FLAGS extends BaseFlags, ARGS ext
     }
 }
 
-async function proposeCompletionsForPartial<FLAGS extends BaseFlags, ARGS extends BaseArgs>(
-    parameters: TypedCommandParameters<FLAGS, ARGS, CommandContext>,
+async function proposeCompletionsForPartial<
+    FLAGS extends BaseFlags,
+    ARGS extends BaseArgs,
+    CONTEXT extends CommandContext,
+>(
+    parameters: TypedCommandParameters<FLAGS, ARGS, CONTEXT>,
     scannerConfig: ScannerConfiguration,
     completionConfig: CompletionConfiguration,
+    loadCommandContext: () => Promise<CONTEXT>,
     inputs: string[],
     partial: string,
 ) {
@@ -205,13 +212,18 @@ async function proposeCompletionsForPartial<FLAGS extends BaseFlags, ARGS extend
         partial,
         completionConfig,
         text,
-        context: { process },
+        loadCommandContext,
         includeVersionFlag: false,
     });
 }
 
-interface ArgumentScannerCompletionTestArguments<FLAGS extends BaseFlags, ARGS extends BaseArgs> {
-    readonly parameters: TypedCommandParameters<FLAGS, ARGS, CommandContext>;
+interface ArgumentScannerCompletionTestArguments<
+    FLAGS extends BaseFlags,
+    ARGS extends BaseArgs,
+    CONTEXT extends CommandContext,
+> {
+    readonly parameters: TypedCommandParameters<FLAGS, ARGS, CONTEXT>;
+    readonly context?: CONTEXT;
     readonly inputs: string[];
     readonly partial: string;
     readonly scannerConfig: ScannerConfiguration;
@@ -219,22 +231,39 @@ interface ArgumentScannerCompletionTestArguments<FLAGS extends BaseFlags, ARGS e
     readonly expected: readonly ArgumentCompletion[];
 }
 
-export async function testCompletions<FLAGS extends BaseFlags, ARGS extends BaseArgs>({
+export async function testCompletions<
+    FLAGS extends BaseFlags,
+    ARGS extends BaseArgs,
+    CONTEXT extends CommandContext = CommandContext,
+>({
     parameters,
+    context,
     inputs,
     partial,
     scannerConfig,
     completionConfig,
     expected,
-}: ArgumentScannerCompletionTestArguments<FLAGS, ARGS>): Promise<void> {
-    const completions = await proposeCompletionsForPartial<FLAGS, ARGS>(
+}: ArgumentScannerCompletionTestArguments<FLAGS, ARGS, CONTEXT>): Promise<void> {
+    let contextLoaded: boolean = false;
+    const completions = await proposeCompletionsForPartial<FLAGS, ARGS, CONTEXT>(
         parameters,
         scannerConfig,
         completionConfig,
+        async () => {
+            if (!context) {
+                throw new Error("Did not expect test to require command context to propose completions");
+            }
+            contextLoaded = true;
+            return context;
+        },
         inputs,
         partial,
     );
     expect(completions).to.have.deep.members(expected);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (context && !contextLoaded) {
+        throw new Error("Custom command context was provided, but never loaded by test");
+    }
 }
 
 export const defaultScannerConfig: ScannerConfiguration = {
