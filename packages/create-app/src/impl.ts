@@ -4,8 +4,8 @@ import type { PackageJson, TsConfigJson } from "type-fest";
 import self from "../package.json";
 import type { LocalContext } from "./context";
 import {
-    binBashCompleteModuleText,
-    binBashCompleteScriptText,
+    binAutoCompleteModuleText,
+    binAutoCompleteScriptText,
     binCliModuleText,
     binCliScriptText,
     buildMultiCommandAppWithAutoCompleteText,
@@ -35,8 +35,8 @@ interface LocalPackageJson extends PackageJson.PackageJsonStandard, PackageJson.
     tsup?: TsupConfig;
 }
 
-function calculateBashCompletionCommand(command: string): string {
-    return `__${command}_bash_complete`;
+function calculateAutocompleteCommand(command: string): string {
+    return `__${command}_auto_complete`;
 }
 
 type PackageJsonTemplateValues = Pick<PackageJson.PackageJsonStandard, "name"> &
@@ -81,7 +81,7 @@ function buildPackageJson(
     };
 }
 
-function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandName: string): LocalPackageJson {
+function addAutoCompleteBin(packageJson: LocalPackageJson, autocompleteCommandName: string): LocalPackageJson {
     return {
         ...packageJson,
         dependencies: {
@@ -90,12 +90,12 @@ function addAutoCompleteBin(packageJson: LocalPackageJson, bashCompleteCommandNa
         },
         bin: {
             ...(packageJson.bin as Record<string, string>),
-            [bashCompleteCommandName]: "dist/bash-complete.js",
+            [autocompleteCommandName]: "dist/auto-complete.js",
         },
         tsup: {
             ...packageJson.tsup,
             /* v8 ignore next -- @preserve */
-            entry: [...(packageJson.tsup?.entry ?? []), "src/bin/bash-complete.ts"],
+            entry: [...(packageJson.tsup?.entry ?? []), "src/bin/auto-complete.ts"],
         },
     };
 }
@@ -153,16 +153,16 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         nodeMajorVersion,
     );
 
-    const bashCommandName = calculateBashCompletionCommand(commandName);
+    const autocompleteCommandName = calculateAutocompleteCommand(commandName);
 
     if (flags.autoComplete) {
-        packageJson = addAutoCompleteBin(packageJson, bashCommandName);
+        packageJson = addAutoCompleteBin(packageJson, autocompleteCommandName);
         if (flags.template === "multi") {
-            packageJson = addPostinstallScript(packageJson, `${commandName} install`);
+            packageJson = addPostinstallScript(packageJson, `${commandName} autocomplete install`);
         } else {
             packageJson = addPostinstallScript(
                 packageJson,
-                `npx @stricli/auto-complete@latest install ${commandName} --bash ${bashCommandName}`,
+                `npx @stricli/auto-complete@latest install-all ${commandName} --autocomplete-command ${autocompleteCommandName}`,
             );
         }
         await writeFile("src/context.ts", localContextWithAutoCompleteText);
@@ -192,7 +192,10 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
         await writeFile("src/commands/nested/impl.ts", multiCommandNestedImplText);
         await writeFile("src/commands/nested/commands.ts", multiCommandNestedCommandsText);
         if (flags.autoComplete) {
-            await writeFile("src/app.ts", buildMultiCommandAppWithAutoCompleteText(commandName, bashCommandName));
+            await writeFile(
+                "src/app.ts",
+                buildMultiCommandAppWithAutoCompleteText(commandName, autocompleteCommandName),
+            );
         } else {
             await writeFile("src/app.ts", multiCommandAppText);
         }
@@ -202,8 +205,8 @@ export default async function (this: LocalContext, flags: CreateProjectFlags, di
     await writeFile("src/bin/cli.ts", flags.type === "module" ? binCliModuleText : binCliScriptText);
     if (flags.autoComplete) {
         await writeFile(
-            "src/bin/bash-complete.ts",
-            flags.type === "module" ? binBashCompleteModuleText : binBashCompleteScriptText,
+            "src/bin/auto-complete.ts",
+            flags.type === "module" ? binAutoCompleteModuleText : binAutoCompleteScriptText,
         );
     }
 }
