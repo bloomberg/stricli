@@ -6,7 +6,10 @@
         "docs",
         "packages/*"
     ],
-    "packageManager": "npm@10.4.0",
+    "engines": {
+        "node": ">=24.5.0"
+    },
+    "packageManager": "npm@11.5.1",
     "nx": {},
     "scripts": {
         "format": "prettier --config .prettierrc -w *.md *.json *.mjs",

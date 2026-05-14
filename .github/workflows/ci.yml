@@ -22,6 +22,7 @@ jobs:
 
             - uses: actions/setup-node@v6
               with:
+                  node-version-file: package.json
                   cache: "npm"
 
             - run: npm ci --legacy-peer-deps

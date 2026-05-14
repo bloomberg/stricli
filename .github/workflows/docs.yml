@@ -18,6 +18,7 @@ jobs:
                   fetch-depth: 0
             - uses: actions/setup-node@v6
               with:
+                  node-version-file: package.json
                   cache: npm
 
             - name: Install dependencies
