@@ -7,13 +7,6 @@ on:
     push:
         branches:
             - main
-    workflow_dispatch:
-        inputs:
-            dry-run:
-                type: boolean
-                required: true
-                default: true
-                description: Trigger publish as a dry run, so no packages are published.
 
 jobs:
     publish:
@@ -35,6 +28,11 @@ jobs:
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v5
 
-            - run: npx nx release publish ${{ inputs.dry-run == 'true' && '--dry-run' || '' }}
+            - run: RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')
+            - run: npx nx release publish
               env:
                   NPM_CONFIG_PROVENANCE: true
+
+            - run: gh release edit "v$RELEASE_VERSION" --prerelease=false --latest
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
