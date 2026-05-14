@@ -1,0 +1,61 @@
+name: Create Release
+
+# Declare default permissions as read-only
+permissions: read-all
+
+on:
+    workflow_dispatch:
+        inputs:
+            version_bump:
+                description: Version bump for this release
+                required: true
+                type: choice
+                default: patch
+                options:
+                    - patch
+                    - minor
+                    - major
+            dry_run:
+                type: boolean
+                required: true
+                default: true
+                description: Simulate Nx release with `--dry-run`
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+                  fetch-tags: true
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version-file: package.json
+                  cache: "npm"
+                  registry-url: "https://registry.npmjs.org/"
+
+            - run: npm ci --legacy-peer-deps
+            - uses: nrwl/nx-set-shas@v5
+
+            - name: Simulate Release (Dry Run)
+              if: ${{ inputs.dry_run }}
+              run: |
+                npx nx release ${{ inputs.version_bump }} --skip-publish --dry-run
+
+            - name: Create Release PR and Prerelease on Github
+              if: ${{ !inputs.dry_run }}
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                git config user.name "github-actions[bot]"
+                git config user.email "github-actions[bot]@users.noreply.github.com"
+                git checkout -b "release-$GITHUB_RUN_NUMBER"
+                npx nx release ${{ inputs.version_bump }} --skip-publish
+                RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')
+                gh release edit "v$RELEASE_VERSION" --prerelease=true
+                gh pr create --title "Release $RELEASE_VERSION" --body "Automated release PR for ${{ inputs.version_bump }} version bump to release v$RELEASE_VERSION." --head "release-$GITHUB_RUN_NUMBER" --base main
