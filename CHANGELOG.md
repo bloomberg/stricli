@@ -1,3 +1,19 @@
+## 1.2.7 (2026-05-04)
+
+### 🩹 Fixes
+
+- only set exit code if not set by application ([85a4a14](https://github.com/bloomberg/stricli/commit/85a4a14))
+- remove unnecessary logging ([ca534c9](https://github.com/bloomberg/stricli/commit/ca534c9))
+- treat empty string as true for loose boolean parser ([6c2e6b6](https://github.com/bloomberg/stricli/commit/6c2e6b6))
+- use loose boolean parser to check env vars ([6a7f180](https://github.com/bloomberg/stricli/commit/6a7f180))
+- allow override for formatException on formatting object ([2f2ed04](https://github.com/bloomberg/stricli/commit/2f2ed04))
+- allow single application text, disabling locale support ([d7de2b1](https://github.com/bloomberg/stricli/commit/d7de2b1))
+
+### ❤️ Thank You
+
+- Michael Molisani
+- mmolisani
+
 ## 1.2.6 (2026-02-20)
 
 ### 🚀 Features
