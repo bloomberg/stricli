@@ -27,10 +27,10 @@
         "test": "vitest --run",
         "test:update-snapshots": "vitest --run --update",
         "coverage": "vitest --run --coverage.enabled",
-        "build": "tsup --silent",
+        "build": "tsdown --silent",
         "prepublishOnly": "npm run build"
     },
-    "tsup": {
+    "tsdown": {
         "entry": [
             "src/bin/cli.ts"
         ],
@@ -58,6 +58,7 @@
         "memfs": "^4.9.2",
         "prettier": "^3.2.5",
         "sinon": "^18.0.0",
+        "tsdown": "^0.21.7",
         "tsup": "^6.7.0",
         "tsx": "^4.8.2",
         "type-fest": "^3.5.4",
