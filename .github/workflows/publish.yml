@@ -28,11 +28,14 @@ jobs:
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v5
 
+            - run: LATEST_VERSION=$(npm view @stricli/core --json | jq -r '.version')
             - run: RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')
-            - run: npx nx release publish
+
+            - name: Publish to npm and update GitHub Release
+              if: ${{ env.LATEST_VERSION != env.RELEASE_VERSION }}
               env:
                   NPM_CONFIG_PROVENANCE: true
-
-            - run: gh release edit "v$RELEASE_VERSION" --prerelease=false --latest
-              env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                npx nx release publish
+                gh release edit "v$RELEASE_VERSION" --prerelease=false --latest
