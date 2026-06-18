@@ -53,21 +53,30 @@ export function buildRouteScanner<CONTEXT extends CommandContext>(
     let target: RoutingTarget<CONTEXT> | undefined;
     let rootLevel = true;
     let helpRequested: HelpRequested = false;
+    let treatInputsAsArguments = false;
 
     return {
         next: (input) => {
-            if (input === "--help" || input === "-h") {
-                helpRequested = true;
-                if (!target) {
-                    target = current;
-                }
+            if (!treatInputsAsArguments && config.allowArgumentEscapeSequence && input === "--") {
+                treatInputsAsArguments = true;
+                unprocessedInputs.push(input);
                 return;
-            } else if (input === "--helpAll" || input === "--help-all" || input === "-H") {
-                helpRequested = "all";
-                if (!target) {
-                    target = current;
+            }
+
+            if (!treatInputsAsArguments) {
+                if (input === "--help" || input === "-h") {
+                    helpRequested = true;
+                    if (!target) {
+                        target = current;
+                    }
+                    return;
+                } else if (input === "--helpAll" || input === "--help-all" || input === "-H") {
+                    helpRequested = "all";
+                    if (!target) {
+                        target = current;
+                    }
+                    return;
                 }
-                return;
             }
 
             if (target) {
