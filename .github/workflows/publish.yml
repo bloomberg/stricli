@@ -12,6 +12,7 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         permissions:
+            contents: write # needed to push changes and edit releases
             id-token: write # needed for provenance data generation
         steps:
             - uses: actions/checkout@v6
@@ -38,4 +39,4 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                 npx nx release publish
-                gh release edit "v$RELEASE_VERSION" --prerelease=false --latest
+                gh release edit "v$RELEASE_VERSION" --latest
