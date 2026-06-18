@@ -32,7 +32,17 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli command]
+          USAGE
+            cli command
+            cli command --help
+
+          basic command
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 
     it("nested route map", async () => {
@@ -53,7 +63,17 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli sub command]
+          USAGE
+            cli sub command
+            cli sub command --help
+
+          basic command
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 
     it("nested route map skips hidden routes", async () => {
@@ -74,7 +94,7 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`[]`);
     });
 
     it("nested command, with aliases", async () => {
@@ -100,7 +120,21 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli sub]
+          USAGE
+            cli sub
+            cli sub --help
+
+          basic command
+
+          ALIASES
+            cli alias1
+            cli alias2
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 
     it("nested commands", async () => {
@@ -122,7 +156,27 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli sub1]
+          USAGE
+            cli sub1
+            cli sub1 --help
+
+          basic command
+
+          FLAGS
+            -h --help  Print help information and exit
+
+          # [cli sub2]
+          USAGE
+            cli sub2
+            cli sub2 --help
+
+          basic command
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 
     it("nested commands, with aliases", async () => {
@@ -148,7 +202,33 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli sub1]
+          USAGE
+            cli sub1
+            cli sub1 --help
+
+          basic command
+
+          ALIASES
+            cli alias1
+
+          FLAGS
+            -h --help  Print help information and exit
+
+          # [cli sub2]
+          USAGE
+            cli sub2
+            cli sub2 --help
+
+          basic command
+
+          ALIASES
+            cli alias2
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 
     it("multiple commands at different levels", async () => {
@@ -174,7 +254,27 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli sub command]
+          USAGE
+            cli sub command
+            cli sub command --help
+
+          basic command
+
+          FLAGS
+            -h --help  Print help information and exit
+
+          # [cli command]
+          USAGE
+            cli command
+            cli command --help
+
+          basic command
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 
     it("command at root", async () => {
@@ -203,7 +303,19 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli]
+          USAGE
+            cli
+            cli --help
+            cli --version
+
+          command brief
+
+          FLAGS
+            -h --help     Print help information and exit
+            -v --version  Print version information and exit
+        `);
     });
 
     it("command at root, with usage config", async () => {
@@ -236,7 +348,19 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app);
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli]
+          USAGE
+            cli
+            cli -h
+            cli -v
+
+          command brief
+
+          FLAGS
+            -h --help     Print help information and exit
+            -v --version  Print version information and exit
+        `);
     });
 
     it("fails with missing locale", async () => {
@@ -297,6 +421,16 @@ describe("generateHelpTextForAllCommands", () => {
         const documentedCommands = generateHelpTextForAllCommands(app, "fake");
 
         // THEN
-        expect(documentedCommands).toMatchSnapshot();
+        expect(documentedCommands).toMatchInlineSnapshot(`
+          # [cli]
+          USAGE
+            cli
+            cli -h
+
+          command brief
+
+          FLAGS
+            -h --help  Print help information and exit
+        `);
     });
 });

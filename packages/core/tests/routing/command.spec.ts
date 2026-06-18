@@ -5,6 +5,9 @@ import { describe, expect, it } from "vitest";
 import { booleanParser, buildCommand, numberParser, text_en, type Command, type CommandContext } from "../../src";
 // eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
+import {
+    buildMixedParametersArrayCommand,
+} from "./command-fixtures";
 import { buildFakeContext } from "../fakes/context";
 // eslint-disable-next-line no-restricted-imports
 import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
@@ -32,43 +35,41 @@ async function runWithInputs(
     };
 }
 
+function expectHelpTextWithAnsiMatchesSnapshot(
+    command: Command<CommandContext>,
+    args: Omit<HelpFormattingArguments, "ansiColor">,
+) {
+    const helpText = command.formatHelp({ ...args, ansiColor: true });
+    expect(helpText).toMatchSnapshot();
+}
+
+function expectHelpTextWithoutAnsiMatchesSnapshot(
+    command: Command<CommandContext>,
+    args: Omit<HelpFormattingArguments, "ansiColor">,
+) {
+    const helpText = command.formatHelp({ ...args, ansiColor: false });
+    expect(helpText).toMatchSnapshot();
+}
+
+function expectAnsiStrippedMatchesNoAnsi(
+    command: Command<CommandContext>,
+    args: Omit<HelpFormattingArguments, "ansiColor">,
+) {
+    const helpTextWithAnsiColor = command.formatHelp({ ...args, ansiColor: true });
+    const helpTextWithAnsiColorStrippedOut = stripVTControlCharacters(helpTextWithAnsiColor);
+    const helpTextWithoutAnsiColor = command.formatHelp({ ...args, ansiColor: false });
+    expect(helpTextWithAnsiColorStrippedOut).to.deep.equal(helpTextWithoutAnsiColor);
+}
+
 function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<HelpFormattingArguments, "ansiColor">) {
     it("with ANSI color", () => {
-        // WHEN
-        const helpText = command.formatHelp({
-            ...args,
-            ansiColor: true,
-        });
-
-        // THEN
-        expect(helpText).toMatchSnapshot();
+        expectHelpTextWithAnsiMatchesSnapshot(command, args);
     });
-
     it("no ANSI color", () => {
-        // WHEN
-        const helpText = command.formatHelp({
-            ...args,
-            ansiColor: false,
-        });
-
-        // THEN
-        expect(helpText).toMatchSnapshot();
+        expectHelpTextWithoutAnsiMatchesSnapshot(command, args);
     });
-
     it("text with ANSI matches text without ANSI", () => {
-        // WHEN
-        const helpTextWithAnsiColor = command.formatHelp({
-            ...args,
-            ansiColor: true,
-        });
-        const helpTextWithAnsiColorStrippedOut = stripVTControlCharacters(helpTextWithAnsiColor);
-        const helpTextWithoutAnsiColor = command.formatHelp({
-            ...args,
-            ansiColor: false,
-        });
-
-        // THEN
-        expect(helpTextWithAnsiColorStrippedOut).to.deep.equal(helpTextWithoutAnsiColor);
+        expectAnsiStrippedMatchesNoAnsi(command, args);
     });
 }
 
@@ -275,100 +276,103 @@ describe("Command", () => {
         };
 
         describe("no parameters", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: {}) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [],
+            describe("full spec", () => {
+                // GIVEN
+                const command = buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: {}) => {},
+                        };
                     },
-                    flags: {},
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
-
-        describe("no parameters, dropped empty flag spec", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: {}) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [],
+                    parameters: {
+                        positional: {
+                            kind: "tuple",
+                            parameters: [],
+                        },
+                        flags: {},
                     },
-                },
-                docs: { brief: "brief" },
+                    docs: { brief: "brief" },
+                });
+
+                compareHelpTextToBaseline(command, defaultArgs);
             });
 
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
+            describe("dropped empty flag spec", () => {
+                // GIVEN
+                const command = buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: {}) => {},
+                        };
+                    },
+                    parameters: {
+                        positional: {
+                            kind: "tuple",
+                            parameters: [],
+                        },
+                    },
+                    docs: { brief: "brief" },
+                });
 
-        describe("no parameters, dropped empty positional spec", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: {}) => {},
-                    };
-                },
-                parameters: {},
-                docs: { brief: "brief" },
+                compareHelpTextToBaseline(command, defaultArgs);
             });
 
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
+            describe("dropped empty positional spec", () => {
+                // GIVEN
+                const command = buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: {}) => {},
+                        };
+                    },
+                    parameters: {
+                        flags: {},
+                    },
+                    docs: { brief: "brief" },
+                });
 
-        describe("no parameters, dropped empty specs", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: {}) => {},
-                    };
-                },
-                parameters: {},
-                docs: { brief: "brief" },
+                compareHelpTextToBaseline(command, defaultArgs);
             });
 
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
+            describe("with elided spec", () => {
+                // GIVEN
+                const command = buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: {}) => {},
+                        };
+                    },
+                    parameters: {},
+                    docs: { brief: "brief" },
+                });
 
-        describe("no parameters, help all, force alias in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: {}) => {},
-                    };
-                },
-                parameters: {},
-                docs: { brief: "brief" },
+                compareHelpTextToBaseline(command, defaultArgs);
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                includeHelpAllFlag: true,
-                config: {
-                    ...defaultArgs.config,
-                    useAliasInUsageLine: true,
-                },
+            describe("help all, force alias in usage line", () => {
+                // GIVEN
+                const command = buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: {}) => {},
+                        };
+                    },
+                    parameters: {},
+                    docs: { brief: "brief" },
+                });
+
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    includeHelpAllFlag: true,
+                    config: {
+                        ...defaultArgs.config,
+                        useAliasInUsageLine: true,
+                    },
+                });
             });
-        });
+        })
 
         describe("mixed parameters", () => {
-            // GIVEN
             const command = buildCommand({
                 loader: async () => {
                     return {
@@ -426,348 +430,101 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
-
-        describe("mixed parameters, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
+            describe("default arguments", () => {
+                compareHelpTextToBaseline(command, defaultArgs);
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    onlyRequiredInUsageLine: true,
-                },
-            });
-        });
-
-        describe("mixed parameters with version available", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
+            describe("only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        onlyRequiredInUsageLine: true,
                     },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
+                });
             });
 
-            compareHelpTextToBaseline(command, { ...defaultArgs, includeVersionFlag: true });
-        });
-
-        describe("mixed parameters with version available, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
+            describe("with version flag", () => {
+                compareHelpTextToBaseline(command, { ...defaultArgs, includeVersionFlag: true });
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                includeVersionFlag: true,
-                config: {
-                    ...defaultArgs.config,
-                    onlyRequiredInUsageLine: true,
-                },
-            });
-        });
-
-        describe("mixed parameters with aliases", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
+            describe("with version flag, only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    includeVersionFlag: true,
+                    config: {
+                        ...defaultArgs.config,
+                        onlyRequiredInUsageLine: true,
                     },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
+                });
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-            });
-        });
-
-        describe("mixed parameters with aliases, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
+            describe("with aliases", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    prefix: ["cli", "route"],
+                    includeVersionFlag: true,
+                    aliases: ["alias1", "alias2"],
+                });
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-                config: {
-                    ...defaultArgs.config,
-                    onlyRequiredInUsageLine: true,
-                },
+            describe("with aliases, only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    prefix: ["cli", "route"],
+                    includeVersionFlag: true,
+                    aliases: ["alias1", "alias2"],
+                    config: {
+                        ...defaultArgs.config,
+                        onlyRequiredInUsageLine: true,
+                    },
+                });
+            });
+
+            describe("with custom headers", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    prefix: ["cli", "route"],
+                    includeVersionFlag: true,
+                    aliases: ["alias1", "alias2"],
+                    text: {
+                        ...defaultArgs.text,
+                        headers: {
+                            ...defaultArgs.text.headers,
+                            usage: "Usage:",
+                            aliases: "Aliases:",
+                            flags: "Flags:",
+                            arguments: "Arguments:",
+                        },
+                    },
+                });
+            });
+
+            describe("with custom headers, only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    prefix: ["cli", "route"],
+                    includeVersionFlag: true,
+                    aliases: ["alias1", "alias2"],
+                    text: {
+                        ...defaultArgs.text,
+                        headers: {
+                            ...defaultArgs.text.headers,
+                            usage: "Usage:",
+                            aliases: "Aliases:",
+                            flags: "Flags:",
+                            arguments: "Arguments:",
+                        },
+                    },
+                    config: {
+                        ...defaultArgs.config,
+                        onlyRequiredInUsageLine: true,
+                    },
+                });
             });
         });
 
         describe("multiple boolean flags", () => {
-            // GIVEN
             const command = buildCommand({
                 loader: async () => {
                     return {
@@ -801,194 +558,47 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
-
-        describe("multiple boolean flags, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: { alpha: boolean; bravo?: boolean; charlie: boolean }) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "boolean",
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "boolean",
-                            optional: true,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        c: "charlie",
-                    },
-                },
-                docs: { brief: "brief" },
+            describe("default arguments", () => {
+                compareHelpTextToBaseline(command, defaultArgs);
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    onlyRequiredInUsageLine: true,
-                },
-            });
-        });
-
-        describe("multiple boolean flags, kebab-case", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: { alpha: boolean; bravo?: boolean; charlie: boolean }) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [],
+            describe("only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        onlyRequiredInUsageLine: true,
                     },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "boolean",
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "boolean",
-                            optional: true,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        c: "charlie",
-                    },
-                },
-                docs: { brief: "brief" },
+                });
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    caseStyle: "convert-camel-to-kebab",
-                },
-            });
-        });
-
-        describe("multiple boolean flags, kebab-case, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (flags: { alpha: boolean; bravo?: boolean; charlie: boolean }) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [],
+            describe("kebab-case", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        caseStyle: "convert-camel-to-kebab",
                     },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "boolean",
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "boolean",
-                            optional: true,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        c: "charlie",
-                    },
-                },
-                docs: { brief: "brief" },
+                });
             });
 
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    caseStyle: "convert-camel-to-kebab",
-                    onlyRequiredInUsageLine: true,
-                },
+            describe("kebab-case, only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        caseStyle: "convert-camel-to-kebab",
+                        onlyRequiredInUsageLine: true,
+                    },
+                });
             });
         });
 
         describe("mixed parameters, full description", () => {
             // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                    fullDescription: "Longer description of this command's behavior, only printed during --help",
-                },
+            const command = buildMixedParametersArrayCommand({
+                brief: "brief",
+                fullDescription: "Longer description of this command's behavior, only printed during --help",
             });
 
             compareHelpTextToBaseline(command, defaultArgs);
@@ -996,56 +606,9 @@ describe("Command", () => {
 
         describe("mixed parameters, full description, only required in usage line", () => {
             // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                    fullDescription: "Longer description of this command's behavior, only printed during --help",
-                },
+            const command = buildMixedParametersArrayCommand({
+                brief: "brief",
+                fullDescription: "Longer description of this command's behavior, only printed during --help",
             });
 
             compareHelpTextToBaseline(command, {
@@ -1059,56 +622,9 @@ describe("Command", () => {
 
         describe("mixed parameters, custom usage", () => {
             // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                    customUsage: ["custom usage line #1", "custom usage line #2"],
-                },
+            const command = buildMixedParametersArrayCommand({
+                brief: "brief",
+                customUsage: ["custom usage line #1", "custom usage line #2"],
             });
 
             compareHelpTextToBaseline(command, defaultArgs);
@@ -1116,65 +632,18 @@ describe("Command", () => {
 
         describe("mixed parameters, enhanced custom usage", () => {
             // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
+            const command = buildMixedParametersArrayCommand({
+                brief: "brief",
+                customUsage: [
+                    {
+                        input: "-a 1",
+                        brief: "enhanced usage line #1",
                     },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
+                    {
+                        input: "-a 2 -d",
+                        brief: "enhanced usage line #2",
                     },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                    customUsage: [
-                        {
-                            input: "-a 1",
-                            brief: "enhanced usage line #1",
-                        },
-                        {
-                            input: "-a 2 -d",
-                            brief: "enhanced usage line #2",
-                        },
-                    ],
-                },
+                ],
             });
 
             compareHelpTextToBaseline(command, defaultArgs);
@@ -1182,670 +651,30 @@ describe("Command", () => {
 
         describe("mixed parameters, mixed custom usage", () => {
             // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
+            const command = buildMixedParametersArrayCommand({
+                brief: "brief",
+                customUsage: [
+                    {
+                        input: "-a 1",
+                        brief: "enhanced usage line #1",
                     },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
+                    "normal custom usage A",
+                    "normal custom usage B",
+                    {
+                        input: "-a 2 -d",
+                        brief: "enhanced usage line #2",
                     },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                    customUsage: [
-                        {
-                            input: "-a 1",
-                            brief: "enhanced usage line #1",
-                        },
-                        "normal custom usage A",
-                        "normal custom usage B",
-                        {
-                            input: "-a 2 -d",
-                            brief: "enhanced usage line #2",
-                        },
-                        "normal custom usage C",
-                        "normal custom usage D",
-                    ],
-                },
+                    "normal custom usage C",
+                    "normal custom usage D",
+                ],
             });
 
             compareHelpTextToBaseline(command, defaultArgs);
-        });
-
-        describe("mixed parameters with `original` display case style", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alphaFlag: number; bravoFlag: number[]; charlieFlag?: number; deltaFlag: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alphaFlag: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravoFlag: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlieFlag: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        deltaFlag: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alphaFlag",
-                        d: "deltaFlag",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
-
-        describe("mixed parameters with `original` display case style, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alphaFlag: number; bravoFlag: number[]; charlieFlag?: number; deltaFlag: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alphaFlag: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravoFlag: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlieFlag: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        deltaFlag: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alphaFlag",
-                        d: "deltaFlag",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    onlyRequiredInUsageLine: true,
-                },
-            });
-        });
-
-        describe("mixed parameters with `convert-camel-to-kebab` display case style", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alphaFlag: number; bravoFlag: number[]; charlieFlag?: number; deltaFlag: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alphaFlag: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravoFlag: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlieFlag: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        deltaFlag: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alphaFlag",
-                        d: "deltaFlag",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    caseStyle: "convert-camel-to-kebab",
-                },
-            });
-        });
-
-        describe("mixed parameters with `convert-camel-to-kebab` display case style, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alphaFlag: number; bravoFlag: number[]; charlieFlag?: number; deltaFlag: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alphaFlag: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravoFlag: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlieFlag: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        deltaFlag: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alphaFlag",
-                        d: "deltaFlag",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                config: {
-                    ...defaultArgs.config,
-                    caseStyle: "convert-camel-to-kebab",
-                    onlyRequiredInUsageLine: true,
-                },
-            });
-        });
-
-        describe("mixed parameters with custom headers", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-                text: {
-                    ...defaultArgs.text,
-                    headers: {
-                        ...defaultArgs.text.headers,
-                        usage: "Usage:",
-                        aliases: "Aliases:",
-                        flags: "Flags:",
-                        arguments: "Arguments:",
-                    },
-                },
-            });
-        });
-
-        describe("mixed parameters with custom headers, only required in usage line", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            arg0: string,
-                            arg1?: number,
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "tuple",
-                        parameters: [
-                            {
-                                brief: "first argument brief",
-                                parse: (x) => x,
-                            },
-                            {
-                                brief: "second argument brief",
-                                optional: true,
-                                parse: numberParser,
-                            },
-                        ],
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: { brief: "brief" },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                prefix: ["cli", "route"],
-                includeVersionFlag: true,
-                aliases: ["alias1", "alias2"],
-                text: {
-                    ...defaultArgs.text,
-                    headers: {
-                        ...defaultArgs.text.headers,
-                        usage: "Usage:",
-                        aliases: "Aliases:",
-                        flags: "Flags:",
-                        arguments: "Arguments:",
-                    },
-                },
-                config: {
-                    ...defaultArgs.config,
-                    onlyRequiredInUsageLine: true,
-                },
-            });
-        });
-
-        describe("mixed parameters, skips hidden", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            hidden: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            hidden: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                },
-            });
-
-            compareHelpTextToBaseline(command, defaultArgs);
-        });
-
-        describe("mixed parameters, force include hidden", () => {
-            // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            hidden: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            hidden: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                },
-            });
-
-            compareHelpTextToBaseline(command, {
-                ...defaultArgs,
-                includeHidden: true,
-            });
         });
 
         describe("mixed parameters, help all, force alias in usage line", () => {
             // GIVEN
-            const command = buildCommand({
-                loader: async () => {
-                    return {
-                        default: (
-                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
-                            ...args: string[]
-                        ) => {},
-                    };
-                },
-                parameters: {
-                    positional: {
-                        kind: "array",
-                        parameter: {
-                            brief: "string array brief",
-                            parse: (x) => x,
-                        },
-                    },
-                    flags: {
-                        alpha: {
-                            brief: "alpha flag brief",
-                            kind: "parsed",
-                            parse: numberParser,
-                        },
-                        bravo: {
-                            brief: "bravo flag brief",
-                            kind: "parsed",
-                            variadic: true,
-                            parse: numberParser,
-                        },
-                        charlie: {
-                            brief: "charlie flag brief",
-                            placeholder: "c",
-                            kind: "parsed",
-                            optional: true,
-                            parse: numberParser,
-                        },
-                        delta: {
-                            brief: "delta flag brief",
-                            kind: "boolean",
-                        },
-                    },
-                    aliases: {
-                        a: "alpha",
-                        d: "delta",
-                    },
-                },
-                docs: {
-                    brief: "brief",
-                },
-            });
+            const command = buildMixedParametersArrayCommand();
 
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
@@ -1854,6 +683,164 @@ describe("Command", () => {
                     ...defaultArgs.config,
                     useAliasInUsageLine: true,
                 },
+            });
+        });
+
+        describe("mixed parameters with camelCase flags", () => {
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (
+                            flags: { alphaFlag: number; bravoFlag: number[]; charlieFlag?: number; deltaFlag: boolean },
+                            arg0: string,
+                            arg1?: number,
+                        ) => {},
+                    };
+                },
+                parameters: {
+                    positional: {
+                        kind: "tuple",
+                        parameters: [
+                            {
+                                brief: "first argument brief",
+                                parse: (x) => x,
+                            },
+                            {
+                                brief: "second argument brief",
+                                optional: true,
+                                parse: numberParser,
+                            },
+                        ],
+                    },
+                    flags: {
+                        alphaFlag: {
+                            brief: "alpha flag brief",
+                            kind: "parsed",
+                            parse: numberParser,
+                        },
+                        bravoFlag: {
+                            brief: "bravo flag brief",
+                            kind: "parsed",
+                            variadic: true,
+                            parse: numberParser,
+                        },
+                        charlieFlag: {
+                            brief: "charlie flag brief",
+                            placeholder: "c",
+                            kind: "parsed",
+                            optional: true,
+                            parse: numberParser,
+                        },
+                        deltaFlag: {
+                            brief: "delta flag brief",
+                            kind: "boolean",
+                        },
+                    },
+                    aliases: {
+                        a: "alphaFlag",
+                        d: "deltaFlag",
+                    },
+                },
+                docs: { brief: "brief" },
+            });
+
+            describe("with `original` display case style", () => {
+                compareHelpTextToBaseline(command, defaultArgs);
+            });
+
+            describe("with `original` display case style, only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        onlyRequiredInUsageLine: true,
+                    },
+                });
+            });
+
+            describe("with `convert-camel-to-kebab` display case style", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        caseStyle: "convert-camel-to-kebab",
+                    },
+                });
+            });
+
+            describe("with `convert-camel-to-kebab` display case style, only required in usage line", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    config: {
+                        ...defaultArgs.config,
+                        caseStyle: "convert-camel-to-kebab",
+                        onlyRequiredInUsageLine: true,
+                    },
+                });
+            });
+        });
+
+        describe("some hidden flags", () => {
+            const command = buildCommand({
+                loader: async () => {
+                    return {
+                        default: (
+                            flags: { alpha: number; bravo: number[]; charlie?: number; delta: boolean },
+                            ...args: string[]
+                        ) => {},
+                    };
+                },
+                parameters: {
+                    positional: {
+                        kind: "array",
+                        parameter: {
+                            brief: "string array brief",
+                            parse: (x) => x,
+                        },
+                    },
+                    flags: {
+                        alpha: {
+                            brief: "alpha flag brief",
+                            kind: "parsed",
+                            parse: numberParser,
+                        },
+                        bravo: {
+                            brief: "bravo flag brief",
+                            kind: "parsed",
+                            variadic: true,
+                            hidden: true,
+                            parse: numberParser,
+                        },
+                        charlie: {
+                            brief: "charlie flag brief",
+                            placeholder: "c",
+                            kind: "parsed",
+                            optional: true,
+                            hidden: true,
+                            parse: numberParser,
+                        },
+                        delta: {
+                            brief: "delta flag brief",
+                            kind: "boolean",
+                        },
+                    },
+                    aliases: {
+                        a: "alpha",
+                        d: "delta",
+                    },
+                },
+                docs: { brief: "brief" },
+            });
+
+            describe("skips hidden", () => {
+                compareHelpTextToBaseline(command, defaultArgs);
+            });
+
+            describe("force include hidden", () => {
+                compareHelpTextToBaseline(command, {
+                    ...defaultArgs,
+                    includeHidden: true,
+                });
             });
         });
     });

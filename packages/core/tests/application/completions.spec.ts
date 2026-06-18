@@ -12,38 +12,37 @@ import {
     type VersionInfo,
 } from "../../src";
 import { buildBasicRouteMap, buildRouteMapForFakeContext } from "../application";
-import { buildFakeContext, type FakeContext } from "../fakes/context";
+import { buildFakeContext } from "../fakes/context";
 
-function testCompletions(app: Application<FakeContext>, inputs: string[], expected: readonly InputCompletion[]) {
-    const line = inputs.join(" ");
-    describe(`proposes [${expected.map(({ completion }) => completion).join()}] for "${line}"`, () => {
-        it("static context", async () => {
-            const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
-            const completions = await proposeCompletions(app, inputs, context);
-            expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
-        });
+async function confirmCompletionsWithStaticContext(app: Application<CommandContext>, inputs: string[], expected: readonly InputCompletion[]) {
+    const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
+    const completions = await proposeCompletions(app, inputs, context);
+    expect(completions).to.have.deep.members(expected);
+    expect(context.process.stderr.write.callCount).to.equal(0);
+}
 
-        it("dynamic context", async () => {
-            const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
-            const completions = await proposeCompletions(app, inputs, context);
-            expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
-        });
+async function confirmCompletionsWithDynamicContext(app: Application<CommandContext>, inputs: string[], expected: readonly InputCompletion[]) {
+    const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
+    const completions = await proposeCompletions(app, inputs, context);
+    expect(completions).to.have.deep.members(expected);
+    expect(context.process.stderr.write.callCount).to.equal(0);
+}
 
-        it("error loading context", async () => {
-            const context = buildFakeContext({
-                forCommand: () => {
-                    throw new Error("This function purposefully throws an error");
-                },
-                colorDepth: void 0,
-            });
-            await proposeCompletions(app, inputs, context);
-            const completions = context.process.stdout.write.args.flat(2)[0]?.split("\n") ?? [];
-            expect(completions).to.have.deep.members([]);
-            expect(context.process.stderr.write.callCount).to.equal(0);
-        });
+async function confirmNoCompletionsWithErrorLoadingContext(app: Application<CommandContext>, inputs: string[]) {
+    const context = buildFakeContext({
+        forCommand: () => { throw new Error("This function purposefully throws an error"); },
+        colorDepth: void 0,
     });
+    await proposeCompletions(app, inputs, context);
+    const completions = context.process.stdout.write.args.flat(2)[0]?.split("\n") ?? [];
+    expect(completions).to.have.deep.members([]);
+    expect(context.process.stderr.write.callCount).to.equal(0);
+}
+
+async function confirmCompletions(app: Application<CommandContext>, inputs: string[], expected: readonly InputCompletion[]) {
+    await confirmCompletionsWithStaticContext(app, inputs, expected);
+    await confirmCompletionsWithDynamicContext(app, inputs, expected);
+    await confirmNoCompletionsWithErrorLoadingContext(app, inputs);
 }
 
 describe("proposeCompletions", () => {
@@ -68,44 +67,66 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo,bar,baz] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar,baz] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
-            ],
-        );
-        testCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
-        testCompletions(
-            app,
-            ["baz", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [baz] for "baz"', async () => {
+            await confirmCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
+        });
+        it('proposes [command] for "baz "', async () => {
+            await confirmCompletions(app, ["baz", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["--help", ""], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["--version", ""], []);
-        testCompletions(app, ["foo", "--help"], []);
-        testCompletions(app, ["foo", "--help", ""], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "--help "', async () => {
+            await confirmCompletions(app, ["--help", ""], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "--version "', async () => {
+            await confirmCompletions(app, ["--version", ""], []);
+        });
+        it('has no completions for "foo --help"', async () => {
+            await confirmCompletions(app, ["foo", "--help"], []);
+        });
+        it('has no completions for "foo --help "', async () => {
+            await confirmCompletions(app, ["foo", "--help", ""], []);
+        });
     });
 
     describe("for route map at root including aliases", () => {
@@ -137,53 +158,73 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo,doFoo,bar,b,baz,bz] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "doFoo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "b", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
                 { kind: "routing-target:route-map", completion: "bz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar,b,baz,bz] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "b", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
                 { kind: "routing-target:route-map", completion: "bz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
-        testCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
-        testCompletions(
-            app,
-            ["baz", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [command] for "b "', async () => {
+            await confirmCompletions(app, ["b", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
+        it('proposes [baz] for "baz"', async () => {
+            await confirmCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
+        });
+        it('proposes [command] for "baz "', async () => {
+            await confirmCompletions(app, ["baz", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
-        testCompletions(app, ["fake", "b"], []);
-        testCompletions(app, ["fake", "fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
+        it('has no completions for "fake b"', async () => {
+            await confirmCompletions(app, ["fake", "b"], []);
+        });
+        it('has no completions for "fake fake "', async () => {
+            await confirmCompletions(app, ["fake", "fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["foo", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "foo --help"', async () => {
+            await confirmCompletions(app, ["foo", "--help"], []);
+        });
     });
 
     describe("for route map at root exclude aliases", () => {
@@ -215,48 +256,68 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo,bar,baz] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar,baz] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
-        testCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
-        testCompletions(
-            app,
-            ["baz", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [command] for "b "', async () => {
+            await confirmCompletions(app, ["b", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
+        it('proposes [baz] for "baz"', async () => {
+            await confirmCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
+        });
+        it('proposes [command] for "baz "', async () => {
+            await confirmCompletions(app, ["baz", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
-        testCompletions(app, ["fake", "b"], []);
-        testCompletions(app, ["fake", "fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
+        it('has no completions for "fake b"', async () => {
+            await confirmCompletions(app, ["fake", "b"], []);
+        });
+        it('has no completions for "fake fake "', async () => {
+            await confirmCompletions(app, ["fake", "fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["foo", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "foo --help"', async () => {
+            await confirmCompletions(app, ["foo", "--help"], []);
+        });
     });
 
     describe("for route map at root including hidden routes", () => {
@@ -294,53 +355,73 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo,doFoo,bar,b,baz,bz] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "doFoo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "b", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
                 { kind: "routing-target:route-map", completion: "bz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar,b,baz,bz] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "b", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
                 { kind: "routing-target:route-map", completion: "bz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
-        testCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
-        testCompletions(
-            app,
-            ["baz", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [command] for "b "', async () => {
+            await confirmCompletions(app, ["b", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
+        it('proposes [baz] for "baz"', async () => {
+            await confirmCompletions(app, ["baz"], [{ kind: "routing-target:route-map", completion: "baz", brief: "baz" }]);
+        });
+        it('proposes [command] for "baz "', async () => {
+            await confirmCompletions(app, ["baz", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
-        testCompletions(app, ["fake", "b"], []);
-        testCompletions(app, ["fake", "fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
+        it('has no completions for "fake b"', async () => {
+            await confirmCompletions(app, ["fake", "b"], []);
+        });
+        it('has no completions for "fake fake "', async () => {
+            await confirmCompletions(app, ["fake", "fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["foo", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "foo --help"', async () => {
+            await confirmCompletions(app, ["foo", "--help"], []);
+        });
     });
 
     describe("for route map at root excluding hidden routes", () => {
@@ -378,49 +459,69 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo,doFoo,bar,b] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "doFoo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "b", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar,b] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "b", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
-        testCompletions(app, ["baz"], []);
-        testCompletions(
-            app,
-            ["baz", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [command] for "b "', async () => {
+            await confirmCompletions(app, ["b", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
+        it('has no completions for "baz"', async () => {
+            await confirmCompletions(app, ["baz"], []);
+        });
+        it('proposes [command] for "baz "', async () => {
+            await confirmCompletions(app, ["baz", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
-        testCompletions(app, ["fake", "b"], []);
-        testCompletions(app, ["fake", "fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
+        it('has no completions for "fake b"', async () => {
+            await confirmCompletions(app, ["fake", "b"], []);
+        });
+        it('has no completions for "fake fake "', async () => {
+            await confirmCompletions(app, ["fake", "fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["foo", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "foo --help"', async () => {
+            await confirmCompletions(app, ["foo", "--help"], []);
+        });
     });
 
     describe("for route map at root with camelCase route names", () => {
@@ -444,45 +545,57 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [fooFlag,barFlag,bazFlag] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "fooFlag", brief: "fooFlag" },
                 { kind: "routing-target:route-map", completion: "barFlag", brief: "barFlag" },
                 { kind: "routing-target:route-map", completion: "bazFlag", brief: "bazFlag" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [barFlag,bazFlag] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "barFlag", brief: "barFlag" },
                 { kind: "routing-target:route-map", completion: "bazFlag", brief: "bazFlag" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["bazFlag"],
-            [{ kind: "routing-target:route-map", completion: "bazFlag", brief: "bazFlag" }],
-        );
-        testCompletions(
-            app,
-            ["bazFlag", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [bazFlag] for "bazFlag"', async () => {
+            await confirmCompletions(app, ["bazFlag"], [{ kind: "routing-target:route-map", completion: "bazFlag", brief: "bazFlag" }]);
+        });
+        it('proposes [command] for "bazFlag "', async () => {
+            await confirmCompletions(app, ["bazFlag", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["fooFlag", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "fooFlag --help"', async () => {
+            await confirmCompletions(app, ["fooFlag", "--help"], []);
+        });
     });
 
     describe("for route map at root with camelCase route names, `allow-kebab-for-camel` parse case style", () => {
@@ -507,45 +620,57 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo-flag,bar-flag,baz-flag] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo-flag", brief: "fooFlag" },
                 { kind: "routing-target:route-map", completion: "bar-flag", brief: "barFlag" },
                 { kind: "routing-target:route-map", completion: "baz-flag", brief: "bazFlag" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar-flag,baz-flag] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar-flag", brief: "barFlag" },
                 { kind: "routing-target:route-map", completion: "baz-flag", brief: "bazFlag" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["baz-flag"],
-            [{ kind: "routing-target:route-map", completion: "baz-flag", brief: "bazFlag" }],
-        );
-        testCompletions(
-            app,
-            ["baz-flag", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [baz-flag] for "baz-flag"', async () => {
+            await confirmCompletions(app, ["baz-flag"], [{ kind: "routing-target:route-map", completion: "baz-flag", brief: "bazFlag" }]);
+        });
+        it('proposes [command] for "baz-flag "', async () => {
+            await confirmCompletions(app, ["baz-flag", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["foo-flag", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "foo-flag --help"', async () => {
+            await confirmCompletions(app, ["foo-flag", "--help"], []);
+        });
     });
 
     describe("for route map at root with kebab-case route names, `original` parse case style", () => {
@@ -569,45 +694,57 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(app, [], []);
+        it('has no completions for no inputs', async () => {
+            await confirmCompletions(app, [], []);
+        });
 
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [foo-flag,bar-flag,baz-flag] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "routing-target:route-map", completion: "foo-flag", brief: "foo-flag" },
                 { kind: "routing-target:route-map", completion: "bar-flag", brief: "bar-flag" },
                 { kind: "routing-target:route-map", completion: "baz-flag", brief: "baz-flag" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["b"],
-            [
+            ]);
+        });
+        it('proposes [bar-flag,baz-flag] for "b"', async () => {
+            await confirmCompletions(app, ["b"], [
                 { kind: "routing-target:route-map", completion: "bar-flag", brief: "bar-flag" },
                 { kind: "routing-target:route-map", completion: "baz-flag", brief: "baz-flag" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["baz-flag"],
-            [{ kind: "routing-target:route-map", completion: "baz-flag", brief: "baz-flag" }],
-        );
-        testCompletions(
-            app,
-            ["baz-flag", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [baz-flag] for "baz-flag"', async () => {
+            await confirmCompletions(app, ["baz-flag"], [{ kind: "routing-target:route-map", completion: "baz-flag", brief: "baz-flag" }]);
+        });
+        it('proposes [command] for "baz-flag "', async () => {
+            await confirmCompletions(app, ["baz-flag", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["g"], []);
-        testCompletions(app, ["fake"], []);
-        testCompletions(app, ["fake", ""], []);
+        it('has no completions for "g"', async () => {
+            await confirmCompletions(app, ["g"], []);
+        });
+        it('has no completions for "fake"', async () => {
+            await confirmCompletions(app, ["fake"], []);
+        });
+        it('has no completions for "fake "', async () => {
+            await confirmCompletions(app, ["fake", ""], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["foo-flag", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "foo-flag --help"', async () => {
+            await confirmCompletions(app, ["foo-flag", "--help"], []);
+        });
     });
 
     describe("nested route map", () => {
@@ -637,40 +774,48 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(
-            app,
-            [""],
-            [{ kind: "routing-target:route-map", completion: "nested", brief: "nested route map" }],
-        );
-        testCompletions(
-            app,
-            ["nested", ""],
-            [
+        it('proposes [nested] for no inputs', async () => {
+            await confirmCompletions(app, [""], [
+                { kind: "routing-target:route-map", completion: "nested", brief: "nested route map" }
+            ]);
+        });
+        it('proposes [foo,bar,baz] for "nested "', async () => {
+            await confirmCompletions(app, ["nested", ""], [
                 { kind: "routing-target:route-map", completion: "foo", brief: "foo" },
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["nested", "b"],
-            [
+            ]);
+        });
+        it('proposes [bar,baz] for "nested b"', async () => {
+            await confirmCompletions(app, ["nested", "b"], [
                 { kind: "routing-target:route-map", completion: "bar", brief: "bar" },
                 { kind: "routing-target:route-map", completion: "baz", brief: "baz" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["nested", "baz", ""],
-            [{ kind: "routing-target:command", completion: "command", brief: "basic command" }],
-        );
+            ]);
+        });
+        it('proposes [command] for "nested baz "', async () => {
+            await confirmCompletions(app, ["nested", "baz", ""], [
+                { kind: "routing-target:command", completion: "command", brief: "basic command" }
+            ]);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["nested", "--help"], []);
-        testCompletions(app, ["nested", "foo", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "nested --help"', async () => {
+            await confirmCompletions(app, ["nested", "--help"], []);
+        });
+        it('has no completions for "nested foo --help"', async () => {
+            await confirmCompletions(app, ["nested", "foo", "--help"], []);
+        });
     });
 
     describe("command at root without aliases", () => {
@@ -718,40 +863,44 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [100,150,200,--foo,--bar] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
                 { kind: "argument:value", completion: "200", brief: "number" },
                 { kind: "argument:flag", completion: "--foo", brief: "foo" },
                 { kind: "argument:flag", completion: "--bar", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["-"],
-            [
+            ]);
+        });
+        it('proposes [--foo,--bar] for "-"', async () => {
+            await confirmCompletions(app, ["-"], [
                 { kind: "argument:flag", completion: "--foo", brief: "foo" },
                 { kind: "argument:flag", completion: "--bar", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["1"],
-            [
+            ]);
+        });
+        it('proposes [100,150] for "1"', async () => {
+            await confirmCompletions(app, ["1"], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
-            ],
-        );
+            ]);
+        });
 
-        testCompletions(app, ["100", "100", "1"], []);
+        it('has no completions for "100 100 1"', async () => {
+            await confirmCompletions(app, ["100", "100", "1"], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
     });
 
     describe("command at root with aliases", () => {
@@ -803,10 +952,8 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [100,150,200,--foo,-f,--bar,-b] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
                 { kind: "argument:value", completion: "200", brief: "number" },
@@ -814,33 +961,39 @@ describe("proposeCompletions", () => {
                 { kind: "argument:flag", completion: "-f", brief: "foo" },
                 { kind: "argument:flag", completion: "--bar", brief: "bar" },
                 { kind: "argument:flag", completion: "-b", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["-"],
-            [
+            ]);
+        });
+        it('proposes [--foo,-f,--bar,-b] for "-"', async () => {
+            await confirmCompletions(app, ["-"], [
                 { kind: "argument:flag", completion: "--foo", brief: "foo" },
                 { kind: "argument:flag", completion: "-f", brief: "foo" },
                 { kind: "argument:flag", completion: "--bar", brief: "bar" },
                 { kind: "argument:flag", completion: "-b", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["1"],
-            [
+            ]);
+        });
+        it('proposes [100,150] for "1"', async () => {
+            await confirmCompletions(app, ["1"], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
-            ],
-        );
+            ]);
+        });
 
-        testCompletions(app, ["100", "100", "1"], []);
+        it('has no completions for "100 100 1"', async () => {
+            await confirmCompletions(app, ["100", "100", "1"], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
     });
 
     describe("command at root with ignored aliases", () => {
@@ -892,40 +1045,44 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(
-            app,
-            [""],
-            [
+        it('proposes [100,150,200,--foo,--bar] for ""', async () => {
+            await confirmCompletions(app, [""], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
                 { kind: "argument:value", completion: "200", brief: "number" },
                 { kind: "argument:flag", completion: "--foo", brief: "foo" },
                 { kind: "argument:flag", completion: "--bar", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["-"],
-            [
+            ]);
+        });
+        it('proposes [--foo,--bar] for "-"', async () => {
+            await confirmCompletions(app, ["-"], [
                 { kind: "argument:flag", completion: "--foo", brief: "foo" },
                 { kind: "argument:flag", completion: "--bar", brief: "bar" },
-            ],
-        );
-        testCompletions(
-            app,
-            ["1"],
-            [
+            ]);
+        });
+        it('proposes [100,150] for "1"', async () => {
+            await confirmCompletions(app, ["1"], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
-            ],
-        );
+            ]);
+        });
 
-        testCompletions(app, ["100", "100", "1"], []);
+        it('has no completions for "100 100 1"', async () => {
+            await confirmCompletions(app, ["100", "100", "1"], []);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
     });
 
     describe("nested command", () => {
@@ -976,36 +1133,46 @@ describe("proposeCompletions", () => {
         });
 
         // THEN
-        testCompletions(
-            app,
-            ["nested"],
-            [{ kind: "routing-target:command", completion: "nested", brief: "command brief" }],
-        );
-        testCompletions(
-            app,
-            ["nested", ""],
-            [
+        it('proposes [nested] for "nested"', async () => {
+            await confirmCompletions(app, ["nested"], [
+                { kind: "routing-target:command", completion: "nested", brief: "command brief" }
+            ]);
+        });
+        it('proposes [100,150,200,--foo] for "nested "', async () => {
+            await confirmCompletions(app, ["nested", ""], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
                 { kind: "argument:value", completion: "200", brief: "number" },
                 { kind: "argument:flag", completion: "--foo", brief: "foo" },
-            ],
-        );
-        testCompletions(app, ["nested", "-"], [{ kind: "argument:flag", completion: "--foo", brief: "foo" }]);
-        testCompletions(
-            app,
-            ["nested", "1"],
-            [
+            ]);
+        });
+        it('proposes [--foo] for "nested -"', async () => {
+            await confirmCompletions(app, ["nested", "-"], [{ kind: "argument:flag", completion: "--foo", brief: "foo" }]);
+        });
+        it('proposes [100,150] for "nested 1"', async () => {
+            await confirmCompletions(app, ["nested", "1"], [
                 { kind: "argument:value", completion: "100", brief: "number" },
                 { kind: "argument:value", completion: "150", brief: "number" },
-            ],
-        );
+            ]);
+        });
 
-        testCompletions(app, ["-h"], []);
-        testCompletions(app, ["--help"], []);
-        testCompletions(app, ["-v"], []);
-        testCompletions(app, ["--version"], []);
-        testCompletions(app, ["nested", "-h"], []);
-        testCompletions(app, ["nested", "--help"], []);
+        it('has no completions for "-h"', async () => {
+            await confirmCompletions(app, ["-h"], []);
+        });
+        it('has no completions for "--help"', async () => {
+            await confirmCompletions(app, ["--help"], []);
+        });
+        it('has no completions for "-v"', async () => {
+            await confirmCompletions(app, ["-v"], []);
+        });
+        it('has no completions for "--version"', async () => {
+            await confirmCompletions(app, ["--version"], []);
+        });
+        it('has no completions for "nested -h"', async () => {
+            await confirmCompletions(app, ["nested", "-h"], []);
+        });
+        it('has no completions for "nested --help"', async () => {
+            await confirmCompletions(app, ["nested", "--help"], []);
+        });
     });
 });
