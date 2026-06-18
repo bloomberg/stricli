@@ -1,13 +1,14 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { buildApplication, buildRouteMap } from "@stricli/core";
-import { installCommand, uninstallCommand } from "./commands";
+import { installCommand, uninstallCommand, scriptCommand } from "./commands";
 import pkg from "../package.json";
 
 const root = buildRouteMap({
     routes: {
         install: installCommand,
         uninstall: uninstallCommand,
+        script: scriptCommand,
     },
     aliases: {
         i: "install",

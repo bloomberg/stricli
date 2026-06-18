@@ -4,6 +4,7 @@ import { buildCommand, type Command, type TypedPositionalParameter } from "@stri
 import type { StricliAutoCompleteContext } from "./context";
 import type { ActiveShells, ShellAutoCompleteCommands } from "./impl";
 import { joinWithGrammar } from "./formatting";
+import type { TabShell } from "./script";
 
 const targetCommandParameter: TypedPositionalParameter<string> = {
     parse: String,
@@ -99,3 +100,51 @@ export function buildUninstallCommand<CONTEXT extends StricliAutoCompleteContext
         },
     });
 }
+
+export const scriptCommand = buildCommand({
+    loader: async () => {
+      const { printScript } = await import("./script");
+      return printScript;
+    },
+  
+    parameters: {
+      flags: {
+        shell: {
+          kind: "parsed",
+          brief: "Shell to generate autocomplete script for",
+          parse: (value: string): TabShell => {
+            if (
+              value !== "bash" &&
+              value !== "zsh" &&
+              value !== "fish" &&
+              value !== "powershell"
+            ) {
+              throw new Error(
+                `Unsupported shell "${value}". Expected bash, zsh, fish, or powershell.`,
+              );
+            }
+  
+            return value;
+          },
+          placeholder: "shell",
+        },
+  
+        command: {
+          kind: "parsed",
+          brief: "Command executed by the shell script to generate completions",
+          parse: String,
+          optional: true,
+          placeholder: "command",
+        },
+      },
+  
+      positional: {
+        kind: "tuple",
+        parameters: [targetCommandParameter],
+      },
+    },
+  
+    docs: {
+      brief: "Prints an autocomplete shell script",
+    },
+  });
