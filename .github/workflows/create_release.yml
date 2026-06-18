@@ -25,8 +25,8 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         permissions:
-            contents: write
-            pull-requests: write
+            contents: write # needed to push changes and edit releases
+            pull-requests: write # needed to create release PR
         steps:
             - uses: actions/checkout@v6
               with:

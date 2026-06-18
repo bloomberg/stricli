@@ -23,7 +23,7 @@ jobs:
     uses: bloomberg/.github/.github/workflows/_scorecard.yml@main
     permissions:
       id-token: write
-      security-events: write
+      security-events: write # needed to publish Scorecard results as security events
     secrets: inherit
     with:
       # Publish results of Scorecard analysis
