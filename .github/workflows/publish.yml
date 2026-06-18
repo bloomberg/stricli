@@ -12,6 +12,7 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         permissions:
+            contents: write # needed to push changes and edit releases
             id-token: write # needed for provenance data generation
         steps:
             - uses: actions/checkout@v6
@@ -28,8 +29,8 @@ jobs:
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v5
 
-            - run: LATEST_VERSION=$(npm view @stricli/core --json | jq -r '.version')
-            - run: RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')
+            - run: echo "LATEST_VERSION=$(npm view @stricli/core --json | jq -r '.version')" >> $GITHUB_ENV
+            - run: echo "RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')" >> $GITHUB_ENV
 
             - name: Publish to npm and update GitHub Release
               if: ${{ env.LATEST_VERSION != env.RELEASE_VERSION }}
@@ -38,4 +39,4 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                 npx nx release publish
-                gh release edit "v$RELEASE_VERSION" --prerelease=false --latest
+                gh release edit "v$RELEASE_VERSION" --latest

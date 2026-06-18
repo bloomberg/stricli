@@ -1,3 +1,13 @@
+## 1.2.8 (2026-06-18)
+
+### 🩹 Fixes
+
+- handle argument escape sequence in route scanner ([87461d5](https://github.com/bloomberg/stricli/commit/87461d5))
+
+### ❤️ Thank You
+
+- Michael Molisani
+
 ## 1.2.7 (2026-05-04)
 
 ### 🩹 Fixes

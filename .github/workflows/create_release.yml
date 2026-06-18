@@ -25,8 +25,8 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         permissions:
-            contents: write
-            pull-requests: write
+            contents: write # needed to push changes and edit releases
+            pull-requests: write # needed to create release PR
         steps:
             - uses: actions/checkout@v6
               with:
@@ -55,6 +55,7 @@ jobs:
                 git config user.name "github-actions[bot]"
                 git config user.email "github-actions[bot]@users.noreply.github.com"
                 git checkout -b "release-$GITHUB_RUN_NUMBER"
+                git push -u origin HEAD
                 npx nx release ${{ inputs.version_bump }} --skip-publish
                 RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')
                 gh release edit "v$RELEASE_VERSION" --prerelease=true
