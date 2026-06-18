@@ -28,8 +28,8 @@ jobs:
             - run: npm ci --legacy-peer-deps
             - uses: nrwl/nx-set-shas@v5
 
-            - run: LATEST_VERSION=$(npm view @stricli/core --json | jq -r '.version')
-            - run: RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')
+            - run: echo "LATEST_VERSION=$(npm view @stricli/core --json | jq -r '.version')" >> $GITHUB_ENV
+            - run: echo "RELEASE_VERSION=$(npm pkg get version --workspaces | jq -r '.["@stricli/core"]')" >> $GITHUB_ENV
 
             - name: Publish to npm and update GitHub Release
               if: ${{ env.LATEST_VERSION != env.RELEASE_VERSION }}
