@@ -43,6 +43,19 @@ FLAGS
 
 `;
 
+exports[`generateHelpTextForAllCommands > custom integration 1`] = `
+:: cli
+USAGE
+  cli
+  cli --customIntegration
+
+command brief
+
+FLAGS
+   --customIntegration  custom integration flag brief
+
+`;
+
 exports[`generateHelpTextForAllCommands > multiple commands at different levels 1`] = `
 :: cli sub command
 USAGE

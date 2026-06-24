@@ -1,33 +1,34 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { checkEnvironmentVariable, type CommandContext, type StricliDynamicCommandContext } from "../context";
+import type { CommandContext, StricliDynamicCommandContext } from "../context";
 import { ExitCode } from "../exit-code";
 import { listAllRouteNamesAndAliasesForScan } from "../parameter/scanner";
 import { runCommand } from "../routing/command/run";
 import { RouteMapSymbol } from "../routing/route-map/types";
 import { buildRouteScanner, type RouteNotFoundError } from "../routing/scanner";
-import { shouldUseAnsiColorForStreams } from "../text";
+import { shouldUseAnsiColorForStreams, type ApplicationText } from "../text";
 import { filterClosestAlternatives } from "../util/distance";
+import { gatherAdditionalFlagsFromIntegrations, runHook } from "./integration";
 import type { Application } from "./types";
 
 /**
  * Run application with given arguments and asynchronously return exit code.
  */
 export async function runApplication<CONTEXT extends CommandContext>(
-    { root, defaultText, config }: Application<CONTEXT>,
+    app: Application<CONTEXT>,
     rawInputs: readonly string[],
     context: StricliDynamicCommandContext<CONTEXT>,
 ): Promise<number> {
-    const ansiColorByStream = shouldUseAnsiColorForStreams(context.process, config.documentation);
-    let text = defaultText;
-    if (context.locale && "loadText" in config.localization) {
-        const localeText = config.localization.loadText(context.locale);
+    const ansiColorByStream = shouldUseAnsiColorForStreams(context.process, app.config.documentation);
+    let text = app.defaultText;
+    if (context.locale && "loadText" in app.config.localization) {
+        const localeText = app.config.localization.loadText(context.locale);
         if (localeText) {
             text = localeText;
         } else {
             const warningMessage = text.noTextAvailableForLocale({
                 requestedLocale: context.locale,
-                defaultLocale: config.localization.defaultLocale,
+                defaultLocale: app.config.localization.defaultLocale,
                 ansiColor: ansiColorByStream.stderr,
             });
             context.process.stderr.write(
@@ -36,56 +37,53 @@ export async function runApplication<CONTEXT extends CommandContext>(
         }
     }
 
-    if (
-        config.versionInfo?.getLatestVersion &&
-        !checkEnvironmentVariable(context.process, "STRICLI_SKIP_VERSION_CHECK")
-    ) {
-        let currentVersion: string;
-        if ("currentVersion" in config.versionInfo) {
-            currentVersion = config.versionInfo.currentVersion;
-        } else {
-            currentVersion = await config.versionInfo.getCurrentVersion.call(context);
-        }
-        const latestVersion = await config.versionInfo.getLatestVersion.call(context, currentVersion);
-        if (latestVersion && currentVersion !== latestVersion) {
-            const warningMessage = text.currentVersionIsNotLatest({
-                currentVersion,
-                latestVersion,
-                upgradeCommand: config.versionInfo.upgradeCommand,
-                ansiColor: ansiColorByStream.stderr,
-            });
-            context.process.stderr.write(
-                ansiColorByStream.stderr ? `\x1B[1m\x1B[33m${warningMessage}\x1B[39m\x1B[22m\n` : `${warningMessage}\n`,
-            );
-        }
+    const hookStartExitCode = await runHook(app.integrations, "app:start", context, {
+        text,
+        ansiColorByStream,
+    });
+    if (typeof hookStartExitCode === "number") {
+        return hookStartExitCode;
     }
+
+    const exitCode = await scanInputsAndRunTarget(app, rawInputs, context, text, ansiColorByStream);
+
+    const hookEndExitCode = await runHook(app.integrations, "app:end", context, {
+        text,
+        ansiColorByStream,
+        exitCode,
+    });
+    if (typeof hookEndExitCode === "number") {
+        return hookEndExitCode;
+    }
+
+    return exitCode;
+}
+
+async function scanInputsAndRunTarget<CONTEXT extends CommandContext>(
+    app: Application<CONTEXT>,
+    rawInputs: readonly string[],
+    context: StricliDynamicCommandContext<CONTEXT>,
+    text: ApplicationText,
+    ansiColorByStream: Record<"stdout" | "stderr", boolean>,
+): Promise<number> {
+    const additionalFlags = gatherAdditionalFlagsFromIntegrations(app.integrations);
 
     const inputs = rawInputs.slice();
-    if (config.versionInfo && (inputs[0] === "--version" || inputs[0] === "-v")) {
-        let currentVersion: string;
-        if ("currentVersion" in config.versionInfo) {
-            currentVersion = config.versionInfo.currentVersion;
-        } else {
-            currentVersion = await config.versionInfo.getCurrentVersion.call(context);
-        }
-        context.process.stdout.write(currentVersion + "\n");
-        return ExitCode.Success;
-    }
-
-    const scanner = buildRouteScanner(root, config.scanner, [config.name]);
+    const scanner = buildRouteScanner(app.root, app.config.scanner, [app.config.name], additionalFlags);
     let error: RouteNotFoundError<CONTEXT> | undefined;
     while (inputs.length > 0 && !error) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const arg = inputs.shift()!;
         error = scanner.next(arg);
     }
+
     if (error) {
         const routeNames = listAllRouteNamesAndAliasesForScan(
             error.routeMap,
-            config.scanner.caseStyle,
-            config.completion,
+            app.config.scanner.caseStyle,
+            app.config.completion,
         );
-        const corrections = filterClosestAlternatives(error.input, routeNames, config.scanner.distanceOptions).map(
+        const corrections = filterClosestAlternatives(error.input, routeNames, app.config.scanner.distanceOptions).map(
             (str) => `\`${str}\``,
         );
         const errorMessage = text.noCommandRegisteredForInput({
@@ -98,22 +96,37 @@ export async function runApplication<CONTEXT extends CommandContext>(
         );
         return ExitCode.UnknownCommand;
     }
-    const result = scanner.finish();
+    // eslint-disable-next-line prefer-const
+    let { activeFlag, ...result } = scanner.finish();
 
-    if (result.helpRequested || result.target.kind === RouteMapSymbol) {
-        context.process.stdout.write(
-            result.target.formatHelp({
-                prefix: result.prefix,
-                includeVersionFlag: Boolean(config.versionInfo) && result.rootLevel,
-                includeArgumentEscapeSequenceFlag: config.scanner.allowArgumentEscapeSequence,
-                includeHelpAllFlag: result.helpRequested === "all" || config.documentation.alwaysShowHelpAllFlag,
-                includeHidden: result.helpRequested === "all",
-                config: config.documentation,
-                aliases: result.aliases[config.documentation.caseStyle],
-                text,
-                ansiColor: ansiColorByStream.stdout,
-            }),
-        );
+    if (activeFlag || result.target.kind === RouteMapSymbol) {
+        if (!activeFlag) {
+            activeFlag = additionalFlags.find((flag) => flag.defaultForRouteMap);
+        }
+        if (activeFlag) {
+            let additionalFlagsForTarget = additionalFlags;
+            if (result.target !== app.root) {
+                additionalFlagsForTarget = additionalFlagsForTarget.filter((flag) => flag.global);
+            }
+            try {
+                await activeFlag.run.call(context, app, {
+                    text,
+                    ansiColorByStream,
+                    result,
+                    additionalFlags: additionalFlagsForTarget,
+                });
+            } catch (exc) {
+                const errorMessage = text.exceptionWhileRunningIntegrationFlag({
+                    exception: exc,
+                    ansiColor: ansiColorByStream.stderr,
+                    integration: activeFlag.name,
+                });
+                context.process.stderr.write(
+                    ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+                );
+                return ExitCode.IntegrationError;
+            }
+        }
         return ExitCode.Success;
     }
 
@@ -131,12 +144,34 @@ export async function runApplication<CONTEXT extends CommandContext>(
     } else {
         commandContext = context;
     }
-    return runCommand(result.target, {
+
+    const hookStartExitCode = await runHook(app.integrations, "command:start", commandContext, {
+        text,
+        ansiColorByStream,
+        result,
+    });
+    if (typeof hookStartExitCode === "number") {
+        return hookStartExitCode;
+    }
+
+    const exitCode = await runCommand(result.target, {
         context: commandContext,
         inputs: result.unprocessedInputs,
-        scannerConfig: config.scanner,
+        scannerConfig: app.config.scanner,
         errorFormatting: text,
-        determineExitCode: config.determineExitCode,
+        determineExitCode: app.config.determineExitCode,
         ansiColorByStream,
     });
+
+    const hookEndExitCode = await runHook(app.integrations, "command:end", commandContext, {
+        text,
+        ansiColorByStream,
+        result,
+        exitCode,
+    });
+    if (typeof hookEndExitCode === "number") {
+        return hookEndExitCode;
+    }
+
+    return exitCode;
 }

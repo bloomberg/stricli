@@ -11,11 +11,9 @@ describe("formatUsageLineForParameters", () => {
     const defaultArgs: UsageFormattingArguments = {
         prefix: ["cli"],
         config: {
-            alwaysShowHelpAllFlag: false,
             caseStyle: "original",
             useAliasInUsageLine: false,
             onlyRequiredInUsageLine: false,
-            disableAnsiColor: false,
         },
         ansiColor: true,
     };

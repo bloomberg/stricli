@@ -6,6 +6,10 @@
  */
 export const ExitCode = {
     /**
+     * Error was thrown by or otherwise caused by an integration.
+     */
+    IntegrationError: -10,
+    /**
      * Unable to find a command in the application with the given command line arguments.
      */
     UnknownCommand: -5,

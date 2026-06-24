@@ -828,11 +828,12 @@ describe("run", () => {
         });
     });
 
-    it("does not handle unexpected error in version information", async () => {
+    it("prints unexpected error from version integration to stderr", async () => {
         // GIVEN
         const error = new Error("This function purposefully throws an error");
         const versionInfo: VersionInfo = {
-            getCurrentVersion: async () => {
+            currentVersion: "1.0.0",
+            getLatestVersion: async () => {
                 throw error;
             },
         };
@@ -843,16 +844,10 @@ describe("run", () => {
         });
 
         // WHEN
-        const context = buildFakeContext();
-        await run(app, ["--version"], context).then(
-            () => {
-                throw new Error(`Expected run to throw`);
-            },
-            (exc: unknown) => {
-                // THEN
-                expect(exc).to.deep.equal(error);
-            },
-        );
+        const result = await runWithInputs(app, [], { forCommand: false });
+
+        // THEN
+        expect(result).toMatchSnapshot();
     });
 
     it("runs command with original context", async () => {
@@ -1076,6 +1071,11 @@ describe("run", () => {
         });
 
         it("display help text for root including hidden", async () => {
+            const result = await runWithInputs(app, ["--helpAll"]);
+            expect(result).toMatchSnapshot();
+        });
+
+        it("fails for disallowed flag case style", async () => {
             const result = await runWithInputs(app, ["--help-all"]);
             expect(result).toMatchSnapshot();
         });
@@ -1134,6 +1134,11 @@ describe("run", () => {
         });
 
         it("display help text for root including hidden", async () => {
+            const result = await runWithInputs(app, ["--helpAll"]);
+            expect(result).toMatchSnapshot();
+        });
+
+        it("fails for disallowed flag case style", async () => {
             const result = await runWithInputs(app, ["--help-all"]);
             expect(result).toMatchSnapshot();
         });
@@ -1193,6 +1198,11 @@ describe("run", () => {
         });
 
         it("display help text for root including hidden", async () => {
+            const result = await runWithInputs(app, ["--helpAll"]);
+            expect(result).toMatchSnapshot();
+        });
+
+        it("fails for disallowed flag case style", async () => {
             const result = await runWithInputs(app, ["--help-all"]);
             expect(result).toMatchSnapshot();
         });

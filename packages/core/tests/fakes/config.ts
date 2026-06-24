@@ -27,5 +27,11 @@ export function buildFakeApplicationText(): SinonStubbedInstance<ApplicationText
         exceptionWhileLoadingCommandContext: stub<[unknown, boolean]>().returns("exceptionWhileLoadingCommandContext"),
         exceptionWhileRunningCommand: stub<[unknown, boolean]>().returns("exceptionWhileRunningCommand"),
         commandErrorResult: stub<[Error, boolean]>().returns("commandErrorResult"),
+        exceptionWhileRunningIntegrationHook: stub<
+            [{ exception: unknown; hook: string; integration: string; ansiColor: boolean }]
+        >().returns("exceptionWhileRunningIntegrationHook"),
+        exceptionWhileRunningIntegrationFlag: stub<
+            [{ exception: unknown; integration: string; ansiColor: boolean }]
+        >().returns("exceptionWhileRunningIntegrationFlag"),
     };
 }

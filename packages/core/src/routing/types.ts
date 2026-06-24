@@ -1,15 +1,15 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import type { DocumentationText } from "../text";
 import type { CommandContext } from "../context";
+import type { AdditionalFlagDocumentation } from "../parameter/flag/formatting";
 import type { UsageFormattingArguments } from "../parameter/formatting";
+import type { DocumentationText } from "../text";
 import type { Command } from "./command/types";
 import type { RouteMap } from "./route-map/types";
 
 export interface HelpFormattingArguments extends UsageFormattingArguments {
     readonly text: DocumentationText;
-    readonly includeHelpAllFlag: boolean;
-    readonly includeVersionFlag: boolean;
+    readonly additionalFlags: readonly AdditionalFlagDocumentation[];
     readonly includeArgumentEscapeSequenceFlag: boolean;
     readonly includeHidden: boolean;
     readonly aliases?: readonly string[];

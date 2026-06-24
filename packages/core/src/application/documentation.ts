@@ -5,6 +5,7 @@ import type { CommandContext } from "../context";
 import { CommandSymbol, type Command } from "../routing/command/types";
 import { RouteMapSymbol, type RouteMap } from "../routing/route-map/types";
 import { InternalError } from "../util/error";
+import { gatherAdditionalFlagsFromIntegrations } from "./integration";
 import type { Application } from "./types";
 
 export type DocumentedCommand = readonly [route: string, helpText: string];
@@ -41,7 +42,7 @@ function* iterateAllCommands(
  * If no locale specified, uses the defaultLocale from the application configuration.
  */
 export function generateHelpTextForAllCommands(
-    { root, defaultText, config }: Application<CommandContext>,
+    { root, defaultText, config, integrations }: Application<CommandContext>,
     locale?: string,
 ): readonly DocumentedCommand[] {
     let text = defaultText;
@@ -53,21 +54,26 @@ export function generateHelpTextForAllCommands(
             throw new InternalError(`Application does not support "${locale}" locale`);
         }
     }
+    const additionalFlags = gatherAdditionalFlagsFromIntegrations(integrations);
     const commands: CommandWithRoute[] = [];
     if (root.kind === CommandSymbol) {
         commands.push([[config.name], root, []]);
     } else {
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         commands.push(...iterateAllCommands(root, [config.name], config.documentation.caseStyle));
     }
     return commands.map(([route, command, aliases]) => {
+        let additionalFlagsForCommand = additionalFlags;
+        if (command !== root) {
+            additionalFlagsForCommand = additionalFlagsForCommand.filter((flag) => flag.global);
+        }
         return [
             route.join(" "),
             command.formatHelp({
                 prefix: route,
                 config: config.documentation,
-                includeVersionFlag: Boolean(config.versionInfo) && route.length === 1,
+                additionalFlags: additionalFlagsForCommand,
                 includeArgumentEscapeSequenceFlag: config.scanner.allowArgumentEscapeSequence,
-                includeHelpAllFlag: config.documentation.alwaysShowHelpAllFlag,
                 includeHidden: false,
                 aliases,
                 text,

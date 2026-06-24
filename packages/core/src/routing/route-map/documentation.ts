@@ -6,7 +6,10 @@ import { convertCamelCaseToKebabCase } from "../../util/case-style";
 import { formatRowsWithColumns } from "../../util/formatting";
 import type { HelpFormattingArguments } from "../types";
 import type { RouteMapRoutes } from "./builder";
-import { formatDocumentationForFlagParameters, generateBuiltInFlagUsageLines } from "../../parameter/flag/formatting";
+import {
+    formatDocumentationForFlagParameters,
+    generateUsageLinesForAdditionalFlags,
+} from "../../parameter/flag/formatting";
 
 /**
  * Help documentation for route map.
@@ -54,7 +57,12 @@ export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
         }
     }
     const prefix = args.prefix.join(" ");
-    for (const line of generateBuiltInFlagUsageLines(args)) {
+    for (const line of generateUsageLinesForAdditionalFlags(
+        args.additionalFlags,
+        args.includeHidden,
+        args.config.caseStyle,
+        args.config.useAliasInUsageLine,
+    )) {
         yield `  ${prefix} ${line}`;
     }
     yield "";
