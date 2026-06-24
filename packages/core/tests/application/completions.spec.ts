@@ -12,9 +12,9 @@ import {
     type VersionInfo,
 } from "../../src";
 import { buildBasicRouteMap, buildRouteMapForFakeContext } from "../application";
-import { buildFakeContext, type FakeContext } from "../fakes/context";
+import { buildFakeContext } from "../fakes/context";
 
-function testCompletions(app: Application<FakeContext>, inputs: string[], expected: readonly InputCompletion[]) {
+function testCompletions(app: Application<CommandContext>, inputs: string[], expected: readonly InputCompletion[]) {
     const line = inputs.join(" ");
     describe(`proposes [${expected.map(({ completion }) => completion).join()}] for "${line}"`, () => {
         it("static context", async () => {
@@ -711,7 +711,7 @@ describe("proposeCompletions", () => {
         };
 
         // WHEN
-        const app = buildApplication<CommandContext>(command, {
+        const app = buildApplication(command, {
             name: "cli",
             versionInfo,
             completion: { includeAliases: true },
@@ -796,7 +796,7 @@ describe("proposeCompletions", () => {
         };
 
         // WHEN
-        const app = buildApplication<CommandContext>(command, {
+        const app = buildApplication(command, {
             name: "cli",
             versionInfo,
             completion: { includeAliases: true },
@@ -885,7 +885,7 @@ describe("proposeCompletions", () => {
         };
 
         // WHEN
-        const app = buildApplication<CommandContext>(command, {
+        const app = buildApplication(command, {
             name: "cli",
             versionInfo,
             completion: { includeAliases: false },
@@ -1007,5 +1007,569 @@ describe("proposeCompletions", () => {
         testCompletions(app, ["--version"], []);
         testCompletions(app, ["nested", "-h"], []);
         testCompletions(app, ["nested", "--help"], []);
+    });
+
+    describe("custom integrations", () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: () => {},
+                };
+            },
+            parameters: {},
+            docs: { brief: "command brief" },
+        });
+
+        // WHEN
+        const app = buildApplication(
+            command,
+            {
+                name: "cli",
+            },
+            {
+                customIntegrationAlpha: {
+                    flag: {
+                        brief: "custom integration alpha flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                customIntegrationBravo: {
+                    flag: {
+                        brief: "custom integration bravo flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                hiddenIntegration: {
+                    flag: {
+                        brief: "hidden integration brief",
+                        global: true,
+                        hidden: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                completionDisabledBrief: {
+                    flag: {
+                        brief: "other integration brief, completion",
+                        global: true,
+                        complete: false,
+                        run: async () => {},
+                    },
+                },
+            },
+        );
+
+        // THEN
+        testCompletions(
+            app,
+            ["-"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(app, ["-c"], []);
+        testCompletions(
+            app,
+            ["--c"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--customIntegration"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+    });
+
+    describe("custom integrations, include hidden", () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: () => {},
+                };
+            },
+            parameters: {},
+            docs: { brief: "command brief" },
+        });
+
+        // WHEN
+        const app = buildApplication(
+            command,
+            {
+                name: "cli",
+                completion: {
+                    includeHiddenRoutes: true,
+                },
+            },
+            {
+                customIntegrationAlpha: {
+                    flag: {
+                        brief: "custom integration alpha flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                customIntegrationBravo: {
+                    flag: {
+                        brief: "custom integration bravo flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                hiddenIntegration: {
+                    flag: {
+                        brief: "hidden integration brief",
+                        global: true,
+                        hidden: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                completionDisabledBrief: {
+                    flag: {
+                        brief: "other integration brief, completion",
+                        global: true,
+                        complete: false,
+                        run: async () => {},
+                    },
+                },
+            },
+        );
+
+        // THEN
+        testCompletions(
+            app,
+            ["-"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                { kind: "argument:flag", completion: "--hiddenIntegration", brief: "hidden integration brief" },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                { kind: "argument:flag", completion: "--hiddenIntegration", brief: "hidden integration brief" },
+            ],
+        );
+        testCompletions(app, ["-c"], []);
+        testCompletions(
+            app,
+            ["--c"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--customIntegration"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+    });
+
+    describe("custom integrations with alternate case style", () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: () => {},
+                };
+            },
+            parameters: {},
+            docs: { brief: "command brief" },
+        });
+
+        // WHEN
+        const app = buildApplication(
+            command,
+            {
+                name: "cli",
+                scanner: {
+                    caseStyle: "allow-kebab-for-camel",
+                },
+            },
+            {
+                custom: {
+                    flag: {
+                        brief: "custom integration flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                customIntegrationAlpha: {
+                    flag: {
+                        brief: "custom integration alpha flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                customIntegrationBravo: {
+                    flag: {
+                        brief: "custom integration bravo flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+            },
+        );
+
+        // THEN
+        testCompletions(
+            app,
+            ["-"],
+            [
+                { kind: "argument:flag", completion: "--custom", brief: "custom integration flag brief" },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-alpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-bravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--"],
+            [
+                { kind: "argument:flag", completion: "--custom", brief: "custom integration flag brief" },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-alpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-bravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(app, ["-c"], []);
+        testCompletions(
+            app,
+            ["--c"],
+            [
+                { kind: "argument:flag", completion: "--custom", brief: "custom integration flag brief" },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-alpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-bravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--customIntegration"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--custom-integration"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-alpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--custom-integration-bravo",
+                    brief: "custom integration bravo flag brief",
+                },
+            ],
+        );
+    });
+
+    describe("custom integrations with aliases", () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: () => {},
+                };
+            },
+            parameters: {},
+            docs: { brief: "command brief" },
+        });
+
+        // WHEN
+        const app = buildApplication(
+            command,
+            {
+                name: "cli",
+                completion: {
+                    includeAliases: true,
+                },
+            },
+            {
+                customIntegrationAlpha: {
+                    flag: {
+                        brief: "custom integration alpha flag brief",
+                        aliases: ["c", "a"],
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                customIntegrationBravo: {
+                    flag: {
+                        brief: "custom integration bravo flag brief",
+                        aliases: ["C", "b"],
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+                customIntegrationCharlie: {
+                    flag: {
+                        brief: "custom integration charlie flag brief",
+                        global: true,
+                        complete: true,
+                        run: async () => {},
+                    },
+                },
+            },
+        );
+
+        // THEN
+        testCompletions(
+            app,
+            ["-"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                { kind: "argument:flag", completion: "-c", brief: "custom integration alpha flag brief" },
+                { kind: "argument:flag", completion: "-a", brief: "custom integration alpha flag brief" },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                { kind: "argument:flag", completion: "-C", brief: "custom integration bravo flag brief" },
+                { kind: "argument:flag", completion: "-b", brief: "custom integration bravo flag brief" },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationCharlie",
+                    brief: "custom integration charlie flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationCharlie",
+                    brief: "custom integration charlie flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["-c"],
+            [{ kind: "argument:flag", completion: "-c", brief: "custom integration alpha flag brief" }],
+        );
+        testCompletions(
+            app,
+            ["--c"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationCharlie",
+                    brief: "custom integration charlie flag brief",
+                },
+            ],
+        );
+        testCompletions(
+            app,
+            ["--customIntegration"],
+            [
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationAlpha",
+                    brief: "custom integration alpha flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationBravo",
+                    brief: "custom integration bravo flag brief",
+                },
+                {
+                    kind: "argument:flag",
+                    completion: "--customIntegrationCharlie",
+                    brief: "custom integration charlie flag brief",
+                },
+            ],
+        );
     });
 });

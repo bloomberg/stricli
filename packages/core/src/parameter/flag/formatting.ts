@@ -1,18 +1,52 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { formatForDisplay, formatAsNegated } from "../../config";
+import { formatForDisplay, formatAsNegated, type DisplayCaseStyle } from "../../config";
 import type { CommandContext } from "../../context";
 import type { HelpFormattingArguments } from "../../routing/types";
 import { formatRowsWithColumns } from "../../util/formatting";
-import type { Aliases } from "../types";
+import type { Aliases, AvailableAlias } from "../types";
 import { type FlagParameter, type FlagParameters, hasDefault, isOptionalAtRuntime } from "./types";
 
-interface FormattedRow {
+/**
+ * Object that represents a flag that should be documented in addition to the flags that are defined in the command.
+ */
+export type AdditionalFlagDocumentation = {
+    /**
+     * Name of the flag, as it appears in the specification (with respect to case styling).
+     */
+    readonly name: string;
+    /**
+     * In-line documentation for this flag.
+     */
+    readonly brief: string;
+    /**
+     * Single-character shorthand aliases to list for this flag.
+     */
+    readonly aliases?: readonly AvailableAlias[];
+    /**
+     * When `true`, this flag will be hidden from help text output, unless hidden flags are explicitly included.
+     */
+    readonly hidden?: boolean;
+};
+
+type FormattedRow = {
     readonly aliases: string;
     readonly flagName: string;
     readonly brief: string;
     readonly suffix?: string;
     readonly hidden?: boolean;
+};
+
+export function formatRowForAdditionalFlag(
+    flag: AdditionalFlagDocumentation,
+    caseStyle: DisplayCaseStyle,
+): FormattedRow {
+    return {
+        aliases: flag.aliases ? flag.aliases.map((alias) => `-${alias}`).join(" ") : "",
+        flagName: `--${formatForDisplay(flag.name, caseStyle)}`,
+        brief: flag.brief,
+        hidden: flag.hidden,
+    };
 }
 
 /**
@@ -23,7 +57,7 @@ export function formatDocumentationForFlagParameters(
     aliases: Aliases<string>,
     args: Omit<HelpFormattingArguments, "prefix">,
 ): readonly string[] {
-    const { keywords, briefs } = args.text;
+    const { keywords } = args.text;
     const visibleFlags = Object.entries<FlagParameter<CommandContext>>(flags).filter(([, flag]) => {
         if (flag.hidden && !args.includeHidden) {
             return false;
@@ -88,32 +122,21 @@ export function formatDocumentationForFlagParameters(
             hidden: flag.hidden,
         };
     });
-    rows.push({
-        aliases: "-h",
-        flagName: atLeastOneOptional ? " --help" : "--help",
-        brief: briefs.help,
-    });
-    if (args.includeHelpAllFlag) {
-        const helpAllFlagName = formatForDisplay("helpAll", args.config.caseStyle);
+    for (const flag of args.additionalFlags) {
+        if (flag.hidden && !args.includeHidden) {
+            continue;
+        }
+        const row = formatRowForAdditionalFlag(flag, args.config.caseStyle);
         rows.push({
-            aliases: "-H",
-            flagName: atLeastOneOptional ? ` --${helpAllFlagName}` : `--${helpAllFlagName}`,
-            brief: briefs.helpAll,
-            hidden: !args.config.alwaysShowHelpAllFlag,
-        });
-    }
-    if (args.includeVersionFlag) {
-        rows.push({
-            aliases: "-v",
-            flagName: atLeastOneOptional ? " --version" : "--version",
-            brief: briefs.version,
+            ...row,
+            flagName: atLeastOneOptional ? ` ${row.flagName}` : row.flagName,
         });
     }
     if (args.includeArgumentEscapeSequenceFlag) {
         rows.push({
             aliases: "",
             flagName: atLeastOneOptional ? " --" : "--",
-            brief: briefs.argumentEscapeSequence,
+            brief: args.text.briefs.argumentEscapeSequence,
         });
     }
     return formatRowsWithColumns(
@@ -135,13 +158,20 @@ export function formatDocumentationForFlagParameters(
 /**
  * @internal
  */
-export function* generateBuiltInFlagUsageLines(args: HelpFormattingArguments): Generator<string> {
-    yield args.config.useAliasInUsageLine ? "-h" : "--help";
-    if (args.includeHelpAllFlag) {
-        const helpAllFlagName = formatForDisplay("helpAll", args.config.caseStyle);
-        yield args.config.useAliasInUsageLine ? "-H" : `--${helpAllFlagName}`;
-    }
-    if (args.includeVersionFlag) {
-        yield args.config.useAliasInUsageLine ? "-v" : "--version";
+export function* generateUsageLinesForAdditionalFlags(
+    flags: readonly AdditionalFlagDocumentation[],
+    includeHidden: boolean,
+    caseStyle: DisplayCaseStyle,
+    useAliasInUsageLine: boolean,
+): Generator<string> {
+    for (const flag of flags) {
+        if (flag.hidden && !includeHidden) {
+            continue;
+        }
+        if (useAliasInUsageLine && flag.aliases && flag.aliases.length > 0) {
+            yield `-${flag.aliases[0]}`;
+        } else {
+            yield `--${formatForDisplay(flag.name, caseStyle)}`;
+        }
     }
 }

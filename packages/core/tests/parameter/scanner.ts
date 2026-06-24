@@ -100,7 +100,6 @@ export function testCompletionError<FLAGS extends BaseFlags, ARGS extends BaseAr
                 completionConfig,
                 text,
                 context: { process },
-                includeVersionFlag: false,
             });
         } catch (exc) {
             assert(exc instanceof ArgumentScannerError);
@@ -206,7 +205,6 @@ async function proposeCompletionsForPartial<FLAGS extends BaseFlags, ARGS extend
         completionConfig,
         text,
         context: { process },
-        includeVersionFlag: false,
     });
 }
 

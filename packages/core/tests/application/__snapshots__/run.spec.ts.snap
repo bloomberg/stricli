@@ -698,10 +698,11 @@ ExitCode=ContextLoadError
 :: STDERR
 [1m[31mUnable to load command context, Error: This function purposefully throws an error
     at Object.forCommand (#/tests/application/run.spec.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
     at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/run.spec.ts:?:?)
-    at #/tests/application/run.spec.ts:?:?
+    at #/tests/application/run.spec.ts:?:?[39m[22m
 `;
 
 exports[`run > fails when context.forCommand throws error, with custom exception formatting 1`] = `
@@ -719,6 +720,7 @@ ExitCode=ContextLoadError
 :: STDERR
 Unable to load command context, Error: This function purposefully throws an error
     at Object.forCommand (#/tests/application/run.spec.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
     at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/run.spec.ts:?:?)
@@ -1114,6 +1116,15 @@ subHidden
 
 `;
 
+exports[`run > nested basic route map with hidden routes > fails for disallowed flag case style 1`] = `
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for \`--help-all\`[39m[22m
+
+`;
+
 exports[`run > nested basic route map with hidden routes > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
@@ -1239,6 +1250,15 @@ subHidden
 
 `;
 
+exports[`run > nested basic route map with hidden routes, always show help-all (alias) > fails for disallowed flag case style 1`] = `
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for \`--help-all\`[39m[22m
+
+`;
+
 exports[`run > nested basic route map with hidden routes, always show help-all (alias) > fails for undefined flag 1`] = `
 ExitCode=UnknownCommand
 :: STDOUT
@@ -1361,6 +1381,15 @@ subHidden
   [1mcommand[32m  [;;3mbasic command[;;;23m
 
 :: STDERR
+
+`;
+
+exports[`run > nested basic route map with hidden routes, always show help-all > fails for disallowed flag case style 1`] = `
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for \`--help-all\`[39m[22m
 
 `;
 
@@ -1510,6 +1539,31 @@ ExitCode=UnknownCommand
 
 :: STDERR
 [1m[31mNo command registered for \`undefined\`[39m[22m
+
+`;
+
+exports[`run > prints unexpected error from version integration to stderr 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli command
+  cli --help
+  cli --version
+
+root
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+COMMANDS
+  command  basic command
+
+:: STDERR
+Unexpected exception thrown by 'version' integration during 'app:start' hook.
+Error: This function purposefully throws an error
+    at #/tests/application/run.spec.ts:?:?
+    at new Promise (<anonymous>)
 
 `;
 
@@ -1698,6 +1752,8 @@ ExitCode=CommandRunError
 [1m[31mCommand failed, Error: Command failed with exit code 1
     at Object.func (#/tests/application/run.spec.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/run.spec.ts:?:?)
     at #/tests/application/run.spec.ts:?:?
@@ -1720,6 +1776,8 @@ ExitCode=Success
 [1m[31mCommand failed, Error: Command failed with exit code 0
     at Object.func (#/tests/application/run.spec.ts:?:?)
     at runCommand (#/src/routing/command/run.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/run.spec.ts:?:?)
     at #/tests/application/run.spec.ts:?:?

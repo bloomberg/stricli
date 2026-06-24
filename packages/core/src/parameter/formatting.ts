@@ -1,6 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import type { DocumentationConfiguration } from "../config";
+import { validateCaseStyleCompatibility } from "../application/integrations/help";
+import type { DisplayCaseStyle, ScannerCaseStyle } from "../config";
 import type { CommandContext } from "../context";
 import { convertCamelCaseToKebabCase } from "../util/case-style";
 import { type FlagParameter, isOptionalAtRuntime } from "./flag/types";
@@ -8,11 +9,55 @@ import type { PositionalParameter } from "./positional/types";
 import type { CommandParameters } from "./types";
 
 /**
+ * Configuration for controlling how printed documentation is formatted.
+ */
+export interface FormattingConfiguration {
+    /**
+     * Controls whether or not to include alias of flags in the usage line.
+     * Only replaces name with alias when a single alias exists.
+     */
+    readonly useAliasInUsageLine: boolean;
+    /**
+     * Controls whether or not to include optional flags and positional parameters in the usage line.
+     * If enabled, all parameters that are optional at runtime (including parameters with defaults) will be hidden.
+     */
+    readonly onlyRequiredInUsageLine: boolean;
+    /**
+     * Case style configuration for displaying route and flag names.
+     * Cannot be `convert-camel-to-kebab` if {@link ScannerConfiguration.caseStyle} is `original`.
+     */
+    readonly caseStyle: DisplayCaseStyle;
+}
+
+/**
+ * @internal
+ */
+export function withDefaultFormattingConfiguration(
+    config: Partial<FormattingConfiguration>,
+    scannerCaseStyle: ScannerCaseStyle,
+): FormattingConfiguration {
+    let displayCaseStyle: DisplayCaseStyle;
+    if (config.caseStyle) {
+        displayCaseStyle = config.caseStyle;
+    } else if (scannerCaseStyle === "allow-kebab-for-camel") {
+        displayCaseStyle = "convert-camel-to-kebab";
+    } else {
+        displayCaseStyle = scannerCaseStyle;
+    }
+    validateCaseStyleCompatibility(scannerCaseStyle, displayCaseStyle);
+    return {
+        useAliasInUsageLine: config.useAliasInUsageLine ?? false,
+        onlyRequiredInUsageLine: config.onlyRequiredInUsageLine ?? false,
+        caseStyle: displayCaseStyle,
+    };
+}
+
+/**
  * Contextual information used to format the usage text for a route/command.
  */
 export interface UsageFormattingArguments {
     readonly prefix: readonly string[];
-    readonly config: DocumentationConfiguration;
+    readonly config: FormattingConfiguration;
     readonly ansiColor: boolean;
 }
 

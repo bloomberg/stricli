@@ -1,5 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
+import type { ScannerCaseStyle } from "../../config";
 import type { CommandContext } from "../../context";
 import type { BaseArgs } from "../../parameter/positional/types";
 import type { BaseFlags, CommandParameters } from "../../parameter/types";
@@ -47,5 +48,5 @@ export interface Command<CONTEXT extends CommandContext> extends DocumentedTarge
     readonly kind: typeof CommandSymbol;
     readonly loader: CommandFunctionLoader<BaseFlags, BaseArgs, CONTEXT>;
     readonly parameters: CommandParameters;
-    readonly usesFlag: (flagName: string) => boolean;
+    readonly usesFlag: (flagName: string, caseStyle: ScannerCaseStyle) => boolean;
 }

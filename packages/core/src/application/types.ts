@@ -4,6 +4,7 @@ import type { ApplicationConfiguration } from "../config";
 import type { ApplicationText } from "../text";
 import type { CommandContext } from "../context";
 import type { RoutingTarget } from "../routing/types";
+import type { StricliIntegration } from "./integration";
 
 /**
  * Interface for top-level command line application.
@@ -12,4 +13,5 @@ export interface Application<CONTEXT extends CommandContext> {
     readonly root: RoutingTarget<CONTEXT>;
     readonly config: ApplicationConfiguration;
     readonly defaultText: ApplicationText;
+    readonly integrations: Readonly<Record<string, StricliIntegration<CONTEXT>>>;
 }

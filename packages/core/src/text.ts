@@ -207,6 +207,37 @@ export interface ApplicationErrorFormatting extends CommandErrorFormatting {
         readonly defaultLocale: string;
         readonly ansiColor: boolean;
     }) => string;
+    /**
+     * Formatted error message for the case where some exception was thrown while running the command.
+     * Users are most likely to hit this case, so make sure that the error text provides practical, usable feedback.
+     *
+     * If `ansiColor` is true, this string can use ANSI terminal codes.
+     * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
+     */
+    readonly exceptionWhileRunningIntegrationHook: (
+        this: ExceptionFormatting,
+        args: {
+            readonly exception: unknown;
+            readonly hook: string;
+            readonly integration: string;
+            readonly ansiColor: boolean;
+        },
+    ) => string;
+    /**
+     * Formatted error message for the case where some exception was thrown while running the command.
+     * Users are most likely to hit this case, so make sure that the error text provides practical, usable feedback.
+     *
+     * If `ansiColor` is true, this string can use ANSI terminal codes.
+     * Codes may have already been applied so be aware you may have to reset to achieve the desired output.
+     */
+    readonly exceptionWhileRunningIntegrationFlag: (
+        this: ExceptionFormatting,
+        args: {
+            readonly exception: unknown;
+            readonly integration: string;
+            readonly ansiColor: boolean;
+        },
+    ) => string;
 }
 
 /**
@@ -279,6 +310,12 @@ export const text_en: ApplicationText = {
     },
     exceptionWhileRunningCommand(exc) {
         return `Command failed, ${(this.formatException ?? formatException)(exc)}`;
+    },
+    exceptionWhileRunningIntegrationHook({ exception, hook, integration }) {
+        return `Unexpected exception thrown by '${integration}' integration during '${hook}' hook.\n${(this.formatException ?? formatException)(exception)}`;
+    },
+    exceptionWhileRunningIntegrationFlag({ exception, integration }) {
+        return `Unexpected exception thrown by "--${integration}" flag from the '${integration}' integration.\n${(this.formatException ?? formatException)(exception)}`;
     },
     commandErrorResult(err) {
         return err.message;

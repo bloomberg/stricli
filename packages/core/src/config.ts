@@ -1,10 +1,10 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { type ApplicationText, defaultTextLoader } from "./text";
-import type { ApplicationContext } from "./context";
-import { InternalError } from "./util/error";
-import type { DamerauLevenshteinOptions } from "./util/distance";
+import type { CommandContext } from "./context";
+import { withDefaultFormattingConfiguration } from "./parameter/formatting";
+import { defaultTextLoader, type ApplicationText } from "./text";
 import { convertCamelCaseToKebabCase } from "./util/case-style";
+import type { DamerauLevenshteinOptions } from "./util/distance";
 
 /**
  * Methods to determine application version information for `--version` flag or latest version check.
@@ -20,14 +20,14 @@ export type VersionInfo = (
           /**
            * Asynchonously determine the current version of this application.
            */
-          readonly getCurrentVersion: (this: ApplicationContext) => Promise<string>;
+          readonly getCurrentVersion: (this: CommandContext) => Promise<string>;
       }
 ) & {
     /**
      * Asynchonously determine the latest version of this application.
      * If value is retrieved from cache, a change to the current version should invalidate that cache.
      */
-    readonly getLatestVersion?: (this: ApplicationContext, currentVersion: string) => Promise<string | undefined>;
+    readonly getLatestVersion?: (this: CommandContext, currentVersion: string) => Promise<string | undefined>;
     /**
      * Command to display to the end user that will upgrade this application.
      * Passed to {@link ApplicationText.currentVersionIsNotLatest} to format/localize.
@@ -119,19 +119,11 @@ export function formatAsNegated(flagName: string, displayCaseStyle: DisplayCaseS
  */
 export interface DocumentationConfiguration {
     /**
-     * In addition to the `--help` flag, there is a `--helpAll`/`--help-all` flag that shows all documentation
-     * including entries for hidden commands/arguments.
-     * The `--helpAll` flag cannot be functionally disabled, but it is hidden when listing the built-in flags by default.
-     * Setting this option to `true` forces the output to always include this flag in the list of built-in flags.
-     *
-     * Defaults to `false`.
-     */
-    readonly alwaysShowHelpAllFlag: boolean;
-    /**
      * Controls whether or not to include alias of flags in the usage line.
      * Only replaces name with alias when a single alias exists.
      *
      * Defaults to `false`.
+     * @deprecated Specify {@link FormattingConfiguration.useAliasInUsageLine} via the {@link help} integration instead.
      */
     readonly useAliasInUsageLine: boolean;
     /**
@@ -139,6 +131,7 @@ export interface DocumentationConfiguration {
      * If enabled, all parameters that are optional at runtime (including parameters with defaults) will be hidden.
      *
      * Defaults to `false`.
+     * @deprecated Specify {@link FormattingConfiguration.onlyRequiredInUsageLine} via the {@link help} integration instead.
      */
     readonly onlyRequiredInUsageLine: boolean;
     /**
@@ -148,8 +141,20 @@ export interface DocumentationConfiguration {
      * Default value is derived from value for {@link ScannerConfiguration.caseStyle}:
      * * Defaults to `original` for `original`.
      * * Defaults to `convert-camel-to-kebab` for `allow-kebab-for-camel`.
+     *
+     * @deprecated Specify {@link FormattingConfiguration.caseStyle} via the {@link help} integration instead.
      */
     readonly caseStyle: DisplayCaseStyle;
+    /**
+     * In addition to the `--help` flag, there is a `--helpAll`/`--help-all` flag that shows all documentation
+     * including entries for hidden commands/arguments.
+     * The `--helpAll` flag cannot be functionally disabled, but it is hidden when listing the built-in flags by default.
+     * Setting this option to `true` forces the output to always include this flag in the list of built-in flags.
+     *
+     * Defaults to `false`.
+     * @deprecated Use the {@link help} integration directly instead, which provides more control over the behavior of the help flag.
+     */
+    readonly alwaysShowHelpAllFlag: boolean;
     /**
      * By default, if the color depth of the stdout stream is greater than 4, ANSI terminal colors will be used.
      * If this value is `true`, disables all ANSI terminal color output.
@@ -220,6 +225,7 @@ export interface ApplicationConfiguration {
      * Before every run, the application will fetch the latest version and warn if it differs from the current version.
      * As well, a new flag `--version` (with alias `-v`) will be available on the base route, which will print the current
      * version to stdout.
+     * @deprecated Use the {@link version} integration directly instead, which provides more control over the behavior of the version flag.
      */
     readonly versionInfo?: VersionInfo;
     /**
@@ -269,18 +275,8 @@ export type PartialApplicationConfiguration = Pick<
  * @internal
  */
 export function withDefaults(config: PartialApplicationConfiguration): ApplicationConfiguration {
+    /* eslint-disable @typescript-eslint/no-deprecated */
     const scannerCaseStyle = config.scanner?.caseStyle ?? "original";
-    let displayCaseStyle: DisplayCaseStyle;
-    if (config.documentation?.caseStyle) {
-        if (scannerCaseStyle === "original" && config.documentation.caseStyle === "convert-camel-to-kebab") {
-            throw new InternalError("Cannot convert route and flag names on display but scan as original");
-        }
-        displayCaseStyle = config.documentation.caseStyle;
-    } else if (scannerCaseStyle === "allow-kebab-for-camel") {
-        displayCaseStyle = "convert-camel-to-kebab";
-    } else {
-        displayCaseStyle = scannerCaseStyle;
-    }
     const scannerConfig: ScannerConfiguration = {
         caseStyle: scannerCaseStyle,
         allowArgumentEscapeSequence: config.scanner?.allowArgumentEscapeSequence ?? false,
@@ -296,10 +292,8 @@ export function withDefaults(config: PartialApplicationConfiguration): Applicati
     };
     const documentationConfig: DocumentationConfiguration = {
         alwaysShowHelpAllFlag: config.documentation?.alwaysShowHelpAllFlag ?? false,
-        useAliasInUsageLine: config.documentation?.useAliasInUsageLine ?? false,
-        onlyRequiredInUsageLine: config.documentation?.onlyRequiredInUsageLine ?? false,
-        caseStyle: displayCaseStyle,
         disableAnsiColor: config.documentation?.disableAnsiColor ?? false,
+        ...withDefaultFormattingConfiguration(config.documentation ?? {}, scannerCaseStyle),
     };
     const completionConfig: CompletionConfiguration = {
         includeAliases: config.completion?.includeAliases ?? documentationConfig.useAliasInUsageLine,
@@ -317,4 +311,5 @@ export function withDefaults(config: PartialApplicationConfiguration): Applicati
             ...config.localization,
         },
     };
+    /* eslint-enable @typescript-eslint/no-deprecated */
 }

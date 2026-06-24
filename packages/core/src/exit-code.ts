@@ -33,4 +33,8 @@ export const ExitCode = {
      * Command module unexpectedly threw an error.
      */
     CommandRunError: 1,
+    /**
+     * Error was thrown by or otherwise caused by an integration.
+     */
+    IntegrationError: 2,
 } as const;
