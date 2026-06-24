@@ -55,11 +55,9 @@ function compareDocumentationToBaseline(positional: PositionalParameters, args: 
 describe("formatDocumentationForPositionalParameters", () => {
     const defaultArgs: Pick<HelpFormattingArguments, "config" | "text" | "ansiColor"> = {
         config: {
-            alwaysShowHelpAllFlag: false,
             caseStyle: "original",
             useAliasInUsageLine: false,
             onlyRequiredInUsageLine: false,
-            disableAnsiColor: false,
         },
         text: text_en,
         ansiColor: true,

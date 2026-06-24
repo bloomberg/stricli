@@ -55,7 +55,7 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
     const aliasesByRoute = new Map<string, readonly string[]>();
     for (const [alias, routeName] of Object.entries(activeAliases)) {
         if (alias in routes) {
-            throw new InternalError(`Cannot use "${alias}" as an alias when a route with that name already exists`);
+            throw new InternalError(`Cannot use '${alias}' as an alias when a route with that name already exists`);
         }
         const routeAliases = aliasesByRoute.get(routeName) ?? [];
         aliasesByRoute.set(routeName, [...routeAliases, alias]);
@@ -63,7 +63,7 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
     const defaultCommand = defaultCommandRoute ? routes[defaultCommandRoute] : void 0;
     if (defaultCommand && defaultCommand.kind === RouteMapSymbol) {
         throw new InternalError(
-            `Cannot use "${defaultCommandRoute}" as the default command because it is not a Command`,
+            `Cannot use '${defaultCommandRoute}' as the default command because it is not a Command`,
         );
     }
     const resolveRouteName = (input: string): R | undefined => {
@@ -89,8 +89,8 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
                 .map((entry) => entry.name[args.config.caseStyle]);
             return `${args.prefix.join(" ")} ${routeNames.join("|")} ...`;
         },
-        formatHelp: (config) => {
-            const lines = [...generateRouteMapHelpLines(routes, docs, config)];
+        formatHelp: (args) => {
+            const lines = [...generateRouteMapHelpLines(routes, docs, args)];
             const text = lines.join("\n");
             return text + "\n";
         },

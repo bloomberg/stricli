@@ -53,9 +53,7 @@ type LowercaseLetter =
 
 type UppercaseLetter = Capitalize<LowercaseLetter>;
 
-type ReservedAlias = "h";
-
-export type AvailableAlias = Exclude<LowercaseLetter | UppercaseLetter, ReservedAlias>;
+export type AvailableAlias = LowercaseLetter | UppercaseLetter;
 
 export type Aliases<T> = Readonly<Partial<Record<AvailableAlias, T>>>;
 

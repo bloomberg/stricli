@@ -70,6 +70,11 @@ export type {
     DocumentationHeaders,
     DocumentationKeywords,
 } from "./text";
+export { help } from "./application/integrations/help";
+export { version } from "./application/integrations/version";
+export type { HelpIntegrationConfiguration } from "./application/integrations/help";
+export type { VersionIntegrationConfiguration } from "./application/integrations/version";
+export type { StricliIntegration, LifecycleHooks, ApplicationFlagFunction } from "./application/integration";
 
 export async function run<CONTEXT extends CommandContext>(
     app: Application<CONTEXT>,

@@ -1,6 +1,9 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { formatDocumentationForFlagParameters, generateBuiltInFlagUsageLines } from "../../parameter/flag/formatting";
+import {
+    formatDocumentationForFlagParameters,
+    generateUsageLinesForAdditionalFlags,
+} from "../../parameter/flag/formatting";
 import { formatUsageLineForParameters } from "../../parameter/formatting";
 import { formatDocumentationForPositionalParameters } from "../../parameter/positional/formatting";
 import type { CommandParameters } from "../../parameter/types";
@@ -50,7 +53,12 @@ export function* generateCommandHelpLines(
     } else {
         yield `  ${formatUsageLineForParameters(parameters, args)}`;
     }
-    for (const line of generateBuiltInFlagUsageLines(args)) {
+    for (const line of generateUsageLinesForAdditionalFlags(
+        args.additionalFlags,
+        args.includeHidden,
+        args.config.caseStyle,
+        args.config.useAliasInUsageLine,
+    )) {
         yield `  ${prefix} ${line}`;
     }
     yield "";

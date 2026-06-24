@@ -8,6 +8,8 @@ import { formatDocumentationForFlagParameters } from "../../../src/parameter/fla
 // eslint-disable-next-line no-restricted-imports
 import type { BaseArgs } from "../../../src/parameter/positional/types";
 // eslint-disable-next-line no-restricted-imports
+import type { AdditionalFlag } from "../../../src/routing/scanner";
+// eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../../src/routing/types";
 
 type DocumentationArgs = Omit<HelpFormattingArguments, "prefix" | "ansiColor">;
@@ -64,17 +66,20 @@ function compareDocumentationToBaseline<FLAGS extends Readonly<Record<string, un
 }
 
 describe("formatDocumentationForFlagParameters", () => {
+    const helpFlag: AdditionalFlag = {
+        name: "help",
+        aliases: ["h"],
+        brief: text_en.briefs.help,
+        global: true,
+    };
     const defaultArgs: DocumentationArgs = {
-        includeVersionFlag: false,
+        additionalFlags: [helpFlag],
         includeArgumentEscapeSequenceFlag: true,
-        includeHelpAllFlag: false,
         includeHidden: false,
         config: {
-            alwaysShowHelpAllFlag: false,
             caseStyle: "original",
             useAliasInUsageLine: false,
             onlyRequiredInUsageLine: false,
-            disableAnsiColor: false,
         },
         text: text_en,
     };

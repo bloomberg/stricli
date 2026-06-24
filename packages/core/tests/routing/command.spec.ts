@@ -4,10 +4,12 @@ import { stripVTControlCharacters } from "node:util";
 import { describe, expect, it } from "vitest";
 import { booleanParser, buildCommand, numberParser, text_en, type Command, type CommandContext } from "../../src";
 // eslint-disable-next-line no-restricted-imports
+import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
+// eslint-disable-next-line no-restricted-imports
+import type { AdditionalFlag } from "../../src/routing/scanner";
+// eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
 import { buildFakeContext } from "../fakes/context";
-// eslint-disable-next-line no-restricted-imports
-import { runCommand, type CommandRunArguments } from "../../src/routing/command/run";
 import { runResultSerializer } from "../snapshot-serializers";
 
 // Register custom snapshot serializer
@@ -74,53 +76,49 @@ function compareHelpTextToBaseline(command: Command<CommandContext>, args: Omit<
 
 describe("Command", () => {
     describe("buildCommand", () => {
-        it("fails with reserved flag --help", () => {
-            expect(() => {
-                // WHEN
-                buildCommand({
-                    loader: async () => {
-                        return {
-                            default: (flags: { help: boolean }) => {},
-                        };
-                    },
-                    parameters: {
-                        positional: { kind: "tuple", parameters: [] },
-                        flags: {
-                            help: {
-                                brief: "help flag brief",
-                                kind: "boolean",
-                            },
+        it("allows command with flag --help", () => {
+            // WHEN
+            buildCommand({
+                loader: async () => {
+                    return {
+                        default: (flags: { help: boolean }) => {},
+                    };
+                },
+                parameters: {
+                    positional: { kind: "tuple", parameters: [] },
+                    flags: {
+                        help: {
+                            brief: "help flag brief",
+                            kind: "boolean",
                         },
                     },
-                    docs: { brief: "brief" },
-                });
-            }).to.throw("Unable to use reserved flag --help");
+                },
+                docs: { brief: "brief" },
+            });
         });
 
-        it("fails with reserved alias -h", (context) => {
-            expect(() => {
-                // WHEN
-                buildCommand({
-                    loader: async () => {
-                        return {
-                            default: (flags: { hotel: boolean }) => {},
-                        };
-                    },
-                    parameters: {
-                        positional: { kind: "tuple", parameters: [] },
-                        flags: {
-                            hotel: {
-                                brief: "hotel flag brief",
-                                kind: "boolean",
-                            },
+        it("allows command with alias -h", (context) => {
+            // WHEN
+            buildCommand({
+                loader: async () => {
+                    return {
+                        default: (flags: { hotel: boolean }) => {},
+                    };
+                },
+                parameters: {
+                    positional: { kind: "tuple", parameters: [] },
+                    flags: {
+                        hotel: {
+                            brief: "hotel flag brief",
+                            kind: "boolean",
                         },
-                        aliases: {
-                            h: "hotel",
-                        } as {},
                     },
-                    docs: { brief: "brief" },
-                });
-            }).to.throw("Unable to use reserved alias -h");
+                    aliases: {
+                        h: "hotel",
+                    } as {},
+                },
+                docs: { brief: "brief" },
+            });
         });
 
         it("fails with required boolean flag negated name collision", (context) => {
@@ -256,20 +254,35 @@ describe("Command", () => {
     });
 
     describe("printHelp", () => {
+        const helpFlag: AdditionalFlag = {
+            name: "help",
+            aliases: ["h"],
+            brief: text_en.briefs.help,
+            global: true,
+        };
+        const helpAllFlag: AdditionalFlag = {
+            name: "helpAll",
+            aliases: ["H"],
+            brief: text_en.briefs.helpAll,
+            global: true,
+            hidden: true,
+        };
+        const versionFlag: AdditionalFlag = {
+            name: "version",
+            aliases: ["v"],
+            brief: text_en.briefs.version,
+            global: false,
+        };
         const defaultArgs: HelpFormattingArguments = {
             prefix: ["prefix"],
-            aliases: [],
             config: {
-                alwaysShowHelpAllFlag: false,
                 caseStyle: "original",
                 useAliasInUsageLine: false,
                 onlyRequiredInUsageLine: false,
-                disableAnsiColor: true,
             },
             text: text_en,
-            includeVersionFlag: false,
+            additionalFlags: [helpFlag],
             includeArgumentEscapeSequenceFlag: false,
-            includeHelpAllFlag: false,
             includeHidden: false,
             ansiColor: false,
         };
@@ -359,7 +372,8 @@ describe("Command", () => {
 
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
-                includeHelpAllFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, helpAllFlag],
+                includeHidden: true,
                 config: {
                     ...defaultArgs.config,
                     useAliasInUsageLine: true,
@@ -556,7 +570,10 @@ describe("Command", () => {
                 docs: { brief: "brief" },
             });
 
-            compareHelpTextToBaseline(command, { ...defaultArgs, includeVersionFlag: true });
+            compareHelpTextToBaseline(command, {
+                ...defaultArgs,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
+            });
         });
 
         describe("mixed parameters with version available, only required in usage line", () => {
@@ -620,7 +637,7 @@ describe("Command", () => {
 
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 config: {
                     ...defaultArgs.config,
                     onlyRequiredInUsageLine: true,
@@ -690,7 +707,7 @@ describe("Command", () => {
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["alias1", "alias2"],
             });
         });
@@ -757,7 +774,7 @@ describe("Command", () => {
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["alias1", "alias2"],
                 config: {
                     ...defaultArgs.config,
@@ -1579,7 +1596,7 @@ describe("Command", () => {
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["alias1", "alias2"],
                 text: {
                     ...defaultArgs.text,
@@ -1656,7 +1673,7 @@ describe("Command", () => {
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["alias1", "alias2"],
                 text: {
                     ...defaultArgs.text,
@@ -1849,7 +1866,8 @@ describe("Command", () => {
 
             compareHelpTextToBaseline(command, {
                 ...defaultArgs,
-                includeHelpAllFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, helpAllFlag],
+                includeHidden: true,
                 config: {
                     ...defaultArgs.config,
                     useAliasInUsageLine: true,
