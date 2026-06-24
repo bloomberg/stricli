@@ -623,6 +623,7 @@ describe("ArgumentScanner (positional)", () => {
         it("proposeCompletions", async () => {
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: [],
                 partial: "",
                 scannerConfig: defaultScannerConfig,
@@ -634,6 +635,7 @@ describe("ArgumentScanner (positional)", () => {
             });
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: [],
                 partial: "1",
                 scannerConfig: defaultScannerConfig,
@@ -645,6 +647,7 @@ describe("ArgumentScanner (positional)", () => {
             });
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: ["1"],
                 partial: "2",
                 scannerConfig: defaultScannerConfig,
@@ -693,6 +696,7 @@ describe("ArgumentScanner (positional)", () => {
         it("proposeCompletions", async () => {
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: [],
                 partial: "",
                 scannerConfig: defaultScannerConfig,
@@ -704,6 +708,7 @@ describe("ArgumentScanner (positional)", () => {
             });
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: [],
                 partial: "1",
                 scannerConfig: defaultScannerConfig,
@@ -715,6 +720,7 @@ describe("ArgumentScanner (positional)", () => {
             });
             await testCompletions<Flags, Positional>({
                 parameters,
+                context: {} as CommandContext,
                 inputs: ["1"],
                 partial: "2",
                 scannerConfig: defaultScannerConfig,
