@@ -65,3 +65,37 @@ await run(app, process.argv.slice(2), { process, user });
 ```
 
 In this example, imagine that you store user information in the user's local environment. You can fetch that information and store it in the context for use in any/all of your commands.
+
+## Per-Command Context
+
+Sometimes you may want to build context dynamically based on which command is being executed. For example, you might want to establish a database connection only for commands that actually need it, or load configuration specific to a particular command subtree.
+
+You can achieve this by adding a `forCommand` method to your application context. This method is called after Stricli determines which command will run, but before the command executes. It receives a [`CommandInfo`](../../packages/core/interfaces/CommandInfo) object containing the command's prefix path, and returns a context object that will be passed to the command.
+
+import ForCommandCode from "./examples/for-command.txt";
+
+<StricliPlayground>{ForCommandCode}</StricliPlayground>
+
+The `forCommand` method receives a [`CommandInfo`](../../packages/core/interfaces/CommandInfo) object, which contains:
+
+-   `prefix`: The command path as an array of strings (e.g., `["db", "query"]` for `run db query name`)
+-   Other metadata about the matched command
+
+This allows you to:
+
+-   **Lazy-load expensive resources** - Only initialize database connections, API clients, or file handles when needed
+-   **Load command-specific configuration** - Read different config files based on which command subtree is being executed
+-   **Add logging context** - Attach command path information to logs for better debugging
+-   **Conditional feature flags** - Enable or disable features based on command structure
+
+:::tip
+
+The `forCommand` method can be async, making it perfect for initializing resources that require async operations like database connections or network requests.
+
+:::
+
+:::caution
+
+If `forCommand` throws an error, the application will exit with code `-3` (`ContextLoadError`) and display the error message. Make sure to handle errors appropriately if resource initialization might fail.
+
+:::
