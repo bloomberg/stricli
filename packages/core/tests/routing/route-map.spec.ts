@@ -11,6 +11,8 @@ import {
     type RouteMapBuilderArguments,
 } from "../../src";
 // eslint-disable-next-line no-restricted-imports
+import type { AdditionalFlag } from "../../src/routing/scanner";
+// eslint-disable-next-line no-restricted-imports
 import type { HelpFormattingArguments } from "../../src/routing/types";
 
 function compareHelpTextToBaseline(
@@ -93,7 +95,7 @@ describe("RouteMap", () => {
                 },
                 docs: { brief: "route map with colliding alias" },
             });
-        }).to.throw('Cannot use "alpha" as an alias when a route with that name already exists');
+        }).to.throw(`Cannot use 'alpha' as an alias when a route with that name already exists`);
     });
 
     it("builder enforces default command is not a route map", () => {
@@ -128,24 +130,32 @@ describe("RouteMap", () => {
                 defaultCommand: "sub" as any,
                 docs: { brief: "route map with invalid default command" },
             });
-        }).to.throw('Cannot use "sub" as the default command because it is not a Command');
+        }).to.throw(`Cannot use 'sub' as the default command because it is not a Command`);
     });
 
     describe("printHelp", () => {
+        const helpFlag: AdditionalFlag = {
+            name: "help",
+            aliases: ["h"],
+            brief: text_en.briefs.help,
+            global: true,
+        };
+        const versionFlag: AdditionalFlag = {
+            name: "version",
+            aliases: ["v"],
+            brief: text_en.briefs.version,
+            global: false,
+        };
         const defaultArgs: HelpFormattingArguments = {
             prefix: ["prefix"],
-            aliases: [],
             config: {
-                alwaysShowHelpAllFlag: false,
                 caseStyle: "original",
                 useAliasInUsageLine: false,
                 onlyRequiredInUsageLine: false,
-                disableAnsiColor: true,
             },
             text: text_en,
-            includeVersionFlag: false,
+            additionalFlags: [helpFlag],
             includeArgumentEscapeSequenceFlag: false,
-            includeHelpAllFlag: false,
             includeHidden: false,
             ansiColor: false,
         };
@@ -204,7 +214,7 @@ describe("RouteMap", () => {
 
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
             });
         });
 
@@ -220,7 +230,7 @@ describe("RouteMap", () => {
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["alias1", "alias2"],
             });
         });
@@ -237,7 +247,7 @@ describe("RouteMap", () => {
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 prefix: ["cli", "alias1"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["route", "alias2"],
             });
         });
@@ -256,7 +266,7 @@ describe("RouteMap", () => {
 
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
             });
         });
 
@@ -274,7 +284,7 @@ describe("RouteMap", () => {
 
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 includeHidden: true,
             });
         });
@@ -291,7 +301,7 @@ describe("RouteMap", () => {
 
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 config: {
                     ...defaultArgs.config,
                     caseStyle: "convert-camel-to-kebab",
@@ -311,7 +321,7 @@ describe("RouteMap", () => {
             compareHelpTextToBaseline(routeMap, {
                 ...defaultArgs,
                 prefix: ["cli", "route"],
-                includeVersionFlag: true,
+                additionalFlags: [...defaultArgs.additionalFlags, versionFlag],
                 aliases: ["alias1", "alias2"],
                 text: {
                     ...defaultArgs.text,

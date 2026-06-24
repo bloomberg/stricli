@@ -9,6 +9,7 @@ import { filterClosestAlternatives } from "../util/distance";
 import { InternalError } from "../util/error";
 import { joinWithGrammar } from "../util/formatting";
 import { allSettledOrElse, type PromiseSettledOrElseResult } from "../util/promise";
+import type { AdditionalFlagDocumentation } from "./flag/formatting";
 import type {
     BaseEnumFlagParameter,
     BaseParsedFlagParameter,
@@ -69,12 +70,20 @@ export function formatMessageForArgumentScannerError(
     return error.message;
 }
 
-function resolveAliases<CONTEXT extends CommandContext>(
-    flags: FlagParameters,
+function resolveAllowedNegationForFlags(flags: FlagParameters): Partial<Record<string, boolean>> {
+    return Object.fromEntries(
+        Object.entries(flags).map(([internalFlagName, flag]) => {
+            return [internalFlagName, flag.kind === "boolean" && flag.withNegated !== false];
+        }),
+    );
+}
+
+export function resolveAliases<F>(
+    flags: Readonly<Record<string, F>>,
     aliases: Aliases<string>,
     scannerCaseStyle: ScannerCaseStyle,
-): Partial<Record<AvailableAlias, NamedFlag<CONTEXT, FlagParameter<CONTEXT>>>> {
-    return Object.fromEntries<NamedFlag<CONTEXT, FlagParameter<CONTEXT>>>(
+): Partial<Record<AvailableAlias, NamedFlag<F>>> {
+    return Object.fromEntries<NamedFlag<F>>(
         Object.entries(aliases).map(([alias, internalFlagName_]) => {
             const internalFlagName = internalFlagName_ as InternalFlagName;
             const flag = flags[internalFlagName];
@@ -316,19 +325,13 @@ export class UnsatisfiedPositionalError extends ArgumentScannerError {
     }
 }
 
-type NamedFlag<CONTEXT extends CommandContext, T extends FlagParameter<CONTEXT>> = readonly [
-    name: InternalFlagName,
-    flag: T,
-];
-type NamedFlagWithNegation<CONTEXT extends CommandContext> =
-    | { readonly namedFlag: NamedFlag<CONTEXT, FlagParameter<CONTEXT>>; readonly negated?: false }
-    | { readonly namedFlag: NamedFlag<CONTEXT, BooleanFlagParameter>; readonly negated: true };
+type NamedFlag<F> = readonly [name: InternalFlagName, flag: F, negated?: boolean];
 
 type FlagParserExpectingInput<CONTEXT extends CommandContext> =
     | BaseEnumFlagParameter<string>
     | BaseParsedFlagParameter<unknown, CONTEXT>;
 
-type NamedFlagExpectingInput<CONTEXT extends CommandContext> = NamedFlag<CONTEXT, FlagParserExpectingInput<CONTEXT>>;
+type NamedFlagExpectingInput<CONTEXT extends CommandContext> = NamedFlag<FlagParserExpectingInput<CONTEXT>>;
 
 function undoNegation<T extends string>(flagName: T): T | undefined {
     if (flagName.startsWith("no") && flagName.length > 2) {
@@ -346,11 +349,12 @@ function undoNegation<T extends string>(flagName: T): T | undefined {
     }
 }
 
-function findInternalFlagMatch<CONTEXT extends CommandContext>(
+function findInternalFlagMatch<F>(
     externalFlagName: ExternalFlagName,
-    flags: Readonly<Record<string, FlagParameter<CONTEXT>>>,
+    flags: Readonly<Record<string, F>>,
+    allowsNegation: Partial<Record<string, boolean>>,
     config: ScannerConfiguration,
-): NamedFlagWithNegation<CONTEXT> {
+): NamedFlag<F> {
     const internalFlagName = externalFlagName as string as InternalFlagName;
     let flag = flags[internalFlagName];
     let foundFlagWithNegatedFalse: InternalFlagName | undefined;
@@ -359,9 +363,9 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
         const internalWithoutNegation = undoNegation(internalFlagName);
         if (internalWithoutNegation) {
             flag = flags[internalWithoutNegation];
-            if (flag && flag.kind == "boolean") {
-                if (flag.withNegated !== false) {
-                    return { namedFlag: [internalWithoutNegation, flag], negated: true };
+            if (flag) {
+                if (allowsNegation[internalWithoutNegation]) {
+                    return [internalWithoutNegation, flag, true];
                 } else {
                     // Clear out flag match so that it doesn't trigger a false positive.
                     foundFlagWithNegatedFalse = internalWithoutNegation;
@@ -374,14 +378,14 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
     if (config.caseStyle === "allow-kebab-for-camel" && !flag) {
         flag = flags[camelCaseFlagName];
         if (flag) {
-            return { namedFlag: [camelCaseFlagName, flag] };
+            return [camelCaseFlagName, flag];
         }
         const camelCaseWithoutNegation = undoNegation(camelCaseFlagName);
         if (camelCaseWithoutNegation) {
             flag = flags[camelCaseWithoutNegation];
-            if (flag && flag.kind == "boolean") {
-                if (flag.withNegated !== false) {
-                    return { namedFlag: [camelCaseWithoutNegation, flag], negated: true };
+            if (flag) {
+                if (allowsNegation[camelCaseWithoutNegation]) {
+                    return [camelCaseWithoutNegation, flag, true];
                 } else {
                     // Clear out flag match so that it doesn't trigger a false positive.
                     foundFlagWithNegatedFalse = camelCaseWithoutNegation;
@@ -411,20 +415,15 @@ function findInternalFlagMatch<CONTEXT extends CommandContext>(
         const corrections = filterClosestAlternatives(internalFlagName, Object.keys(flags), config.distanceOptions);
         throw new FlagNotFoundError(externalFlagName, corrections);
     }
-    return { namedFlag: [internalFlagName, flag] };
+    return [internalFlagName, flag];
 }
 
 type NiladicFlagParameter = BooleanFlagParameter | CounterFlagParameter;
 
 function isNiladic<CONTEXT extends CommandContext>(
-    namedFlagWithNegation: NamedFlagWithNegation<CONTEXT>,
-): namedFlagWithNegation is NamedFlagWithNegation<CONTEXT> & {
-    readonly namedFlag: NamedFlag<CONTEXT, NiladicFlagParameter>;
-} {
-    if (
-        namedFlagWithNegation.namedFlag[1].kind === "boolean" ||
-        namedFlagWithNegation.namedFlag[1].kind === "counter"
-    ) {
+    namedFlagWithNegation: NamedFlag<FlagParameter<CONTEXT>>,
+): namedFlagWithNegation is NamedFlag<NiladicFlagParameter> {
+    if (namedFlagWithNegation[1].kind === "boolean" || namedFlagWithNegation[1].kind === "counter") {
         return true;
     }
     return false;
@@ -433,12 +432,13 @@ function isNiladic<CONTEXT extends CommandContext>(
 const FLAG_SHORTHAND_PATTERN = /^-([a-z]+)$/i;
 const FLAG_NAME_PATTERN = /^--([a-z][a-z-.\d_]+)$/i;
 
-function findFlagsByArgument<CONTEXT extends CommandContext>(
+export function findFlagsByArgument<F>(
     arg: string,
-    flags: Readonly<Record<string, FlagParameter<CONTEXT>>>,
-    resolvedAliases: Partial<Record<AvailableAlias, NamedFlag<CONTEXT, FlagParameter<CONTEXT>>>>,
+    flags: Readonly<Record<string, F>>,
+    allowsNegation: Partial<Record<string, boolean>>,
+    resolvedAliases: Partial<Record<AvailableAlias, NamedFlag<F>>>,
     config: ScannerConfiguration,
-): readonly NamedFlagWithNegation<CONTEXT>[] {
+): readonly NamedFlag<F>[] {
     const shorthandMatch = FLAG_SHORTHAND_PATTERN.exec(arg);
     if (shorthandMatch) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -449,7 +449,7 @@ function findFlagsByArgument<CONTEXT extends CommandContext>(
             if (!namedFlag) {
                 throw new AliasNotFoundError(aliasName);
             }
-            return { namedFlag };
+            return namedFlag;
         });
     }
 
@@ -457,7 +457,7 @@ function findFlagsByArgument<CONTEXT extends CommandContext>(
     if (flagNameMatch) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const externalFlagName = flagNameMatch[1]! as ExternalFlagName;
-        return [findInternalFlagMatch(externalFlagName, flags, config)];
+        return [findInternalFlagMatch(externalFlagName, flags, allowsNegation, config)];
     }
 
     return [];
@@ -488,20 +488,21 @@ export class InvalidNegatedFlagSyntaxError extends ArgumentScannerError {
 function findFlagByArgumentWithInput<CONTEXT extends CommandContext>(
     arg: string,
     flags: Readonly<Record<string, FlagParameter<CONTEXT>>>,
-    resolvedAliases: Partial<Record<AvailableAlias, NamedFlag<CONTEXT, FlagParameter<CONTEXT>>>>,
+    allowsNegation: Partial<Record<string, boolean>>,
+    resolvedAliases: Partial<Record<AvailableAlias, NamedFlag<FlagParameter<CONTEXT>>>>,
     config: ScannerConfiguration,
-): readonly [flag: NamedFlag<CONTEXT, FlagParameter<CONTEXT>>, input: string] | undefined {
+): readonly [flag: NamedFlag<FlagParameter<CONTEXT>>, input: string] | undefined {
     const flagsNameMatch = FLAG_NAME_VALUE_PATTERN.exec(arg);
     if (flagsNameMatch) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const externalFlagName = flagsNameMatch[1]! as ExternalFlagName;
-        const { namedFlag: flagMatch, negated } = findInternalFlagMatch(externalFlagName, flags, config);
+        const namedFlag = findInternalFlagMatch(externalFlagName, flags, allowsNegation, config);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const valueText = flagsNameMatch[2]!;
-        if (negated) {
+        if (namedFlag[2]) {
             throw new InvalidNegatedFlagSyntaxError(externalFlagName, valueText);
         }
-        return [flagMatch, valueText];
+        return [namedFlag, valueText];
     }
     const aliasValueMatch = ALIAS_VALUE_PATTERN.exec(arg);
     if (aliasValueMatch) {
@@ -615,7 +616,6 @@ export interface ArgumentScannerCompletionArguments<CONTEXT extends CommandConte
     readonly completionConfig: CompletionConfiguration;
     readonly text: ApplicationText;
     readonly context: CONTEXT;
-    readonly includeVersionFlag: boolean;
 }
 
 export interface ArgumentCompletion {
@@ -674,7 +674,7 @@ function isVariadicFlag<CONTEXT extends CommandContext>(flag: FlagParameter<CONT
 function storeInput<CONTEXT extends CommandContext>(
     flagInputs: Map<InternalFlagName, ArgumentInputs>,
     scannerCaseStyle: ScannerCaseStyle,
-    [internalFlagName, flag]: NamedFlag<CONTEXT, FlagParameter<CONTEXT>>,
+    [internalFlagName, flag]: NamedFlag<FlagParameter<CONTEXT>>,
     input: string,
 ) {
     const inputs = flagInputs.get(internalFlagName) ?? [];
@@ -720,6 +720,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
     config: ScannerConfiguration,
 ): ArgumentScanner<FLAGS, ARGS, CONTEXT> {
     const { flags = {}, aliases = {}, positional = { kind: "tuple", parameters: [] } } = parameters;
+    const allowsNegation = resolveAllowedNegationForFlags(flags);
     const resolvedAliases = resolveAliases(flags, aliases, config.caseStyle);
 
     const positionalInputs: string[] = [];
@@ -746,7 +747,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             }
 
             if (!treatInputsAsArguments) {
-                const flagInput = findFlagByArgumentWithInput(input, flags, resolvedAliases, config);
+                const flagInput = findFlagByArgumentWithInput(input, flags, allowsNegation, resolvedAliases, config);
                 if (flagInput) {
                     if (activeFlag) {
                         if (activeFlag[1].kind === "parsed" && activeFlag[1].inferEmpty) {
@@ -762,7 +763,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                     return;
                 }
 
-                const nextFlags = findFlagsByArgument(input, flags, resolvedAliases, config);
+                const nextFlags = findFlagsByArgument(input, flags, allowsNegation, resolvedAliases, config);
                 if (nextFlags.length > 0) {
                     if (activeFlag) {
                         if (activeFlag[1].kind === "parsed" && activeFlag[1].inferEmpty) {
@@ -771,31 +772,26 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         } else {
                             const externalFlagName = asExternal(activeFlag[0], config.caseStyle);
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            const nextFlagName = asExternal(nextFlags[0]!.namedFlag[0], config.caseStyle);
+                            const nextFlagName = asExternal(nextFlags[0]![0], config.caseStyle);
                             throw new UnsatisfiedFlagError(externalFlagName, nextFlagName);
                         }
                     }
                     if (nextFlags.every(isNiladic)) {
                         for (const nextFlag of nextFlags) {
-                            if (nextFlag.namedFlag[1].kind === "boolean") {
-                                storeInput(
-                                    flagInputs,
-                                    config.caseStyle,
-                                    nextFlag.namedFlag,
-                                    nextFlag.negated ? "false" : "true",
-                                );
+                            if (nextFlag[1].kind === "boolean") {
+                                storeInput(flagInputs, config.caseStyle, nextFlag, nextFlag[2] ? "false" : "true");
                             } else {
-                                storeInput(flagInputs, config.caseStyle, nextFlag.namedFlag, "1");
+                                storeInput(flagInputs, config.caseStyle, nextFlag, "1");
                             }
                         }
                     } else if (nextFlags.length > 1) {
                         const nextFlagExpectingArg = nextFlags.find((nextFlag) => !isNiladic(nextFlag));
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        const externalFlagName = asExternal(nextFlagExpectingArg!.namedFlag[0], config.caseStyle);
+                        const externalFlagName = asExternal(nextFlagExpectingArg![0], config.caseStyle);
                         throw new UnsatisfiedFlagError(externalFlagName);
                     } else {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        activeFlag = nextFlags[0]!.namedFlag as NamedFlag<CONTEXT, FlagParserExpectingInput<CONTEXT>>;
+                        activeFlag = nextFlags[0]! as NamedFlag<FlagParserExpectingInput<CONTEXT>>;
                     }
                     return;
                 }
@@ -903,7 +899,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             const parsedFlags = Object.fromEntries(flagEntriesResult.value) as FLAGS;
             return { success: true, arguments: [parsedFlags, ...positionalValuesResult.value] };
         },
-        proposeCompletions: async ({ partial, completionConfig, text, context, includeVersionFlag }) => {
+        proposeCompletions: async ({ partial, completionConfig, text, context }) => {
             if (activeFlag) {
                 return proposeFlagCompletionsForPartialInput<CONTEXT>(activeFlag[1], context, partial);
             }
@@ -929,12 +925,6 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                     } else if (shorthandMatch) {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         const partialAliases = Array.from(shorthandMatch[1]!);
-                        if (partialAliases.includes("h")) {
-                            return [];
-                        }
-                        if (includeVersionFlag && partialAliases.includes("v")) {
-                            return [];
-                        }
                         const flagInputsIncludingPartial = new Map(flagInputs);
                         for (const alias of partialAliases) {
                             const namedFlag = resolvedAliases[alias as AvailableAlias];

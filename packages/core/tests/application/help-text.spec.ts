@@ -299,4 +299,37 @@ describe("generateHelpTextForAllCommands", () => {
         // THEN
         expect(documentedCommands).toMatchSnapshot();
     });
+
+    it("custom integration", async () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: (flags: Record<string, never>) => {},
+                };
+            },
+            parameters: {
+                positional: { kind: "tuple", parameters: [] },
+                flags: {},
+            },
+            docs: { brief: "command brief" },
+        });
+        const app = buildApplication(command, {
+            name: "cli",
+        }, {
+            customIntegration: {
+                flag: {
+                    brief: "custom integration flag brief",
+                    global: true,
+                    run: async () => {},
+                },
+            },
+        });
+
+        // WHEN
+        const documentedCommands = generateHelpTextForAllCommands(app);
+
+        // THEN
+        expect(documentedCommands).toMatchSnapshot();
+    });
 });

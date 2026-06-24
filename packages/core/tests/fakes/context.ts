@@ -38,7 +38,7 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
         process: {
             stdout: {
                 write: stub(),
-                ...(colorDepth
+                ...(typeof colorDepth === "number"
                     ? {
                           getColorDepth() {
                               return colorDepth;
@@ -48,7 +48,7 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
             },
             stderr: {
                 write: stub(),
-                ...(colorDepth
+                ...(typeof colorDepth === "number"
                     ? {
                           getColorDepth() {
                               return colorDepth;

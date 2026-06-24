@@ -1,0 +1,326 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`version integration > via config (default integration) > with current version (as async callback) > request current version (with flag alias) 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via config (default integration) > with current version (as async callback) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via config (default integration) > with current version (as static string) > request current version (with flag alias) 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via config (default integration) > with current version (as static string) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via config (default integration) > with missing latest version info > display help text for root 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`version integration > via config (default integration) > with missing latest version info > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as async callback) > display help text for root, warn on outdated version 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as async callback) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as static string) > display help text for root, warn on outdated version 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m     [;;3mPrint help information and exit[;;;23m
+  [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to 0 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as static string) > display help text for root, warn on outdated version, ansi color with env var set to yes 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as static string) > display help text for root, warn on outdated version, no ansi color with env var 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as static string) > display help text for root, warn on outdated version, with no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+  cli --version
+
+basic command
+
+FLAGS
+  -h --help     Print help information and exit
+  -v --version  Print version information and exit
+
+:: STDERR
+Latest available version is 1.1.0 (currently running 1.0.0)
+
+`;
+
+exports[`version integration > via config (default integration) > with outdated version info (as static string) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`version integration > via config (default integration) > with up-to-date version info > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > default values > with current version (as async callback) > request current version (with flag alias) 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > default values > with current version (as async callback) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > default values > with current version (as static string) > request current version (with flag alias) 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > default values > with current version (as static string) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > default values > with missing latest version info > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > default values > with outdated version info (as async callback) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`version integration > via integration args > default values > with outdated version info (as static string) > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+[1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
+
+`;
+
+exports[`version integration > via integration args > default values > with up-to-date version info > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > with alternate alias > fails on missing flag (with incorrect flag alias) 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo alias registered for -v[39m[22m
+
+`;
+
+exports[`version integration > via integration args > with alternate alias > request current version (with correct flag alias) 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > with alternate alias > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;
+
+exports[`version integration > via integration args > with no alias > fails on missing flag 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo alias registered for -v[39m[22m
+
+`;
+
+exports[`version integration > via integration args > with no alias > request current version 1`] = `
+ExitCode=Success
+:: STDOUT
+1.0.0
+
+:: STDERR
+
+`;

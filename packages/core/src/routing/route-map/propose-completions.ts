@@ -2,6 +2,7 @@
 // Distributed under the terms of the Apache 2.0 license.
 import type { CompletionConfiguration, ScannerConfiguration } from "../../config";
 import type { CommandContext } from "../../context";
+import type { AdditionalFlagDocumentation } from "../../parameter/flag/formatting";
 import { CommandSymbol } from "../command/types";
 import type { RoutingTargetCompletion } from "../types";
 import type { RouteMap } from "./types";

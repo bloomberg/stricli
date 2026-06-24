@@ -39,22 +39,6 @@ export type CommandBuilderArguments<FLAGS extends BaseFlags, ARGS extends BaseAr
     | LazyCommandBuilderArguments<FLAGS, ARGS, CONTEXT>
     | LocalCommandBuilderArguments<FLAGS, ARGS, CONTEXT>;
 
-function checkForReservedFlags(flags: Record<string, FlagParameter<CommandContext>>, reserved: string[]) {
-    for (const flag of reserved) {
-        if (flag in flags) {
-            throw new InternalError(`Unable to use reserved flag --${flag}`);
-        }
-    }
-}
-
-function checkForReservedAliases(aliases: Record<string, string>, reserved: string[]) {
-    for (const alias of reserved) {
-        if (alias in aliases) {
-            throw new InternalError(`Unable to use reserved alias -${alias}`);
-        }
-    }
-}
-
 function* asNegationFlagNames(flagName: string): Generator<string> {
     yield `no-${convertCamelCaseToKebabCase(flagName)}`;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -104,8 +88,6 @@ export function buildCommand<
     const CONTEXT extends CommandContext = CommandContext,
 >(builderArgs: CommandBuilderArguments<FLAGS, ARGS, CONTEXT>): Command<CONTEXT> {
     const { flags = {}, aliases = {} } = builderArgs.parameters;
-    checkForReservedFlags(flags, ["help", "helpAll", "help-all"]);
-    checkForReservedAliases(aliases, ["h", "H"]);
     checkForNegationCollisions(flags);
     checkForInvalidVariadicSeparators(flags);
     let loader: CommandFunctionLoader<BaseFlags, BaseArgs, CONTEXT>;
@@ -136,7 +118,13 @@ export function buildCommand<
             const text = lines.join("\n");
             return text + "\n";
         },
-        usesFlag: (flagName) => {
+        usesFlag: (flagName, caseStyle) => {
+            if (caseStyle === "allow-kebab-for-camel") {
+                const kebabCase = convertCamelCaseToKebabCase(flagName);
+                if (kebabCase in flags) {
+                    return true;
+                }
+            }
             return Boolean(flagName in flags || flagName in aliases);
         },
     };

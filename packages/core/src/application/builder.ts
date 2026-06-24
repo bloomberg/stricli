@@ -3,40 +3,38 @@
 /* eslint-disable @typescript-eslint/unified-signatures */
 import { withDefaults, type PartialApplicationConfiguration } from "../config";
 import type { CommandContext } from "../context";
-import { CommandSymbol, type Command } from "../routing/command/types";
+import { type Command } from "../routing/command/types";
 import type { RouteMap } from "../routing/route-map/types";
 import type { RoutingTarget } from "../routing/types";
 import type { ApplicationText } from "../text";
 import { InternalError } from "../util/error";
+import { checkIntegrationsForCollisions, checkIntegrationsForFlagNameConflicts, gatherAdditionalFlagsFromIntegrations, gatherDefaultIntegrations, validateIntegrations, type StricliIntegration } from "./integration";
 import type { Application } from "./types";
 
 /**
- * Builds an application from a top-level route map and configuration.
+ * Builds an application from a top-level route map {@link RouteMap} and configuration {@link ApplicationConfiguration}.
+ *
  */
 export function buildApplication<CONTEXT extends CommandContext>(
     root: RouteMap<CONTEXT>,
     config: PartialApplicationConfiguration,
+    integrations?: Readonly<Record<string, StricliIntegration<CONTEXT>>>,
 ): Application<CONTEXT>;
 /**
- * Builds an application with a single, top-level command and configuration.
+ * Builds an application with a single, top-level command {@link Command} and configuration {@link ApplicationConfiguration}.
+ *
  */
 export function buildApplication<CONTEXT extends CommandContext>(
     command: Command<CONTEXT>,
     appConfig: PartialApplicationConfiguration,
+    integrations?: Readonly<Record<string, StricliIntegration<CONTEXT>>>,
 ): Application<CONTEXT>;
 export function buildApplication<CONTEXT extends CommandContext>(
     root: RoutingTarget<CONTEXT>,
     appConfig: PartialApplicationConfiguration,
+    integrations?: Readonly<Record<string, StricliIntegration<CONTEXT>>>,
 ): Application<CONTEXT> {
     const config = withDefaults(appConfig);
-    if (root.kind === CommandSymbol && config.versionInfo) {
-        if (root.usesFlag("version")) {
-            throw new InternalError("Unable to use command with flag --version as root when version info is supplied");
-        }
-        if (root.usesFlag("v")) {
-            throw new InternalError("Unable to use command with alias -v as root when version info is supplied");
-        }
-    }
     let defaultText: ApplicationText;
     if ("text" in config.localization) {
         defaultText = config.localization.text;
@@ -47,9 +45,18 @@ export function buildApplication<CONTEXT extends CommandContext>(
         }
         defaultText = text;
     }
+    if (integrations) {
+        checkIntegrationsForCollisions(integrations, config.scanner.caseStyle);
+    } else {
+        integrations = gatherDefaultIntegrations(config, defaultText);
+    }
+    const additionalFlags = gatherAdditionalFlagsFromIntegrations(integrations);
+    checkIntegrationsForFlagNameConflicts(root, additionalFlags, config.scanner.caseStyle);
+    validateIntegrations(integrations, root, config);
     return {
         root,
         config,
         defaultText,
+        integrations,
     };
 }

@@ -1,0 +1,475 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`help integration > via config (default integration) > caseStyle converts to kebab when allowed for scan > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camel-case) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camel-case/--no-camel-case  camelCase
+  -a  --alias/--no-alias            alias
+     [--optional]                   optional
+  -h  --help                        Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > caseStyle converts to kebab when allowed for scan > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camel-case) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camel-case/--no-camel-case[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--no-alias[22m            [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                   [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                        [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > default config > alias, no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > default config > alias, with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > default config > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > default config > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > onlyRequiredInUsageLine is true > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias)
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > onlyRequiredInUsageLine is true > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias)
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > useAliasInUsageLine is true > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (-a) [--optional value]
+  cli -h
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via config (default integration) > useAliasInUsageLine is true > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (-a) [--optional value]
+  cli -h
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > caseStyle converts to kebab when allowed for scan > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camel-case) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camel-case/--no-camel-case  camelCase
+  -a  --alias/--no-alias            alias
+     [--optional]                   optional
+  -h  --help                        Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > caseStyle converts to kebab when allowed for scan > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camel-case) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camel-case/--no-camel-case[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--no-alias[22m            [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                   [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                        [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > default config > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > default config > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > no alias > alias, no ansi color 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+No alias registered for -h
+
+`;
+
+exports[`help integration > via integration args > no alias > alias, with ansi color 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo alias registered for -h[39m[22m
+
+`;
+
+exports[`help integration > via integration args > no alias > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+      --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > no alias > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m[22m   [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > non-standard alias > alias, no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -H  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > non-standard alias > alias, with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-H[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > non-standard alias > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -H  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > non-standard alias > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-H[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > onlyRequiredInUsageLine is true > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias)
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > onlyRequiredInUsageLine is true > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias)
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > useAliasInUsageLine is true > no ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (-a) [--optional value]
+  cli -h
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -h  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > useAliasInUsageLine is true > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (-a) [--optional value]
+  cli -h
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-h[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;

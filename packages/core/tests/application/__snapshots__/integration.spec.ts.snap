@@ -1,0 +1,607 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`empty integration with no functionality > with help > has help text, without mentioning empty integration (no ansi color) 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli
+  cli --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`empty integration with no functionality > with help > has help text, without mentioning empty integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`empty integration with no functionality > without help > help missing 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --help[39m[22m
+
+`;
+
+exports[`empty integration with no functionality > without help > run empty command 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > default flag for route map > with (hidden) help > command has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+
+basic command
+
+[4mFLAGS[24m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > default flag for route map > with (hidden) help > root has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli --defaultRouteMapIntegration
+
+basic route map
+
+[4mFLAGS[24m
+  [1m[22m [1m--defaultRouteMapIntegration[22m  [;;3mThis is a custom flag[;;;23m
+
+[4mCOMMANDS[24m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > default flag for route map > without help > help missing at command 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --help[39m[22m
+
+`;
+
+exports[`integration with flag > default flag for route map > without help > help missing at root 1`] = `
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for \`--help\`[39m[22m
+
+`;
+
+exports[`integration with flag > default flag for route map > without help > run command 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > default flag for route map > without help > run command with flag (should fail) 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --defaultRouteMapIntegration[39m[22m
+
+`;
+
+exports[`integration with flag > default flag for route map > without help > run root 1`] = `
+ExitCode=Success
+:: STDOUT
+defaultRouteMapIntegration.run
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > default flag for route map > without help > run root with flag 1`] = `
+ExitCode=Success
+:: STDOUT
+defaultRouteMapIntegration.run
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > with help (allow-kebab-for-camel) > command has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli command --custom-integration
+  cli command --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m--custom-integration[22m  [;;3mThis is a custom flag[;;;23m
+  [1m-h[22m [1m--help[22m                [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > with help (allow-kebab-for-camel) > root has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli --custom-integration
+  cli --help
+
+basic route map
+
+[4mFLAGS[24m
+  [1m[22m   [1m--custom-integration[22m  [;;3mThis is a custom flag[;;;23m
+  [1m-h[22m [1m--help[22m                [;;3mPrint help information and exit[;;;23m
+
+[4mCOMMANDS[24m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > with help (default) > command has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli command --customIntegration
+  cli command --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m--customIntegration[22m  [;;3mThis is a custom flag[;;;23m
+  [1m-h[22m [1m--help[22m               [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > with help (default) > root has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli --customIntegration
+  cli --help
+
+basic route map
+
+[4mFLAGS[24m
+  [1m[22m   [1m--customIntegration[22m  [;;3mThis is a custom flag[;;;23m
+  [1m-h[22m [1m--help[22m               [;;3mPrint help information and exit[;;;23m
+
+[4mCOMMANDS[24m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > without help > help missing at command 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --help[39m[22m
+
+`;
+
+exports[`integration with flag > global flag > without help > help missing at root 1`] = `
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for \`--help\`[39m[22m
+
+`;
+
+exports[`integration with flag > global flag > without help > run command 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > without help > run command with flag 1`] = `
+ExitCode=Success
+:: STDOUT
+customIntegration.run
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > without help > run root 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > global flag > without help > run root with flag 1`] = `
+ExitCode=Success
+:: STDOUT
+customIntegration.run
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > with help (allow-kebab-for-camel) > command has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli command --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > with help (allow-kebab-for-camel) > root has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli --custom-integration
+  cli --help
+
+basic route map
+
+[4mFLAGS[24m
+  [1m[22m   [1m--custom-integration[22m  [;;3mThis is a custom flag[;;;23m
+  [1m-h[22m [1m--help[22m                [;;3mPrint help information and exit[;;;23m
+
+[4mCOMMANDS[24m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > with help (default) > command has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli command --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > with help (default) > root has help text with integration 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli command
+  cli --customIntegration
+  cli --help
+
+basic route map
+
+[4mFLAGS[24m
+  [1m[22m   [1m--customIntegration[22m  [;;3mThis is a custom flag[;;;23m
+  [1m-h[22m [1m--help[22m               [;;3mPrint help information and exit[;;;23m
+
+[4mCOMMANDS[24m
+  [1mcommand[32m  [;;3mbasic command[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > without help > help missing at command 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --help[39m[22m
+
+`;
+
+exports[`integration with flag > root-only flag > without help > help missing at root 1`] = `
+ExitCode=UnknownCommand
+:: STDOUT
+
+:: STDERR
+[1m[31mNo command registered for \`--help\`[39m[22m
+
+`;
+
+exports[`integration with flag > root-only flag > without help > run command 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > without help > run command with flag (should fail) 1`] = `
+ExitCode=InvalidArgument
+:: STDOUT
+
+:: STDERR
+[1m[31mNo flag registered for --customIntegration[39m[22m
+
+`;
+
+exports[`integration with flag > root-only flag > without help > run root 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > root-only flag > without help > run root with flag 1`] = `
+ExitCode=Success
+:: STDOUT
+customIntegration.run
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > throws error on run > run root (no ansi color) 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > throws error on run > run root 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+
+`;
+
+exports[`integration with flag > throws error on run > run root with flag (no ansi color) 1`] = `
+ExitCode=IntegrationError
+:: STDOUT
+
+:: STDERR
+Unexpected exception thrown by "--customIntegration" flag from the 'customIntegration' integration.
+Error: This is an expected error from customIntegration.run
+    at Object.run (#/tests/application/integration.spec.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+
+`;
+
+exports[`integration with flag > throws error on run > run root with flag 1`] = `
+ExitCode=IntegrationError
+:: STDOUT
+
+:: STDERR
+[1m[31mUnexpected exception thrown by "--customIntegration" flag from the 'customIntegration' integration.
+Error: This is an expected error from customIntegration.run
+    at Object.run (#/tests/application/integration.spec.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+
+`;
+
+exports[`integration with hook(s) > prints to stdout on every hook > print help text, skips command hooks (no ansi color) 1`] = `
+ExitCode=Success
+:: STDOUT
+app:start hook called
+USAGE
+  cli
+  cli --help
+
+basic command
+
+FLAGS
+  -h --help  Print help information and exit
+app:end hook called
+
+:: STDERR
+
+`;
+
+exports[`integration with hook(s) > prints to stdout on every hook > print help text, skips command hooks 1`] = `
+ExitCode=Success
+:: STDOUT
+app:start hook called
+[4mUSAGE[24m
+  cli
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
+app:end hook called
+
+:: STDERR
+
+`;
+
+exports[`integration with hook(s) > prints to stdout on every hook > run empty command 1`] = `
+ExitCode=Success
+:: STDOUT
+app:start hook called
+command:start hook called
+command:end hook called
+app:end hook called
+
+:: STDERR
+
+`;
+
+exports[`integration with hook(s) > throws errors on every hook > print help text (skips command hooks) 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'app:start' hook.
+Error: This is an expected error during app:start
+    at Object.app:start (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+    at new Promise (<anonymous>)[39m[22m
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'app:end' hook.
+Error: This is an expected error during app:end
+    at Object.app:end (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+
+`;
+
+exports[`integration with hook(s) > throws errors on every hook > run empty command 1`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'app:start' hook.
+Error: This is an expected error during app:start
+    at Object.app:start (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+    at new Promise (<anonymous>)[39m[22m
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'command:start' hook.
+Error: This is an expected error during command:start
+    at Object.command:start (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'command:end' hook.
+Error: This is an expected error during command:end
+    at Object.command:end (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'app:end' hook.
+Error: This is an expected error during app:end
+    at Object.app:end (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+
+`;
+
+exports[`integration with hook(s) > throws errors on every hook > run empty command 2`] = `
+ExitCode=Success
+:: STDOUT
+
+:: STDERR
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'app:start' hook.
+Error: This is an expected error during app:start
+    at Object.app:start (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+    at new Promise (<anonymous>)[39m[22m
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'command:start' hook.
+Error: This is an expected error during command:start
+    at Object.command:start (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'command:end' hook.
+Error: This is an expected error during command:end
+    at Object.command:end (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+[1m[31mUnexpected exception thrown by 'throwsErrors' integration during 'app:end' hook.
+Error: This is an expected error during app:end
+    at Object.app:end (#/tests/application/integration.spec.ts:?:?)
+    at runHook (#/src/application/integration.ts:?:?)
+    at runApplication (#/src/application/run.ts:?:?)
+    at run (#/src/index.ts:?:?)
+    at runWithInputs (#/tests/application/integration.spec.ts:?:?)
+    at #/tests/application/integration.spec.ts:?:?
+
+`;
