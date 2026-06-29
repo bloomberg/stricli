@@ -6,7 +6,7 @@ import { listAllRouteNamesAndAliasesForScan } from "../parameter/scanner";
 import { runCommand } from "../routing/command/run";
 import { RouteMapSymbol } from "../routing/route-map/types";
 import { buildRouteScanner, type RouteNotFoundError } from "../routing/scanner";
-import { shouldUseAnsiColor } from "../text";
+import { shouldUseAnsiColorForStreams } from "../text";
 import { filterClosestAlternatives } from "../util/distance";
 import type { Application } from "./types";
 
@@ -18,20 +18,20 @@ export async function runApplication<CONTEXT extends CommandContext>(
     rawInputs: readonly string[],
     context: StricliDynamicCommandContext<CONTEXT>,
 ): Promise<number> {
+    const ansiColorByStream = shouldUseAnsiColorForStreams(context.process, config.documentation);
     let text = defaultText;
     if (context.locale && "loadText" in config.localization) {
         const localeText = config.localization.loadText(context.locale);
         if (localeText) {
             text = localeText;
         } else {
-            const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, config.documentation);
             const warningMessage = text.noTextAvailableForLocale({
                 requestedLocale: context.locale,
                 defaultLocale: config.localization.defaultLocale,
-                ansiColor,
+                ansiColor: ansiColorByStream.stderr,
             });
             context.process.stderr.write(
-                ansiColor ? `\x1B[1m\x1B[33m${warningMessage}\x1B[39m\x1B[22m\n` : `${warningMessage}\n`,
+                ansiColorByStream.stderr ? `\x1B[1m\x1B[33m${warningMessage}\x1B[39m\x1B[22m\n` : `${warningMessage}\n`,
             );
         }
     }
@@ -48,15 +48,14 @@ export async function runApplication<CONTEXT extends CommandContext>(
         }
         const latestVersion = await config.versionInfo.getLatestVersion.call(context, currentVersion);
         if (latestVersion && currentVersion !== latestVersion) {
-            const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, config.documentation);
             const warningMessage = text.currentVersionIsNotLatest({
                 currentVersion,
                 latestVersion,
                 upgradeCommand: config.versionInfo.upgradeCommand,
-                ansiColor,
+                ansiColor: ansiColorByStream.stderr,
             });
             context.process.stderr.write(
-                ansiColor ? `\x1B[1m\x1B[33m${warningMessage}\x1B[39m\x1B[22m\n` : `${warningMessage}\n`,
+                ansiColorByStream.stderr ? `\x1B[1m\x1B[33m${warningMessage}\x1B[39m\x1B[22m\n` : `${warningMessage}\n`,
             );
         }
     }
@@ -89,17 +88,19 @@ export async function runApplication<CONTEXT extends CommandContext>(
         const corrections = filterClosestAlternatives(error.input, routeNames, config.scanner.distanceOptions).map(
             (str) => `\`${str}\``,
         );
-        const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, config.documentation);
-        const errorMessage = text.noCommandRegisteredForInput({ input: error.input, corrections, ansiColor });
+        const errorMessage = text.noCommandRegisteredForInput({
+            input: error.input,
+            corrections,
+            ansiColor: ansiColorByStream.stderr,
+        });
         context.process.stderr.write(
-            ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+            ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
         );
         return ExitCode.UnknownCommand;
     }
     const result = scanner.finish();
 
     if (result.helpRequested || result.target.kind === RouteMapSymbol) {
-        const ansiColor = shouldUseAnsiColor(context.process, context.process.stdout, config.documentation);
         context.process.stdout.write(
             result.target.formatHelp({
                 prefix: result.prefix,
@@ -110,7 +111,7 @@ export async function runApplication<CONTEXT extends CommandContext>(
                 config: config.documentation,
                 aliases: result.aliases[config.documentation.caseStyle],
                 text,
-                ansiColor,
+                ansiColor: ansiColorByStream.stdout,
             }),
         );
         return ExitCode.Success;
@@ -121,9 +122,10 @@ export async function runApplication<CONTEXT extends CommandContext>(
         try {
             commandContext = await context.forCommand({ prefix: result.prefix });
         } catch (exc) {
-            const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, config.documentation);
-            const errorMessage = text.exceptionWhileLoadingCommandContext(exc, ansiColor);
-            context.process.stderr.write(ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m` : errorMessage);
+            const errorMessage = text.exceptionWhileLoadingCommandContext(exc, ansiColorByStream.stderr);
+            context.process.stderr.write(
+                ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m` : errorMessage,
+            );
             return ExitCode.ContextLoadError;
         }
     } else {
@@ -133,8 +135,8 @@ export async function runApplication<CONTEXT extends CommandContext>(
         context: commandContext,
         inputs: result.unprocessedInputs,
         scannerConfig: config.scanner,
-        documentationConfig: config.documentation,
         errorFormatting: text,
         determineExitCode: config.determineExitCode,
+        ansiColorByStream,
     });
 }

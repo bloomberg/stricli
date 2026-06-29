@@ -1,21 +1,21 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import type { DocumentationConfiguration, ScannerConfiguration } from "../../config";
-import { shouldUseAnsiColor, type CommandErrorFormatting } from "../../text";
+import type { ScannerConfiguration } from "../../config";
 import type { CommandContext } from "../../context";
 import { ExitCode } from "../../exit-code";
-import { buildArgumentScanner, type ParsedArguments } from "../../parameter/scanner";
-import type { Command, CommandFunction } from "./types";
-import type { BaseFlags } from "../../parameter/types";
 import type { BaseArgs } from "../../parameter/positional/types";
+import { buildArgumentScanner, type ParsedArguments } from "../../parameter/scanner";
+import type { BaseFlags } from "../../parameter/types";
+import type { CommandErrorFormatting } from "../../text";
+import type { Command, CommandFunction } from "./types";
 
 export interface CommandRunArguments<CONTEXT extends CommandContext> {
     readonly context: CONTEXT;
     readonly inputs: readonly string[];
     readonly errorFormatting: CommandErrorFormatting;
     readonly scannerConfig: ScannerConfiguration;
-    readonly documentationConfig: DocumentationConfiguration;
     readonly determineExitCode?: (exc: unknown) => number;
+    readonly ansiColorByStream: Record<"stdout" | "stderr", boolean>;
 }
 
 export async function runCommand<CONTEXT extends CommandContext>(
@@ -25,8 +25,8 @@ export async function runCommand<CONTEXT extends CommandContext>(
         inputs,
         scannerConfig,
         errorFormatting,
-        documentationConfig,
         determineExitCode,
+        ansiColorByStream,
     }: CommandRunArguments<CONTEXT>,
 ): Promise<number> {
     let parsedArguments: ParsedArguments<BaseFlags, BaseArgs>;
@@ -39,20 +39,18 @@ export async function runCommand<CONTEXT extends CommandContext>(
         if (result.success) {
             parsedArguments = result.arguments;
         } else {
-            const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, documentationConfig);
             for (const error of result.errors) {
-                const errorMessage = errorFormatting.exceptionWhileParsingArguments(error, ansiColor);
+                const errorMessage = errorFormatting.exceptionWhileParsingArguments(error, ansiColorByStream.stderr);
                 context.process.stderr.write(
-                    ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+                    ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
                 );
             }
             return ExitCode.InvalidArgument;
         }
     } catch (exc) {
-        const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, documentationConfig);
-        const errorMessage = errorFormatting.exceptionWhileParsingArguments(exc, ansiColor);
+        const errorMessage = errorFormatting.exceptionWhileParsingArguments(exc, ansiColorByStream.stderr);
         context.process.stderr.write(
-            ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+            ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
         );
         return ExitCode.InvalidArgument;
     }
@@ -66,10 +64,9 @@ export async function runCommand<CONTEXT extends CommandContext>(
             commandFunction = loaded.default;
         }
     } catch (exc) {
-        const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, documentationConfig);
-        const errorMessage = errorFormatting.exceptionWhileLoadingCommandFunction(exc, ansiColor);
+        const errorMessage = errorFormatting.exceptionWhileLoadingCommandFunction(exc, ansiColorByStream.stderr);
         context.process.stderr.write(
-            ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+            ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
         );
         return ExitCode.CommandLoadError;
     }
@@ -77,10 +74,9 @@ export async function runCommand<CONTEXT extends CommandContext>(
     try {
         const result = await commandFunction.call(context, ...parsedArguments);
         if (result instanceof Error) {
-            const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, documentationConfig);
-            const errorMessage = errorFormatting.commandErrorResult(result, ansiColor);
+            const errorMessage = errorFormatting.commandErrorResult(result, ansiColorByStream.stderr);
             context.process.stderr.write(
-                ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+                ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
             );
             if (determineExitCode) {
                 return determineExitCode(result);
@@ -88,10 +84,9 @@ export async function runCommand<CONTEXT extends CommandContext>(
             return ExitCode.CommandRunError;
         }
     } catch (exc) {
-        const ansiColor = shouldUseAnsiColor(context.process, context.process.stderr, documentationConfig);
-        const errorMessage = errorFormatting.exceptionWhileRunningCommand(exc, ansiColor);
+        const errorMessage = errorFormatting.exceptionWhileRunningCommand(exc, ansiColorByStream.stderr);
         context.process.stderr.write(
-            ansiColor ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
+            ansiColorByStream.stderr ? `\x1B[1m\x1B[31m${errorMessage}\x1B[39m\x1B[22m\n` : `${errorMessage}\n`,
         );
         if (determineExitCode) {
             return determineExitCode(exc);
