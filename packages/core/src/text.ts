@@ -297,14 +297,23 @@ export function defaultTextLoader(locale: string): ApplicationText | undefined {
     }
 }
 
-export function shouldUseAnsiColor(
-    process: StricliProcess,
-    stream: Writable,
-    config: DocumentationConfiguration,
-): boolean {
+function shouldUseAnsiColor(process: StricliProcess, stream: Writable, config: DocumentationConfiguration): boolean {
     return (
         !config.disableAnsiColor &&
         !checkEnvironmentVariable(process, "STRICLI_NO_COLOR") &&
         (stream.getColorDepth?.(process.env) ?? 1) >= 4
     );
+}
+
+/**
+ * @internal
+ */
+export function shouldUseAnsiColorForStreams(
+    process: StricliProcess,
+    config: DocumentationConfiguration,
+): Record<"stdout" | "stderr", boolean> {
+    return {
+        stdout: shouldUseAnsiColor(process, process.stdout, config),
+        stderr: shouldUseAnsiColor(process, process.stderr, config),
+    };
 }
