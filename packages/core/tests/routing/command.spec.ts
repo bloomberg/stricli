@@ -1875,13 +1875,7 @@ describe("Command", () => {
                     },
                 },
             },
-            documentationConfig: {
-                alwaysShowHelpAllFlag: false,
-                caseStyle: "original",
-                onlyRequiredInUsageLine: false,
-                useAliasInUsageLine: false,
-                disableAnsiColor: true,
-            },
+            ansiColorByStream: { stdout: false, stderr: false },
         };
 
         describe("doNothing (loader returns function)", () => {
@@ -1939,10 +1933,7 @@ describe("Command", () => {
             it("unexpected input argument, with ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     inputs: ["foo"],
                 });
                 expect(result).toMatchSnapshot();
@@ -1956,10 +1947,7 @@ describe("Command", () => {
             it("unexpected input flag, with ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     inputs: ["--foo"],
                 });
                 expect(result).toMatchSnapshot();
@@ -2020,10 +2008,7 @@ describe("Command", () => {
             it("unexpected error, with ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     inputs: [
                         {
                             toString() {
@@ -2043,10 +2028,7 @@ describe("Command", () => {
                 };
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     errorFormatting: {
                         ...defaultArgs.errorFormatting,
                         formatException() {
@@ -2109,10 +2091,7 @@ describe("Command", () => {
 
             const result = await runWithInputs(command, {
                 ...defaultArgs,
-                documentationConfig: {
-                    ...defaultArgs.documentationConfig,
-                    disableAnsiColor: false,
-                },
+                ansiColorByStream: { stdout: true, stderr: true },
                 inputs: [],
             });
             expect(result).toMatchSnapshot();
@@ -2172,10 +2151,7 @@ describe("Command", () => {
 
             const result = await runWithInputs(command, {
                 ...defaultArgs,
-                documentationConfig: {
-                    ...defaultArgs.documentationConfig,
-                    disableAnsiColor: false,
-                },
+                ansiColorByStream: { stdout: true, stderr: true },
                 inputs: [],
             });
             expect(result).toMatchSnapshot();
@@ -2195,10 +2171,7 @@ describe("Command", () => {
 
             const result = await runWithInputs(command, {
                 ...defaultArgs,
-                documentationConfig: {
-                    ...defaultArgs.documentationConfig,
-                    disableAnsiColor: false,
-                },
+                ansiColorByStream: { stdout: true, stderr: true },
                 errorFormatting: {
                     ...defaultArgs.errorFormatting,
                     formatException() {
@@ -2237,10 +2210,7 @@ describe("Command", () => {
             it("with default exit code, ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     inputs: [],
                 });
                 expect(result).toMatchSnapshot();
@@ -2249,10 +2219,7 @@ describe("Command", () => {
             it("with default exit code, custom exception formatting", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     errorFormatting: {
                         ...defaultArgs.errorFormatting,
                         formatException() {
@@ -2298,10 +2265,7 @@ describe("Command", () => {
             it("with default exit code, ansi color", async () => {
                 const result = await runWithInputs(command, {
                     ...defaultArgs,
-                    documentationConfig: {
-                        ...defaultArgs.documentationConfig,
-                        disableAnsiColor: false,
-                    },
+                    ansiColorByStream: { stdout: true, stderr: true },
                     inputs: [],
                 });
                 expect(result).toMatchSnapshot();
