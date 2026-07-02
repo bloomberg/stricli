@@ -39,4 +39,4 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                 npx nx release publish
-                gh release edit "v$RELEASE_VERSION" --latest
+                gh release edit "v$RELEASE_VERSION" --prerelease=false --latest
