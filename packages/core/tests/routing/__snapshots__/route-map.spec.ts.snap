@@ -41,8 +41,8 @@ route map brief
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
-  [1msub[32m        [;;3msub route map brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
+  [1msub[22m        [;;3msub route map brief[;;;23m
 "
 `;
 
@@ -75,8 +75,8 @@ route map brief
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
-  [1msub[32m        [;;3msub route map brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
+  [1msub[22m        [;;3msub route map brief[;;;23m
 "
 `;
 
@@ -113,7 +113,7 @@ route map brief
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
   [2msub[22m        [2;3msub route map brief[22;23m
 "
 `;
@@ -151,8 +151,8 @@ Longer description of this route map's behavior, only printed during --help
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdo-nothing[32m  [;;3mtop command brief[;;;23m
-  [1msub[32m         [;;3msub route map brief[;;;23m
+  [1mdo-nothing[22m  [;;3mtop command brief[;;;23m
+  [1msub[22m         [;;3msub route map brief[;;;23m
 "
 `;
 
@@ -197,8 +197,8 @@ route map brief
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
-  [1msub[32m        [;;3msub route map brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
+  [1msub[22m        [;;3msub route map brief[;;;23m
 "
 `;
 
@@ -232,7 +232,7 @@ route map brief
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
 "
 `;
 
@@ -269,8 +269,8 @@ Longer description of this route map's behavior, only printed during --help
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
-  [1msub[32m        [;;3msub route map brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
+  [1msub[22m        [;;3msub route map brief[;;;23m
 "
 `;
 
@@ -315,7 +315,7 @@ route map brief
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCommands:[24m
-  [1mdoNothing[32m  [;;3mtop command brief[;;;23m
-  [1msub[32m        [;;3msub route map brief[;;;23m
+  [1mdoNothing[22m  [;;3mtop command brief[;;;23m
+  [1msub[22m        [;;3msub route map brief[;;;23m
 "
 `;
