@@ -27,7 +27,7 @@ jobs:
               run: npx nx run @stricli/docs:build-docs
 
             - name: Upload Build Artifact
-              uses: actions/upload-pages-artifact@v3
+              uses: actions/upload-pages-artifact@v5
               with:
                   path: docs/build
 
@@ -49,4 +49,4 @@ jobs:
         steps:
             - name: Deploy to GitHub Pages
               id: deployment
-              uses: actions/deploy-pages@v4
+              uses: actions/deploy-pages@v5
