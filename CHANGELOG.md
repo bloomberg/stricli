@@ -1,3 +1,13 @@
+## 1.2.9 (2026-07-02)
+
+### 🩹 Fixes
+
+- use correct ANSI code to reset bold mode for routes ([18ed140](https://github.com/bloomberg/stricli/commit/18ed140))
+
+### ❤️ Thank You
+
+- Michael Molisani
+
 ## 1.2.8 (2026-06-18)
 
 ### 🩹 Fixes
