@@ -333,7 +333,7 @@ root
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -352,7 +352,7 @@ root
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -371,7 +371,7 @@ root
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -521,7 +521,7 @@ of this route map's behavior.
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -542,7 +542,7 @@ root
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0), upgrade with "<upgrade-command>"[39m[22m
@@ -619,7 +619,7 @@ root
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 [1m[33mLatest available version is 1.1.0 (currently running 1.0.0)[39m[22m
@@ -668,7 +668,7 @@ root
   [1m-v[22m [1m--version[22m  [;;3mPrint version information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -754,7 +754,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -773,7 +773,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -792,7 +792,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -811,7 +811,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -848,7 +848,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -867,7 +867,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -890,7 +890,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -913,7 +913,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -936,7 +936,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -959,7 +959,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -982,7 +982,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1028,7 +1028,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1047,7 +1047,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1069,7 +1069,7 @@ root route map
   [2m-H[22m [2m--helpAll[22m  [2;3mPrint help information (including hidden commands/flags) and exit[22;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m        [;;3msub[;;;23m
+  [1msub[22m        [;;3msub[;;;23m
   [2msubHidden[22m  [2;3msubHidden[22;23m
 
 :: STDERR
@@ -1089,7 +1089,7 @@ subHidden
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1108,7 +1108,7 @@ subHidden
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1147,7 +1147,7 @@ root route map
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1168,7 +1168,7 @@ root route map
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1190,7 +1190,7 @@ root route map
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m        [;;3msub[;;;23m
+  [1msub[22m        [;;3msub[;;;23m
   [2msubHidden[22m  [2;3msubHidden[22;23m
 
 :: STDERR
@@ -1212,7 +1212,7 @@ subHidden
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1233,7 +1233,7 @@ subHidden
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1272,7 +1272,7 @@ root route map
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1293,7 +1293,7 @@ root route map
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1315,7 +1315,7 @@ root route map
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m        [;;3msub[;;;23m
+  [1msub[22m        [;;3msub[;;;23m
   [2msubHidden[22m  [2;3msubHidden[22;23m
 
 :: STDERR
@@ -1337,7 +1337,7 @@ subHidden
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1358,7 +1358,7 @@ subHidden
   [1m-H[22m [1m--helpAll[22m  [;;3mPrint help information (including hidden commands/flags) and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1395,7 +1395,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1414,7 +1414,7 @@ root route map
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1msub[32m  [;;3msub[;;;23m
+  [1msub[22m  [;;3msub[;;;23m
 
 :: STDERR
 
@@ -1436,7 +1436,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1458,7 +1458,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1480,7 +1480,7 @@ sub
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1527,8 +1527,8 @@ route map with default command brief
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdefault[32m    [;;3mbasic command[;;;23m
-  [1malternate[32m  [;;3mbasic command[;;;23m
+  [1mdefault[22m    [;;3mbasic command[;;;23m
+  [1malternate[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1548,8 +1548,8 @@ route map with default command brief
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mdefault[32m    [;;3mbasic command[;;;23m
-  [1malternate[32m  [;;3mbasic command[;;;23m
+  [1mdefault[22m    [;;3mbasic command[;;;23m
+  [1malternate[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
@@ -1668,7 +1668,7 @@ of this route map's behavior.
   [1m-h[22m [1m--help[22m  [;;3mPrint help information and exit[;;;23m
 
 [4mCOMMANDS[24m
-  [1mcommand[32m  [;;3mbasic command[;;;23m
+  [1mcommand[22m  [;;3mbasic command[;;;23m
 
 :: STDERR
 
