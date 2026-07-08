@@ -152,6 +152,11 @@ const config: Config = {
                     label: "GitHub",
                     position: "right",
                 },
+                {
+                    href: "https://npmx.dev/org/stricli",
+                    label: "npmx",
+                    position: "right",
+                },
             ],
         },
         footer: {
@@ -183,6 +188,10 @@ const config: Config = {
                         {
                             label: "GitHub",
                             href: "https://github.com/bloomberg/stricli/",
+                        },
+                        {
+                            label: "npmx",
+                            href: "https://npmx.dev/org/stricli",
                         },
                     ],
                 },
