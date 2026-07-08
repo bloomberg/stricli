@@ -1,0 +1,81 @@
+---
+sidebar_position: 4
+---
+
+import StricliPlayground from "@site/src/components/StricliPlayground";
+
+# Configuration
+
+The Stricli framework was designed to give applications the maximum amount of flexibility within the predefined constraints. When [building an application](./command-routing/index.mdx), you can specify additional configurations to control the application behavior in different ways.
+
+## Application Name (`name`)
+
+The name of the application, should match the name of the executable that users will invoke on the command line.
+
+## Input Scanning (`scanner`)
+
+The scanner is the internal system in Stricli that processes user inputs from the command line and determines which route/command to run and the arguments to run it with. Configuration for this system is controlled by the `scanner` property in the application configuration.
+
+### Scanner Case Style
+
+As route, command, and flag names are all defined in the specification as object properties, it is likely that stylistic preferences will force these properties to adhere to **camelCase** styling. However, many CLI applications also support or require **kebab-case** style for naming at runtime. The `caseStyle` configuration allows you to adjust what to accept as input.
+
+The default value for this configuration is `original`, which requires that any input match the defined name exactly. The other option is `allow-kebab-for-camel`, which augments the scanner and additionally allows the **kebab-case** style version of any **camelCase** style name. The conversion relies on converting upper case letters to lower case with a preceding `-`.
+
+import FlagCaseStyleCode from "./examples/flag-case-style.txt";
+
+<StricliPlayground>{FlagCaseStyleCode}</StricliPlayground>
+
+### Argument Escape Sequence
+
+Stricli scans the user input to determine how to parse that input into flags and positional arguments. Due to the fact that every input string with a leading `-` is treated as a potential flag, it can be useful to bypass this behavior in some circumstances. The user can specify `--` which indicates to the scanner that any following inputs should be treated as positional arguments. This feature is controlled by the `allowArgumentEscapeSequence` property, which defaults to `false`.
+
+The following is an example command that prints flags and args to stdout.
+
+With `allowArgumentEscapeSequence=false`
+
+```sh
+run --foo -- --bar
+// output-next-line
+{ foo: true, bar: true }, ["--"]
+```
+
+With `allowArgumentEscapeSequence=true`
+
+```sh
+run --foo -- --bar
+// output-next-line
+{ foo: true }, ["--bar"]
+```
+
+### Distance Calculation
+
+When input scanning fails to find a route/command or flag, Stricli will include suggested alternatives in the error message (`"did you mean ___?"`). Stricli calculates the [Damerau-Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) of all potential alternatives and returns only those that have a distance below a certain threshold. By default, this distance threshold is `7` with specific weights for certain operations (insertion=1, deletion=2, substitution=2, transposition=0). However, it can be customized to any value by editing the `distanceOptions` property.
+
+## Localization (`localization`)
+
+Every single string of text that is printed by a Stricli application can be customized and controlled by the `localization` configuration. The only exception to this is the internal errors that are thrown by `buildApplication` if the application specification itself was invalid in some way.
+
+### Application Text
+
+The text for an application is composed of several static values and several dynamic functions for errors. The static values are primarily used for documentation, which includes the section headers (`USAGE`, `COMMANDS`, `FLAGS`, etc.), keywords (`optional`, `default`, etc.), and built-in briefs (`Print this help information and exit`, etc.). You can customize this text by providing a custom [`ApplicationText`](../../packages/core/interfaces/ApplicationText) object.
+
+### Locale-specific Text
+
+The `context` object provided to the `run` command may optionally include a `locale` property that can be used to control what text is used by the application. For this section, locale roughly refers to [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag), but since application owners provide both the locale and the text loader that interprets the locale, any locale scheme can be used.
+
+When setting up locale support a default locale must be provided for when the `context` object does not define its own `locale` property. If a default locale is not explicitly set in the configuration, it will be `en`. The `loadText` function is responsible for loading the [application text](#application-text) object for the requested locale. It can return `undefined` but doing so will print an error message to stderr and the application will switch to the default locale.
+
+## Custom Exit Code (`determineExitCode`)
+
+When a command's implementation function throws an exception, that triggers a failure which will force the application to return an exit code of `1`. If you wish to customize this behavior, you can specify a `determineExitCode` function in the application config that reads the exception and returns your desired exit code.
+
+## Disable ANSI Color
+
+Stricli has support for ANSI terminal styling codes, if it is supported by the current streams (with sufficient color depth). Color and styling can be temporarily disabled for each run by setting the `NO_COLOR` or `FORCE_COLOR` common environment variables, or the specific `STRICLI_NO_COLOR` variable which will only affect Stricli applications. The `documentation.disableAnsiColor` config value can also be used to forcibly disable ANSI color codes for all runs of an application, no matter what the environment variables are set to.
+
+## Migrated to Integrations
+
+In order to provide more flexibility and to reduce bloat in the application configuration, some functionality has been rewritten as [integrations](./integrations/index.mdx). The application configuration object has properties for `documentation` and `versionInfo` which have now been migrated to the [`help`](./integrations/help-text.mdx) and [`version`](./integrations/version-information.mdx) integrations respectively.
+
+Under the hood, when no integrations are provided, Stricli still reads from these configuration properties to build the [default integrations](./integrations/index.mdx#default-integrations). The result is that setting these properties will result in the exact same behavior, but they will be removed in a future major version release. Please migrate your application to use the integrations directly instead.

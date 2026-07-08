@@ -10,17 +10,17 @@ Flags are named, non-positional arguments that are passed to a command. They can
 
 ### Case Style
 
-By default, Stricli will ensure that flag names are matched exactly. However, the [`scanner.caseStyle`](../configuration/input-scanning.mdx#scanner-case-style) configuration option allows you to specify `"allow-kebab-for-camel"`. This extends the argument scanner to allow kebab-case versions of camelCase flag names. For example, a flag that is normally passed as `--allowEdits` could also be passed as `--allow-edits`.
+By default, Stricli will ensure that flag names are matched exactly. However, the [`scanner.caseStyle`](../configuration.mdx#scanner-case-style) configuration option allows you to specify `"allow-kebab-for-camel"`. This extends the argument scanner to allow kebab-case versions of camelCase flag names. For example, a flag that is normally passed as `--allowEdits` could also be passed as `--allow-edits`.
 
-There is a separate configuration option [`documentation.caseStyle`](../configuration/help-text.mdx#display-case-style) that controls which case style is used when displaying help text and documentation. By default, the documentation option will reflect the scanner option, but this can be manually overridden.
+There is a separate configuration option [`documentation.caseStyle`](../integrations/help-text.mdx#display-case-style) that controls which case style is used when displaying help text and documentation. By default, the documentation option will reflect the scanner option, but this can be manually overridden.
 
 ### Aliases
 
-Within Stricli, aliases refer to the alternate, single-character name of an existing flag. These only require a single `-` escape and can be batched together as a single argument `-abc` (equivalent to `-a -b -c`). Any single uppercase or lowercase character can be used as an alias, with the following exceptions:
+Within Stricli, aliases refer to the alternate, single-character name of an existing flag. These only require a single `-` escape and can be batched together as a single argument `-abc` (equivalent to `-a -b -c`). Any single uppercase or lowercase character can be used as an alias, but be aware that some characters may conflict with [integrations](../integrations/index.mdx). For the [default integrations](../integrations/index.mdx#default-integrations), the following aliases are reserved and cannot be used:
 
 -   `-h` (reserved for `--help`)
 -   `-H` (reserved for `--helpAll`)
--   `-v` (reserved for `--version` when [version information](../configuration/version-information.mdx) is provided)
+-   `-v` (reserved for `--version` when [version information](../integrations/version-information.mdx) is provided)
 
 ## Types
 

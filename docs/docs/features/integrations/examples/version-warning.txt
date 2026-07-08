@@ -1,16 +1,20 @@
 --help
 --version
 /// app.ts
-import { buildApplication } from "@stricli/core";
+import { buildApplication, version } from "@stricli/core";
 import root from "./spec.ts";
-export default buildApplication(root, {
-  name: "run",
+export default buildApplication(root, { name: "run" }, {
   // Only modify properties in this configuration object
-  versionInfo: {
-    getCurrentVersion: async () => new Date(+new Date() - 86400000).toISOString().split("T")[0],
-    getLatestVersion: async () => new Date().toISOString().split("T")[0],
-    // upgradeCommand: "Check tomorrow? 😁",
-  },
+  version: version({
+    brief: "Display version information and exit",
+    alias: "v",
+    info: {
+      getCurrentVersion: async () => new Date(+new Date() - 86400000).toISOString().split("T")[0],
+      getLatestVersion: async () => new Date().toISOString().split("T")[0],
+      // upgradeCommand: "Check tomorrow? 😁",
+    },
+    hook: "app:start",
+  }),
 });
 /// !spec.ts
 import { buildCommand } from "@stricli/core";

@@ -1,0 +1,37 @@
+---
+sidebar_position: 1
+---
+
+# Help Text
+
+The `help` integration provides the built-in `--help` (and `--helpAll`) flags for Stricli applications. It accepts the additional flag properties for an integration, but also has additional properties to control the formatting of the help text. The `formatting` object is a subset of the now-deprecated `documentation` configuration object, and is used to control the formatting of the help text.
+
+## Use Alias in Usage Line
+
+`formatting.useAliasInUsageLine` controls whether or not the usage line for commands should use the full flag names or their aliases. The usage lines for commands are automatically generated from the parameters. If the flag and argument names are overly long, the usage line can become particularly unwieldy.
+
+If using the default integrations through the existing application configuration, this value is controlled by `documentation.useAliasInUsageLine` which defaults to `false`.
+
+## Only Required in Usage Line
+
+`formatting.onlyRequiredInUsageLine` controls whether or not the usage line for commands should include all flags and arguments, or only those that are required. This will include required flags that have a default specified. If there are many optional flags or arguments, this can often grow too verbose. Note that custom usage lines can be provided manually per-command to allow for more specific control.
+
+If using the default integrations through the existing application configuration, this value is controlled by `documentation.onlyRequiredInUsageLine` which defaults to `false`.
+
+## Display Case Style
+
+The `formatting.caseStyle` configuration here is the documentation-side equivalent of the [scanner case style](../configuration.mdx#scanner-case-style). It controls which case style is used when displaying route and flag names.
+
+If using the default integrations through the existing application configuration, this value is controlled by `documentation.caseStyle` which defaults to the value that matches the corresponding `scanner.caseStyle` value. If the scanner has `allow-kebab-for-camel` then the documentation case style will be `convert-camel-to-kebab` which converts the case style of any camelCase names to kebab-case when they are included in documentation.
+
+:::danger
+
+It is invalid to set `formatting.caseStyle` to `convert-camel-to-kebab` when `scanner.caseStyle` is `original` as this results in documentation that includes names that will not be supported at runtime.
+
+:::
+
+## Hidden Flags/Commands
+
+The `help` integration has a property `includeHidden` which controls whether or not hidden flags and commands are included in the help text. The default `--help` flag will always have this set to `false`, while the default `--helpAll` flag will always have this set to `true`. This allows users to see all available flags and commands, even if they are hidden from the default help text.
+
+If using the default integrations through the existing application configuration, this value is controlled by `documentation.alwaysShowHelpAllFlag` which defaults to `false`. If this is set to `true`, then the `--helpAll` flag will always be visible in the help text, otherwise it will be hidden.
