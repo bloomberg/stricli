@@ -6,7 +6,7 @@ import StricliPlayground from "@site/src/components/StricliPlayground";
 
 # Positional Arguments
 
-All non-flag arguments passed to the CLI are considered in order, parsed, and then passed to the rest arguments of the command. While flags can be parsed or additionally support a variety of [built-in types](flags.mdx#types), all positional arguments must be parsed from strings with a provided parser. These support any strings, but by default any inputs starting with `-` or `--` will be interpreted as [flags](./flags.mdx) instead. To escape this behavior, consider using the [argument escape sequence](../configuration/input-scanning.mdx#argument-escape-sequence).
+All non-flag arguments passed to the CLI are considered in order, parsed, and then passed to the rest arguments of the command. While flags can be parsed or additionally support a variety of [built-in types](flags.mdx#types), all positional arguments must be parsed from strings with a provided parser. These support any strings, but by default any inputs starting with `-` or `--` will be interpreted as [flags](./flags.mdx) instead. To escape this behavior, consider using the [argument escape sequence](../configuration.mdx#argument-escape-sequence).
 
 ## Variadic Limits
 

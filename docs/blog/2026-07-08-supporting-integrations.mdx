@@ -1,0 +1,21 @@
+---
+slug: integrations
+title: Supporting Integrations
+authors: [mmolisani]
+---
+
+Introducing a new way to extend Stricli applications with enhanced functionality. Integrations allow developers to add new features to their applications without modifying the core application configuration.
+
+{/* truncate */}
+
+For command line applications, there are common flags that should always be available, like `--help` and to some extent `--version`. From the beginning, Stricli supported these flags as part of the core application. But even these [widely accepted flags](https://clig.dev/#arguments-and-flags) have caveats. For example, should `--version` be shortened to `-v`, or should that be reserved for `--verbose`? Since it was already providing the flag, Stricli decided to be opinionated and reserve `-v` for `--version`. But looking at the needs of Stricli users, it became clear that this was not always the best choice.
+
+Starting with `@stricli/core@1.3.0`, the `--help` and `--version` flags are now provided as [integrations](../docs/features/integrations). This allows developers to customize the behavior of these flags, or even replace them entirely with their own implementations. If no integrations are specified, Stricli will read from the application configuration to setup the default integrations for you.
+
+For all application authors, you can expect that there won't be any changes with this new implementation[^1]. What this unlocks right now is a new level of customization for developers who want complete control over the behavior of their applications. You can customize the [`--version` integration](../docs/features/integrations/version-information) to use `-V` as an alias, or drop the alias entirely. You can make `--helpAll` the default instead of `--help` when a user lands on a route map without specifying a subcommand or flag.
+
+These are the provided integrations, but you can also develop your own integrations to add whatever functionality you want to your application. Perhaps use the [lifecycle hooks](../docs/features/integrations#lifecycle-hooks) to setup telemetry or report command timings. These applications are yours to build and customize to your exact specifications, and integrations are the way to do it without meddling in your business logic.
+
+Keep an eye out for future integrations that will be provided by the Stricli team.
+
+[^1]: With the new version, when using an application flag like `--help`, only the first flag will be selected. As well, if you are using the [argument escape sequence](../docs/features/configuration#argument-escape-sequence) it will correctly treat the `--help` flag as a positional argument instead of a flag if it appears in the inputs after `--`.

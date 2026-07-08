@@ -4,8 +4,8 @@ Applications are the top-level object that encapsulate all of the logic for a gi
 
 :::caution
 
-If [version information](../configuration/version-information.mdx) is provided for an application with a single command as the root, then that command must not use the `--version` flag or the `-v` flag alias as those are reserved.
+Depending on which [integrations](../integrations/index.mdx) are provided, the application may automatically include additional flags and functionality. For example, if [version information](../integrations/version-information.mdx) is provided, then the application will automatically include a `--version` flag (with alias `-v`) to print the current version of the application. None of the nested commands can be specified with flags or aliases that conflict with the provided integrations, and doing so will cause an error to be thrown when the application is built.
 
 :::
 
-When defining an application, there are several [configurations](../configuration/index.mdx) that should be specified (although all have default values).
+When defining an application, there are several [configurations](../configuration.mdx) that should be specified (although all have default values).

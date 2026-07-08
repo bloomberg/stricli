@@ -1,0 +1,98 @@
+# Integrations
+
+Integrations are a way to provide additional functionality to a Stricli application without requiring the application to implement that functionality itself.
+
+## Lifecycle Hooks
+
+At several key points during the lifecycle of a Stricli application run, integrations can be called to perform additional logic. These lifecycle hooks are (in order):
+
+-   `app:start`
+-   `command:start` (only called before command execution)
+-   `command:end` (only called after command execution)
+-   `app:end`
+
+All lifecycle hooks are called in the order that they are defined in the `integrations` object. The hook gains access to the context and (for `command:*` hooks) information about the current run, including the command that was executed and the unprocessed inputs via the result of the route scan. For both of the `*:end` hooks, the result of the command execution (the exit code) is also provided.
+
+:::warning
+
+If any of the hooks throw an error, the application will print the error to stderr and exit with a unique code. To prevent this, you can wrap your hook logic in a try/catch block and handle the error yourself.
+
+:::
+
+## Application Flags
+
+Integrations can also provide additional flags to the application. These flags will be automatically added alongside existing flags for commands and route maps. The match the name of the property on the integrations object (with full respect of the current [case style](../configuration.mdx#scanner-case-style)). There are several flags that can control the appearance of these flags.
+
+-   `brief` - The in-line documentation for this flag.
+-   `aliases` - An array of single-character aliases for this flag.
+-   `hidden` - If set to `true`, this flag will not be included in the default help text.
+-   `global` - If set to `true`, this flag will be available on all commands, not just the root command.
+-   `complete` - If set to `true`, this flag will be included in the auto-complete suggestions for the application.
+
+When the flag is requested by the user, the `run` function will be called with similar arguments to the `command:start` hook with the addition of the other additional flags. The `run` function can be asynchronous and can return a promise. It will always result in a `0` exit code unless an error is thrown, in which case the application will print the error to stderr and exit with a unique code.
+
+:::note
+
+When the user's inputs result in a route map being targeted, and there is no active flag, then Stricli will look for an integration with `defaultForRouteMap` set to `true`. If one is found, it will be executed as if the user had requested that integration's flag. This exists primarily to allow for the `--help` flag to be automatically executed when a user lands on a route map without specifying a subcommand or flag.
+
+:::
+
+## Default Integrations
+
+The following integrations are provided by default for all Stricli applications that do not provide their own. They can be overridden by providing your own integrations, which allows you to supply them with alternate names, aliases, or configurations. Note that if you provide any integrations, you must provide all of the integrations that you want to use, as Stricli will not automatically merge your integrations with the default integrations.
+
+:::note
+
+You can register these provided integrations yourself with alternate options. For example, if you want to have `--version` but `-V` instead of `-v` you can configure the integration with `alias: "V"` directly instead. Or if you would prefer to use `-v` as an alias for a different flag like `--verbose`, you can remove the alias entirely with `alias: false`.
+
+:::
+
+### `--help`/`--helpAll` ([Help Text](./help-text.mdx))
+
+By default, Stricli applications have global `--help` and `--helpAll` flags that print out the help text for the application. The `--help` flag will not include any hidden flags, while the `--helpAll` flag will include all flags and routes, even if they are hidden. The `--helpAll` flag is not included in the default help text, but can be made visible by setting `documentation.alwaysShowHelpAllFlag` to `true` in the [configuration](../configuration.mdx).
+
+The default integrations for these flags are constructed from the `config` and `text` objects with the following code:
+
+```ts
+{
+    help: help({
+        brief: text.briefs.help,
+        alias: "h",
+        hidden: false,
+<<<<<<< Updated upstream
+=======
+        defaultForRouteMap: true,
+>>>>>>> Stashed changes
+        includeHidden: false,
+        formatting: config.documentation,
+    }),
+    helpAll: help({
+        brief: text.briefs.helpAll,
+        alias: "H",
+        hidden: !config.documentation.alwaysShowHelpAllFlag,
+<<<<<<< Updated upstream
+=======
+        defaultForRouteMap: false,
+>>>>>>> Stashed changes
+        includeHidden: true,
+        formatting: config.documentation,
+    }),
+}
+```
+
+### `--version` ([Version Information](./version-information.mdx))
+
+If the application configuration provides `versionInfo`, then Stricli will automatically provide a `--version` flag to print the current version of the application to stdout. Additionally, if `versionInfo.getLatestVersion` is defined, then Stricli will also print a warning to stderr if the current version does not match the latest version.
+
+The default integration for this flag is constructed from the `config` and `text` objects with the following code:
+
+```ts
+{
+    version: version({
+        brief: text.briefs.version,
+        alias: "v",
+        info: config.versionInfo,
+        hook: "app:start",
+    }),
+}
+```
