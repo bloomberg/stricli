@@ -10,6 +10,7 @@ Build complex CLIs with type safety and no dependencies.
 -   [Quick Start](#quick-start)
 -   [Building](#building)
 -   [Installation](#installation)
+-   [AI Assistants](#ai-assistants)
 -   [Contributions](#contributions)
 -   [License](#license)
 -   [Code of Conduct](#code-of-conduct)
@@ -30,6 +31,12 @@ The core Stricli framework is available on npmjs.com, and can be installed with 
 ```
 npm i --save-prod @stricli/core
 ```
+
+## AI Assistants
+
+The documentation site publishes an [`llms.txt`](https://bloomberg.github.io/stricli/llms.txt) index and a full-content [`llms-full.txt`](https://bloomberg.github.io/stricli/llms-full.txt) file, following the [llms.txt convention](https://llmstxt.org/).
+
+To give an AI coding assistant accurate, up-to-date context about Stricli, point it at one of these URLs — for example, paste the link into a chat, or reference it from your project's agent instructions (such as `AGENTS.md`, `CLAUDE.md`, or `.cursor/rules`).
 
 ## Development
 
