@@ -146,6 +146,11 @@ const config: Config = {
                     label: "Documentation",
                 },
                 { to: "/packages", label: "API", position: "left" },
+                {
+                    href: "https://bloomberg.github.io/stricli/agent-docs/",
+                    label: "Agent Docs",
+                    position: "left",
+                },
                 { to: "/blog", label: "Blog", position: "left" },
                 {
                     href: "https://github.com/bloomberg/stricli/",
@@ -175,6 +180,10 @@ const config: Config = {
                         {
                             label: "Features",
                             to: "/docs/category/features",
+                        },
+                        {
+                            label: "Agent Docs",
+                            href: "https://bloomberg.github.io/stricli/agent-docs/",
                         },
                     ],
                 },

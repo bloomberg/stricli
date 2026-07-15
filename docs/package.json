@@ -5,7 +5,7 @@
     "scripts": {
         "docusaurus": "docusaurus",
         "start": "docusaurus start",
-        "build-docs": "docusaurus build",
+        "build-docs": "docusaurus build && sourcey build --output build/agent-docs && node scripts/publish-agent-docs.mjs",
         "swizzle": "docusaurus swizzle",
         "deploy": "docusaurus deploy",
         "clear": "docusaurus clear",
@@ -43,6 +43,7 @@
         "eslint-plugin-react-hooks": "^7.0.1",
         "monaco-editor": "^0.55.1",
         "sass": "^1.79.4",
+        "sourcey": "3.6.5",
         "typedoc": "^0.26.7",
         "typedoc-plugin-markdown": "^4.2.8"
     },
