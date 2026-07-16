@@ -1,3 +1,17 @@
+## 1.3.0 (2026-07-16)
+
+### 🚀 Features
+
+- core integrations for built-in flags and lifecycle hooks ([c6095a4](https://github.com/bloomberg/stricli/commit/c6095a4))
+
+### 🩹 Fixes
+
+- consolidate ansi color logic for both streams ([d19f9d0](https://github.com/bloomberg/stricli/commit/d19f9d0))
+
+### ❤️ Thank You
+
+- Michael Molisani
+
 ## 1.2.9 (2026-07-02)
 
 ### 🩹 Fixes
