@@ -9,6 +9,7 @@ import { filterClosestAlternatives } from "../util/distance";
 import { InternalError } from "../util/error";
 import { joinWithGrammar } from "../util/formatting";
 import { allSettledOrElse, type PromiseSettledOrElseResult } from "../util/promise";
+import type { Awaitable } from "../util/types";
 import type {
     BaseEnumFlagParameter,
     BaseParsedFlagParameter,
@@ -203,7 +204,7 @@ function parseInput<T, CONTEXT extends CommandContext>(
     parameter: ParsedParameter<T, CONTEXT>,
     input: string,
     context: CONTEXT,
-): T | Promise<T> {
+): Awaitable<T> {
     try {
         return parameter.parse.call(context, input);
     } catch (exc) {
@@ -614,7 +615,7 @@ export interface ArgumentScannerCompletionArguments<CONTEXT extends CommandConte
     readonly partial: string;
     readonly completionConfig: CompletionConfiguration;
     readonly text: ApplicationText;
-    readonly context: CONTEXT;
+    readonly loadCommandContext: () => Promise<CONTEXT>;
 }
 
 export interface ArgumentCompletion {
@@ -898,9 +899,9 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             const parsedFlags = Object.fromEntries(flagEntriesResult.value) as FLAGS;
             return { success: true, arguments: [parsedFlags, ...positionalValuesResult.value] };
         },
-        proposeCompletions: async ({ partial, completionConfig, text, context }) => {
+        proposeCompletions: async ({ partial, completionConfig, text, loadCommandContext }) => {
             if (activeFlag) {
-                return proposeFlagCompletionsForPartialInput<CONTEXT>(activeFlag[1], context, partial);
+                return proposeFlagCompletionsForPartialInput<CONTEXT>(activeFlag[1], loadCommandContext, partial);
             }
             const completions: ArgumentCompletion[] = [];
             if (!treatInputsAsArguments) {
@@ -1004,8 +1005,9 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             if (positional.kind === "array") {
                 if (positional.parameter.proposeCompletions) {
                     if (typeof positional.maximum !== "number" || positionalIndex < positional.maximum) {
+                        const commandContext = await loadCommandContext();
                         const positionalCompletions = await positional.parameter.proposeCompletions.call(
-                            context,
+                            commandContext,
                             partial,
                         );
                         completions.push(
@@ -1022,7 +1024,8 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             } else {
                 const nextPositional = positional.parameters[positionalIndex];
                 if (nextPositional?.proposeCompletions) {
-                    const positionalCompletions = await nextPositional.proposeCompletions.call(context, partial);
+                    const commandContext = await loadCommandContext();
+                    const positionalCompletions = await nextPositional.proposeCompletions.call(commandContext, partial);
                     completions.push(
                         ...positionalCompletions.map<ArgumentCompletion>((value) => {
                             return {
@@ -1041,19 +1044,20 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
 
 async function proposeFlagCompletionsForPartialInput<CONTEXT extends CommandContext>(
     flag: FlagParserExpectingInput<CONTEXT>,
-    context: CONTEXT,
+    loadCommandContext: () => Promise<CONTEXT>,
     partial: string,
 ) {
     if (typeof flag.variadic === "string") {
         if (partial.endsWith(flag.variadic)) {
-            return proposeFlagCompletionsForPartialInput(flag, context, "");
+            return proposeFlagCompletionsForPartialInput(flag, loadCommandContext, "");
         }
     }
     let values: readonly string[];
     if (flag.kind === "enum") {
         values = flag.values;
     } else if (flag.proposeCompletions) {
-        values = await flag.proposeCompletions.call(context, partial);
+        const commandContext = await loadCommandContext();
+        values = await flag.proposeCompletions.call(commandContext, partial);
     } else {
         values = [];
     }

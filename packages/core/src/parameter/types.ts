@@ -1,6 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import type { CommandContext } from "../context";
+import type { Awaitable } from "../util/types";
 import type { FlagParameters, FlagParametersForType } from "./flag/types";
 import type { BaseArgs, PositionalParameters, TypedPositionalParameters } from "./positional/types";
 
@@ -10,7 +11,7 @@ import type { BaseArgs, PositionalParameters, TypedPositionalParameters } from "
 export type InputParser<T, CONTEXT extends CommandContext = CommandContext> = (
     this: CONTEXT,
     input: string,
-) => T | Promise<T>;
+) => Awaitable<T>;
 
 export interface ParsedParameter<T, CONTEXT extends CommandContext> {
     /**
@@ -20,7 +21,7 @@ export interface ParsedParameter<T, CONTEXT extends CommandContext> {
     /**
      * Propose possible completions for a partial input string.
      */
-    readonly proposeCompletions?: (this: CONTEXT, partial: string) => readonly string[] | Promise<readonly string[]>;
+    readonly proposeCompletions?: (this: CONTEXT, partial: string) => Awaitable<readonly string[]>;
 }
 
 type LowercaseLetter =

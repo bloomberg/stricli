@@ -99,7 +99,7 @@ export function testCompletionError<FLAGS extends BaseFlags, ARGS extends BaseAr
                 partial,
                 completionConfig,
                 text,
-                context: { process },
+                loadCommandContext: async () => ({ process }),
             });
         } catch (exc) {
             assert(exc instanceof ArgumentScannerError);
@@ -204,7 +204,7 @@ async function proposeCompletionsForPartial<FLAGS extends BaseFlags, ARGS extend
         partial,
         completionConfig,
         text,
-        context: { process },
+        loadCommandContext: async () => ({ process }),
     });
 }
 

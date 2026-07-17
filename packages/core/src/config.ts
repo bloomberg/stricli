@@ -167,20 +167,16 @@ export interface DocumentationConfiguration {
 /**
  * Configuration for controlling the behavior of completion proposals.
  */
-export interface CompletionConfiguration {
+export type CompletionConfiguration = {
     /**
      * This flag controls whether or not to include aliases of routes and flags.
-     *
-     * Defaults to match value of {@link DocumentationConfiguration.useAliasInUsageLine}.
      */
     readonly includeAliases: boolean;
     /**
      * This flag controls whether or not to include hidden routes.
-     *
-     * Defaults to `false`.
      */
     readonly includeHiddenRoutes: boolean;
-}
+};
 
 /**
  * Configuration for controlling the localization behavior.
@@ -243,7 +239,8 @@ export interface ApplicationConfiguration {
     /**
      * If supplied, customizes command completion proposal behavior.
      *
-     * See documentation of inner types for default values.
+     * - `includeAliases` defaults to match value of {@link DocumentationConfiguration.useAliasInUsageLine}.
+     * - `includeHiddenRoutes` defaults to `false`.
      */
     readonly completion: CompletionConfiguration;
     /**

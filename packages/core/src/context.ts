@@ -4,6 +4,7 @@
 import { looseBooleanParser } from "./parameter/parser/boolean";
 import type { Command } from "./routing/command/types";
 import type { RouteScanResult } from "./routing/scanner";
+import type { Awaitable } from "./util/types";
 
 /**
  * Minimal expected interface for an output stream; used to narrow the types of NodeJS's stdout/stderr.
@@ -100,7 +101,7 @@ export type CommandInfo<CONTEXT extends CommandContext = CommandContext> = Route
  */
 export type StricliCommandContextBuilder<CONTEXT extends CommandContext> = (
     info: CommandInfo<CONTEXT>,
-) => CONTEXT | Promise<CONTEXT>;
+) => Awaitable<CONTEXT>;
 
 /**
  * Dynamic context for command that contains either the generic CommandContext or simply the more limited

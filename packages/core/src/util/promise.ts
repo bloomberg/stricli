@@ -1,8 +1,9 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import { groupBy } from "./array";
+import type { Awaitable } from "./types";
 
-type PromiseAll<T extends readonly unknown[] | []> = { [P in keyof T]: T[P] | Promise<T[P]> };
+type PromiseAll<T extends readonly unknown[] | []> = { [P in keyof T]: Awaitable<T[P]> };
 
 interface MultiplePromiseRejectedResult {
     readonly status: "rejected";

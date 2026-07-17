@@ -8,11 +8,13 @@ export { buildApplication } from "./application/builder";
 export { generateHelpTextForAllCommands } from "./application/documentation";
 export type { DocumentedCommand } from "./application/documentation";
 export type { ApplicationFlagFunction, LifecycleHooks, StricliIntegration } from "./application/integration";
+export { complete } from "./application/integrations/complete";
+export type { CompleteIntegrationConfiguration } from "./application/integrations/complete";
 export { help } from "./application/integrations/help";
 export type { HelpIntegrationConfiguration } from "./application/integrations/help";
 export { version } from "./application/integrations/version";
 export type { VersionIntegrationConfiguration } from "./application/integrations/version";
-export { proposeCompletionsForApplication as proposeCompletions } from "./application/propose-completions";
+export { proposeCompletions } from "./application/propose-completions";
 export type { InputCompletion } from "./application/propose-completions";
 export type { Application } from "./application/types";
 export type {

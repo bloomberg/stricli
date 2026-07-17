@@ -106,6 +106,7 @@ export async function runApplication(
 }
 
 export async function proposeCompletions(app: PlaygroundApp, inputs: readonly string[]): Promise<readonly string[]> {
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     const completions = await core.proposeCompletions(app, inputs, {
         process: {
             stdout: {

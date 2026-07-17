@@ -4,12 +4,13 @@ import type { ScannerCaseStyle } from "../../config";
 import type { CommandContext } from "../../context";
 import type { BaseArgs } from "../../parameter/positional/types";
 import type { BaseFlags, CommandParameters } from "../../parameter/types";
+import type { Awaitable } from "../../util/types";
 import type { DocumentedTarget } from "../types";
 
 /**
  * All command functions are required to have a general signature:
  * ```ts
- * (flags: {...}, ...args: [...]) => void | Promise<void>
+ * (flags: {...}, ...args: [...]) => Awaitable<void>
  * ```
  * - `args` should be an array/tuple of any length or type.
  * - `flags` should be an object with any key-value pairs.
@@ -21,7 +22,7 @@ export type CommandFunction<FLAGS extends BaseFlags, ARGS extends BaseArgs, CONT
     this: CONTEXT,
     flags: FLAGS,
     ...args: ARGS
-) => void | Error | Promise<void | Error>;
+) => Awaitable<void | Error>;
 
 /**
  * A command module exposes the target function as the default export.
