@@ -1,11 +1,13 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
     buildApplication,
     buildCommand,
+    complete,
     numberParser,
     proposeCompletions,
+    run,
     type Application,
     type CommandContext,
     type InputCompletion,
@@ -17,30 +19,76 @@ import { buildFakeContext } from "../fakes/context";
 function testCompletions(app: Application<CommandContext>, inputs: string[], expected: readonly InputCompletion[]) {
     const line = inputs.join(" ");
     describe(`proposes [${expected.map(({ completion }) => completion).join()}] for "${line}"`, () => {
-        it("static context", async () => {
-            const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
-            const completions = await proposeCompletions(app, inputs, context);
-            expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+        describe("static context", () => {
+            it("via proposeCompletions", async () => {
+                const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
+                const actual = await proposeCompletions(app, inputs, context);
+                expect(actual).to.have.deep.members(expected);
+                expect(context.process.stderr.write.callCount).to.equal(0);
+            });
+
+            it("via integration", async () => {
+                const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
+                const handleCompletions = vi.fn<(completions: readonly InputCompletion[]) => void>();
+                const appWithIntegration = {
+                    ...app,
+                    integrations: {
+                        ...app.integrations,
+                        complete: complete({
+                            brief: "Propose completions for partial input",
+                            ...app.config.completion,
+                            handleCompletions,
+                        }),
+                    },
+                };
+                await run(appWithIntegration, ["--complete", app.config.name, ...inputs], context);
+                expect(handleCompletions).toHaveBeenCalledOnce();
+                const actual = handleCompletions.mock.calls[0]?.[0] ?? [];
+                expect(actual).to.have.deep.members(expected);
+            });
         });
 
-        it("dynamic context", async () => {
-            const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
-            const completions = await proposeCompletions(app, inputs, context);
-            expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+        describe("dynamic context", () => {
+            it("via proposeCompletions", async () => {
+                const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
+                const actual = await proposeCompletions(app, inputs, context);
+                expect(actual).to.have.deep.members(expected);
+                expect(context.process.stderr.write.callCount).to.equal(0);
+            });
+
+            it("via integration", async () => {
+                const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
+                const handleCompletions = vi.fn<(completions: readonly InputCompletion[]) => void>();
+                const appWithIntegration = {
+                    ...app,
+                    integrations: {
+                        ...app.integrations,
+                        complete: complete({
+                            brief: "Propose completions for partial input",
+                            ...app.config.completion,
+                            handleCompletions,
+                        }),
+                    },
+                };
+                await run(appWithIntegration, ["--complete", app.config.name, ...inputs], context);
+                expect(handleCompletions).toHaveBeenCalledOnce();
+                const actual = handleCompletions.mock.calls[0]?.[0] ?? [];
+                expect(actual).to.have.deep.members(expected);
+            });
         });
 
-        it("error loading context", async () => {
+        it("error loading context via proposeCompletions", async () => {
             const context = buildFakeContext({
                 forCommand: () => {
                     throw new Error("This function purposefully throws an error");
                 },
                 colorDepth: void 0,
             });
-            await proposeCompletions(app, inputs, context);
-            const completions = context.process.stdout.write.args.flat(2)[0]?.split("\n") ?? [];
-            expect(completions).to.have.deep.members([]);
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
+            const actual = await proposeCompletions(app, inputs, context);
+            expect(actual).to.have.deep.members([]);
             expect(context.process.stderr.write.callCount).to.equal(0);
         });
     });

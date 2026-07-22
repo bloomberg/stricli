@@ -1,7 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 import type { ApplicationConfiguration, CompletionConfiguration, ScannerCaseStyle } from "../config";
-import type { ApplicationContext, CommandContext } from "../context";
+import type { CommandContext, StricliDynamicCommandContext } from "../context";
 import { ExitCode } from "../exit-code";
 import type { AdditionalFlagDocumentation } from "../parameter/flag/formatting";
 import type { ArgumentCompletion } from "../parameter/scanner";
@@ -149,7 +149,7 @@ export type ApplicationFlagArguments<CONTEXT extends CommandContext> = CommandHo
  * Function signature for an application flag that can be provided by an integration.
  */
 export type ApplicationFlagFunction<CONTEXT extends CommandContext> = (
-    this: ApplicationContext,
+    this: StricliDynamicCommandContext<CONTEXT>,
     app: Application<CONTEXT>,
     args: ApplicationFlagArguments<CONTEXT>,
 ) => void | Promise<void>;
@@ -170,7 +170,7 @@ export type ApplicationFlag<CONTEXT extends CommandContext> = AdditionalFlag & {
     readonly defaultForRouteMap?: boolean;
     /**
      * When the flag is detected during route scanning, this function will be called.
-     * It is invoked with the *{@link ApplicationContext}* (not the generic {@link CONTEXT}), the application itself, and additional
+     * It is invoked with the *{@link CommandContext}* (not the generic {@link CONTEXT}), the application itself, and additional
      * arguments that provide information about the current state of the application and the route scan result.
      */
     readonly run: ApplicationFlagFunction<CONTEXT>;
