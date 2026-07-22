@@ -7,6 +7,11 @@ import type { CommandContext, StricliDynamicCommandContext } from "./context";
 export { buildApplication } from "./application/builder";
 export { generateHelpTextForAllCommands } from "./application/documentation";
 export type { DocumentedCommand } from "./application/documentation";
+export type { ApplicationFlagFunction, LifecycleHooks, StricliIntegration } from "./application/integration";
+export { help } from "./application/integrations/help";
+export type { HelpIntegrationConfiguration } from "./application/integrations/help";
+export { version } from "./application/integrations/version";
+export type { VersionIntegrationConfiguration } from "./application/integrations/version";
 export { proposeCompletionsForApplication as proposeCompletions } from "./application/propose-completions";
 export type { InputCompletion } from "./application/propose-completions";
 export type { Application } from "./application/types";
@@ -31,6 +36,7 @@ export type {
 } from "./context";
 export { ExitCode } from "./exit-code";
 export type { FlagParametersForType, TypedFlagParameter } from "./parameter/flag/types";
+export type { FormattingConfiguration } from "./parameter/formatting";
 export { booleanParser, looseBooleanParser } from "./parameter/parser/boolean";
 export { buildChoiceParser } from "./parameter/parser/choice";
 export { numberParser } from "./parameter/parser/number";
@@ -70,11 +76,6 @@ export type {
     DocumentationHeaders,
     DocumentationKeywords,
 } from "./text";
-export { help } from "./application/integrations/help";
-export { version } from "./application/integrations/version";
-export type { HelpIntegrationConfiguration } from "./application/integrations/help";
-export type { VersionIntegrationConfiguration } from "./application/integrations/version";
-export type { StricliIntegration, LifecycleHooks, ApplicationFlagFunction } from "./application/integration";
 
 export async function run<CONTEXT extends CommandContext>(
     app: Application<CONTEXT>,
