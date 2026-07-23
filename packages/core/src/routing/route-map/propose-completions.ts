@@ -6,16 +6,21 @@ import { CommandSymbol } from "../command/types";
 import type { RoutingTargetCompletion } from "../types";
 import type { RouteMap } from "./types";
 
-export interface RouteMapCompletionArguments<CONTEXT extends CommandContext> {
-    readonly context: CONTEXT;
+/**
+ * @internal
+ */
+export interface RouteMapCompletionArguments {
     readonly partial: string;
     readonly scannerConfig: ScannerConfiguration;
     readonly completionConfig: CompletionConfiguration;
 }
 
+/**
+ * @internal
+ */
 export async function proposeCompletionsForRouteMap<CONTEXT extends CommandContext>(
     routeMap: RouteMap<CONTEXT>,
-    { partial, scannerConfig, completionConfig }: RouteMapCompletionArguments<CONTEXT>,
+    { partial, scannerConfig, completionConfig }: RouteMapCompletionArguments,
 ): Promise<readonly RoutingTargetCompletion[]> {
     let entries = routeMap.getAllEntries();
     if (!completionConfig.includeHiddenRoutes) {

@@ -2,6 +2,8 @@
 // Distributed under the terms of the Apache 2.0 license.
 
 import { looseBooleanParser } from "./parameter/parser/boolean";
+import type { Command } from "./routing/command/types";
+import type { RouteScanResult } from "./routing/scanner";
 
 /**
  * Minimal expected interface for an output stream; used to narrow the types of NodeJS's stdout/stderr.
@@ -85,17 +87,19 @@ export interface ApplicationContext extends CommandContext {
 /**
  * Contextual information about the current command.
  */
-export interface CommandInfo {
+export type CommandInfo<CONTEXT extends CommandContext = CommandContext> = RouteScanResult<CONTEXT> & {
     /**
-     * Prefix of command line inputs used to navigate to the current command.
+     * The target that was found by the scanner for the given inputs.
+     * When provided as part of CommandInfo, this will always be a command.
      */
-    readonly prefix: readonly string[];
-}
+    readonly target: Command<CONTEXT>;
+};
+
 /**
  * Function to build a generic CommandContext given the current command information.
  */
 export type StricliCommandContextBuilder<CONTEXT extends CommandContext> = (
-    info: CommandInfo,
+    info: CommandInfo<CONTEXT>,
 ) => CONTEXT | Promise<CONTEXT>;
 
 /**

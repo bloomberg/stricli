@@ -37,21 +37,10 @@ export async function proposeCompletionsForApplication<CONTEXT extends CommandCo
     if (error) {
         return [];
     }
-    const result = scanner.finish();
+    const { activeFlag, ...result } = scanner.finish();
 
-    if (result.activeFlag) {
+    if (activeFlag) {
         return [];
-    }
-
-    let commandContext: CONTEXT;
-    if ("forCommand" in context) {
-        try {
-            commandContext = await context.forCommand({ prefix: result.prefix });
-        } catch {
-            return [];
-        }
-    } else {
-        commandContext = context;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -70,12 +59,25 @@ export async function proposeCompletionsForApplication<CONTEXT extends CommandCo
     let targetCompletions: readonly InputCompletion[];
     if (result.target.kind === RouteMapSymbol) {
         targetCompletions = await proposeCompletionsForRouteMap(result.target, {
-            context: commandContext,
             partial,
             scannerConfig: config.scanner,
             completionConfig: config.completion,
         });
     } else {
+        let commandContext: CONTEXT;
+        if ("forCommand" in context) {
+            try {
+                commandContext = await context.forCommand({
+                    ...result,
+                    target: result.target,
+                });
+            } catch {
+                return [];
+            }
+        } else {
+            commandContext = context;
+        }
+
         targetCompletions = await proposeCompletionsForCommand(result.target, {
             context: commandContext,
             inputs: result.unprocessedInputs,

@@ -133,7 +133,10 @@ async function scanInputsAndRunTarget<CONTEXT extends CommandContext>(
     let commandContext: CONTEXT;
     if ("forCommand" in context) {
         try {
-            commandContext = await context.forCommand({ prefix: result.prefix });
+            commandContext = await context.forCommand({
+                ...result,
+                target: result.target,
+            });
         } catch (exc) {
             const errorMessage = text.exceptionWhileLoadingCommandContext(exc, ansiColorByStream.stderr);
             context.process.stderr.write(
