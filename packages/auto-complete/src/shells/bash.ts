@@ -14,8 +14,27 @@ function getBlockStartLine(targetCommand: string): string {
 const BLOCK_END_LINE = "# @stricli/auto-complete END";
 
 export default {
-    async isShellActive(context) {
+    isCurrentShell(context) {
         return Boolean(context.process.env?.["SHELL"]?.includes("bash"));
+    },
+    generateScript(targetCommand, autocompleteCommand) {
+        const bashFunctionName = `__${targetCommand}_complete`;
+        const blockLines = [
+            `${bashFunctionName}() { export COMP_LINE; COMPREPLY=( $(${autocompleteCommand} $COMP_LINE) ); return 0; }`,
+            `complete -o default -o nospace -F ${bashFunctionName} ${targetCommand}`,
+        ];
+        return blockLines.join("\n");
+    },
+    isScriptActive(context) {
+        return Boolean(context.process.env?.["COMP_LINE"]);
+    },
+    completeNextInput() {
+        return this.process.env?.["COMP_LINE"]?.endsWith(" ") ?? false;
+    },
+    handleCompletions(completions) {
+        for (const { completion } of completions) {
+            this.process.stdout.write(`${completion}\n`);
+        }
     },
     async getCommandManager({ os = nodeOs, fs = nodeFs, path = nodePath }) {
         const home = os.homedir();
@@ -28,14 +47,12 @@ export default {
             throw new ErrorWithoutStack("Expected to edit ~/.bashrc but unable to read file.");
         }
         return {
-            install: async (targetCommand, autocompleteCommand) => {
+            installScriptForCommand: async (targetCommand, script) => {
                 const startLine = getBlockStartLine(targetCommand);
                 const startIndex = lines.indexOf(startLine);
-                const bashFunctionName = `__${targetCommand}_complete`;
                 const blockLines = [
                     startLine,
-                    `${bashFunctionName}() { export COMP_LINE; COMPREPLY=( $(${autocompleteCommand} $COMP_LINE) ); return 0; }`,
-                    `complete -o default -o nospace -F ${bashFunctionName} ${targetCommand}`,
+                    script,
                     BLOCK_END_LINE,
                 ];
                 if (startIndex >= 0) {
@@ -47,7 +64,7 @@ export default {
                 await fs.promises.writeFile(bashrc, lines.join("\n"));
                 return `Restart bash shell or run \`source ~/.bashrc\` to load changes.`;
             },
-            uninstall: async (targetCommand) => {
+            uninstallScriptForCommand: async (targetCommand) => {
                 const startLine = getBlockStartLine(targetCommand);
                 const startIndex = lines.indexOf(startLine);
                 if (startIndex >= 0) {
@@ -59,16 +76,5 @@ export default {
             },
         };
     },
-    async handleCompletions(app, inputs, context) {
-        if (context.process.env?.["COMP_LINE"]?.endsWith(" ")) {
-            inputs.push("");
-        }
-        try {
-            for (const { completion } of await proposeCompletions(app, inputs, context)) {
-                context.process.stdout.write(`${completion}\n`);
-            }
-        } catch {
-            // ignore
-        }
-    },
+
 } satisfies ShellAutoCompleteSupport;

@@ -6,6 +6,35 @@ import type { StricliAutoCompleteContext } from "./cli/context";
 import type { Flags as UnifiedUninstallFlags } from "./cli/commands/unified/uninstall";
 import type { Flags as UnifiedInstallFlags } from "./cli/commands/unified/install";
 import type { ShellAutoCompleteCommands, ActiveShells } from "./cli/spec";
+import { shells, type Shell } from "./shells";
+
+export function buildScriptCommand<CONTEXT extends StricliAutoCompleteContext>(
+    targetCommand: string,
+    commands: ShellAutoCompleteCommands,
+): Command<CONTEXT> {
+    const shellsText = joinWithGrammar(Object.keys(commands), { conjunction: "and", serialComma: true });
+    return buildCommand({
+        loader: async () => {
+            const { default: install } = await import("./cli/commands/install");
+            return function (this: CONTEXT, { shell }: { shell: Shell }) {
+                return install.call(this, { [shell]: commands[shell] }, targetCommand);
+            };
+        },
+        parameters: {
+            flags: {
+                shell: {
+                    kind: "enum",
+                    values: Object.keys(commands) as Shell[],
+                    brief: "Shell to generate script for",
+                    placeholder: "shell",
+                },
+            },
+        },
+        docs: {
+            brief: `Prints the script for ${shellsText} autocomplete support to stdout.`,
+        },
+    });
+}
 
 export function buildInstallCommand<CONTEXT extends StricliAutoCompleteContext>(
     targetCommand: string,
@@ -92,6 +121,7 @@ export function buildAutocompleteRouteMap<CONTEXT extends StricliAutoCompleteCon
     const shellsText = joinWithGrammar(shells, { conjunction: "and", serialComma: true });
     return buildRouteMap({
         routes: {
+            script: buildScriptCommand(targetCommand, commands),
             install: buildInstallCommand(targetCommand, commands),
             uninstall: buildUninstallCommand(targetCommand, Object.fromEntries(shells.map((shell) => [shell, true]))),
         },
@@ -105,8 +135,10 @@ export function buildUnifiedAutocompleteRouteMap<CONTEXT extends StricliAutoComp
     targetCommand: string,
     flags: UnifiedInstallFlags,
 ): RouteMap<CONTEXT> {
+    const commands = Object.fromEntries(Object.keys(shells).map((shell) => [shell as Shell, flags.autocompleteCommand])) as ShellAutoCompleteCommands;
     return buildRouteMap({
         routes: {
+            script: buildScriptCommand(targetCommand, commands),
             install: buildUnifiedInstallCommand(targetCommand, flags),
             uninstall: buildUnifiedUninstallCommand(targetCommand, flags),
         },

@@ -14,7 +14,7 @@ export default async function (
         .map(([shell]) => shell as Shell);
     for (const shell of activeShells) {
         const shellManager = await shells[shell].getCommandManager(this);
-        const message = await shellManager.uninstall(targetCommand);
+        const message = await shellManager.uninstallScriptForCommand(targetCommand);
         this.process.stdout.write(`Uninstalled autocomplete support for ${targetCommand} in ${shell}.\n`);
         /* v8 ignore else -- @preserve */
         if (message) {

@@ -5,17 +5,18 @@ import type { StricliAutoCompleteContext } from "../../context";
 
 export type Flags = {
     readonly autocompleteCommand: string;
-    readonly onlyActiveShells: boolean;
+    readonly onlyCurrentShell: boolean;
 };
 
 export default async function (this: StricliAutoCompleteContext, flags: Flags, targetCommand: string): Promise<void> {
     for (const [shell, support] of Object.entries(shells)) {
-        if (flags.onlyActiveShells && !(await support.isShellActive(this))) {
-            this.process.stdout.write(`Skipping ${shell} as it is not active.\n`);
+        if (flags.onlyCurrentShell && !support.isCurrentShell(this)) {
+            this.process.stdout.write(`Skipping ${shell} as it is not the current shell.\n`);
             continue;
         }
         const shellManager = await support.getCommandManager(this);
-        const message = await shellManager.install(targetCommand, `${flags.autocompleteCommand} ${shell}`);
+        const script = support.generateScript(targetCommand, flags.autocompleteCommand);
+        const message = await shellManager.installScriptForCommand(targetCommand, script);
         this.process.stdout.write(`Installed autocomplete support for ${targetCommand} in ${shell}.\n`);
         /* v8 ignore else -- @preserve */
         if (message) {

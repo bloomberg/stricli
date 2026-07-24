@@ -2,10 +2,11 @@
 // Distributed under the terms of the Apache 2.0 license.
 import { buildApplication, buildRouteMap } from "@stricli/core";
 import pkg from "../../package.json";
-import { installCommand, unifiedInstallCommand, unifiedUninstallCommand, uninstallCommand } from "./spec";
+import { installCommand, scriptCommand, unifiedInstallCommand, unifiedUninstallCommand, uninstallCommand } from "./spec";
 
 const root = buildRouteMap({
     routes: {
+        script: scriptCommand,
         install: installCommand,
         uninstall: uninstallCommand,
         unified: buildRouteMap({

@@ -11,7 +11,7 @@ export default async function (
 ): Promise<void> {
     for (const [shell, autocompleteCommand] of Object.entries(flags)) {
         const shellManager = await shells[shell as Shell].getCommandManager(this);
-        const message = await shellManager.install(targetCommand, autocompleteCommand);
+        const message = await shellManager.installScriptForCommand(targetCommand, autocompleteCommand);
         this.process.stdout.write(`Installed autocomplete support for ${targetCommand} in ${shell}.\n`);
         /* v8 ignore else -- @preserve */
         if (message) {

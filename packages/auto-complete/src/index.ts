@@ -9,5 +9,4 @@ export {
     buildUninstallCommand,
 } from "./builders";
 export type { StricliAutoCompleteContext } from "./cli/context";
-export { handleCompletionsForShell } from "./handler";
 export type { Shell } from "./shells";

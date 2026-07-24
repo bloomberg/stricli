@@ -7,6 +7,34 @@ export type ShellAutoCompleteCommands = Readonly<Partial<Record<Shell, string>>>
 
 export type ActiveShells = Readonly<Partial<Record<Shell, boolean>>>;
 
+export const scriptCommand = buildCommand({
+    loader: async () => import("./commands/script"),
+    parameters: {
+        flags: {
+            bash: {
+                kind: "parsed",
+                brief: "Command executed by bash to generate completion proposals",
+                parse: String,
+                optional: true,
+                placeholder: "command",
+            },
+        },
+        positional: {
+            kind: "tuple",
+            parameters: [
+                {
+                    parse: String,
+                    brief: "Target command run by user, typically the application name",
+                    placeholder: "targetCommand",
+                },
+            ],
+        },
+    },
+    docs: {
+        brief: "Prints the script for autocomplete support to stdout.",
+    },
+});
+
 const targetCommandParameter: TypedPositionalParameter<string> = {
     parse: String,
     brief: "Target command run by user, typically the application name",
@@ -45,7 +73,7 @@ export const unifiedInstallCommand = buildCommand({
                 parse: String,
                 placeholder: "command",
             },
-            onlyActiveShells: {
+            onlyCurrentShell: {
                 kind: "boolean",
                 brief: "Skip installing for inactive shell(s)",
                 default: true,
@@ -85,7 +113,7 @@ export const unifiedUninstallCommand = buildCommand({
     loader: async () => import("./commands/unified/uninstall"),
     parameters: {
         flags: {
-            onlyActiveShells: {
+            onlyCurrentShell: {
                 kind: "boolean",
                 brief: "Skip installing for inactive shell(s)",
                 default: true,
