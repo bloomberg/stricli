@@ -1,37 +1,40 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 /* v8 ignore file -- @preserve */
-import { type SinonStubbedInstance, stub } from "sinon";
-import { type ApplicationText, text_en } from "../../src";
+import { vi, type MockedObject } from "vitest";
+import { text_en, type ApplicationText } from "../../src";
 
-export function buildFakeApplicationText(): SinonStubbedInstance<ApplicationText> {
+export function buildFakeApplicationText(): MockedObject<ApplicationText> {
     return {
         ...text_en,
-        noCommandRegisteredForInput:
-            stub<[{ input: string; corrections: readonly string[]; ansiColor: boolean }]>().returns(
-                "noCommandRegisteredForInput",
-            ),
-        noTextAvailableForLocale:
-            stub<[{ requestedLocale: string; defaultLocale: string; ansiColor: boolean }]>().returns(
-                "noTextAvailableForLocale",
-            ),
-        currentVersionIsNotLatest:
-            stub<[{ currentVersion: string; latestVersion: string; ansiColor: boolean }]>().returns(
-                "currentVersionIsNotLatest",
-            ),
-        formatException: stub<[unknown]>().returns("formatException"),
-        exceptionWhileParsingArguments: stub<[unknown, boolean]>().returns("exceptionWhileParsingArguments"),
-        exceptionWhileLoadingCommandFunction: stub<[unknown, boolean]>().returns(
-            "exceptionWhileLoadingCommandFunction",
-        ),
-        exceptionWhileLoadingCommandContext: stub<[unknown, boolean]>().returns("exceptionWhileLoadingCommandContext"),
-        exceptionWhileRunningCommand: stub<[unknown, boolean]>().returns("exceptionWhileRunningCommand"),
-        commandErrorResult: stub<[Error, boolean]>().returns("commandErrorResult"),
-        exceptionWhileRunningIntegrationHook: stub<
-            [{ exception: unknown; hook: string; integration: string; ansiColor: boolean }]
-        >().returns("exceptionWhileRunningIntegrationHook"),
-        exceptionWhileRunningIntegrationFlag: stub<
-            [{ exception: unknown; integration: string; ansiColor: boolean }]
-        >().returns("exceptionWhileRunningIntegrationFlag"),
+        noCommandRegisteredForInput: vi
+            .fn<(args: { input: string; corrections: readonly string[]; ansiColor: boolean }) => string>()
+            .mockReturnValue("noCommandRegisteredForInput"),
+        noTextAvailableForLocale: vi
+            .fn<(args: { requestedLocale: string; defaultLocale: string; ansiColor: boolean }) => string>()
+            .mockReturnValue("noTextAvailableForLocale"),
+        currentVersionIsNotLatest: vi
+            .fn<(args: { currentVersion: string; latestVersion: string; ansiColor: boolean }) => string>()
+            .mockReturnValue("currentVersionIsNotLatest"),
+        formatException: vi.fn<(exc: unknown) => string>().mockReturnValue("formatException"),
+        exceptionWhileParsingArguments: vi
+            .fn<(exc: unknown, ansiColor: boolean) => string>()
+            .mockReturnValue("exceptionWhileParsingArguments"),
+        exceptionWhileLoadingCommandFunction: vi
+            .fn<(exc: unknown, ansiColor: boolean) => string>()
+            .mockReturnValue("exceptionWhileLoadingCommandFunction"),
+        exceptionWhileLoadingCommandContext: vi
+            .fn<(exc: unknown, ansiColor: boolean) => string>()
+            .mockReturnValue("exceptionWhileLoadingCommandContext"),
+        exceptionWhileRunningCommand: vi
+            .fn<(exc: unknown, ansiColor: boolean) => string>()
+            .mockReturnValue("exceptionWhileRunningCommand"),
+        commandErrorResult: vi.fn<(error: Error, ansiColor: boolean) => string>().mockReturnValue("commandErrorResult"),
+        exceptionWhileRunningIntegrationHook: vi
+            .fn<(args: { exception: unknown; hook: string; integration: string; ansiColor: boolean }) => string>()
+            .mockReturnValue("exceptionWhileRunningIntegrationHook"),
+        exceptionWhileRunningIntegrationFlag: vi
+            .fn<(args: { exception: unknown; integration: string; ansiColor: boolean }) => string>()
+            .mockReturnValue("exceptionWhileRunningIntegrationFlag"),
     };
 }

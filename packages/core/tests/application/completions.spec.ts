@@ -21,14 +21,14 @@ function testCompletions(app: Application<CommandContext>, inputs: string[], exp
             const context = buildFakeContext({ forCommand: false, colorDepth: 2 });
             const completions = await proposeCompletions(app, inputs, context);
             expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+            expect(context.process.stderr.write.mock.calls.length).to.equal(0);
         });
 
         it("dynamic context", async () => {
             const context = buildFakeContext({ forCommand: true, colorDepth: 2 });
             const completions = await proposeCompletions(app, inputs, context);
             expect(completions).to.have.deep.members(expected);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+            expect(context.process.stderr.write.mock.calls.length).to.equal(0);
         });
 
         it("error loading context", async () => {
@@ -39,9 +39,9 @@ function testCompletions(app: Application<CommandContext>, inputs: string[], exp
                 colorDepth: void 0,
             });
             await proposeCompletions(app, inputs, context);
-            const completions = context.process.stdout.write.args.flat(2)[0]?.split("\n") ?? [];
+            const completions = context.process.stdout.write.mock.calls.flat(2)[0]?.split("\n") ?? [];
             expect(completions).to.have.deep.members([]);
-            expect(context.process.stderr.write.callCount).to.equal(0);
+            expect(context.process.stderr.write.mock.calls.length).to.equal(0);
         });
     });
 }

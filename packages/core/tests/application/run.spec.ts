@@ -1,6 +1,6 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
-import { describe, expect, it } from "vitest";
+import { assert, describe, expect, it, vi } from "vitest";
 import {
     buildApplication,
     buildCommand,
@@ -11,6 +11,7 @@ import {
     type Application,
     type ApplicationContext,
     type CommandContext,
+    type CommandInfo,
     type VersionInfo,
 } from "../../src";
 import { buildBasicCommand, buildBasicRouteMap, buildRouteMapForFakeContext } from "../application";
@@ -28,8 +29,8 @@ async function runWithInputs(
     const context = buildFakeContext(...args);
     await run(app, inputs, context);
     return {
-        stdout: context.process.stdout.write.args.map(([text]) => text).join(""),
-        stderr: context.process.stderr.write.args.map(([text]) => text).join(""),
+        stdout: context.process.stdout.write.mock.calls.map(([text]) => text).join(""),
+        stderr: context.process.stderr.write.mock.calls.map(([text]) => text).join(""),
         exitCode: context.process.exitCode,
     };
 }
@@ -758,15 +759,16 @@ describe("run", () => {
 
     describe("nested basic route map with camelCase route aliases at root", () => {
         // GIVEN
-        const rootRouteMap = buildRouteMapForFakeContext({
-            routes: { sub: buildBasicRouteMap("sub") },
+        const sub = buildBasicRouteMap("sub");
+        const root = buildRouteMapForFakeContext({
+            routes: { sub },
             aliases: {
                 aliasFoo: "sub",
                 aliasBar: "sub",
             },
             docs: { brief: "root route map" },
         });
-        const app = buildApplication(rootRouteMap, {
+        const app = buildApplication(root, {
             name: "cli",
             scanner: {
                 caseStyle: "allow-kebab-for-camel",
@@ -828,6 +830,302 @@ describe("run", () => {
         });
     });
 
+    describe("forCommand receives correct info", () => {
+        const commandAlpha = buildBasicCommand();
+        const commandBeta = buildBasicCommand();
+        const nested = buildRouteMapForFakeContext({
+            routes: { commandBeta },
+            aliases: {
+                betaCommand: "commandBeta",
+            },
+            docs: { brief: "root route map" },
+        });
+        const root = buildRouteMapForFakeContext({
+            routes: { commandAlpha, nested },
+            aliases: {
+                command: "commandAlpha",
+                alphaCommand: "commandAlpha",
+                nestedRoute: "nested",
+            },
+            docs: { brief: "root route map" },
+        });
+        const app = buildApplication(root, {
+            name: "cli",
+            scanner: {
+                caseStyle: "allow-kebab-for-camel",
+            },
+            completion: {
+                includeAliases: true,
+            },
+        });
+
+        it("not called for route map", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, [], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledTimes(0);
+        });
+
+        it("command with original name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["commandAlpha"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "commandAlpha"]);
+            expect(info?.aliases.original).to.include.members(["command", "alphaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command", "alpha-command"]);
+            expect(info).to.have.property("target", commandAlpha);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("command with alternate case style name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["command-alpha"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "command-alpha"]);
+            expect(info?.aliases.original).to.include.members(["command", "alphaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command", "alpha-command"]);
+            expect(info).to.have.property("target", commandAlpha);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("command with original alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["alphaCommand"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "alphaCommand"]);
+            expect(info?.aliases.original).to.include.members(["command", "commandAlpha"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command", "command-alpha"]);
+            expect(info).to.have.property("target", commandAlpha);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("command with alternate case style alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["alpha-command"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "alpha-command"]);
+            expect(info?.aliases.original).to.include.members(["command", "commandAlpha"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command", "command-alpha"]);
+            expect(info).to.have.property("target", commandAlpha);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command with original name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested", "commandBeta"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested", "commandBeta"]);
+            expect(info?.aliases.original).to.include.members(["betaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["beta-command"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command with alternate case name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested", "command-beta"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested", "command-beta"]);
+            expect(info?.aliases.original).to.include.members(["betaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["beta-command"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command with original alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested", "betaCommand"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested", "betaCommand"]);
+            expect(info?.aliases.original).to.include.members(["commandBeta"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command-beta"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command with alternate case alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested", "beta-command"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested", "beta-command"]);
+            expect(info?.aliases.original).to.include.members(["commandBeta"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command-beta"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via original alias with original name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nestedRoute", "commandBeta"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nestedRoute", "commandBeta"]);
+            expect(info?.aliases.original).to.include.members(["betaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["beta-command"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via original alias with alternate case name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nestedRoute", "command-beta"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nestedRoute", "command-beta"]);
+            expect(info?.aliases.original).to.include.members(["betaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["beta-command"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via original alias with original alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nestedRoute", "betaCommand"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nestedRoute", "betaCommand"]);
+            expect(info?.aliases.original).to.include.members(["commandBeta"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command-beta"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via original alias with alternate case alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nestedRoute", "beta-command"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nestedRoute", "beta-command"]);
+            expect(info?.aliases.original).to.include.members(["commandBeta"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command-beta"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via alternate case alias with original name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested-route", "commandBeta"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested-route", "commandBeta"]);
+            expect(info?.aliases.original).to.include.members(["betaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["beta-command"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via alternate case alias with alternate case name", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested-route", "command-beta"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested-route", "command-beta"]);
+            expect(info?.aliases.original).to.include.members(["betaCommand"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["beta-command"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via alternate case alias with original alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested-route", "betaCommand"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested-route", "betaCommand"]);
+            expect(info?.aliases.original).to.include.members(["commandBeta"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command-beta"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+
+        it("nested command via alternate case alias with alternate case alias", async () => {
+            // WHEN
+            const context = buildFakeContext({ forCommand: true });
+            await run(app, ["nested-route", "beta-command"], context);
+
+            // THEN
+            assert(context.forCommand);
+            expect(context.forCommand).toHaveBeenCalledOnce();
+            const info = context.forCommand.mock.calls[0]?.[0];
+            expect(info).to.have.deep.property("prefix", ["cli", "nested-route", "beta-command"]);
+            expect(info?.aliases.original).to.include.members(["commandBeta"]);
+            expect(info?.aliases["convert-camel-to-kebab"]).to.include.members(["command-beta"]);
+            expect(info).to.have.property("target", commandBeta);
+            expect(info).to.have.deep.property("unprocessedInputs", []);
+        });
+    });
+
     it("prints unexpected error from version integration to stderr", async () => {
         // GIVEN
         const error = new Error("This function purposefully throws an error");
@@ -870,17 +1168,27 @@ describe("run", () => {
         const app = buildApplication(command, {
             name: "cli",
         });
+        const forCommand = vi.fn<(info: CommandInfo) => never>().mockImplementation(() => {
+            throw new Error("This function purposefully throws an error");
+        });
 
         // WHEN
         const result = await runWithInputs(app, [], {
-            forCommand: () => {
-                throw new Error("This function purposefully throws an error");
-            },
+            forCommand,
             colorDepth: 4,
         });
 
         // THEN
         expect(result).toMatchSnapshot();
+        expect(forCommand).toHaveBeenCalledOnce();
+        const info = forCommand.mock.calls[0]?.[0];
+        expect(info).to.have.deep.property("prefix", ["cli"]);
+        expect(info).to.have.deep.property("aliases", {
+            original: [],
+            "convert-camel-to-kebab": [],
+        });
+        expect(info).to.have.property("target", app.root);
+        expect(info).to.have.deep.property("unprocessedInputs", []);
     });
 
     it("fails when context.forCommand throws error, with no ansi color", async () => {
@@ -889,17 +1197,27 @@ describe("run", () => {
         const app = buildApplication(command, {
             name: "cli",
         });
+        const forCommand = vi.fn<(info: CommandInfo) => never>().mockImplementation(() => {
+            throw new Error("This function purposefully throws an error");
+        });
 
         // WHEN
         const result = await runWithInputs(app, [], {
-            forCommand: () => {
-                throw new Error("This function purposefully throws an error");
-            },
+            forCommand,
             colorDepth: void 0,
         });
 
         // THEN
         expect(result).toMatchSnapshot();
+        expect(forCommand).toHaveBeenCalledOnce();
+        const info = forCommand.mock.calls[0]?.[0];
+        expect(info).to.have.deep.property("prefix", ["cli"]);
+        expect(info).to.have.deep.property("aliases", {
+            original: [],
+            "convert-camel-to-kebab": [],
+        });
+        expect(info).to.have.property("target", app.root);
+        expect(info).to.have.deep.property("unprocessedInputs", []);
     });
 
     it("fails when context.forCommand throws error, with custom exception formatting", async (context) => {
@@ -918,17 +1236,27 @@ describe("run", () => {
                 },
             },
         });
+        const forCommand = vi.fn<(info: CommandInfo) => never>().mockImplementation(() => {
+            throw new Error("This function purposefully throws an error");
+        });
 
         // WHEN
         const result = await runWithInputs(app, [], {
-            forCommand: () => {
-                throw new Error("This function purposefully throws an error");
-            },
+            forCommand,
             colorDepth: void 0,
         });
 
         // THEN
         expect(result).toMatchSnapshot();
+        expect(forCommand).toHaveBeenCalledOnce();
+        const info = forCommand.mock.calls[0]?.[0];
+        expect(info).to.have.deep.property("prefix", ["cli"]);
+        expect(info).to.have.deep.property("aliases", {
+            original: [],
+            "convert-camel-to-kebab": [],
+        });
+        expect(info).to.have.property("target", app.root);
+        expect(info).to.have.deep.property("unprocessedInputs", []);
     });
 
     it("fails when context.forCommand throws error (without stack)", async () => {
@@ -937,19 +1265,29 @@ describe("run", () => {
         const app = buildApplication(command, {
             name: "cli",
         });
+        const forCommand = vi.fn<(info: CommandInfo) => never>().mockImplementation(() => {
+            const error = new Error("This function purposefully throws an error");
+            error.stack = void 0;
+            throw error;
+        });
 
         // WHEN
         const result = await runWithInputs(app, [], {
-            forCommand: () => {
-                const error = new Error("This function purposefully throws an error");
-                error.stack = void 0;
-                throw error;
-            },
+            forCommand,
             colorDepth: 4,
         });
 
         // THEN
         expect(result).toMatchSnapshot();
+        expect(forCommand).toHaveBeenCalledOnce();
+        const info = forCommand.mock.calls[0]?.[0];
+        expect(info).to.have.deep.property("prefix", ["cli"]);
+        expect(info).to.have.deep.property("aliases", {
+            original: [],
+            "convert-camel-to-kebab": [],
+        });
+        expect(info).to.have.property("target", app.root);
+        expect(info).to.have.deep.property("unprocessedInputs", []);
     });
 
     it("fails when context.forCommand throws non-error", async () => {
@@ -958,18 +1296,28 @@ describe("run", () => {
         const app = buildApplication(command, {
             name: "cli",
         });
+        const forCommand = vi.fn<(info: CommandInfo) => never>().mockImplementation(() => {
+            // eslint-disable-next-line @typescript-eslint/only-throw-error
+            throw "This function purposefully throws a string";
+        });
 
         // WHEN
         const result = await runWithInputs(app, [], {
-            forCommand: () => {
-                // eslint-disable-next-line @typescript-eslint/only-throw-error
-                throw "This function purposefully throws an error";
-            },
+            forCommand,
             colorDepth: 4,
         });
 
         // THEN
         expect(result).toMatchSnapshot();
+        expect(forCommand).toHaveBeenCalledOnce();
+        const info = forCommand.mock.calls[0]?.[0];
+        expect(info).to.have.deep.property("prefix", ["cli"]);
+        expect(info).to.have.deep.property("aliases", {
+            original: [],
+            "convert-camel-to-kebab": [],
+        });
+        expect(info).to.have.property("target", app.root);
+        expect(info).to.have.deep.property("unprocessedInputs", []);
     });
 
     it("loads text for context locale", async () => {

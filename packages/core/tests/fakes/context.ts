@@ -1,7 +1,7 @@
 // Copyright 2024 Bloomberg Finance L.P.
 // Distributed under the terms of the Apache 2.0 license.
 /* v8 ignore file -- @preserve */
-import { stub, type SinonStub } from "sinon";
+import { vi, type Mock } from "vitest";
 import type {
     CommandContext,
     CommandInfo,
@@ -11,7 +11,7 @@ import type {
 } from "../../src";
 
 interface FakeWritable {
-    readonly write: SinonStub<[string], void>;
+    readonly write: Mock<(text: string) => void>;
 }
 interface FakeProcess extends StricliProcess {
     readonly stdout: FakeWritable;
@@ -21,11 +21,11 @@ interface FakeProcess extends StricliProcess {
 
 export type FakeContext = StricliDynamicCommandContext<CommandContext> & {
     readonly process: FakeProcess;
-    forCommand?: SinonStub<[CommandInfo], FakeContext>;
+    forCommand?: Mock<(info: CommandInfo) => FakeContext>;
 };
 
 export interface FakeContextOptions {
-    readonly forCommand?: boolean | (() => never);
+    readonly forCommand?: boolean | ((info: CommandInfo) => never);
     readonly locale?: string;
     readonly colorDepth?: number;
     readonly env?: Partial<Record<EnvironmentVariableName, string>>;
@@ -37,7 +37,7 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
     const context: FakeContext = {
         process: {
             stdout: {
-                write: stub(),
+                write: vi.fn(),
                 ...(typeof colorDepth === "number"
                     ? {
                           getColorDepth() {
@@ -47,7 +47,7 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
                     : {}),
             },
             stderr: {
-                write: stub(),
+                write: vi.fn(),
                 ...(typeof colorDepth === "number"
                     ? {
                           getColorDepth() {
@@ -65,9 +65,9 @@ export function buildFakeContext(options: FakeContextOptions = { forCommand: tru
     };
     if (options.forCommand) {
         if (typeof options.forCommand === "function") {
-            context.forCommand = stub<[CommandInfo]>().callsFake(options.forCommand);
+            context.forCommand = vi.fn<(info: CommandInfo) => FakeContext>().mockImplementation(options.forCommand);
         } else {
-            context.forCommand = stub<[CommandInfo]>().returns(context);
+            context.forCommand = vi.fn<(info: CommandInfo) => FakeContext>().mockReturnValue(context);
         }
     }
     return context;

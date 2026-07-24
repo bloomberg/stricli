@@ -28,8 +28,8 @@ async function runWithInputs(
     const context = buildFakeContext();
     const exitCode = await runCommand(command, { context, ...args });
     return {
-        stdout: context.process.stdout.write.args.map(([text]) => text).join(""),
-        stderr: context.process.stderr.write.args.map(([text]) => text).join(""),
+        stdout: context.process.stdout.write.mock.calls.map(([text]) => text).join(""),
+        stderr: context.process.stderr.write.mock.calls.map(([text]) => text).join(""),
         exitCode,
     };
 }

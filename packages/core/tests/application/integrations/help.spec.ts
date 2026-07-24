@@ -24,8 +24,8 @@ async function runWithInputs(
     const context = buildFakeContext(...args);
     await run(app, inputs, context);
     return {
-        stdout: context.process.stdout.write.args.map(([text]) => text).join(""),
-        stderr: context.process.stderr.write.args.map(([text]) => text).join(""),
+        stdout: context.process.stdout.write.mock.calls.map(([text]) => text).join(""),
+        stderr: context.process.stderr.write.mock.calls.map(([text]) => text).join(""),
         exitCode: context.process.exitCode,
     };
 }

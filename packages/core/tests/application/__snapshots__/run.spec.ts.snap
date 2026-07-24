@@ -697,12 +697,12 @@ ExitCode=ContextLoadError
 
 :: STDERR
 [1m[31mUnable to load command context, Error: This function purposefully throws an error
-    at Object.forCommand (#/tests/application/run.spec.ts:?:?)
+    at Object.<anonymous> (#/tests/application/run.spec.ts:?:?)
     at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
     at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/run.spec.ts:?:?)
-    at #/tests/application/run.spec.ts:?:?[39m[22m
+    at #/tests/application/run.spec.ts:?:?
 `;
 
 exports[`run > fails when context.forCommand throws error, with custom exception formatting 1`] = `
@@ -719,7 +719,7 @@ ExitCode=ContextLoadError
 
 :: STDERR
 Unable to load command context, Error: This function purposefully throws an error
-    at Object.forCommand (#/tests/application/run.spec.ts:?:?)
+    at Object.<anonymous> (#/tests/application/run.spec.ts:?:?)
     at scanInputsAndRunTarget (#/src/application/run.ts:?:?)
     at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
@@ -732,7 +732,7 @@ ExitCode=ContextLoadError
 :: STDOUT
 
 :: STDERR
-[1m[31mUnable to load command context, This function purposefully throws an error[39m[22m
+[1m[31mUnable to load command context, This function purposefully throws a string[39m[22m
 `;
 
 exports[`run > loads text for context locale 1`] = `
