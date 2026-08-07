@@ -66,7 +66,7 @@ export type EnvironmentVariableName = "STRICLI_SKIP_VERSION_CHECK" | "STRICLI_NO
 /**
  * @internal
  */
-export function checkEnvironmentVariable(process: StricliProcess, varName: EnvironmentVariableName): boolean {
+export function checkEnvironmentVariable(process: StricliProcess, varName: string): boolean {
     const value = process.env?.[varName];
     return typeof value === "string" && looseBooleanParser(value);
 }

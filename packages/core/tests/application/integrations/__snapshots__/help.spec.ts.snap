@@ -228,6 +228,120 @@ basic command
 
 `;
 
+exports[`help integration > via integration args > custom disable env var > no ansi color, due to color depth 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -H  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > custom disable env var > no ansi color, due to custom env var 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -H  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > custom disable env var > no ansi color, due to default env var 1`] = `
+ExitCode=Success
+:: STDOUT
+USAGE
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+FLAGS
+      --camelCase/--noCamelCase  camelCase
+  -a  --alias/--noAlias          alias
+     [--optional]                optional
+  -H  --help                     Print help information and exit
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > custom disable env var > with ansi color 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-H[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > custom disable env var > with ansi color, due to falsey custom env var 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-H[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
+exports[`help integration > via integration args > custom disable env var > with ansi color, due to falsey default env var 1`] = `
+ExitCode=Success
+:: STDOUT
+[4mUSAGE[24m
+  cli (--camelCase) (--alias) [--optional value]
+  cli --help
+
+basic command
+
+[4mFLAGS[24m
+  [1m[22m   [1m --camelCase/--noCamelCase[22m  [;;3mcamelCase[;;;23m
+  [1m-a[22m [1m --alias/--noAlias[22m          [;;3malias[;;;23m
+  [1m[22m   [1m[--optional][22m                [;;3moptional[;;;23m
+  [1m-H[22m [1m --help[22m                     [;;3mPrint help information and exit[;;;23m
+
+:: STDERR
+
+`;
+
 exports[`help integration > via integration args > default config > no ansi color 1`] = `
 ExitCode=Success
 :: STDOUT

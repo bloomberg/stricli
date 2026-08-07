@@ -138,6 +138,20 @@ describe("version integration", () => {
                 expect(result).toMatchSnapshot();
             });
 
+            it("display help text for root, warn on outdated version with falsey env var", async () => {
+                const result = await runWithInputs(appWithOutdatedVersion, ["--help"], {
+                    env: { STRICLI_SKIP_VERSION_CHECK: "0" },
+                });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("display help text for root, skip warning on outdated version with env var", async () => {
+                const result = await runWithInputs(appWithOutdatedVersion, ["--help"], {
+                    env: { STRICLI_SKIP_VERSION_CHECK: "1" },
+                });
+                expect(result).toMatchSnapshot();
+            });
+
             it("display help text for root, warn on outdated version, with no ansi color", async () => {
                 const result = await runWithInputs(appWithOutdatedVersion, ["--help"], { colorDepth: void 0 });
                 expect(result).toMatchSnapshot();
@@ -413,6 +427,47 @@ describe("version integration", () => {
 
             it("fails on missing flag (with incorrect flag alias)", async () => {
                 const result = await runWithInputs(appWithCurrentVersion, ["-v"]);
+                expect(result).toMatchSnapshot();
+            });
+        });
+
+        describe("with alternate version check skip variable name", () => {
+            // GIVEN
+            const versionInfo: VersionInfo = {
+                currentVersion: "1.0.0",
+                getLatestVersion: async () => "1.1.0",
+            };
+            const appWithOutdatedVersion = buildApplication(
+                root,
+                {
+                    name: "cli",
+                },
+                {
+                    version: version({
+                        info: versionInfo,
+                        brief: text_en.briefs.version,
+                        skipCheckVariableName: "SKIP_VERSION_CHECK_CUSTOM",
+                    }),
+                },
+            );
+
+            // WHEN
+            it("request current version, warns on outdated version", async () => {
+                const result = await runWithInputs(appWithOutdatedVersion, ["--version"]);
+                expect(result).toMatchSnapshot();
+            });
+
+            it("request current version, warns on outdated version with falsey custom env var", async () => {
+                const result = await runWithInputs(appWithOutdatedVersion, ["--version"], {
+                    env: { SKIP_VERSION_CHECK_CUSTOM: "0" },
+                });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("request current version, skips warning on outdated version with custom env var", async () => {
+                const result = await runWithInputs(appWithOutdatedVersion, ["--version"], {
+                    env: { SKIP_VERSION_CHECK_CUSTOM: "1" },
+                });
                 expect(result).toMatchSnapshot();
             });
         });
