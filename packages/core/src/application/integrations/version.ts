@@ -28,6 +28,13 @@ export type VersionIntegrationConfiguration = Omit<
      * Defaults to `app:start`.
      */
     readonly hook?: keyof LifecycleHooks<CommandContext>;
+    /**
+     * If set, this environment variable will be checked to determine whether to skip the version check.
+     * The logic is the same as `looseBooleanParser` so if set it will be interpreted as `true` unless it explicitly has a falsey value.
+     *
+     * Default value is `STRICLI_SKIP_VERSION_CHECK`
+     */
+    readonly skipCheckVariableName?: string;
 };
 
 /**
@@ -42,9 +49,10 @@ export function version<CONTEXT extends CommandContext>({
 }: VersionIntegrationConfiguration): StricliIntegration<CONTEXT> {
     let versionCheck: ApplicationHook | undefined;
     if (info.getLatestVersion) {
+        const skipCheckVariableName = config.skipCheckVariableName ?? "STRICLI_SKIP_VERSION_CHECK";
         const getLatestVersion = info.getLatestVersion;
         versionCheck = async function (this, { text, ansiColorByStream }) {
-            if (checkEnvironmentVariable(this.process, "STRICLI_SKIP_VERSION_CHECK")) {
+            if (checkEnvironmentVariable(this.process, skipCheckVariableName)) {
                 return;
             }
             let currentVersion: string;

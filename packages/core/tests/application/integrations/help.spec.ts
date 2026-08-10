@@ -430,5 +430,69 @@ describe("help integration", () => {
                 expect(result).toMatchSnapshot();
             });
         });
+
+        describe("custom disable env var", () => {
+            // GIVEN
+            const app = buildApplication(
+                command,
+                {
+                    name: "cli",
+                },
+                {
+                    help: help({
+                        brief: text_en.briefs.help,
+                        alias: "H",
+                        formatting: {
+                            caseStyle: "original",
+                            onlyRequiredInUsageLine: false,
+                            useAliasInUsageLine: false,
+                        },
+                        disableColorVariableName: "DISABLE_COLOR_CUSTOM_VAR",
+                    }),
+                },
+            );
+
+            it("with ansi color", async () => {
+                // WHEN
+                const result = await runWithInputs(app, ["--help"]);
+                expect(result).toMatchSnapshot();
+            });
+
+            it("no ansi color, due to color depth", async () => {
+                // WHEN
+                const result = await runWithInputs(app, ["--help"], { colorDepth: 0 });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("with ansi color, due to falsey default env var", async () => {
+                // WHEN
+                const result = await runWithInputs(app, ["--help"], { colorDepth: 4, env: { STRICLI_NO_COLOR: "0" } });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("no ansi color, due to default env var", async () => {
+                // WHEN
+                const result = await runWithInputs(app, ["--help"], { colorDepth: 4, env: { STRICLI_NO_COLOR: "1" } });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("with ansi color, due to falsey custom env var", async () => {
+                // WHEN
+                const result = await runWithInputs(app, ["--help"], {
+                    colorDepth: 4,
+                    env: { DISABLE_COLOR_CUSTOM_VAR: "0" },
+                });
+                expect(result).toMatchSnapshot();
+            });
+
+            it("no ansi color, due to custom env var", async () => {
+                // WHEN
+                const result = await runWithInputs(app, ["--help"], {
+                    colorDepth: 4,
+                    env: { DISABLE_COLOR_CUSTOM_VAR: "1" },
+                });
+                expect(result).toMatchSnapshot();
+            });
+        });
     });
 });
