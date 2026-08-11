@@ -274,3 +274,101 @@ it("", () => {
         },
     });
 });
+
+// Issue #91 - aliases with func and explicit type annotations
+it("", () => {
+    const command = buildCommand({
+        func: async (flags: { repo?: string }) => {},
+        parameters: {
+            flags: {
+                repo: {
+                    brief: "",
+                    kind: "parsed",
+                    parse: String,
+                    optional: true,
+                },
+            },
+            aliases: {
+                r: "repo",
+            },
+        },
+        docs: {
+            brief: "",
+        },
+    });
+});
+
+it("", () => {
+    const command = buildCommand({
+        func: async (flags: { output?: string; input?: string }) => {},
+        parameters: {
+            flags: {
+                output: {
+                    brief: "",
+                    kind: "parsed",
+                    parse: String,
+                    optional: true,
+                },
+                input: {
+                    brief: "",
+                    kind: "parsed",
+                    parse: String,
+                    optional: true,
+                },
+            },
+            aliases: {
+                o: "output",
+                i: "input",
+            },
+        },
+        docs: {
+            brief: "",
+        },
+    });
+});
+
+// Negative test - invalid alias target should still error when FLAGS can be inferred
+it("", () => {
+    buildCommand({
+        func: async (flags: { repo?: string }) => {},
+        parameters: {
+            flags: {
+                repo: {
+                    brief: "",
+                    kind: "parsed",
+                    parse: String,
+                    optional: true,
+                },
+            },
+            // @ts-expect-error "nonexistent" is not a valid flag name
+            aliases: {
+                r: "nonexistent",
+            },
+        },
+        docs: {
+            brief: "",
+        },
+    });
+});
+
+// Edge case - when func has no flag parameters, any alias target is allowed at type level
+it("", () => {
+    buildCommand({
+        func: async () => {},
+        parameters: {
+            flags: {},
+            positional: {
+                kind: "tuple",
+                parameters: [],
+            },
+            // When FLAGS is empty and func has no flag params,
+            // aliases can point to anything (type system limitation - runtime validation still applies)
+            aliases: {
+                r: "repo",
+            },
+        },
+        docs: {
+            brief: "",
+        },
+    });
+});
