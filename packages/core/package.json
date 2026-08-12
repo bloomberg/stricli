@@ -43,7 +43,6 @@
         "clean": true
     },
     "devDependencies": {
-        "@types/chai": "^4.3.11",
         "@types/fs-extra": "^11.0.4",
         "@typescript-eslint/eslint-plugin": "^8.2.0",
         "@typescript-eslint/parser": "^8.2.0",
