@@ -839,11 +839,11 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const placeholder = getPlaceholder(param, i + 1);
                         const input = positionalInputs[i];
                         if (typeof input !== "string") {
-                            if (typeof param.default === "string") {
-                                return parseInput(placeholder, param, param.default, context);
-                            }
                             if (param.optional) {
                                 return;
+                            }
+                            if (typeof param.default === "string") {
+                                return parseInput(placeholder, param, param.default, context);
                             }
                             throw new UnsatisfiedPositionalError(placeholder);
                         }
