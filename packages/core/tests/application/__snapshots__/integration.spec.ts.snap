@@ -562,7 +562,7 @@ Error: This is an expected error from customIntegration.run
     at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/integration.spec.ts:?:?)
-    at #/tests/application/integration.spec.ts:?:?
+    at #/tests/application/integration.spec.ts:?:?[39m[22m
 
 `;
 
