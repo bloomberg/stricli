@@ -702,7 +702,7 @@ ExitCode=ContextLoadError
     at runApplication (#/src/application/run.ts:?:?)
     at run (#/src/index.ts:?:?)
     at runWithInputs (#/tests/application/run.spec.ts:?:?)
-    at #/tests/application/run.spec.ts:?:?
+    at #/tests/application/run.spec.ts:?:?[39m[22m
 `;
 
 exports[`run > fails when context.forCommand throws error, with custom exception formatting 1`] = `
@@ -1550,6 +1550,7 @@ ExitCode=IntegrationError
 Unexpected exception thrown by 'version' integration during 'app:start' hook.
 Error: This function purposefully throws an error
     at #/tests/application/run.spec.ts:?:?
+    at new Promise (<anonymous>)
     at new Promise (<anonymous>)
 
 `;
