@@ -27,6 +27,9 @@ function formatPositionalParameters(positional: PositionalParameters): string {
     if (positional.kind === "array") {
         return `${positional.parameter.placeholder ?? "args"}...`;
     }
+    if (positional.kind === "enum") {
+        return `${positional.placeholder ?? "arg"}(${positional.values.join("|")})`;
+    }
     return positional.parameters.map((def, i) => def.placeholder ?? `arg${i + 1}`).join(", ");
 }
 
