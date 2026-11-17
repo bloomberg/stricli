@@ -26,7 +26,7 @@ jobs:
                   cache: "npm"
                   registry-url: "https://registry.npmjs.org/"
 
-            - run: npm ci --legacy-peer-deps
+            - run: npm ci
             - uses: nrwl/nx-set-shas@v5
 
             - run: echo "LATEST_VERSION=$(npm view @stricli/core --json | jq -r '.version')" >> $GITHUB_ENV
