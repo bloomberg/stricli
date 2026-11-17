@@ -61,7 +61,6 @@
     "defaultBase": "main",
     "release": {
         "projects": ["@stricli/*", "!@stricli/docs"],
-        "releaseTagPattern": "v{version}",
         "version": {
             "conventionalCommits": true
         },
@@ -73,9 +72,16 @@
         "git": {
             "commitMessage": "chore(release): {version}",
             "commitArgs": "--signoff"
+        },
+        "releaseTag": {
+            "pattern": "v{version}"
         }
     },
     "namedInputs": {
         "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
-    }
+    },
+    "affected": {
+        "legacy": true
+    },
+    "analytics": false
 }
