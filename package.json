@@ -30,5 +30,10 @@
         "typescript": "^5.6.2",
         "typescript-eslint": "^8.6.0",
         "vitest": "^4.0.12"
+    },
+    "allowScripts": {
+        "esbuild@0.17.19": true,
+        "esbuild@0.23.1": true,
+        "esbuild@0.25.12": true
     }
 }
