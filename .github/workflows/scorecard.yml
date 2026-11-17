@@ -24,6 +24,11 @@ jobs:
     permissions:
       id-token: write
       security-events: write # needed to publish Scorecard results as security events
+      # job-level permissions override the workflow-level read-all, so read scopes must be re-granted
+      contents: read
+      issues: read
+      pull-requests: read
+      checks: read
     secrets: inherit
     with:
       # Publish results of Scorecard analysis
