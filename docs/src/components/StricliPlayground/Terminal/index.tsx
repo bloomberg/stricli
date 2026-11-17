@@ -5,8 +5,7 @@ import Ansi from "./Ansi";
 import clsx from "clsx";
 
 export type TerminalHistoryLine =
-    | readonly [text: string, stream: "stdout" | "stderr"]
-    | readonly [text: string, stream: "stdin", prefix: string];
+    readonly [text: string, stream: "stdout" | "stderr"] | readonly [text: string, stream: "stdin", prefix: string];
 
 export interface TerminalProps {
     appLoaded?: boolean;

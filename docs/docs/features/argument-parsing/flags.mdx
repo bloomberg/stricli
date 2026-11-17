@@ -18,9 +18,9 @@ There is a separate configuration option [`documentation.caseStyle`](../integrat
 
 Within Stricli, aliases refer to the alternate, single-character name of an existing flag. These only require a single `-` escape and can be batched together as a single argument `-abc` (equivalent to `-a -b -c`). Any single uppercase or lowercase character can be used as an alias, but be aware that some characters may conflict with [integrations](../integrations/index.mdx). For the [default integrations](../integrations/index.mdx#default-integrations), the following aliases are reserved and cannot be used:
 
--   `-h` (reserved for `--help`)
--   `-H` (reserved for `--helpAll`)
--   `-v` (reserved for `--version` when [version information](../integrations/version-information.mdx) is provided)
+- `-h` (reserved for `--help`)
+- `-H` (reserved for `--helpAll`)
+- `-v` (reserved for `--version` when [version information](../integrations/version-information.mdx) is provided)
 
 ## Types
 
@@ -52,8 +52,8 @@ Since boolean flags can only have two values, the presence of the flag can be us
 
 The negation behavior can be controlled using the `withNegated` option:
 
--   When `withNegated` is not set or set to `true` (default), a negated version of the flag (e.g., `--noQuiet` for `--quiet`) will be genereated
--   When `withNegated` is set to `false`, the negated flag is disabled and only the base flag name is available
+- When `withNegated` is not set or set to `true` (default), a negated version of the flag (e.g., `--noQuiet` for `--quiet`) will be genereated
+- When `withNegated` is set to `false`, the negated flag is disabled and only the base flag name is available
 
 This is particularly useful when you want to prevent confusing flag combinations or when the semantics of the flag don't make sense with negation.
 

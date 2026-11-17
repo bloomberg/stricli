@@ -328,8 +328,7 @@ export class UnsatisfiedPositionalError extends ArgumentScannerError {
 type NamedFlag<F> = readonly [name: InternalFlagName, flag: F, negated?: boolean];
 
 type FlagParserExpectingInput<CONTEXT extends CommandContext> =
-    | BaseEnumFlagParameter<string>
-    | BaseParsedFlagParameter<unknown, CONTEXT>;
+    BaseEnumFlagParameter<string> | BaseParsedFlagParameter<unknown, CONTEXT>;
 
 type NamedFlagExpectingInput<CONTEXT extends CommandContext> = NamedFlag<FlagParserExpectingInput<CONTEXT>>;
 

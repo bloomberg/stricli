@@ -215,8 +215,7 @@ interface RequiredVariadicEnumFlagParameter<T extends string> extends BaseEnumFl
 }
 
 export interface BaseParsedFlagParameter<T, CONTEXT extends CommandContext>
-    extends ParsedParameter<T, CONTEXT>,
-        BaseFlagParameter {
+    extends ParsedParameter<T, CONTEXT>, BaseFlagParameter {
     /**
      * Indicates flag should be parsed with a specified input parser.
      */
@@ -285,8 +284,10 @@ interface OptionalParsedFlagParameter<T, CONTEXT extends CommandContext> extends
     readonly hidden?: boolean;
 }
 
-interface OptionalVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
-    extends BaseParsedFlagParameter<T, CONTEXT> {
+interface OptionalVariadicParsedFlagParameter<T, CONTEXT extends CommandContext> extends BaseParsedFlagParameter<
+    T,
+    CONTEXT
+> {
     /**
      * Variadic flags are always optional in that they will parse to an empty array if no arguments are found.
      */
@@ -306,8 +307,10 @@ interface OptionalVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
     readonly default?: readonly string[];
 }
 
-interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
-    extends BaseParsedFlagParameter<T, CONTEXT> {
+interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext> extends BaseParsedFlagParameter<
+    T,
+    CONTEXT
+> {
     /**
      * Parameter is required and cannot be set as optional.
      * Expects at least one value to be satisfied.
@@ -331,10 +334,9 @@ interface RequiredVariadicParsedFlagParameter<T, CONTEXT extends CommandContext>
 
 type TypedFlagParameter_Optional<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer A)[]]
     ? [A] extends [string]
-        ?
-              | OptionalVariadicParsedFlagParameter<A, CONTEXT>
-              | OptionalParsedFlagParameter<T, CONTEXT>
-              | OptionalVariadicEnumFlagParameter<A>
+        ? | OptionalVariadicParsedFlagParameter<A, CONTEXT>
+          | OptionalParsedFlagParameter<T, CONTEXT>
+          | OptionalVariadicEnumFlagParameter<A>
         : OptionalVariadicParsedFlagParameter<A, CONTEXT> | OptionalParsedFlagParameter<T, CONTEXT>
     : [T] extends [boolean]
       ? OptionalBooleanFlagParameter | OptionalParsedFlagParameter<boolean, CONTEXT>
@@ -348,10 +350,9 @@ type TypedFlagParameter_Optional<T, CONTEXT extends CommandContext> = [T] extend
 
 type TypedFlagParameter_Required<T, CONTEXT extends CommandContext> = [T] extends [readonly (infer A)[]]
     ? [A] extends [string]
-        ?
-              | RequiredVariadicParsedFlagParameter<A, CONTEXT>
-              | RequiredParsedFlagParameter<readonly A[], CONTEXT>
-              | RequiredVariadicEnumFlagParameter<A>
+        ? | RequiredVariadicParsedFlagParameter<A, CONTEXT>
+          | RequiredParsedFlagParameter<readonly A[], CONTEXT>
+          | RequiredVariadicEnumFlagParameter<A>
         : RequiredVariadicParsedFlagParameter<A, CONTEXT> | RequiredParsedFlagParameter<readonly A[], CONTEXT>
     : [T] extends [boolean]
       ? RequiredBooleanFlagParameter | RequiredParsedFlagParameter<boolean, CONTEXT>

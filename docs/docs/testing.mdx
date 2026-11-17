@@ -7,8 +7,8 @@ toc_max_heading_level: 4
 
 Stricli commands are designed to run with a [provided context](./features/isolated-context.mdx), which makes it easier to write isolated tests. Most commands can be tested in one of two ways, depending on construction:
 
--   [Testing the commands within an application](#running-the-application)
--   [Testing a single command's implementation directly](#importing-the-implementation)
+- [Testing the commands within an application](#running-the-application)
+- [Testing a single command's implementation directly](#importing-the-implementation)
 
 The former tests a command in the scope of the entire application, where the route to the command is necessary and the inputs are provided as strings. This is useful for testing the routing and parsing of inputs, as well as the command itself. The latter tests the command in isolation, where the implementation function is called directly and the inputs are provided as their intended arguments, which can be more convenient when testing arguments that are stubbed/mocked.
 

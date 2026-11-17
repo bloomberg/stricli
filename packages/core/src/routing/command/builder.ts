@@ -36,8 +36,7 @@ type LocalCommandBuilderArguments<FLAGS extends BaseFlags, ARGS extends BaseArgs
 } & NoInfer<BaseCommandBuilderArguments<FLAGS, ARGS, CONTEXT>>;
 
 export type CommandBuilderArguments<FLAGS extends BaseFlags, ARGS extends BaseArgs, CONTEXT extends CommandContext> =
-    | LazyCommandBuilderArguments<FLAGS, ARGS, CONTEXT>
-    | LocalCommandBuilderArguments<FLAGS, ARGS, CONTEXT>;
+    LazyCommandBuilderArguments<FLAGS, ARGS, CONTEXT> | LocalCommandBuilderArguments<FLAGS, ARGS, CONTEXT>;
 
 function* asNegationFlagNames(flagName: string): Generator<string> {
     yield `no-${convertCamelCaseToKebabCase(flagName)}`;

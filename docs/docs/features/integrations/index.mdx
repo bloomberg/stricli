@@ -6,10 +6,10 @@ Integrations are a way to provide additional functionality to a Stricli applicat
 
 At several key points during the lifecycle of a Stricli application run, integrations can be called to perform additional logic. These lifecycle hooks are (in order):
 
--   `app:start`
--   `command:start` (only called before command execution)
--   `command:end` (only called after command execution)
--   `app:end`
+- `app:start`
+- `command:start` (only called before command execution)
+- `command:end` (only called after command execution)
+- `app:end`
 
 All lifecycle hooks are called in the order that they are defined in the `integrations` object. The hook gains access to the context and (for `command:*` hooks) information about the current run, including the command that was executed and the unprocessed inputs via the result of the route scan. For both of the `*:end` hooks, the result of the command execution (the exit code) is also provided.
 
@@ -23,11 +23,11 @@ If any of the hooks throw an error, the application will print the error to stde
 
 Integrations can also provide additional flags to the application. These flags will be automatically added alongside existing flags for commands and route maps. The match the name of the property on the integrations object (with full respect of the current [case style](../configuration.mdx#scanner-case-style)). There are several flags that can control the appearance of these flags.
 
--   `brief` - The in-line documentation for this flag.
--   `aliases` - An array of single-character aliases for this flag.
--   `hidden` - If set to `true`, this flag will not be included in the default help text.
--   `global` - If set to `true`, this flag will be available on all commands, not just the root command.
--   `complete` - If set to `true`, this flag will be included in the auto-complete suggestions for the application.
+- `brief` - The in-line documentation for this flag.
+- `aliases` - An array of single-character aliases for this flag.
+- `hidden` - If set to `true`, this flag will not be included in the default help text.
+- `global` - If set to `true`, this flag will be available on all commands, not just the root command.
+- `complete` - If set to `true`, this flag will be included in the auto-complete suggestions for the application.
 
 When the flag is requested by the user, the `run` function will be called with similar arguments to the `command:start` hook with the addition of the other additional flags. The `run` function can be asynchronous and can return a promise. It will always result in a `0` exit code unless an error is thrown, in which case the application will print the error to stderr and exit with a unique code.
 

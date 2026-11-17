@@ -9,8 +9,9 @@ import {
 } from "../../parameter/scanner";
 import type { Command } from "./types";
 
-export interface CommandProposeCompletionsArguments<CONTEXT extends CommandContext>
-    extends ArgumentScannerCompletionArguments<CONTEXT> {
+export interface CommandProposeCompletionsArguments<
+    CONTEXT extends CommandContext,
+> extends ArgumentScannerCompletionArguments<CONTEXT> {
     readonly inputs: readonly string[];
     readonly scannerConfig: ScannerConfiguration;
 }

@@ -6,15 +6,15 @@ Build complex CLIs with type safety and no dependencies.
 
 ## Contents
 
--   [Rationale](#rationale)
--   [Quick Start](#quick-start)
--   [Building](#building)
--   [Installation](#installation)
--   [AI Assistants](#ai-assistants)
--   [Contributions](#contributions)
--   [License](#license)
--   [Code of Conduct](#code-of-conduct)
--   [Security Vulnerability Reporting](#security-vulnerability-reporting)
+- [Rationale](#rationale)
+- [Quick Start](#quick-start)
+- [Building](#building)
+- [Installation](#installation)
+- [AI Assistants](#ai-assistants)
+- [Contributions](#contributions)
+- [License](#license)
+- [Code of Conduct](#code-of-conduct)
+- [Security Vulnerability Reporting](#security-vulnerability-reporting)
 
 ## Rationale
 

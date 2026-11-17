@@ -23,12 +23,12 @@ Furthermore, both frameworks recommend structuring applications as a connected w
 
 Ultimately, we felt that there was a sufficient gap in the JavaScript ecosystem to develop our own framework. Rather than completely reinvent the wheel, many of our design decisions were instructed by the [Command Line Interface Guidelines](https://clig.dev/). In addition to these guidelines, we agreed on a set of language-agnostic principles to guide our framework design efforts:
 
--   [Commands Are Just Functions](https://bloomberg.github.io/stricli/docs/getting-started/principles#commands-are-just-functions)
-    -   CLI applications exist to expose some function(s) to users via the command line.
--   [When Parsing, Form Follows Function](https://bloomberg.github.io/stricli/docs/getting-started/principles#when-parsing-form-follows-function)
-    -   The framework should parse and validate the inputs for the function (not the other way around).
--   [No "Magic" Features or Patterns](https://bloomberg.github.io/stricli/docs/getting-started/principles#no-magic-features-or-patterns)
-    -   Developers should be able to understand and debug a framework using native tools for that framework's language.
+- [Commands Are Just Functions](https://bloomberg.github.io/stricli/docs/getting-started/principles#commands-are-just-functions)
+    - CLI applications exist to expose some function(s) to users via the command line.
+- [When Parsing, Form Follows Function](https://bloomberg.github.io/stricli/docs/getting-started/principles#when-parsing-form-follows-function)
+    - The framework should parse and validate the inputs for the function (not the other way around).
+- [No "Magic" Features or Patterns](https://bloomberg.github.io/stricli/docs/getting-started/principles#no-magic-features-or-patterns)
+    - Developers should be able to understand and debug a framework using native tools for that framework's language.
 
 The last point is especially important to us, especially in light of our investment in the ECMAScript specification. The JavaScript language has come a long way in the last decade, and we can take advantage of a lot of its new features.
 
@@ -36,18 +36,18 @@ The last point is especially important to us, especially in light of our investm
 
 Any modern CLI framework must support at least a minimum set of features, and Stricli supports:
 
--   Positional parameters and named flags
-    -   Can be required, optional, variadic, hidden, or have a default value
-    -   Parsed before passed to function
-    -   Additional support for enum, counter, and pure Boolean flags
--   Single top-level command or arbitrary nested subcommands
-    -   Built-in "did you mean \_\_\_?" suggestions
--   Automatic help text generation
-    -   With the option of specifying custom usage
--   Built-in outdated version warning
--   Internationalization
-    -   All strings printed by Stricli can be replaced as-desired or configured by locale
--   Use camelCase in code and accept kebab-case on the command line
+- Positional parameters and named flags
+    - Can be required, optional, variadic, hidden, or have a default value
+    - Parsed before passed to function
+    - Additional support for enum, counter, and pure Boolean flags
+- Single top-level command or arbitrary nested subcommands
+    - Built-in "did you mean \_\_\_?" suggestions
+- Automatic help text generation
+    - With the option of specifying custom usage
+- Built-in outdated version warning
+- Internationalization
+    - All strings printed by Stricli can be replaced as-desired or configured by locale
+- Use camelCase in code and accept kebab-case on the command line
 
 Beyond the minimum set of features, there are several additional features that differentiate Stricli from the available alternatives.
 
@@ -93,10 +93,10 @@ While autocomplete support certainly isn't unique to Stricli, it differentiates 
 
 Stricli was purposefully designed not to subsume every library that a command line application uses. In part, this was meant to reduce the scope of the package, simplifying its adoption. There are also many other great packages that have addressed certain use cases, and we readily recommend their use.
 
--   [Enquirer](https://github.com/enquirer/enquirer) for interactive (and gorgeous) user prompts
--   [Chalk](https://github.com/chalk/chalk) for easy terminal output styling
--   [Treeify](https://github.com/notatestuser/treeify) for simple tree-style object printing
--   ...and there are far too many logging solutions to recommend just one.
+- [Enquirer](https://github.com/enquirer/enquirer) for interactive (and gorgeous) user prompts
+- [Chalk](https://github.com/chalk/chalk) for easy terminal output styling
+- [Treeify](https://github.com/notatestuser/treeify) for simple tree-style object printing
+- ...and there are far too many logging solutions to recommend just one.
 
 ## Available Now!
 

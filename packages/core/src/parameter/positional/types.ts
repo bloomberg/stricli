@@ -82,5 +82,4 @@ export type TypedPositionalParameters<T, CONTEXT extends CommandContext> = [T] e
  * internally and should only be used after the types are checked.
  */
 export type PositionalParameters =
-    | PositionalParameterArray<unknown, CommandContext>
-    | PositionalParameterTuple<readonly PositionalParameter[]>;
+    PositionalParameterArray<unknown, CommandContext> | PositionalParameterTuple<readonly PositionalParameter[]>;
