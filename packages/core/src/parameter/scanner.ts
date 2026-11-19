@@ -430,7 +430,7 @@ function isNiladic<CONTEXT extends CommandContext>(
 }
 
 const FLAG_SHORTHAND_PATTERN = /^-([a-z]+)$/i;
-const FLAG_NAME_PATTERN = /^--([a-z][a-z-.\d_]+)$/i;
+const FLAG_NAME_PATTERN = /^--([a-z][a-z-.\d_]*)$/i;
 
 export function findFlagsByArgument<F>(
     arg: string,
@@ -463,8 +463,8 @@ export function findFlagsByArgument<F>(
     return [];
 }
 
-const FLAG_NAME_VALUE_PATTERN = /^--([a-z][a-z-.\d_]+)=(.+)$/i;
-const ALIAS_VALUE_PATTERN = /^-([a-z])=(.+)$/i;
+const FLAG_NAME_VALUE_PATTERN = /^--([a-z][a-z-.\d_]*)=(.*)$/i;
+const ALIAS_VALUE_PATTERN = /^-([a-z])=(.*)$/i;
 
 /**
  * Thrown when a value is provided for a negated flag.

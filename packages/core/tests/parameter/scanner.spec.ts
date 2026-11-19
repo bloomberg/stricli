@@ -1142,6 +1142,193 @@ describe("ArgumentScanner", () => {
     });
 });
 
+describe("flag argument syntax", () => {
+    describe("single character flag name", () => {
+        type Positional = string[];
+        type Flags = {
+            readonly x?: string;
+            readonly v: boolean;
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                x: { kind: "parsed", brief: "x", parse: String, optional: true },
+                v: { kind: "boolean", brief: "v" },
+            },
+            positional: { kind: "array", parameter: { brief: "string", parse: String } },
+        };
+
+        it("parses value as separate input", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--x", "1"],
+                expected: { success: true, arguments: [{ v: false, x: "1" }] },
+            });
+        });
+
+        it("parses value after equals sign", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--x=1", "a"],
+                expected: { success: true, arguments: [{ v: false, x: "1" }, "a"] },
+            });
+        });
+
+        it("parses boolean flag and its negation", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--v"],
+                expected: { success: true, arguments: [{ v: true, x: void 0 }] },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noV"],
+                expected: { success: true, arguments: [{ v: false, x: void 0 }] },
+            });
+        });
+
+        it("reports unknown single character flag instead of treating it as positional", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--y"],
+                expected: {
+                    success: false,
+                    errors: [{ type: "FlagNotFoundError", properties: { input: "y", corrections: ["v", "x"] } }],
+                },
+            });
+        });
+    });
+
+    describe("empty value after equals sign", () => {
+        type Positional = string[];
+        type Flags = {
+            readonly name?: string;
+            readonly level?: "low" | "high";
+            readonly verbose: boolean;
+            readonly tag?: readonly string[];
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                name: { kind: "parsed", brief: "name", parse: String, optional: true },
+                level: { kind: "enum", brief: "level", values: ["low", "high"], optional: true },
+                verbose: { kind: "boolean", brief: "verbose" },
+                tag: { kind: "parsed", brief: "tag", parse: String, variadic: true, optional: true },
+            },
+            aliases: { n: "name" },
+            positional: { kind: "array", parameter: { brief: "string", parse: String } },
+        };
+
+        const unset = { name: void 0, level: void 0, verbose: false, tag: void 0 };
+
+        it("sets parsed flag to empty string, same as passing an empty argument", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--name", ""],
+                expected: { success: true, arguments: [{ ...unset, name: "" }] },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--name=", "a"],
+                expected: { success: true, arguments: [{ ...unset, name: "" }, "a"] },
+            });
+        });
+
+        it("sets parsed flag to empty string through an alias", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["-n=", "a"],
+                expected: { success: true, arguments: [{ ...unset, name: "" }, "a"] },
+            });
+        });
+
+        it("collects empty value for variadic flag", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--tag=a", "--tag="],
+                expected: { success: true, arguments: [{ ...unset, tag: ["a", ""] }] },
+            });
+        });
+
+        it("keeps the value after the first equals sign", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--name=a=b", "--tag=="],
+                expected: { success: true, arguments: [{ ...unset, name: "a=b", tag: ["="] }] },
+            });
+        });
+
+        it("validates empty value for enum flag", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--level="],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "EnumValidationError",
+                            properties: {
+                                externalFlagName: "level",
+                                input: "",
+                                values: ["low", "high"],
+                            },
+                        },
+                    ],
+                },
+            });
+        });
+
+        it("rejects empty value for negated flag", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noVerbose="],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "InvalidNegatedFlagSyntaxError",
+                            properties: { externalFlagName: "noVerbose", valueText: "" },
+                        },
+                    ],
+                },
+            });
+        });
+
+        it("reports unknown flag with empty value", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--other="],
+                expected: {
+                    success: false,
+                    errors: [{ type: "FlagNotFoundError", properties: { input: "other", corrections: [] } }],
+                },
+            });
+        });
+
+        it("treats a bare equals sign as positional input", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--=", "="],
+                expected: { success: true, arguments: [unset, "--=", "="] },
+            });
+        });
+    });
+});
+
 describe("formatMessageForArgumentScannerError", () => {
     describe("AliasNotFoundError", () => {
         it("default message", () => {
