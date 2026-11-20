@@ -32,6 +32,10 @@ interface OptionalPositionalParameter<T, CONTEXT extends CommandContext> extends
      * Parameter is optional and must be specified as such.
      */
     readonly optional: true;
+    /**
+     * Optional parameters should not have default values.
+     */
+    readonly default?: undefined;
 }
 
 /**
