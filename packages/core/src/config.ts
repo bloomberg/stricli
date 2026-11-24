@@ -297,16 +297,23 @@ export function withDefaults(config: PartialApplicationConfiguration): Applicati
         includeHiddenRoutes: config.completion?.includeHiddenRoutes ?? false,
         ...config.completion,
     };
+    const {
+        text,
+        defaultLocale = "en",
+        loadText = defaultTextLoader,
+    }: {
+        readonly text?: ApplicationText;
+        readonly defaultLocale?: string;
+        readonly loadText?: (locale: string) => ApplicationText | undefined;
+    } = config.localization ?? {};
+    // A single text object must not be merged with the default loader, otherwise any locale on the context would cause it to be ignored.
+    const localizationConfig: LocalizationConfiguration = text ? { text } : { defaultLocale, loadText };
     return {
         ...config,
         scanner: scannerConfig,
         completion: completionConfig,
         documentation: documentationConfig,
-        localization: {
-            defaultLocale: "en",
-            loadText: defaultTextLoader,
-            ...config.localization,
-        },
+        localization: localizationConfig,
     };
     /* eslint-enable @typescript-eslint/no-deprecated */
 }
