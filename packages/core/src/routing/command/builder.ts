@@ -5,7 +5,7 @@ import type { FlagParameter } from "../../parameter/flag/types";
 import { formatUsageLineForParameters } from "../../parameter/formatting";
 import type { BaseArgs } from "../../parameter/positional/types";
 import type { BaseFlags, CommandParameters, TypedCommandParameters } from "../../parameter/types";
-import { convertCamelCaseToKebabCase } from "../../util/case-style";
+import { convertCamelCaseToKebabCase, convertKebabCaseToCamelCase } from "../../util/case-style";
 import { InternalError } from "../../util/error";
 import { generateCommandHelpLines, type CommandDocumentation } from "./documentation";
 import { CommandSymbol, type Command, type CommandFunction, type CommandFunctionLoader } from "./types";
@@ -43,6 +43,8 @@ function* asNegationFlagNames(flagName: string): Generator<string> {
     yield `no-${convertCamelCaseToKebabCase(flagName)}`;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     yield `no${flagName[0]!.toUpperCase()}${flagName.slice(1)}`;
+    // With `allow-kebab-for-camel`, `--no-flag-name` for a kebab-case flag is also resolved as `--noFlagName`.
+    yield convertKebabCaseToCamelCase(`no-${flagName}`);
 }
 
 function checkForNegationCollisions(flags: Record<string, FlagParameter<CommandContext>>): void {

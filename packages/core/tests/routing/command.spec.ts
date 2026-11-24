@@ -202,6 +202,33 @@ describe("Command", () => {
             }).to.throw("Unable to allow negation for --verbose as it conflicts with --no-verbose");
         });
 
+        it("fails with required kebab-case boolean flag negated name, camelCase", (context) => {
+            expect(() => {
+                // WHEN
+                buildCommand({
+                    loader: async () => {
+                        return {
+                            default: (flags: { "dry-run": boolean; noDryRun: boolean }) => {},
+                        };
+                    },
+                    parameters: {
+                        positional: { kind: "tuple", parameters: [] },
+                        flags: {
+                            "dry-run": {
+                                brief: "flag brief",
+                                kind: "boolean",
+                            },
+                            noDryRun: {
+                                brief: "colliding flag",
+                                kind: "boolean",
+                            },
+                        },
+                    },
+                    docs: { brief: "brief" },
+                });
+            }).to.throw("Unable to allow negation for --dry-run as it conflicts with --noDryRun");
+        });
+
         it("fails with invalid variadic flag separator (empty)", (context) => {
             expect(() => {
                 // WHEN

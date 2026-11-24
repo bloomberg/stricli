@@ -1984,4 +1984,260 @@ describe("ArgumentScanner (boolean flags)", () => {
             });
         });
     });
+
+    describe("with kebab-case name", () => {
+        type Positional = [];
+        type Flags = {
+            readonly "dry-run": boolean;
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                "dry-run": { kind: "boolean", brief: "dry-run", default: true },
+            },
+            positional: { kind: "tuple", parameters: [] },
+        };
+
+        it("parseArguments", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--dry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": true }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noDry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": false }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--no-dry-run"],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "FlagNotFoundError",
+                            properties: {
+                                input: "no-dry-run",
+                                corrections: [],
+                            },
+                        },
+                    ],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--dry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": true }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-dry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": false }],
+                },
+            });
+        });
+    });
+
+    describe("with kebab-case name and withNegated=false", () => {
+        type Positional = [];
+        type Flags = {
+            readonly "dry-run": boolean;
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                "dry-run": { kind: "boolean", brief: "dry-run", default: true, withNegated: false },
+            },
+            positional: { kind: "tuple", parameters: [] },
+        };
+
+        it("parseArguments", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--no-dry-run"],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "FlagNotFoundError",
+                            properties: {
+                                input: "no-dry-run",
+                                corrections: [],
+                            },
+                        },
+                    ],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-dry-run"],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "FlagNotFoundError",
+                            properties: {
+                                input: "no-dry-run",
+                                corrections: ["dry-run"],
+                            },
+                        },
+                    ],
+                },
+            });
+        });
+    });
+
+    describe("with name that is a suffix of another name", () => {
+        type Positional = [];
+        type Flags = {
+            readonly foo: boolean;
+            readonly oo: boolean;
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                foo: { kind: "boolean", brief: "foo", default: true },
+                oo: { kind: "boolean", brief: "oo", default: true },
+            },
+            positional: { kind: "tuple", parameters: [] },
+        };
+
+        it("parseArguments", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noFoo"],
+                expected: {
+                    success: true,
+                    arguments: [{ foo: false, oo: true }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noOo"],
+                expected: {
+                    success: true,
+                    arguments: [{ foo: true, oo: false }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--no-foo"],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "FlagNotFoundError",
+                            properties: {
+                                input: "no-foo",
+                                corrections: [],
+                            },
+                        },
+                    ],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-foo"],
+                expected: {
+                    success: true,
+                    arguments: [{ foo: false, oo: true }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-oo"],
+                expected: {
+                    success: true,
+                    arguments: [{ foo: true, oo: false }],
+                },
+            });
+        });
+    });
+
+    describe("with kebab-case name that is a suffix of another name", () => {
+        type Positional = [];
+        type Flags = {
+            readonly "dry-run": boolean;
+            readonly "ry-run": boolean;
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                "dry-run": { kind: "boolean", brief: "dry-run", default: true },
+                "ry-run": { kind: "boolean", brief: "ry-run", default: true },
+            },
+            positional: { kind: "tuple", parameters: [] },
+        };
+
+        it("parseArguments", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noDry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": false, "ry-run": true }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--no-dry-run"],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "FlagNotFoundError",
+                            properties: {
+                                input: "no-dry-run",
+                                corrections: [],
+                            },
+                        },
+                    ],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-dry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": false, "ry-run": true }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-ry-run"],
+                expected: {
+                    success: true,
+                    arguments: [{ "dry-run": true, "ry-run": false }],
+                },
+            });
+        });
+    });
 });

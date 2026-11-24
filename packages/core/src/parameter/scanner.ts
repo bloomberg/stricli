@@ -333,10 +333,14 @@ type FlagParserExpectingInput<CONTEXT extends CommandContext> =
 
 type NamedFlagExpectingInput<CONTEXT extends CommandContext> = NamedFlag<FlagParserExpectingInput<CONTEXT>>;
 
-function undoNegation<T extends string>(flagName: T): T | undefined {
+function undoNegation<T extends string>(flagName: T, caseStyle: ScannerCaseStyle): T | undefined {
     if (flagName.startsWith("no") && flagName.length > 2) {
         if (flagName[2] === "-") {
-            return flagName.slice(4) as T;
+            // Kebab-case negation (`--no-flag`) is only supported when kebab-case input is allowed.
+            if (caseStyle !== "allow-kebab-for-camel") {
+                return;
+            }
+            return flagName.slice(3) as T;
         }
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const firstChar = flagName[2]!;
@@ -360,7 +364,7 @@ function findInternalFlagMatch<F>(
     let foundFlagWithNegatedFalse: InternalFlagName | undefined;
     let foundFlagWithNegatedFalseFromKebabConversion = false;
     if (!flag) {
-        const internalWithoutNegation = undoNegation(internalFlagName);
+        const internalWithoutNegation = undoNegation(internalFlagName, config.caseStyle);
         if (internalWithoutNegation) {
             flag = flags[internalWithoutNegation];
             if (flag) {
@@ -380,7 +384,7 @@ function findInternalFlagMatch<F>(
         if (flag) {
             return [camelCaseFlagName, flag];
         }
-        const camelCaseWithoutNegation = undoNegation(camelCaseFlagName);
+        const camelCaseWithoutNegation = undoNegation(camelCaseFlagName, config.caseStyle);
         if (camelCaseWithoutNegation) {
             flag = flags[camelCaseWithoutNegation];
             if (flag) {
