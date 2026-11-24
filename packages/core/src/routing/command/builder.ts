@@ -48,10 +48,11 @@ function* asNegationFlagNames(flagName: string): Generator<string> {
 }
 
 function checkForNegationCollisions(flags: Record<string, FlagParameter<CommandContext>>): void {
+    const flagNames = new Set(Object.keys(flags));
     const flagsAllowingNegation = Object.entries(flags).filter(([, flag]) => flag.kind === "boolean" && !flag.optional);
     for (const [internalFlagName] of flagsAllowingNegation) {
         for (const negatedFlagName of asNegationFlagNames(internalFlagName)) {
-            if (negatedFlagName in flags) {
+            if (flagNames.has(negatedFlagName)) {
                 throw new InternalError(
                     `Unable to allow negation for --${internalFlagName} as it conflicts with --${negatedFlagName}`,
                 );
@@ -92,6 +93,8 @@ export function buildCommand<
     const { flags = {}, aliases = {} } = builderArgs.parameters;
     checkForNegationCollisions(flags);
     checkForInvalidVariadicSeparators(flags);
+    const flagNames = new Set(Object.keys(flags));
+    const aliasNames = new Set(Object.keys(aliases));
     let loader: CommandFunctionLoader<BaseFlags, BaseArgs, CONTEXT>;
     if ("func" in builderArgs) {
         /* v8 ignore next -- @preserve */
@@ -123,11 +126,11 @@ export function buildCommand<
         usesFlag: (flagName, caseStyle) => {
             if (caseStyle === "allow-kebab-for-camel") {
                 const kebabCase = convertCamelCaseToKebabCase(flagName);
-                if (kebabCase in flags) {
+                if (flagNames.has(kebabCase)) {
                     return true;
                 }
             }
-            return Boolean(flagName in flags || flagName in aliases);
+            return flagNames.has(flagName) || aliasNames.has(flagName);
         },
     };
 }

@@ -4,7 +4,7 @@ import type { CommandContext } from "../../context";
 import { convertCamelCaseToKebabCase, convertKebabCaseToCamelCase } from "../../util/case-style";
 import { InternalError } from "../../util/error";
 import type { RoutingTarget } from "../types";
-import { generateRouteMapHelpLines, type RouteMapDocumentation } from "./documentation";
+import { generateRouteMapHelpLines, getHiddenRouteNames, type RouteMapDocumentation } from "./documentation";
 import { RouteMapSymbol, type RouteMap } from "./types";
 
 export type RouteMapRoutes<R extends string, CONTEXT extends CommandContext> = Readonly<
@@ -48,29 +48,30 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
     docs,
     aliases,
 }: RouteMapBuilderArguments<R, CONTEXT>): RouteMap<CONTEXT> {
-    if (Object.entries(routes).length === 0) {
+    const routeTargets = new Map<string, RoutingTarget<CONTEXT>>(Object.entries<RoutingTarget<CONTEXT>>(routes));
+    if (routeTargets.size === 0) {
         throw new InternalError("Route map must contain at least one route");
     }
-    const activeAliases: Record<string, R> = aliases ?? {};
+    const activeAliases = new Map<string, R>(Object.entries<R>(aliases ?? {}));
     const aliasesByRoute = new Map<string, readonly string[]>();
-    for (const [alias, routeName] of Object.entries(activeAliases)) {
-        if (alias in routes) {
+    for (const [alias, routeName] of activeAliases) {
+        if (routeTargets.has(alias)) {
             throw new InternalError(`Cannot use '${alias}' as an alias when a route with that name already exists`);
         }
         const routeAliases = aliasesByRoute.get(routeName) ?? [];
         aliasesByRoute.set(routeName, [...routeAliases, alias]);
     }
-    const defaultCommand = defaultCommandRoute ? routes[defaultCommandRoute] : void 0;
+    const defaultCommand = defaultCommandRoute ? routeTargets.get(defaultCommandRoute) : void 0;
     if (defaultCommand && defaultCommand.kind === RouteMapSymbol) {
         throw new InternalError(
             `Cannot use '${defaultCommandRoute}' as the default command because it is not a Command`,
         );
     }
     const resolveRouteName = (input: string): R | undefined => {
-        if (input in activeAliases) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            return activeAliases[input]!;
-        } else if (input in routes) {
+        const aliasedRouteName = activeAliases.get(input);
+        if (aliasedRouteName !== void 0) {
+            return aliasedRouteName;
+        } else if (routeTargets.has(input)) {
             return input as R;
         }
     };
@@ -134,13 +135,12 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
             };
         },
         getRoutingTargetForInput: (input) => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const routeName = input in activeAliases ? activeAliases[input]! : input;
-            return routes[routeName as keyof R & string];
+            const routeName = activeAliases.get(input) ?? input;
+            return routeTargets.get(routeName);
         },
         getAllEntries() {
-            const hiddenRoutes = docs.hideRoute;
-            return Object.entries<RoutingTarget<CONTEXT>>(routes).map(([originalRouteName, target]) => {
+            const hiddenRoutes = getHiddenRouteNames(docs);
+            return Array.from(routeTargets, ([originalRouteName, target]) => {
                 return {
                     name: {
                         original: originalRouteName,
@@ -148,7 +148,7 @@ export function buildRouteMap<R extends string, CONTEXT extends CommandContext =
                     },
                     target,
                     aliases: aliasesByRoute.get(originalRouteName) ?? [],
-                    hidden: hiddenRoutes?.[originalRouteName as R] ?? false,
+                    hidden: hiddenRoutes.has(originalRouteName),
                 };
             });
         },
