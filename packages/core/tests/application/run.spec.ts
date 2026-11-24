@@ -1372,6 +1372,26 @@ describe("run", () => {
         expect(result).toMatchSnapshot();
     });
 
+    it("uses provided text, disregards supported context locale", async () => {
+        // GIVEN
+        const command = buildBasicCommand();
+        const app = buildApplication(command, {
+            name: "cli",
+            localization: {
+                text: {
+                    ...text_en,
+                    exceptionWhileParsingArguments: () => "CUSTOM_PARSE_ERROR",
+                },
+            },
+        });
+
+        // WHEN
+        const result = await runWithInputs(app, ["extra"], { locale: "en-US" });
+
+        // THEN
+        expect(result).toMatchSnapshot();
+    });
+
     it("uses provided text, disregards unsupported context locale", async (context) => {
         // GIVEN
         const command = buildBasicCommand();
