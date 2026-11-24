@@ -514,4 +514,154 @@ describe("RouteMap", () => {
             expect(resolvedSubcommand).to.be.undefined;
         });
     });
+
+    describe("routes with names of Object.prototype properties", () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: () => {},
+                };
+            },
+            parameters: {
+                positional: { kind: "tuple", parameters: [] },
+                flags: {},
+            },
+            docs: { brief: "command brief" },
+        });
+        const helpArgs: HelpFormattingArguments = {
+            prefix: ["prefix"],
+            config: {
+                caseStyle: "original",
+                useAliasInUsageLine: false,
+                onlyRequiredInUsageLine: false,
+            },
+            text: text_en,
+            additionalFlags: [],
+            includeArgumentEscapeSequenceFlag: false,
+            includeHidden: false,
+            ansiColor: false,
+        };
+
+        // TypeScript considers Object.prototype members (e.g. `toString`) to be properties of object literals, so
+        // `aliases` and `hideRoute` need casts here to be assignable to their declared types.
+
+        it("finds route", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { constructor: command },
+                docs: { brief: "route map brief" },
+            });
+
+            // WHEN
+            const resolvedSubcommand = routeMap.getRoutingTargetForInput("constructor");
+
+            // THEN
+            expect(resolvedSubcommand).to.equal(command);
+        });
+
+        it("finds route via alias", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { alpha: command },
+                aliases: { toString: "alpha" } as Record<string, "alpha">,
+                docs: { brief: "route map brief" },
+            });
+
+            // WHEN
+            const resolvedSubcommand = routeMap.getRoutingTargetForInput("toString");
+
+            // THEN
+            expect(resolvedSubcommand).to.equal(command);
+        });
+
+        it("resolves other aliases for route and alias", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { alpha: command },
+                aliases: { toString: "alpha" } as Record<string, "alpha">,
+                docs: { brief: "route map brief" },
+            });
+
+            // WHEN
+            const aliasesForRoute = routeMap.getOtherAliasesForInput("alpha", "original");
+            const aliasesForAlias = routeMap.getOtherAliasesForInput("toString", "original");
+
+            // THEN
+            expect(aliasesForRoute).to.deep.equal({ original: ["toString"], "convert-camel-to-kebab": ["to-string"] });
+            expect(aliasesForAlias).to.deep.equal({ original: ["alpha"], "convert-camel-to-kebab": ["alpha"] });
+        });
+
+        it("uses route as default command", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { constructor: command },
+                defaultCommand: "constructor",
+                docs: { brief: "route map brief" },
+            });
+
+            // WHEN
+            const defaultCommand = routeMap.getDefaultCommand();
+
+            // THEN
+            expect(defaultCommand).to.equal(command);
+        });
+
+        it("marks only routes in hideRoute as hidden in entries", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { toString: command, valueOf: command },
+                docs: {
+                    brief: "route map brief",
+                    hideRoute: { valueOf: true } as Partial<Record<"toString" | "valueOf", boolean>>,
+                },
+            });
+
+            // WHEN
+            const entries = routeMap.getAllEntries();
+
+            // THEN
+            expect(entries.map((entry) => [entry.name.original, entry.hidden])).to.deep.equal([
+                ["toString", false],
+                ["valueOf", true],
+            ]);
+        });
+
+        it("hides only routes in hideRoute from help text", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { toString: command, valueOf: command },
+                docs: {
+                    brief: "route map brief",
+                    hideRoute: { valueOf: true } as Partial<Record<"toString" | "valueOf", boolean>>,
+                },
+            });
+
+            // WHEN
+            const helpText = routeMap.formatHelp(helpArgs);
+
+            // THEN
+            expect(helpText).to.match(/^ {2}prefix toString/m);
+            expect(helpText).to.match(/^ {2}toString +command brief$/m);
+            expect(helpText).not.to.include("valueOf");
+        });
+
+        it("formats only routes in hideRoute as hidden in help text", () => {
+            // GIVEN
+            const routeMap = buildRouteMap({
+                routes: { toString: command, valueOf: command },
+                docs: {
+                    brief: "route map brief",
+                    hideRoute: { valueOf: true } as Partial<Record<"toString" | "valueOf", boolean>>,
+                },
+            });
+
+            // WHEN
+            const helpText = routeMap.formatHelp({ ...helpArgs, includeHidden: true, ansiColor: true });
+
+            // THEN
+            expect(helpText).to.include("\x1B[1mtoString\x1B[22m");
+            expect(helpText).to.include("\x1B[2mvalueOf\x1B[22m");
+        });
+    });
 });

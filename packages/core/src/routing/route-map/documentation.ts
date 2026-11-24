@@ -36,6 +36,18 @@ interface FormattedRow {
 }
 
 /**
+ * Names of routes that are marked as hidden by `hideRoute`.
+ * @internal
+ */
+export function getHiddenRouteNames(docs: RouteMapDocumentation<string>): ReadonlySet<string> {
+    return new Set(
+        Object.entries<boolean | undefined>(docs.hideRoute ?? {})
+            .filter(([, hidden]) => hidden)
+            .map(([name]) => name),
+    );
+}
+
+/**
  * @internal
  */
 export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
@@ -43,11 +55,12 @@ export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
     docs: RouteMapDocumentation<string>,
     args: HelpFormattingArguments,
 ): Generator<string> {
-    const { brief, fullDescription, hideRoute } = docs;
+    const { brief, fullDescription } = docs;
+    const hiddenRoutes = getHiddenRouteNames(docs);
     const { headers } = args.text;
     yield args.ansiColor ? `\x1B[4m${headers.usage}\x1B[24m` : headers.usage;
     for (const [name, route] of Object.entries(routes)) {
-        if (!hideRoute || !hideRoute[name] || args.includeHidden) {
+        if (!hiddenRoutes.has(name) || args.includeHidden) {
             const externalRouteName =
                 args.config.caseStyle === "convert-camel-to-kebab" ? convertCamelCaseToKebabCase(name) : name;
             yield `  ${route.formatUsageLine({
@@ -83,15 +96,13 @@ export function* generateRouteMapHelpLines<CONTEXT extends CommandContext>(
     }
     yield "";
     yield args.ansiColor ? `\x1B[4m${headers.commands}\x1B[24m` : headers.commands;
-    const visibleRoutes = Object.entries(routes).filter(
-        ([name]) => !hideRoute || !hideRoute[name] || args.includeHidden,
-    );
+    const visibleRoutes = Object.entries(routes).filter(([name]) => !hiddenRoutes.has(name) || args.includeHidden);
     const rows = visibleRoutes.map<FormattedRow>(([internalRouteName, route]) => {
         const externalRouteName = formatForDisplay(internalRouteName, args.config.caseStyle);
         return {
             routeName: externalRouteName,
             brief: route.brief,
-            hidden: hideRoute && hideRoute[internalRouteName],
+            hidden: hiddenRoutes.has(internalRouteName),
         };
     });
     const formattedRows = formatRowsWithColumns(

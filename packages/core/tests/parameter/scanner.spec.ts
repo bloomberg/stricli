@@ -9,6 +9,7 @@ import {
     FlagNotFoundError,
     formatMessageForArgumentScannerError,
     InvalidNegatedFlagSyntaxError,
+    numberParser,
     type TypedCommandParameters,
     UnexpectedFlagError,
     UnexpectedPositionalError,
@@ -1137,6 +1138,114 @@ describe("ArgumentScanner", () => {
                         },
                     ],
                 });
+            });
+        });
+    });
+
+    describe("flags with names of Object.prototype properties", () => {
+        type Positional = [];
+        type Flags = {
+            readonly constructor: boolean;
+            readonly toString: boolean;
+            readonly valueOf?: number;
+        };
+
+        const parameters: TypedCommandParameters<Flags, Positional, CommandContext> = {
+            flags: {
+                constructor: { kind: "boolean", brief: "constructor" },
+                toString: { kind: "boolean", brief: "toString", default: true },
+                valueOf: { kind: "parsed", brief: "valueOf", parse: numberParser, optional: true },
+            },
+            aliases: { c: "constructor", v: "valueOf" },
+            positional: {
+                kind: "tuple",
+                parameters: [],
+            },
+        };
+
+        it("parses flags", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: [],
+                expected: {
+                    success: true,
+                    arguments: [{ constructor: false, toString: true, valueOf: void 0 }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--constructor", "--valueOf", "5"],
+                expected: {
+                    success: true,
+                    arguments: [{ constructor: true, toString: true, valueOf: 5 }],
+                },
+            });
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--valueOf=5"],
+                expected: {
+                    success: true,
+                    arguments: [{ constructor: false, toString: true, valueOf: 5 }],
+                },
+            });
+        });
+
+        it("parses negated flags", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--noToString"],
+                expected: {
+                    success: true,
+                    arguments: [{ constructor: false, toString: false, valueOf: void 0 }],
+                },
+            });
+        });
+
+        it("parses flags via aliases", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["-c", "-v", "5"],
+                expected: {
+                    success: true,
+                    arguments: [{ constructor: true, toString: true, valueOf: 5 }],
+                },
+            });
+        });
+
+        it("parses kebab-case flags (allow-kebab-for-camel)", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" },
+                inputs: ["--no-to-string", "--value-of", "5"],
+                expected: {
+                    success: true,
+                    arguments: [{ constructor: false, toString: false, valueOf: 5 }],
+                },
+            });
+        });
+
+        it("suggests camelCase flag for kebab-case input (original)", async () => {
+            await testArgumentScannerParse<Flags, Positional>({
+                parameters,
+                config: defaultScannerConfig,
+                inputs: ["--value-of", "5"],
+                expected: {
+                    success: false,
+                    errors: [
+                        {
+                            type: "FlagNotFoundError",
+                            properties: {
+                                input: "value-of",
+                                corrections: ["valueOf"],
+                            },
+                        },
+                    ],
+                },
             });
         });
     });

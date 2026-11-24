@@ -4,7 +4,7 @@ import type { ApplicationConfiguration, CompletionConfiguration, ScannerCaseStyl
 import type { CommandContext, StricliDynamicCommandContext } from "../context";
 import { ExitCode } from "../exit-code";
 import type { AdditionalFlagDocumentation } from "../parameter/flag/formatting";
-import type { ArgumentCompletion } from "../parameter/scanner";
+import type { ArgumentCompletion, InternalFlagName } from "../parameter/scanner";
 import type { AvailableAlias } from "../parameter/types";
 import { CommandSymbol } from "../routing/command/types";
 import type { AdditionalFlag, RouteScanResult } from "../routing/scanner";
@@ -297,7 +297,7 @@ export function proposeCompletionsForAdditionalFlags(
             }
         }
         if (caseStyle === "allow-kebab-for-camel") {
-            const kebabName = convertCamelCaseToKebabCase(flag.name);
+            const kebabName = convertCamelCaseToKebabCase(flag.name as InternalFlagName);
             if (kebabName !== flag.name) {
                 possibleCompletions.push({
                     kind: "argument:flag",

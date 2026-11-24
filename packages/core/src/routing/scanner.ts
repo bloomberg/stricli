@@ -3,7 +3,7 @@
 import type { DisplayCaseStyle, ScannerConfiguration } from "../config";
 import type { CommandContext } from "../context";
 import type { AdditionalFlagDocumentation } from "../parameter/flag/formatting";
-import { findFlagsByArgument, resolveAliases } from "../parameter/scanner";
+import { findFlagsByArgument, resolveAliases, type InternalFlagName } from "../parameter/scanner";
 import type { AvailableAlias } from "../parameter/types";
 import { convertKebabCaseToCamelCase } from "../util/case-style";
 import { CommandSymbol } from "./command/types";
@@ -94,16 +94,16 @@ export function buildRouteScanner<FLAG extends AdditionalFlag, CONTEXT extends C
     const prefix = [...startingPrefix];
     const unprocessedInputs: string[] = [];
 
-    const flags: Record<string, FLAG> = {};
+    const flags = new Map<InternalFlagName, FLAG>();
     for (const additionalFlag of additionalFlags) {
-        flags[additionalFlag.name] = additionalFlag;
+        flags.set(additionalFlag.name as InternalFlagName, additionalFlag);
     }
 
-    const aliases: Partial<Record<AvailableAlias, string>> = {};
+    const aliases = new Map<AvailableAlias, InternalFlagName>();
     for (const additionalFlag of additionalFlags) {
         if (additionalFlag.aliases) {
             for (const alias of additionalFlag.aliases) {
-                aliases[alias] = additionalFlag.name;
+                aliases.set(alias, additionalFlag.name as InternalFlagName);
             }
         }
     }
@@ -128,7 +128,7 @@ export function buildRouteScanner<FLAG extends AdditionalFlag, CONTEXT extends C
 
             if (!treatInputsAsArguments && !activeFlag) {
                 try {
-                    const nextFlags = findFlagsByArgument(input, flags, {}, resolvedAliases, config);
+                    const nextFlags = findFlagsByArgument(input, flags, new Set(), resolvedAliases, config);
                     for (const currentFlag of nextFlags) {
                         // Non-global flags are only active on the root
                         if (!currentFlag[1].global && current !== root) {

@@ -137,6 +137,34 @@ describe("RouteScanner", () => {
                 });
             });
 
+            it("ignores flag matching Object.prototype property", () => {
+                confirmRouteScanResult([command, defaultScannerConfig, ["cli"], defaultFlags], ["--constructor"], {
+                    ...commonExpectedResult,
+                    activeFlag: void 0,
+                    unprocessedInputs: ["--constructor"],
+                });
+            });
+
+            it("ignores 'negated' flag matching Object.prototype property", () => {
+                confirmRouteScanResult([command, defaultScannerConfig, ["cli"], defaultFlags], ["--noConstructor"], {
+                    ...commonExpectedResult,
+                    activeFlag: void 0,
+                    unprocessedInputs: ["--noConstructor"],
+                });
+            });
+
+            it("ignores kebab-case flag matching Object.prototype property", () => {
+                confirmRouteScanResult(
+                    [command, { ...defaultScannerConfig, caseStyle: "allow-kebab-for-camel" }, ["cli"], defaultFlags],
+                    ["--to-string"],
+                    {
+                        ...commonExpectedResult,
+                        activeFlag: void 0,
+                        unprocessedInputs: ["--to-string"],
+                    },
+                );
+            });
+
             it("with helpAll flag", () => {
                 confirmRouteScanResult([command, defaultScannerConfig, ["cli"], defaultFlags], ["--helpAll"], {
                     ...commonExpectedResult,

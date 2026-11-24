@@ -16,19 +16,11 @@ import type {
     BooleanFlagParameter,
     CounterFlagParameter,
     FlagParameter,
-    FlagParameters,
 } from "./flag/types";
 import { looseBooleanParser } from "./parser/boolean";
 import { numberParser } from "./parser/number";
 import type { BaseArgs, PositionalParameter } from "./positional/types";
-import type {
-    Aliases,
-    AvailableAlias,
-    BaseFlags,
-    CommandParameters,
-    ParsedParameter,
-    TypedCommandParameters,
-} from "./types";
+import type { AvailableAlias, BaseFlags, CommandParameters, ParsedParameter, TypedCommandParameters } from "./types";
 
 /**
  * Abstract class that all internal argument scanner errors extend from.
@@ -70,28 +62,31 @@ export function formatMessageForArgumentScannerError(
     return error.message;
 }
 
-function resolveAllowedNegationForFlags(flags: FlagParameters): Partial<Record<string, boolean>> {
-    return Object.fromEntries(
-        Object.entries(flags).map(([internalFlagName, flag]) => {
-            return [internalFlagName, flag.kind === "boolean" && flag.withNegated !== false];
-        }),
-    );
+function resolveAllowedNegationForFlags<CONTEXT extends CommandContext>(
+    flags: ReadonlyMap<InternalFlagName, FlagParameter<CONTEXT>>,
+): ReadonlySet<InternalFlagName> {
+    const allowsNegation = new Set<InternalFlagName>();
+    for (const [internalFlagName, flag] of flags) {
+        if (flag.kind === "boolean" && flag.withNegated !== false) {
+            allowsNegation.add(internalFlagName);
+        }
+    }
+    return allowsNegation;
 }
 
 export function resolveAliases<F>(
-    flags: Readonly<Record<string, F>>,
-    aliases: Aliases<string>,
+    flags: ReadonlyMap<InternalFlagName, F>,
+    aliases: ReadonlyMap<AvailableAlias, InternalFlagName>,
     scannerCaseStyle: ScannerCaseStyle,
-): Partial<Record<AvailableAlias, NamedFlag<F>>> {
-    return Object.fromEntries<NamedFlag<F>>(
-        Object.entries(aliases).map(([alias, internalFlagName_]) => {
-            const internalFlagName = internalFlagName_ as InternalFlagName;
-            const flag = flags[internalFlagName];
+): ReadonlyMap<AvailableAlias, NamedFlag<F>> {
+    return new Map<AvailableAlias, NamedFlag<F>>(
+        Array.from(aliases, ([alias, internalFlagName]) => {
+            const flag = flags.get(internalFlagName);
             if (!flag) {
                 const externalFlagName = asExternal(internalFlagName, scannerCaseStyle);
                 throw new FlagNotFoundError(externalFlagName, [], alias);
             }
-            return [alias as AvailableAlias, [internalFlagName, flag]] as const;
+            return [alias, [internalFlagName, flag]] as const;
         }),
     );
 }
@@ -355,20 +350,20 @@ function undoNegation<T extends string>(flagName: T, caseStyle: ScannerCaseStyle
 
 function findInternalFlagMatch<F>(
     externalFlagName: ExternalFlagName,
-    flags: Readonly<Record<string, F>>,
-    allowsNegation: Partial<Record<string, boolean>>,
+    flags: ReadonlyMap<InternalFlagName, F>,
+    allowsNegation: ReadonlySet<InternalFlagName>,
     config: ScannerConfiguration,
 ): NamedFlag<F> {
     const internalFlagName = externalFlagName as string as InternalFlagName;
-    let flag = flags[internalFlagName];
+    let flag = flags.get(internalFlagName);
     let foundFlagWithNegatedFalse: InternalFlagName | undefined;
     let foundFlagWithNegatedFalseFromKebabConversion = false;
     if (!flag) {
         const internalWithoutNegation = undoNegation(internalFlagName, config.caseStyle);
         if (internalWithoutNegation) {
-            flag = flags[internalWithoutNegation];
+            flag = flags.get(internalWithoutNegation);
             if (flag) {
-                if (allowsNegation[internalWithoutNegation]) {
+                if (allowsNegation.has(internalWithoutNegation)) {
                     return [internalWithoutNegation, flag, true];
                 } else {
                     // Clear out flag match so that it doesn't trigger a false positive.
@@ -378,17 +373,17 @@ function findInternalFlagMatch<F>(
             }
         }
     }
-    const camelCaseFlagName = convertKebabCaseToCamelCase(externalFlagName) as InternalFlagName;
+    const camelCaseFlagName = convertKebabCaseToCamelCase(externalFlagName);
     if (config.caseStyle === "allow-kebab-for-camel" && !flag) {
-        flag = flags[camelCaseFlagName];
+        flag = flags.get(camelCaseFlagName);
         if (flag) {
             return [camelCaseFlagName, flag];
         }
         const camelCaseWithoutNegation = undoNegation(camelCaseFlagName, config.caseStyle);
         if (camelCaseWithoutNegation) {
-            flag = flags[camelCaseWithoutNegation];
+            flag = flags.get(camelCaseWithoutNegation);
             if (flag) {
-                if (allowsNegation[camelCaseWithoutNegation]) {
+                if (allowsNegation.has(camelCaseWithoutNegation)) {
                     return [camelCaseWithoutNegation, flag, true];
                 } else {
                     // Clear out flag match so that it doesn't trigger a false positive.
@@ -402,21 +397,25 @@ function findInternalFlagMatch<F>(
     if (!flag) {
         if (foundFlagWithNegatedFalse) {
             // Convert correction to match input's case style
-            let correction = foundFlagWithNegatedFalse;
+            let correction: InternalFlagName | ExternalFlagName = foundFlagWithNegatedFalse;
             if (foundFlagWithNegatedFalseFromKebabConversion && externalFlagName.includes("-")) {
-                correction = convertCamelCaseToKebabCase(foundFlagWithNegatedFalse) as InternalFlagName;
+                correction = convertCamelCaseToKebabCase(foundFlagWithNegatedFalse);
             }
             throw new FlagNotFoundError(externalFlagName, [correction]);
         }
-        if (camelCaseFlagName in flags) {
+        if (flags.has(camelCaseFlagName)) {
             throw new FlagNotFoundError(externalFlagName, [camelCaseFlagName]);
         }
         const kebabCaseFlagName = convertCamelCaseToKebabCase(externalFlagName);
         /* v8 ignore if -- @preserve */
-        if (kebabCaseFlagName in flags) {
+        if (flags.has(kebabCaseFlagName as InternalFlagName)) {
             throw new FlagNotFoundError(externalFlagName, [kebabCaseFlagName]);
         }
-        const corrections = filterClosestAlternatives(internalFlagName, Object.keys(flags), config.distanceOptions);
+        const corrections = filterClosestAlternatives(
+            internalFlagName,
+            Array.from(flags.keys()),
+            config.distanceOptions,
+        );
         throw new FlagNotFoundError(externalFlagName, corrections);
     }
     return [internalFlagName, flag];
@@ -438,9 +437,9 @@ const FLAG_NAME_PATTERN = /^--([a-z][a-z-.\d_]+)$/i;
 
 export function findFlagsByArgument<F>(
     arg: string,
-    flags: Readonly<Record<string, F>>,
-    allowsNegation: Partial<Record<string, boolean>>,
-    resolvedAliases: Partial<Record<AvailableAlias, NamedFlag<F>>>,
+    flags: ReadonlyMap<InternalFlagName, F>,
+    allowsNegation: ReadonlySet<InternalFlagName>,
+    resolvedAliases: ReadonlyMap<AvailableAlias, NamedFlag<F>>,
     config: ScannerConfiguration,
 ): readonly NamedFlag<F>[] {
     const shorthandMatch = FLAG_SHORTHAND_PATTERN.exec(arg);
@@ -449,7 +448,7 @@ export function findFlagsByArgument<F>(
         const batch = shorthandMatch[1]!;
         return Array.from(batch).map((alias) => {
             const aliasName = alias as AvailableAlias;
-            const namedFlag = resolvedAliases[aliasName];
+            const namedFlag = resolvedAliases.get(aliasName);
             if (!namedFlag) {
                 throw new AliasNotFoundError(aliasName);
             }
@@ -491,9 +490,9 @@ export class InvalidNegatedFlagSyntaxError extends ArgumentScannerError {
 
 function findFlagByArgumentWithInput<CONTEXT extends CommandContext>(
     arg: string,
-    flags: Readonly<Record<string, FlagParameter<CONTEXT>>>,
-    allowsNegation: Partial<Record<string, boolean>>,
-    resolvedAliases: Partial<Record<AvailableAlias, NamedFlag<FlagParameter<CONTEXT>>>>,
+    flags: ReadonlyMap<InternalFlagName, FlagParameter<CONTEXT>>,
+    allowsNegation: ReadonlySet<InternalFlagName>,
+    resolvedAliases: ReadonlyMap<AvailableAlias, NamedFlag<FlagParameter<CONTEXT>>>,
     config: ScannerConfiguration,
 ): readonly [flag: NamedFlag<FlagParameter<CONTEXT>>, input: string] | undefined {
     const flagsNameMatch = FLAG_NAME_VALUE_PATTERN.exec(arg);
@@ -512,7 +511,7 @@ function findFlagByArgumentWithInput<CONTEXT extends CommandContext>(
     if (aliasValueMatch) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const aliasName = aliasValueMatch[1]! as AvailableAlias;
-        const namedFlag = resolvedAliases[aliasName];
+        const namedFlag = resolvedAliases.get(aliasName);
         if (!namedFlag) {
             throw new AliasNotFoundError(aliasName);
         }
@@ -695,15 +694,15 @@ function storeInput<CONTEXT extends CommandContext>(
     }
 }
 
-function isFlagSatisfiedByInputs(
-    flags: FlagParameters,
+function isFlagSatisfiedByInputs<CONTEXT extends CommandContext>(
+    flags: ReadonlyMap<InternalFlagName, FlagParameter<CONTEXT>>,
     flagInputs: ReadonlyMap<InternalFlagName, readonly string[]>,
     key: InternalFlagName,
 ): boolean {
     const inputs = flagInputs.get(key);
     if (inputs) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const flag = flags[key]!;
+        const flag = flags.get(key)!;
         if (isVariadicFlag(flag)) {
             return false;
         }
@@ -723,7 +722,13 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
     parameters: CommandParameters,
     config: ScannerConfiguration,
 ): ArgumentScanner<FLAGS, ARGS, CONTEXT> {
-    const { flags = {}, aliases = {}, positional = { kind: "tuple", parameters: [] } } = parameters;
+    const { positional = { kind: "tuple", parameters: [] } } = parameters;
+    const flags = new Map<InternalFlagName, FlagParameter<CONTEXT>>(
+        Object.entries(parameters.flags ?? {}) as [InternalFlagName, FlagParameter<CONTEXT>][],
+    );
+    const aliases = new Map<AvailableAlias, InternalFlagName>(
+        Object.entries(parameters.aliases ?? {}) as [AvailableAlias, InternalFlagName][],
+    );
     const allowsNegation = resolveAllowedNegationForFlags(flags);
     const resolvedAliases = resolveAliases(flags, aliases, config.caseStyle);
 
@@ -862,8 +867,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
             }
 
             const flagEntries_p = allSettledOrElse(
-                Object.entries(flags).map(async (entry) => {
-                    const [internalFlagName, flag] = entry as [InternalFlagName, FlagParameter<CONTEXT>];
+                Array.from(flags, async ([internalFlagName, flag]) => {
                     const externalFlagName = asExternal(internalFlagName, config.caseStyle);
                     if (activeFlag && activeFlag[0] === internalFlagName) {
                         throw new UnsatisfiedFlagError(externalFlagName);
@@ -912,17 +916,12 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                 const shorthandMatch = FLAG_SHORTHAND_PATTERN.exec(partial);
                 if (completionConfig.includeAliases) {
                     if (partial === "" || partial === "-") {
-                        const incompleteAliases = Object.entries(aliases).filter(
-                            (entry) => !isFlagSatisfiedByInputs(flags, flagInputs, entry[1] as InternalFlagName),
-                        );
-                        for (const [alias] of incompleteAliases) {
-                            const flag = resolvedAliases[alias as AvailableAlias];
-                            /* v8 ignore else -- @preserve */
-                            if (flag) {
+                        for (const [alias, [internalFlagName, flag]] of resolvedAliases) {
+                            if (!isFlagSatisfiedByInputs(flags, flagInputs, internalFlagName)) {
                                 completions.push({
                                     kind: "argument:flag",
                                     completion: `-${alias}`,
-                                    brief: flag[1].brief,
+                                    brief: flag.brief,
                                 });
                             }
                         }
@@ -931,7 +930,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const partialAliases = Array.from(shorthandMatch[1]!);
                         const flagInputsIncludingPartial = new Map(flagInputs);
                         for (const alias of partialAliases) {
-                            const namedFlag = resolvedAliases[alias as AvailableAlias];
+                            const namedFlag = resolvedAliases.get(alias as AvailableAlias);
                             if (!namedFlag) {
                                 throw new AliasNotFoundError(alias);
                             }
@@ -945,7 +944,7 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                         const lastAlias = partialAliases[partialAliases.length - 1];
                         /* v8 ignore else -- @preserve */
                         if (lastAlias) {
-                            const namedFlag = resolvedAliases[lastAlias as AvailableAlias];
+                            const namedFlag = resolvedAliases.get(lastAlias as AvailableAlias);
                             /* v8 ignore else -- @preserve */
                             if (namedFlag) {
                                 completions.push({
@@ -955,22 +954,12 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                                 });
                             }
                         }
-                        const incompleteAliases = Object.entries(aliases).filter(
-                            (entry) =>
-                                !isFlagSatisfiedByInputs(
-                                    flags,
-                                    flagInputsIncludingPartial,
-                                    entry[1] as InternalFlagName,
-                                ),
-                        );
-                        for (const [alias] of incompleteAliases) {
-                            const flag = resolvedAliases[alias as AvailableAlias];
-                            /* v8 ignore else -- @preserve */
-                            if (flag) {
+                        for (const [alias, [internalFlagName, flag]] of resolvedAliases) {
+                            if (!isFlagSatisfiedByInputs(flags, flagInputsIncludingPartial, internalFlagName)) {
                                 completions.push({
                                     kind: "argument:flag",
                                     completion: `${partial}${alias}`,
-                                    brief: flag[1].brief,
+                                    brief: flag.brief,
                                 });
                             }
                         }
@@ -984,11 +973,13 @@ export function buildArgumentScanner<FLAGS extends BaseFlags, ARGS extends BaseA
                             brief: text.briefs.argumentEscapeSequence,
                         });
                     }
-                    let incompleteFlags = Object.entries(flags).filter(
-                        ([flagName]) => !isFlagSatisfiedByInputs(flags, flagInputs, flagName as InternalFlagName),
+                    const incompleteInternalFlags = Array.from(flags).filter(
+                        ([flagName]) => !isFlagSatisfiedByInputs(flags, flagInputs, flagName),
                     );
+                    let incompleteFlags: [InternalFlagName | ExternalFlagName, FlagParameter<CONTEXT>][] =
+                        incompleteInternalFlags;
                     if (config.caseStyle === "allow-kebab-for-camel") {
-                        incompleteFlags = incompleteFlags.map(([flagName, param]) => {
+                        incompleteFlags = incompleteInternalFlags.map(([flagName, param]) => {
                             return [convertCamelCaseToKebabCase(flagName), param];
                         });
                     }

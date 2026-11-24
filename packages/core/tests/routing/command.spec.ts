@@ -280,6 +280,44 @@ describe("Command", () => {
         });
     });
 
+    describe("usesFlag with names of Object.prototype properties", () => {
+        // GIVEN
+        const command = buildCommand({
+            loader: async () => {
+                return {
+                    default: (flags: { toString: boolean }) => {},
+                };
+            },
+            parameters: {
+                positional: { kind: "tuple", parameters: [] },
+                flags: {
+                    toString: {
+                        brief: "toString flag brief",
+                        kind: "boolean",
+                    },
+                },
+                aliases: {
+                    t: "toString",
+                },
+            },
+            docs: { brief: "brief" },
+        });
+
+        it("uses only flags and aliases defined by command", () => {
+            // THEN
+            expect(command.usesFlag("toString", "original")).to.be.true;
+            expect(command.usesFlag("t", "original")).to.be.true;
+            expect(command.usesFlag("valueOf", "original")).to.be.false;
+        });
+
+        it("uses only flags and aliases defined by command (allow-kebab-for-camel)", () => {
+            // THEN
+            expect(command.usesFlag("toString", "allow-kebab-for-camel")).to.be.true;
+            expect(command.usesFlag("t", "allow-kebab-for-camel")).to.be.true;
+            expect(command.usesFlag("valueOf", "allow-kebab-for-camel")).to.be.false;
+        });
+    });
+
     describe("printHelp", () => {
         const helpFlag: AdditionalFlag = {
             name: "help",
