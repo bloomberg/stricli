@@ -2,13 +2,7 @@
 // Distributed under the terms of the Apache 2.0 license.
 /* v8 ignore file -- @preserve */
 import { vi, type Mock } from "vitest";
-import type {
-    CommandContext,
-    CommandInfo,
-    EnvironmentVariableName,
-    StricliDynamicCommandContext,
-    StricliProcess,
-} from "../../src";
+import type { CommandContext, CommandInfo, StricliDynamicCommandContext, StricliProcess } from "../../src";
 
 interface FakeWritable {
     readonly write: Mock<(text: string) => void>;
@@ -28,7 +22,7 @@ export interface FakeContextOptions {
     readonly forCommand?: boolean | ((info: CommandInfo) => never);
     readonly locale?: string;
     readonly colorDepth?: number;
-    readonly env?: Partial<Record<EnvironmentVariableName, string>>;
+    readonly env?: Partial<Record<string, string>>;
 }
 
 export function buildFakeContext(options: FakeContextOptions = { forCommand: true, colorDepth: 4 }): FakeContext {
