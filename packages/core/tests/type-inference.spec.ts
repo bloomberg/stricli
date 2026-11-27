@@ -5,7 +5,14 @@
 // They do not test any runtime behavior and do not need to be executed as part of the test suite.
 
 import { it } from "vitest";
-import { buildCommand, buildRouteMap, numberParser, type CommandContext, type TypedFlagParameter } from "../src";
+import {
+    buildCommand,
+    buildRouteMap,
+    numberParser,
+    type CommandContext,
+    type TypedFlagParameter,
+    type TypedPositionalParameters,
+} from "../src";
 
 it("", () => {
     type Flags = { foo: boolean };
@@ -273,4 +280,20 @@ it("", () => {
             brief: "",
         },
     });
+});
+
+it("", () => {
+    const positional: TypedPositionalParameters<[string?], CommandContext> = {
+        kind: "tuple",
+        parameters: [
+            {
+                placeholder: "parsed",
+                brief: "optional positional parameter",
+                parse: String,
+                // @ts-expect-error optional positional parameters should not have default values
+                default: "1001",
+                optional: true,
+            },
+        ],
+    };
 });

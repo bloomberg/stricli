@@ -131,26 +131,6 @@ describe("formatDocumentationForPositionalParameters", () => {
         compareDocumentationToBaseline(positional, defaultArgs);
     });
 
-    describe("tuple of one optional positional parameter with default", () => {
-        // GIVEN
-        type Positional = [string?];
-
-        const positional: TypedPositionalParameters<Positional, CommandContext> = {
-            kind: "tuple",
-            parameters: [
-                {
-                    placeholder: "parsed",
-                    brief: "optional positional parameter",
-                    parse: String,
-                    default: "1001",
-                    optional: true,
-                },
-            ],
-        };
-
-        compareDocumentationToBaseline(positional as PositionalParameters, defaultArgs);
-    });
-
     describe("tuple of one positional parameter with default, with alt text", () => {
         // GIVEN
         type Positional = [string];
