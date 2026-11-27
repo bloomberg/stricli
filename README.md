@@ -43,7 +43,7 @@ To give an AI coding assistant accurate, up-to-date context about Stricli, point
 Run `npm ci` to initialize the repo. We use Nx to manage tasks, so you can run the following to build all of the packages at once:
 
 ```
-npx nx@latest run-many -t build
+npx nx run-many -t build
 ```
 
 ## Contributions
