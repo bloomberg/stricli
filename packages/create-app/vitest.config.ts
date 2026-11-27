@@ -7,5 +7,10 @@ export default defineConfig({
     ...config,
     test: {
         ...config.test,
+        snapshotSerializers: ["tests/serializers/volume.ts", "tests/serializers/terminal.ts"],
+        sequence: {
+            concurrent: true,
+        },
+        testTimeout: 10_000,
     },
 });
